@@ -86,9 +86,39 @@ OBJS=	config.obj &
 .asm.obj:
 	$(AC) $(ACFLAGS) $<
 
-makenl.exe: $(OBJS)
+!ifeq OS WIN
+\src\makenl\bin\win32\makenl.exe: $(OBJS)
 	$(CC) $(CFLAGS) -fe=$@ $(OBJS)
+!endif
+
+!ifeq OS DOS
+\src\makenl\bin\dos16\makenl.exe: $(OBJS)
+	$(CC) $(CFLAGS) -fe=$@ $(OBJS)
+!endif
+
+!ifeq OS D32
+\src\makenl\bin\dos32\makenl.exe: $(OBJS)
+	$(CC) $(CFLAGS) -fe=$@ $(OBJS)
+!endif
+
+!ifeq OS OS2
+\src\makenl\bin\os2\makenl.exe: $(OBJS)
+	$(CC) $(CFLAGS) -fe=$@ $(OBJS)
+!endif
+
+!ifeq OS O16
+\src\makenl\bin\os2-16\makenl.exe: $(OBJS)
+	$(CC) $(CFLAGS) -fe=$@ $(OBJS)
+!endif
 
 clean: .SYMBOLIC
 	del *.obj
-	del makenl.exe
+
+cleanall: .SYMBOLIC
+    del *.obj
+    del \src\makenl\bin\dos16\makenl.exe
+    del \src\makenl\bin\dos32\makenl.exe
+    del \src\makenl\bin\os2\makenl.exe
+    del \src\makenl\bin\os2-16\makenl.exe
+    del \src\makenl\bin\win32\makenl.exe
+    

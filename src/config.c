@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.26 2004/10/08 19:26:36 mbroek Exp $ */
+/* $Id: config.c,v 1.29 2004/12/12 19:45:56 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -216,7 +216,7 @@ static int
 getswitch(char *argument, const struct switchstruct *swstrings,
           char **value)
 {
-    if (argument[0] != '-' && argument[0] != '/')
+    if (argument[0] != '-')
     {
         *value = argument;
         return -1;
@@ -347,27 +347,27 @@ static void showusage(char *argv0)
    die(255, 1,
      "\n"
      "\n"
-     "Usage: %s [<config file>] [/P|/T] [/M[=<nodelist>]] [/N=<netname>] [/D]" "\n"
+     "Usage: %s [<config file>] [-p|-t] [-m[=<nodelist>]] [-n=<netname>] [-d]" "\n"
      "\n"
-     "  /P (/PROCESS)  Operate in Process mode, overriding Process statement" "\n"
+     "  -p (-process)  Operate in Process mode, overriding Process statement" "\n"
      "                 in makenl.ctl." "\n"
      "\n"
-     "  /T (/TEST)     Operate in Test mode even on the normal process day." "\n"
+     "  -t (-test)     Operate in Test mode even on the normal process day." "\n"
      "\n"
-     "  /M (/MERGE)    Merge your updated nodelist segment with an existing" "\n"
+     "  -m (-merge)    Merge your updated nodelist segment with an existing" "\n"
      "                 distribution nodelist to produce a temporary nodelist" "\n"
      "                 containing your updates." "\n"
      "\n"
-     "  /N (/NAME)     Specialized cosmetic switch. When you make a composite" "\n"
+     "  -n (-name)     Specialized cosmetic switch. When you make a composite" "\n"
      "                 nodelist, the generated list begins, by default, with the" "\n"
      "                 line \"Nodelist for ...\". The /NAME switch may be used to" "\n"
      "                 insert a network name in front of the first word in that" "\n"
      "                 line. If the specified replacement name contains spaces," "\n"
      "                 the entire parameter must be enclosed in quotes." "\n"
      "\n"
-     "  /D (/DEBUG)    Enable debugging output for some functions." "\n"
+     "  -d (-debug)    Enable debugging output for some functions." "\n"
      "\n"
-     "  /C (/CREDITS)  Who made this possible." "\n",
+     "  -c (-credits)  Who made this possible." "\n",
 
      ProgramName(argv0, "makenl")
    );
@@ -396,7 +396,7 @@ void DoCmdLine(char **argv, char **cfgfilename)
             break;
 
         case 'M':
-            /* Is it "/M" or "/M=BLA.LST"? */
+            /* Is it "-m" or "-m=BLA.LST"? */
 
             if (valueptr != NULL && *valueptr)
             {
@@ -486,6 +486,7 @@ const struct switchstruct CfgEntries[] = {
     {"DATA", 4, CFG_DATA},
     {"EPILOG", 3, CFG_EPILOG},
     {"FILES", 5, CFG_FILES},
+    {"FORCESUBMIT", 3, CFG_FORCESUBMIT},
     {"MAILFILES", 3, CFG_MAILFILES},
     {"MAKE", 3, CFG_MAKE},
     {"MASTER", 3, CFG_MASTER},
@@ -593,7 +594,8 @@ struct
   {2, 2},                       /* ALPHaphone 1 or 0 - default 0 */
   {2, 2},                       /* ALLOwunpub 1 or 0 - default 0 */
   {2, 2},			/* LOGFile pfile */
-  {2, 2}			/* LOGLevel 1..4 - default 1 */
+  {2, 2},			/* LOGLevel 1..4 - default 1 */
+  {2, 2}			/* FORcesubmit 1 or 0 - default 0 */
 };
 /* *INDENT-ON* */
 
@@ -810,7 +812,7 @@ int parsecfgfile(FILE * CFG)
             }
             break;
         case CFG_ALPHAPHONE:
-            if (args[0][0] >= '0' && args[0][0] <= '2' && args[0][1] == 0)
+            if (args[0][0] >= '0' && args[0][0] < '2' && args[0][1] == 0)
                 Alphaphone = args[0][0] - '0';
             else
             {
@@ -823,7 +825,7 @@ int parsecfgfile(FILE * CFG)
             }
             break;
         case CFG_ALLOWUNPUB:
-            if (args[0][0] >= '0' && args[0][0] <= '2' && args[0][1] == 0)
+            if (args[0][0] >= '0' && args[0][0] < '2' && args[0][1] == 0)
                 Allowunpub = args[0][0] - '0';
             else
             {
@@ -835,6 +837,19 @@ int parsecfgfile(FILE * CFG)
                 mode = -1;
             }
             break;
+	case CFG_FORCESUBMIT:
+	    if (args[0][0] >= '0' && args[0][0] < '2' && args[0][1] == 0)
+		ForceSubmit = args[0][0] - '0';
+	    else
+	    {
+		fprintf(stderr,
+		    "FORCESUBMIT argument \"%s\" must be 0 or 1\n",
+		    args[0]);
+		mklog(0, "FORCESUBMIT argument \"%s\" must be 0 or 1",
+		    args[0]);
+		mode = -1;
+	    }
+	    break;
         case CFG_NETADRESS:
             if (ParseAddress(args[0], MyAddress) != 0)
                 goto BadAddress;

@@ -1,4 +1,4 @@
-/* $Id: config.h,v 1.8 2004/09/03 21:46:23 mbroek Exp $ */
+/* $Id: config.h,v 1.9 2004/12/12 19:45:56 mbroek Exp $ */
 
 /* Numbers of configuration options */
 #define CFG_ARCCOPY 0
@@ -36,6 +36,9 @@
 #define CFG_BATCHFILE 30
 #define CFG_CALLEDBATCHFILE 31
 
+/* #define CFG_ARCMOVE 32   # moved to second place */
+/* #define CFG_ARCOPEN 33   # moved to third place */
+
 /* Allow Alpha Character in Field Six */
 /*    - requested by Michael Grant    */
 
@@ -49,8 +52,8 @@
 #define CFG_LOGFILE 36
 #define	CFG_LOGLEVEL 37
 
-/* #define CFG_ARCMOVE 32   # moved to second place */
-/* #define CFG_ARCOPEN 33   # moved to third place */
+/* Force submit unchanged file */
+#define CFG_FORCESUBMIT 38
 
 
 struct switchstruct

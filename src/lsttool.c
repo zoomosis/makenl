@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.18 2004/09/05 10:43:57 mbroek Exp $ */
+/* $Id: lsttool.c,v 1.19 2004/12/12 19:45:56 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,6 +11,7 @@
 #include "lsttool.h"
 #include "msg.h"
 #include "mklog.h"
+#include "proc.h"
 
 #ifdef MALLOC_DEBUG
 #include "rmalloc.h"
@@ -31,6 +32,7 @@ char ArcOpenExt[ARCUNPMAX][ARCEXTMAX];
 char ArcOpenCmd[ARCUNPMAX][ARCCMDMAX];
 int  ArcOpenCnt = 0;
 
+int ForceSubmit = 0;
 
 #if 0
 static unsigned int arcparas = 0x4000; /* 256 KBytes */
@@ -136,6 +138,13 @@ int installlist(char *filename, char *extbfr)
     if (oldFILE)
         fclose(oldFILE);
 
+    if (unchanged && (ShouldProcess & FORCED_PROCESSING) && ForceSubmit) 
+    {
+	fputs("Unchanged output file will be forced submitted\n", stdout);
+	mklog(1, "Unchanged output file will be forced submitted");
+	unchanged = 0;
+    }
+    
     if (unchanged)
     {
         unlink(tmpname);

@@ -1,4 +1,4 @@
-/* $Id: lsttool.h,v 1.3 2004/07/11 09:32:05 ozzmosis Exp $ */
+/* $Id: lsttool.h,v 1.4 2004/12/12 19:45:56 mbroek Exp $ */
 
 #define SEARCH_UPLOAD 0
 #define SEARCH_MAILFILE 1
@@ -13,6 +13,8 @@ extern long ARCThreshold;
 extern long DIFFThreshold;
 extern int CopyrightLines;      /* Used for diffing - copyright appears in 
                                    each diff */
+extern int ForceSubmit;
+extern int ShouldProcess;
 
 int makearc(char *filename, int move);
 int installlist(char *filename, char *extbfr);
