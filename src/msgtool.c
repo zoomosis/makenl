@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.10 2004/07/25 16:13:47 fido Exp $ */
+/* $Id: msgtool.c,v 1.11 2004/09/03 21:46:23 mbroek Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -9,6 +9,7 @@
 #include "fts5.h"
 #include "msg.h"
 #include "fileutil.h"
+#include "mklog.h"
 
 #ifdef MALLOC_DEBUG
 #include "rmalloc.h"
@@ -64,6 +65,7 @@ static unsigned long GetSequence(void)
 	seq = (unsigned long)time(NULL);
 	if ((fp = fopen(seqfile, "w+")) == NULL) {
 	    fprintf(stderr, "Can't create %s\n", seqfile);
+	    mklog(0, "Can't create %s", seqfile);
 	    return seq;
 	} else {
 	    fwrite(&seq, 1, sizeof(seq), fp);
@@ -187,6 +189,8 @@ FILE *OpenMSGFile(int adress[3], char *filename)
             fprintf(stdout,
                     "\nWARNING -- Don't know your zone, can't send interzone message to %d:%d/%d\n\n",
                     adress[A_ZONE], adress[A_NET], adress[A_NODE]);
+	    mklog(0, "WARNING -- Don't know your zone, can't send interzone message to %d:%d/%d",
+		    adress[A_ZONE], adress[A_NET], adress[A_NODE]);
             return (MailFILE = NULL);
         }
         sprintf(intlline, "\x01INTL %d:%d/%d %d:%d/%d\r\n", adress[A_ZONE],

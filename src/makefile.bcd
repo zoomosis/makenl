@@ -1,7 +1,7 @@
 # MakeNL makefile for Borland C++ 3.x/4.x for DOS
 # Tested with Borland C++ 3.1 & 4.02
 #
-# $Id: makefile.bcd,v 1.7 2004/07/17 11:07:55 ozzmosis Exp $
+# $Id: makefile.bcd,v 1.8 2004/09/02 21:17:39 mbroek Exp $
 #
 # Build with:
 #
@@ -21,6 +21,7 @@ OBJS=	config.obj \
 	makenl.obj \
 	merge.obj \
 	mkdiff.obj \
+	mklog.obj \
 	msgtool.obj \
 	os.obj \
 	output.obj \

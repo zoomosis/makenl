@@ -1,4 +1,4 @@
-/* $Id: config.h,v 1.6 2004/07/12 21:59:57 fido Exp $ */
+/* $Id: config.h,v 1.8 2004/09/03 21:46:23 mbroek Exp $ */
 
 /* Numbers of configuration options */
 #define CFG_ARCCOPY 0
@@ -44,6 +44,10 @@
 /* Allow UnPublished w/o Pvt */
 
 #define CFG_ALLOWUNPUB 35
+
+/* Logfile */
+#define CFG_LOGFILE 36
+#define	CFG_LOGLEVEL 37
 
 /* #define CFG_ARCMOVE 32   # moved to second place */
 /* #define CFG_ARCOPEN 33   # moved to third place */

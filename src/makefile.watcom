@@ -3,7 +3,7 @@
 #
 # Based on makefile by by Alex Woick, 2:244/1351.
 #
-# $Id: makefile.watcom,v 1.8 2004/07/18 10:51:37 ozzmosis Exp $
+# $Id: makefile.watcom,v 1.9 2004/09/02 21:17:39 mbroek Exp $
 #
 # Build with:
 #
@@ -71,6 +71,7 @@ OBJS=	config.obj &
 	makenl.obj &
 	merge.obj &
 	mkdiff.obj &
+	mklog.obj &
 	msgtool.obj &
 	os.obj &
 	output.obj &

@@ -1,12 +1,13 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.4 2004/07/15 17:44:02 ozzmosis Exp $ */
+/* $Id: os.c,v 1.5 2004/09/03 21:46:23 mbroek Exp $ */
 
 #include <stdio.h>
 #include <string.h>
 #include "fileutil.h"
 #include "makenl.h"
 #include "os.h"
+#include "mklog.h"
 
 #ifdef MALLOC_DEBUG
 #include "rmalloc.h"

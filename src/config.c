@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.21 2004/08/06 19:36:02 mbroek Exp $ */
+/* $Id: config.c,v 1.23 2004/09/03 21:46:23 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,6 +14,8 @@
 #include "lsttool.h"
 #include "fileutil.h"
 #include "credits.h"
+#include "mklog.h"
+#include "version.h"
 
 #ifdef MALLOC_DEBUG
 #include "rmalloc.h"
@@ -467,6 +469,8 @@ const struct switchstruct CfgEntries[] = {
     {"UPLOADS", 3, CFG_UPLOADS},
     {"ALPHAPHONE", 4, CFG_ALPHAPHONE},
     {"ALLOWUNPUB", 4, CFG_ALLOWUNPUB},
+    {"LOGFILE", 4, CFG_LOGFILE},
+    {"LOGLEVEL", 4, CFG_LOGLEVEL},
     {NULL, 0, -1}
 };
 
@@ -546,7 +550,9 @@ struct
   {4, 6},                       /* ARCMove e.g. "Z pkzip -exom" */
   {4, 6},                       /* ARCOpen e.g. "Z pkunzip -o" */
   {2, 2},                       /* ALPHaphone 1 or 0 - default 0 */
-  {2, 2}                        /* ALLOwunpub 1 or 0 - default 0 */
+  {2, 2},                       /* ALLOwunpub 1 or 0 - default 0 */
+  {2, 2},			/* LOGFile pfile */
+  {2, 2}			/* LOGLevel 0..4 - default 0 */
 };
 /* *INDENT-ON* */
 
@@ -659,6 +665,24 @@ int parsecfgfile(FILE * CFG)
         case CFG_BATCHFILE:
             strcpy(BatchFile, args[0]);
             break;
+	case CFG_LOGFILE:
+	    strcpy(LogFile, args[0]);
+	    /*
+	     * Now we know the logfile, start logging immediatly.
+	     */
+	    mklog(0, "");
+	    mklog(0, "MakeNL %s start", MAKENL_VERSION);
+	    break;
+	case CFG_LOGLEVEL:
+            if (args[0][0] >= '0' && args[0][0] <= '4' && args[0][1] == 0)
+		loglevel = args[0][0] - '0';
+	    else
+	    {
+		fprintf(stderr,
+		    "LOGLEVEL argument \"%s\" not in range 0 to 4\n", args[0]);
+		mode = -1;
+	    }
+	    break;
         case CFG_CALLEDBATCHFILE:
             strcpy(CalledBatchFile, args[0]);
             break;

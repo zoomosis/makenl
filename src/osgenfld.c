@@ -1,4 +1,4 @@
-/* $Id: osgenfld.c,v 1.2 2004/07/11 09:29:14 ozzmosis Exp $ */
+/* $Id: osgenfld.c,v 1.4 2004/09/04 21:26:37 mbroek Exp $ */
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -12,20 +12,26 @@ int os_fulldir(char *dst, const char *src, size_t bufsiz)
     struct stat st;
 
     Debug1("called with src='%s'\n", src);
+    mklog(4, "[generic] os_fulldir: called with src='%s'", src);
     strcpy(tmp, src);
     os_remove_slash(tmp);
     Debug1("after removing slash: '%s'\n", tmp);
+    mklog(4, "[generic] os_fulldir: after removing slash: '%s'", tmp);
     if (os_fullpath(dst, tmp, bufsiz) != 0)
     {
         Debug("os_fullpath failed!\n");
+	mklog(2, "[generic] os_fulldir: os_fullpath failed!");
         return -1;
     }
     Debug1("doing stat on %s\n", dst);
+    mklog(2, "[generic] os_fulldir: absolute path %s", dst);
     if (stat(dst, &st) != 0)
     {
-        Debug("stat failed!\n");
+        Debug("os_fulldir: stat failed!\n");
+	mklog(2, "[generic] os_fulldir: stat failed!");
         return -1;
     }
     Debug1("st_mode is now %o\n", st.st_mode);
+    mklog(4, "[generic] os_fulldir: st_mode is now %o", st.st_mode);
     return ((st.st_mode & S_IFMT) == S_IFDIR) ? 0 : -1;
 }

@@ -1,4 +1,4 @@
-/* $Id: osgenexc.c,v 1.2 2004/07/11 09:29:14 ozzmosis Exp $ */
+/* $Id: osgenexc.c,v 1.3 2004/09/03 21:46:23 mbroek Exp $ */
 
 int os_spawn(const char *command, const char *cmdline)
 {
@@ -13,7 +13,9 @@ int os_spawn(const char *command, const char *cmdline)
     }
 
     sprintf(cmd, "%s %s", command, cmdline);
+    mklog(2, "os_spawn: %s", cmd);
     rc = system(cmd);
+    mklog(2, "os_spawn: rc=%d", rc);
 
     free(cmd);
     return rc;

@@ -1,4 +1,4 @@
-/* $Id: merge.c,v 1.8 2004/07/19 14:54:20 ozzmosis Exp $ */
+/* $Id: merge.c,v 1.9 2004/09/03 21:46:23 mbroek Exp $ */
 
 #include <string.h>
 #include <stdio.h>
@@ -9,6 +9,7 @@
 #include "fts5.h"
 #include "msg.h"
 #include "fileutil.h"
+#include "mklog.h"
 
 #ifdef MALLOC_DEBUG
 #include "rmalloc.h"
@@ -43,6 +44,7 @@ FILE *PrepareMerge(void)
         fprintf(stderr,
                 "WARNING - Your Net or Region number is unknown, Merge cancelled\n");
 #endif
+	mklog(0, "WARNING - Your Net or Region number is unknown, Merge cancelled");
         return 0;
     }
     for (extptr = OldExtensions; extptr < OldExtensions + 3; extptr++)
@@ -75,7 +77,8 @@ FILE *PrepareMerge(void)
           MergeFilename);
         fputs("less than 3 weeks old.  Processing continues without merging.\n",
           stderr);
-
+	mklog(0, "Unable to find distribution file \"%s\" less than 3 weeks old. Processing continues without merging",
+		MergeFilename);
         return 0;
     }
     MergeMakeAddr[A_ZONE] = MergeListAddr[A_ZONE] = MyAddress[A_ZONE];
@@ -115,6 +118,8 @@ FILE *PrepareMerge(void)
                     fprintf(stderr,
                             "WARNING - Your Zone is unknown, assuming Zone %d for merge\n",
                             MergeMakeAddr[A_ZONE]);
+		    mklog(0, "WARNING - Your Zone is unknown, assuming Zone %d for merge",
+			    MergeMakeAddr[A_ZONE]);
                 }
                 /* FALLTHROUGH */
             case A_NET:

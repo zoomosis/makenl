@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.6 2004/07/17 03:41:43 ozzmosis Exp $ */
+/* $Id: fileutil.c,v 1.9 2004/09/04 21:26:37 mbroek Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -10,6 +10,7 @@
 #include "makenl.h"
 #include "config.h"
 #include "fileutil.h"
+#include "mklog.h"
 
 #ifdef MALLOC_DEBUG
 #include "rmalloc.h"
@@ -42,6 +43,7 @@ char BadDir[MYMAXDIR];
 
 char BatchFile[MYMAXPATH];
 char CalledBatchFile[MYMAXFILE];
+char LogFile[MYMAXPATH];
 
 int GetPath(char *arg, int switchno)
 {
@@ -103,6 +105,9 @@ myfnmerge(char *output, const char *drive, const char *dir,
           const char *name, const char *ext)
 {
     int lenleft;
+
+    mklog(4, "myfnmerge: drive=\"%s\" dir=\"%s\" name=\"%s\" ext=\"%s\"", 
+	    MAKE_SS(drive), MAKE_SS(dir), MAKE_SS(name), MAKE_SS(ext));
 
     lenleft = MYMAXDIR - 1;
     if (drive && *drive != 0)
@@ -315,6 +320,7 @@ void CopyOrMove(int copy, char *source, char *destdir, char *destname)
         return;
     fprintf(stdout, "%sing \"%s\" to \"%s\"\n", copy ? "Copy" : "Mov",
             source, dest);
+    mklog(0, "%sing \"%s\" to \"%s\"", copy ? "Copy" : "Mov", source, dest);
     unlink(dest);
     if (!copy && rename(source, dest) == 0)
         return;

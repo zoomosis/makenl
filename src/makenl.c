@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.24 2004/08/06 19:36:02 mbroek Exp $ */
+/* $Id: makenl.c,v 1.25 2004/09/03 21:46:23 mbroek Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -17,6 +17,7 @@
 #include "crc16.h"
 #include "version.h"
 #include "unused.h"
+#include "mklog.h"
 
 #ifdef MALLOC_DEBUG
 #include "rmalloc.h"
@@ -122,6 +123,9 @@ void die(int exitcode, int on_stderr, const char *format, ...)
       buf
     );
 
+    mklog(0, "%s", buf);
+    mklog(0, "MakeNL finished (rc=%d)", exitcode);
+
     exit(exitcode);
 }
 
@@ -150,6 +154,7 @@ int main(int argc, char *argv[])
     os_getcwd(CurDir, MYMAXDIR - 1);
     os_filecanonify(CurDir);
     WorkMode = parsecfgfile(CFG_file);
+
     for (OldWeeks = 3; OldWeeks >= 0; OldWeeks--)
     {
         searchdow(NewExtWDay, -7 * OldWeeks + 6, &SplitTimePtr);
@@ -169,6 +174,11 @@ int main(int argc, char *argv[])
            DOWLongnames[SplitTimePtr->tm_wday],
            MonthLongnames[SplitTimePtr->tm_mon], SplitTimePtr->tm_mday,
            SplitTimePtr->tm_year + 1900);
+    mklog(0, "Begin processing %s -- %d:%02d, %s, %s %d, %d", OutFile,
+	    SplitTimePtr->tm_hour, SplitTimePtr->tm_min,
+	    DOWLongnames[SplitTimePtr->tm_wday],
+	    MonthLongnames[SplitTimePtr->tm_mon], SplitTimePtr->tm_mday,
+	    SplitTimePtr->tm_year + 1900);
     if (ShouldProcess)
     {
         myfnmerge(NewFile, NULL, OutDir, OutFile, NULL);
@@ -296,6 +306,7 @@ int main(int argc, char *argv[])
                             SubmitAddress[A_NET], SubmitAddress[A_NODE]);
                 fprintf(stdout, "\nSending \"%s\" to %s\n", NewFile,
                         SubAddrText);
+		mklog(0, "Sending \"%s\" to %s", NewFile, SubAddrText);
             }
         }
         cleanit();
@@ -303,6 +314,9 @@ int main(int argc, char *argv[])
     else
         ExitCode += 3;
     fprintf(stdout, "\nCRC = %05u\n\n", OutCRC);
+
+    mklog(0, "CRC = %05u", OutCRC);
+    mklog(0, "MakeNL finished (rc=%d)", ExitCode);
 
     return ExitCode;
 }

@@ -1,7 +1,7 @@
 # MakeNL makefile for FreeBSD
 # Tested with BSD Make & GNU C 2.95.4
 #
-# $Id: makefile.freebsd,v 1.8 2004/07/17 11:14:20 ozzmosis Exp $
+# $Id: makefile.freebsd,v 1.9 2004/09/02 21:17:39 mbroek Exp $
 #
 # Build with:
 #
@@ -39,6 +39,7 @@ OBJS=	config.o \
 	makenl.o \
 	merge.o \
 	mkdiff.o \
+	mklog.o \
 	msgtool.o \
 	output.o \
 	process.o \

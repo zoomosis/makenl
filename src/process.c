@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.13 2004/08/01 13:56:14 mbroek Exp $ */
+/* $Id: process.c,v 1.14 2004/09/03 21:46:23 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,6 +14,7 @@
 #include "upcont.h"
 #include "stack.h"
 #include "config.h"
+#include "mklog.h"
 
 #ifdef MALLOC_DEBUG
 #include "rmalloc.h"
@@ -122,6 +123,7 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
             {
                 fprintf(stdout, "Processing %-8s%5d -- file %s\n",
                         *subleveltxt, num, foundfile);
+		mklog(0, "Processing %-8s%5d -- file %s", *subleveltxt, num, foundfile);
                 if (UsualMSGFlags != 0 && searchwhere < SEARCH_UPDATE + 1) /* newly 
                                                                               received 
                                                                               file 
@@ -168,6 +170,8 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
                 break;
             fprintf(stdout, "No file found for %s %d file %s\n",
                     LevelsSimple[subfile_level], num, filename);
+	    mklog(0, "No file found for %s %d file %s",
+		    LevelsSimple[subfile_level], num, filename);
             break;
         case SEARCH_UPLOAD + 1:
             cleanold(MailfileDir, filename, NULL);

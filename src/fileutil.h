@@ -1,4 +1,4 @@
-/* $Id: fileutil.h,v 1.5 2004/07/11 09:32:05 ozzmosis Exp $ */
+/* $Id: fileutil.h,v 1.6 2004/09/02 21:17:39 mbroek Exp $ */
 
 #include "os.h"
 
@@ -22,6 +22,7 @@ extern char BadDir[MYMAXDIR];
 
 extern char BatchFile[MYMAXPATH];
 extern char CalledBatchFile[MYMAXFILE];
+extern char LogFile[MYMAXPATH];
 
 int GetPath(char *arg, int switchno);
 

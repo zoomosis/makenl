@@ -1,4 +1,4 @@
-/* $Id: mkdiff.c,v 1.10 2004/07/20 04:29:47 fido Exp $ */
+/* $Id: mkdiff.c,v 1.11 2004/09/03 21:46:23 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,6 +7,7 @@
 #include "makenl.h"
 #include "fileutil.h"
 #include "lsttool.h"
+#include "mklog.h"
 
 #ifdef MALLOC_DEBUG
 #include "rmalloc.h"
@@ -101,6 +102,7 @@ int makediff(char *filename)
         fprintf(stderr,
                 "\nOld file \"%s\" does not exist, no difference file made\n",
                 oldname);
+	mklog(0, "Old file \"%s\" does not exist, no difference file made", oldname);
         return 0;
     }
 
@@ -137,6 +139,8 @@ int makediff(char *filename)
     fprintf(stdout,
             "\nCreating difference file \"%s\" from \"%s\" and \"%s\"\n",
             diffname, oldname, filename);
+    mklog(0, "Creating difference file \"%s\" from \"%s\" and \"%s\"",
+	    diffname, oldname, filename);
 
     /* allocate buffer memory for diff-hashing */
     OldFile.CollTbl = NULL;
@@ -156,6 +160,7 @@ int makediff(char *filename)
     {
         fprintf(stderr,
                 "Unable to allocate memory -- no difference file generated\n");
+	mklog(0, "Unable to allocate memory -- no difference file generated");
         fclose(OldFile.theFILE);
         fclose(NowFile.theFILE);
         fclose(DiffFILE);
