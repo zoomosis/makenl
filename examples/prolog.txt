@@ -1,0 +1,9 @@
+This file, if it exists in the MASTER directory, is copied to your
+output file immediately following CPYRIGHT.TXT.  It may contain any
+commentary you wish to place at the front of your list.
+
+;A You may optionally place ";<interest_flag>" at the beginning of
+;A each line.
+
+Otherwise, MAKENL will insert ";S " at the beginning of each line.
+

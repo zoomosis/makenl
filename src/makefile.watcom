@@ -1,0 +1,93 @@
+# MakeNL makefile for Watcom C/C++
+# Tested with OpenWatcom 1.2
+#
+# Based on makefile by by Alex Woick, 2:244/1351.
+#
+# $Id: makefile.watcom,v 1.8 2004/07/18 10:51:37 ozzmosis Exp $
+#
+# Build with:
+#
+# wmake -f makefile.watcom               (Win32 release)
+# wmake -f makefile.watcom OS=WIN        (Win32 release)
+# wmake -f makefile.watcom OS=DOS        (16-bit DOS release)
+# wmake -f makefile.watcom OS=D32        (32-bit DOS release)
+# wmake -f makefile.watcom OS=O16        (16-bit OS/2 release)
+# wmake -f makefile.watcom OS=OS2        (32-bit OS/2 release)
+#
+# wmake -f makefile.watcom DEBUG         (Win32 debug)
+# wmake -f makefile.watcom DEBUG OS=WIN  (Win32 debug)
+# wmake -f makefile.watcom DEBUG OS=DOS  (16-bit DOS debug)
+# wmake -f makefile.watcom DEBUG OS=D32  (32-bit DOS debug)
+# wmake -f makefile.watcom DEBUG OS=O16  (16-bit OS/2 debug)
+# wmake -f makefile.watcom DEBUG OS=OS2  (32-bit OS/2 debug)
+#
+# wmake -f makefile.watcom clean         (remove temp files)
+
+!ifndef OS
+OS=WIN
+!endif
+
+AC=wasm
+ACFLAGS+= -DWATCOM -zq
+
+CFLAGS+= -zq -zp1 -wx -k8192
+
+!ifeq OS DOS
+CC=wcl
+ACFLAGS+= -bt=dos -ml
+CFLAGS+= -bt=dos -l=dos -ml
+!endif
+
+!ifeq OS D32
+CC=wcl386
+CFLAGS+= -bt=dos4g -l=dos4g
+!endif
+
+!ifeq OS O16
+CC=wcl
+CFLAGS+= -bt=os2 -l=os2
+!endif
+
+!ifeq OS OS2
+CC=wcl386
+CFLAGS+= -bt=os2v2 -l=os2v2
+!endif
+
+!ifeq OS WIN
+CC=wcl386
+CFLAGS+= -bt=nt -l=nt
+!endif
+
+!ifdef DEBUG
+ACFLAGS+= -d1
+CFLAGS+= -d2 -hw
+!endif
+
+OBJS=	config.obj &
+	crc16.obj &
+	fileutil.obj &
+	fts5.obj &
+	lsttool.obj &
+	makenl.obj &
+	merge.obj &
+	mkdiff.obj &
+	msgtool.obj &
+	os.obj &
+	output.obj &
+	process.obj &
+	stack.obj &
+	strtool.obj &
+	upcont.obj
+
+.c.obj:
+	$(CC) $(CFLAGS) -c $<
+
+.asm.obj:
+	$(AC) $(ACFLAGS) $<
+
+makenl.exe: $(OBJS)
+	$(CC) $(CFLAGS) -fe=$@ $(OBJS)
+
+clean: .SYMBOLIC
+	del *.obj
+	del makenl.exe

@@ -1,0 +1,45 @@
+# MakeNL makefile for DJGPP 2.0
+# Tested with DJGPP 2.03 (GNU Make 3.79 & GCC 2.95)
+#
+# $Id: makefile.djgpp,v 1.5 2004/07/17 11:24:04 ozzmosis Exp $
+#
+# Build with:
+#
+# make -f makefile.djgpp          (release) or
+# make -f makefile.djgpp DEBUG=1  (debug) or
+# make -f makefile.djgpp clean    (remove temp files)
+
+CC=gcc
+CFLAGS+= -W -Wall
+
+ifdef DEBUG
+CFLAGS+= -g
+else
+CFLAGS+= -s
+endif
+
+OBJS=	config.o \
+	crc16.o \
+	fileutil.o \
+	fts5.o \
+	lsttool.o \
+	makenl.o \
+	merge.o \
+	mkdiff.o \
+	msgtool.o \
+	os.o \
+	output.o \
+	process.o \
+	stack.o \
+	strtool.o \
+	upcont.o
+
+.c.o:
+	$(CC) $(CFLAGS) -c $<
+
+makenl.exe: $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS)
+
+clean:
+	del *.o
+	del makenl.exe

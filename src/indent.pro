@@ -1,0 +1,10 @@
+-kr
+-bl
+-bli0
+-bls
+-i4
+-ts1
+-nce
+-ncs
+-fca
+-nfc1

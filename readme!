@@ -1,0 +1,49 @@
+Important Changes since MakeNL 2.5x:
+====================================
+
+ARC:
+----
+  The ARC keyword no longer works as documented in the old MakeNL
+  documentation. MakeNL 2.5x only had support for Arc compression,
+  but 3.1.8 now supports multiple compression utilities, through
+  configurable archiver entries following the ARC keyword. The older
+  ARC keyword only expected one parameter, but the new version
+  expects at least three, with an optional fourth field. To provide 
+  compatibility with MakeNL 2.5x, the ARC keyword must be commented
+  out of the MAKENL.CTL file, which will cause MakeNL to default to
+  Arc compression as before.
+  
+  ** Currently, ARC or ARCcopy works for this feature. ARCmove and
+  ARCopen are also partially implemeted, but are not complete. In
+  the future it is possible that the ARC keyword itself will be made
+  obsolete, and these new keywords will be used instead.
+
+  The new syntax of the ARC keyword is as follows:
+
+  ARC [x] [archiver exe name] [archiver command] [command switches]
+
+  The [x] tells MakeNL what the first character of the final archive
+  of the stub will be. For zip, you would list z, resulting in *.znn
+  output files.
+
+  Here are some examples of commonly used archivers, and the commands
+  that work with them:
+
+  InfoZip: ARC z zip -o
+  Rar: ARC r rar -a -ep
+  Arj: ARC j arj -a -e
+
+ALLOwunpub:
+-----------
+   ALLOunpub is a new keyword that will cause MakeNL to allow the
+   -Unpublished- string to be present in the sixth (phone number)
+   field of node listings, without requiring the Pvt keyword to be
+   present in the listing. This keyword is disabled by default. To
+   enable it, add ALLOwunpub 1 to your MAKENL.CTL file.
+
+ALPHAphone:
+-----------
+   ALPHAphone is a new keyword that will cause MakeNL to allow alpha
+   characters to be present in the sixth (phone number) field of node
+   listings. This keyword is disabled by default. To enable it, add
+   ALPHAphone 1 to your MAKENL.CTL file. 

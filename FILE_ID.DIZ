@@ -1,0 +1,17 @@
+MakeNL v3.1.8 -- Source
+** Dedicated to Ben Baker, the original
+MakeNL author.
+ -------------------------------------------
+ A new open-source version of MakeNL, the
+ nodelist processing program. MakeNL 3.x was
+ reverse engineered from MakeNL by Michael
+ Karcher, with further modifications by Bj”rn
+ Felton, Andrew Clarke, Robert Couture, Johan
+ Billing and Michiel Broek. MakeNL 3.1.8 is
+ meant to be a drop-in replacement for an
+ existing installation of MakeNL.
+ --------------------------------------------
+ Please check the README! file included in
+ this archive before using MakeNL 3.1.8, as
+ there are some important changes implemented
+ in the MAKENL.CTL file. 
