@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.7 2004/07/17 03:08:23 ozzmosis Exp $ */
+/* $Id: process.c,v 1.13 2004/08/01 13:56:14 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -105,6 +105,7 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
                 linebuf, num);
         subleveltxt = LevelsSimple + subfile_level;
         searchwhere = 0;
+	foundfile[0] = '\0';
         do
         {
             if (ShouldProcess == 0 && MergeOutFILE == 0) /* Process only
@@ -139,7 +140,12 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
                     processfile(subfile_level, num, listFILE, OutFILE,
                                 commFILE, MergeOutFILE, NotifyMsgFILE, crc,
                                 &WorkMode);
-                fclose(listFILE);
+
+        /* Segmentation fault cause is here, Andrew */
+
+                #ifndef __unix__
+                    fclose(listFILE);
+                #endif
                 if (processstatus != 2) /* No fatal error */
                 {
                     if (processstatus > ExitCode)
@@ -343,7 +349,9 @@ processfile(int myMakeType, int myMakeNum, FILE * InputFILE,
     }
 
     if (SelfMsgFILE && totalerror == 0)
+    {
         fputs(" and processed without error.\r\n", SelfMsgFILE);
+    }
     return totalerror;
 }
 

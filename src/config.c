@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.17 2004/07/21 22:57:45 fido Exp $ */
+/* $Id: config.c,v 1.21 2004/08/06 19:36:02 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -190,14 +190,19 @@ unsigned int
 xlate_switch(const char *swit, const struct switchstruct *desc)
 {
     const char *swptr, *nameptr;
+    int	    cnt;
 
     while (desc->name)
     {
         swptr = swit;
         nameptr = desc->name;
+	cnt = 0;
         while (*swptr && *swptr == *nameptr)
+	{
+	    cnt++;
             swptr++, nameptr++;
-        if (!*swptr)
+	}
+        if (!*swptr &&  (cnt >= desc->minlen))
             break;              /* Found the switch in the list */
         if (swptr - swit > desc->minlen)
             break;
@@ -317,7 +322,9 @@ static void showusage(char *argv0)
      "                 line. If the specified replacement name contains spaces," "\n"
      "                 the entire parameter must be enclosed in quotes." "\n"
      "\n"
-     "  /D (/DEBUG)    Enable debugging output for some functions." "\n",
+     "  /D (/DEBUG)    Enable debugging output for some functions." "\n"
+     "\n"
+     "  /C (/CREDITS)  Who made this possible." "\n",
 
      ProgramName(argv0, "makenl")
    );
@@ -504,7 +511,7 @@ struct
 {
   int min, max;
 } arglimit[] = {
-  {4, 5},                       /* ARCCopy e.g. "Z pkzip -exo" */
+  {4, 6},                       /* ARCCopy e.g. "Z pkzip -exo" */
   {2, 2},                       /* BADfiles path */
   {2, 2},                       /* BAUdrate a,b,c,d,e # without spaces!! */
   {1, 1},                       /* CLEanup */
@@ -536,8 +543,8 @@ struct
   {2, 2},                       /* POInt disp */
   {2, 2},                       /* BATCHFILE pfile */
   {2, 2},                       /* CALLEDBATCHFILE pfile */
-  {4, 5},                       /* ARCMove e.g. "Z pkzip -exom" */
-  {4, 5},                       /* ARCOpen e.g. "Z pkunzip -o" */
+  {4, 6},                       /* ARCMove e.g. "Z pkzip -exom" */
+  {4, 6},                       /* ARCOpen e.g. "Z pkunzip -o" */
   {2, 2},                       /* ALPHaphone 1 or 0 - default 0 */
   {2, 2}                        /* ALLOwunpub 1 or 0 - default 0 */
 };
@@ -558,9 +565,12 @@ int parsecfgfile(FILE * CFG)
     char foo[2];
     int mode;
     time_t thetime;
-    char *args[4];
+    char *args[5];
     char cfgline[linelength];
     char cfgSplit[linelength];
+    int ArcCopySet = 0;
+    int ArcMoveSet = 0;
+    int ArcOpenSet = 0;
 
     mode = 0;
     while (fgets(cfgline, linelength - 1, CFG) != NULL)
@@ -610,25 +620,41 @@ int parsecfgfile(FILE * CFG)
             mode |= switchno;
             goto outofwhile;
         case CFG_ARCCOPY:
-            ArcExt[0] = args[0][0];
-            if(args[3] != NULL)
-            sprintf(ArcCopyCmd, "%s %s %s", args[1], args[2], args[3]);
+            ArcCopyExt[0] = args[0][0];
+	    if (argcounter == 6)
+		sprintf(ArcCopyCmd, "%s %s %s %s", args[1], args[2], args[3], args[4]);
+	    else if (argcounter == 5)
+		sprintf(ArcCopyCmd, "%s %s %s", args[1], args[2], args[3]);
             else
-            sprintf(ArcCopyCmd, "%s %s", args[1], args[2]);
+		sprintf(ArcCopyCmd, "%s %s", args[1], args[2]);
+	    ArcCopySet = 1;
             break;
         case CFG_ARCMOVE:
-            ArcExt[0] = args[0][0];
-            if(args[3] != NULL)
-            sprintf(ArcMoveCmd, "%s %s %s", args[1], args[2], args[3]);
+            ArcMoveExt[0] = args[0][0];
+	    if (argcounter == 6)
+		sprintf(ArcMoveCmd, "%s %s %s %s", args[1], args[2], args[3], args[4]);
+	    else if (argcounter == 5)
+		sprintf(ArcMoveCmd, "%s %s %s", args[1], args[2], args[3]);
             else
-            sprintf(ArcMoveCmd, "%s %s", args[1], args[2]);
+		sprintf(ArcMoveCmd, "%s %s", args[1], args[2]);
+	    ArcMoveSet = 1;
             break;
         case CFG_ARCOPEN:
-            ArcExt[0] = args[0][0];
-            if(args[3] != NULL)
-            sprintf(ArcOpenCmd, "%s %s %s", args[1], args[2], args[3]);
+	    if (ArcOpenSet >= ARCUNPMAX)
+	    {
+		fprintf(stderr, "%s\n -- too many ArcOpen lines -- %d allowed\n",
+		                            cfgline, ArcOpenSet);
+	        mode = -1;
+		break;
+	    }
+            ArcOpenExt[ArcOpenSet][0] = args[0][0];
+	    if (argcounter == 6)
+		sprintf(ArcOpenCmd[ArcOpenSet], "%s %s %s %s", args[1], args[2], args[3], args[4]);
+	    else if (argcounter == 5)
+		sprintf(ArcOpenCmd[ArcOpenSet], "%s %s %s", args[1], args[2], args[3]);
             else
-            sprintf(ArcOpenCmd, "%s %s", args[1], args[2]);
+		sprintf(ArcOpenCmd[ArcOpenSet], "%s %s", args[1], args[2]);
+	    ArcOpenSet++;
             break;
         case CFG_BATCHFILE:
             strcpy(BatchFile, args[0]);
@@ -910,6 +936,27 @@ int parsecfgfile(FILE * CFG)
         }
     }
   outofwhile:
+    /*
+     * If no archivers given in the configfile, set defaults now.
+     */
+    if (ArcCopySet == 0)
+    {
+	sprintf(ArcCopyExt, "a");
+	sprintf(ArcCopyCmd, "arc a");
+    }
+    if (ArcMoveSet == 0)
+    {
+	sprintf(ArcMoveExt, "a");
+	sprintf(ArcMoveCmd, "arc m");
+    }
+    if (ArcOpenSet == 0)
+    {
+	sprintf(ArcOpenExt[0], "a");
+	sprintf(ArcOpenCmd[0], "arc ew");
+	ArcOpenSet = 1;
+    }
+    ArcOpenCnt = ArcOpenSet;
+
     if (CheckErrors(mode) == -1)
         die(0xFF, 1, "Errors in configuration file");
     return mode;

@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.6 2004/07/15 17:44:02 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.10 2004/07/25 16:13:47 fido Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -50,6 +50,37 @@ static int MSGnum;
 static FILE *MailFILE;
 static int MSGFlags;
 
+/*
+ * Get unique sequence number
+ */
+static unsigned long GetSequence(void)
+{
+    unsigned long   seq;
+    char	    seqfile[MYMAXDIR];
+    FILE	    *fp;
+    sprintf(seqfile, "%s/sequence.dat", MasterDir);
+
+    if ((fp = fopen(seqfile, "r+")) == NULL) {
+	seq = (unsigned long)time(NULL);
+	if ((fp = fopen(seqfile, "w+")) == NULL) {
+	    fprintf(stderr, "Can't create %s\n", seqfile);
+	    return seq;
+	} else {
+	    fwrite(&seq, 1, sizeof(seq), fp);
+	    fclose(fp);
+	    return seq;
+	}
+    } else {
+	fread(&seq, 1, sizeof(seq), fp);
+	seq++;
+	fseek(fp, 0, SEEK_SET);
+	fwrite(&seq, 1, sizeof(seq), fp);
+	fclose(fp);
+    }
+    return seq;
+}
+
+
 static int SearchMaxMSG(const char *path)
 {
     char *filename;
@@ -58,7 +89,7 @@ static int SearchMaxMSG(const char *path)
     struct _filefind f;
     char searchmask[MYMAXDIR];
 
-    myfnmerge(searchmask, NULL, NULL, "*", "MSG");
+    myfnmerge(searchmask, NULL, NULL, "*", "msg");
     for (filename = os_findfirst(&f, path, searchmask);
          filename != NULL; filename = os_findnext(&f))
     {
@@ -136,6 +167,7 @@ FILE *OpenMSGFile(int adress[3], char *filename)
         intlline[0] = 0;
         MyHeader.DestNet = adress[A_NET];
         MyHeader.DestNode = adress[A_NODE];
+    	MyHeader.DestZone =  adress[A_ZONE];        
         intl = MailerFlags & (MF_INTL |
                               (MF_INTL << MF_SHIFT_ERRORS) |
                               (MF_INTL << MF_SHIFT_SUBMIT));
@@ -144,6 +176,8 @@ FILE *OpenMSGFile(int adress[3], char *filename)
     {
         MyHeader.DestNet = MyAddress[A_ZONE];
         MyHeader.DestNode = adress[A_ZONE];
+        MyHeader.DestZone =  MyAddress[A_ZONE];
+
         intl = 1;
     }
     if (intl)
@@ -164,6 +198,8 @@ FILE *OpenMSGFile(int adress[3], char *filename)
         die(254, 1, "Cannot create %s", filenamebuf);
     fwrite(&MyHeader, sizeof(MyHeader), 1, MailFILE);
     fputs(intlline, MailFILE);
+    fprintf(MailFILE, "\x01MSGID: %d:%d/%d %08lx\r\n", MyAddress[A_ZONE], 
+	    MyAddress[A_NET], MyAddress[A_NODE], GetSequence());
     if (!filename)
         return MailFILE;
     fclose(MailFILE);
@@ -235,11 +271,6 @@ char *MakeMSGFilename(char *outbuf, int num)
     char buffer[6];
 
     sprintf(buffer, "%u", num);
-    myfnmerge(outbuf, NULL, MessageDir, buffer,
-#ifndef __unix__
-              "MSG");
-#else
-              "msg");
-#endif
+    myfnmerge(outbuf, NULL, MessageDir, buffer, "msg");
     return outbuf;
 }

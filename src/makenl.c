@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.23 2004/07/19 16:24:56 fido Exp $ */
+/* $Id: makenl.c,v 1.24 2004/08/06 19:36:02 mbroek Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -258,7 +258,16 @@ int main(int argc, char *argv[])
                     strcat(cmdbuf, "no-diff ");
             }
             else
+	    {
                 strcat(cmdbuf, "no-diff ");
+		/*
+		 * New feature: compress hub and host segments.
+		 * Added in 2004 when file size doesn't matter anymore.
+		 */
+		myfnmerge(CfgFilenameBuf, NULL, OutDir, OutFile, NULL);
+		makearc(CfgFilenameBuf, 1);
+		strcpy(NewFile, CfgFilenameBuf);
+	    }
 
             sprintf(cmdbuf + strlen(cmdbuf), "%c %c %c %c %c %c\n",
                     OldExtensions[0][0], OldExtensions[0][1],

@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.12 2004/07/20 04:29:47 fido Exp $ */
+/* $Id: lsttool.c,v 1.15 2004/08/06 19:36:02 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,10 +22,13 @@
 long ARCThreshold = 10000;
 long DIFFThreshold = 16666;
 
-char ArcExt[4] = "a";           /* Let's add some default values */
-char ArcCopyCmd[20] = "arc a";
-char ArcMoveCmd[20] = "arc m";
-char ArcOpenCmd[20] = "arc ew";
+char ArcCopyExt[ARCEXTMAX];
+char ArcCopyCmd[ARCCMDMAX];
+char ArcMoveExt[ARCEXTMAX];
+char ArcMoveCmd[ARCCMDMAX];
+char ArcOpenExt[ARCUNPMAX][ARCEXTMAX];
+char ArcOpenCmd[ARCUNPMAX][ARCCMDMAX];
+int  ArcOpenCnt = 0;
 
 
 #if 0
@@ -43,7 +46,7 @@ int makearc(char *filename, int move)
     char ext[MYMAXEXT];
     char name[MYMAXFILE];
     char fullpath[MYMAXPATH];
-    char cmdlinebuf[124];
+    char cmdlinebuf[MYMAXPATH];
     char arccommand[ARCCMDMAX];
 
     if (filesize(filename) <= ARCThreshold || ARCThreshold == -1)
@@ -55,10 +58,13 @@ int makearc(char *filename, int move)
     {
         ext[1] = 'd';
         strcpy(arccommand, ArcMoveCmd); /* move instead of add */
+	ext[0] = ArcMoveExt[0];
     }
     else
+    {
         strcpy(arccommand, (move < 1) ? ArcCopyCmd : ArcMoveCmd);
-    ext[0] = ArcExt[0];
+	ext[0] = (move < 1) ? ArcCopyExt[0] : ArcMoveExt[0];
+    }
     myfnmerge(fullpath, NULL, OutDir, name, ext);
     os_filecanonify(fullpath);
     os_filecanonify(filename);
@@ -252,13 +258,51 @@ static int dodiffline(int checktop, FILE * oldFILE, FILE * diffFILE)
     return 0;
 }
 
+
+
+/*
+ * Test unpacker, see also makenl.h for ARCUNPMAX
+ */
+char *unpacker(char *fn)
+{
+    FILE            *fp;
+    unsigned char   buf[8];
+
+    if ((fp = fopen(fn,"r")) == NULL) {
+	fprintf(stderr, "Could not open file %s\n", fn);
+	return NULL;
+    }
+
+    if (fread(buf,1,sizeof(buf),fp) != sizeof(buf)) {
+	fprintf(stderr, "Could not read head of the file %s\n", fn);
+	fclose(fp);
+	return NULL;
+    }
+    fclose(fp);
+
+    if (memcmp(buf,"PK\003\004",4) == 0)    return (char *)"Z";	    /* ZIP	*/
+    if (*buf == 0x1a)                       return (char *)"A";	    /* ARC	*/
+    if (memcmp(buf+2,"-l",2) == 0)          return (char *)"L";	    /* LHA	*/
+    if (memcmp(buf,"ZOO",3) == 0)           return (char *)"O";	    /* ZOO	*/
+    if (memcmp(buf,"`\352",2) == 0)         return (char *)"J";	    /* ARJ	*/
+    if (memcmp(buf,"Rar!",4) == 0)          return (char *)"R";	    /* RAR	*/
+    if (memcmp(buf,"HA",2) == 0)            return (char *)"H";	    /* HA	*/
+    if (memcmp(buf,"BZ",2) == 0)            return (char *)"B";	    /* BZIP2	*/
+    if (memcmp(buf,"\037\213",2) == 0)      return (char *)"G";	    /* GZIP	*/
+    if (memcmp(buf,"\037\235",2) == 0)      return (char *)"C";	    /* COMPRESS	*/
+
+    return NULL;	/* Unknown compressed or plain ASCII	*/
+}
+
+
+
 static int searchlistfile(FILE ** someptr, const char *path,
                           char *foundfile, char *name, char *ext,
                           int unpackedonly);
 
 /* Returns:
    -1 : error
-   0 : not found
+    0 : not found
    >0 : found, next search for same list should start here
  */
 int
@@ -318,7 +362,7 @@ openlist(FILE ** listFILEptr, char *filename, char *foundfile, int where,
 
 /* Returns:
    -1: error
-   0: no matching file found
+    0: no matching file found
    +1: file found and opened */
 int
 searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
@@ -331,40 +375,76 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
     char extbuf[MYMAXEXT];
     char *findresult;
     int searchwhere;
+    char *unarc;
+    int i;
+    char ArcOpen[ARCCMDMAX];
 
+/*    printf("searchlistfile \"%s\" \"%s\" \"%s\" \"%s\" %d\n", path, foundfile, name, ext, unpackedonly); */
     if (path[0] == 0)
         return 0;
     while (!(ext[0] == 0 && unpackedonly))
-    {
-        myfnmerge(foundfile, NULL, NULL, name, ext[0] ? ext : "*");
+    {	
+        myfnmerge(foundfile, NULL, NULL, name, unpackedonly ? ext : "*");
         findresult = os_findfile(&f, path, foundfile);
         if (!findresult)
+	{
+	    foundfile[0] = '\0';
             return 0;
+	}
         getext(extbuf, findresult);
         myfnmerge(foundfile, NULL, path, findresult, NULL);
         os_deslashify(foundfile);
-        if ((ext[0] == 0) && (extbuf[0] == ArcExt[0])) /* ARCed file */
-        {
+	if ((unarc = unpacker(foundfile)) != NULL)  /* Compressed file	*/
+	{
+	    /*
+	     * Search decompressor
+	     */
+	    ArcOpen[0] = '\0';
+	    for (i = 0; i < ArcOpenCnt; i++)
+	    {
+		if (toupper((unsigned char)unarc[0]) == toupper((unsigned char)ArcOpenExt[i][0]))
+		{
+		    strcpy(ArcOpen, ArcOpenCmd[i]);
+		    break;
+		}
+	    }
+	    if (ArcOpen[0] == '\0')
+	    {
+		fprintf(stderr, "No ArcOpen command for \"%s\"\n", foundfile);
+	    }
+	    else
+	    {
+		fprintf(stdout, "Attempting to unpack archive \"%s\"\n", foundfile);
+	    }
             myfnmerge(fnamebuf, NULL, path, NULL, NULL);
             os_deslashify(fnamebuf);
-
-            fprintf(stdout, "Attempting to unpack archive \"%s\"\n",
-                    foundfile);
-            sprintf(cmdlinebuf, "%s %s", foundfile, fnamebuf);
-            if (os_spawn(ArcOpenCmd, cmdlinebuf) != 0)
-            {
-                fprintf(stderr, "Unable to unpack archive \"%s\".  ",
-                        foundfile);
-                WorkFile = os_file_getname(foundfile);
-                os_filecanonify(WorkFile);
-                *file = OpenMSGFile(NotifyAddress, NULL);
-                if (*file != NULL)
-                {
-                    fprintf(*file, "Unable to unpack archive \"%s\".  ",
-                            WorkFile);
-                    fputs("Please resubmit it.", *file);
-                    CloseMSGFile(1);
-                }
+	    /*
+	     * We need to chdir to the directory where the archive is found
+	     * so that the file is hopefully unpacked in the that directory.
+	     */
+	    if (chdir(fnamebuf))
+	    {
+		fprintf(stderr, "Can't chdir to \"%s\"\n", fnamebuf);
+	    }
+	    else
+	    {
+		/* Some archivers don't work well when the filename is given */
+		/* sprintf(cmdlinebuf, "%s %s.%s", foundfile, name, ext); */
+		sprintf(cmdlinebuf, "%s", foundfile);
+		if ((ArcOpen[0] == '\0') || (os_spawn(ArcOpen, cmdlinebuf) != 0))
+		{
+		    fprintf(stderr, "Unable to unpack archive \"%s\".\n", foundfile);
+		    WorkFile = os_file_getname(foundfile);
+		    os_filecanonify(WorkFile);
+		    *file = OpenMSGFile(NotifyAddress, NULL);
+		    if (*file != NULL)
+		    {
+			fprintf(*file, "Unable to unpack archive \"%s\".\n", WorkFile);
+			fputs("Please resubmit it.", *file);
+			CloseMSGFile(1);
+		    }
+		}
+		chdir(CurDir);
             }
             unlink(foundfile);
         }
@@ -416,7 +496,9 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
             }
         }
         else
+	{
             goto justthisfile;
+	}
     }
     for (extptr = OldExtensions; extptr < OldExtensions + 3; extptr++)
     {

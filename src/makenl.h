@@ -1,4 +1,4 @@
-/* $Id: makenl.h,v 1.7 2004/07/19 14:20:52 ozzmosis Exp $ */
+/* $Id: makenl.h,v 1.9 2004/08/01 13:56:14 mbroek Exp $ */
 
 #include "os.h"
 
@@ -16,11 +16,17 @@ extern int MakenlDebug;
 
 #define linelength 512
 #define ARCCMDMAX 20
+#define ARCEXTMAX 4
+#define ARCUNPMAX 10
+/* ARCUNPMAX must be set to the same nr of archivers in unpacker() in lsttool.c */
 
-extern char ArcExt[4];
+extern char ArcCopyExt[ARCEXTMAX];
+extern char ArcMoveExt[ARCEXTMAX];
+extern char ArcOpenExt[ARCUNPMAX][ARCEXTMAX];
 extern char ArcCopyCmd[ARCCMDMAX];
 extern char ArcMoveCmd[ARCCMDMAX];
-extern char ArcOpenCmd[ARCCMDMAX];
+extern char ArcOpenCmd[ARCUNPMAX][ARCCMDMAX];
+extern int  ArcOpenCnt;
 
 #define Debug1(msg, arg) if (MakenlDebug) fprintf(stderr, "DEBUG: " FUNCNAME ": " msg "\n", arg)
 #define Debug(msg)       if (MakenlDebug) fprintf(stderr, "DEBUG: " FUNCNAME ": " msg "\n")

@@ -1,4 +1,4 @@
-/* $Id: proc.h,v 1.4 2004/07/11 09:32:05 ozzmosis Exp $ */
+/* $Id: proc.h,v 1.7 2004/07/28 01:11:13 fido Exp $ */
 
 /* Values for ShouldProcess */
 #define USUAL_PROCESSING 1
@@ -6,6 +6,7 @@
 
 extern int ShouldProcess;
 extern int SubmitFile;
+extern int IsLinux;
 
 void ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
                   FILE * CommentsFILE, FILE * MergeOutFILE,
