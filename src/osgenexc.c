@@ -1,4 +1,4 @@
-/* $Id: osgenexc.c,v 1.3 2004/09/03 21:46:23 mbroek Exp $ */
+/* $Id: osgenexc.c,v 1.4 2004/09/05 10:43:57 mbroek Exp $ */
 
 int os_spawn(const char *command, const char *cmdline)
 {
@@ -9,13 +9,14 @@ int os_spawn(const char *command, const char *cmdline)
     if (!cmd)
     {
         fprintf(stderr, "Out of memory for command line buffer!\n");
+	mklog(0, "os_spawn: out of memory for command line buffer");
         return -1;
     }
 
     sprintf(cmd, "%s %s", command, cmdline);
-    mklog(2, "os_spawn: %s", cmd);
+    mklog(3, "os_spawn: %s", cmd);
     rc = system(cmd);
-    mklog(2, "os_spawn: rc=%d", rc);
+    mklog(3, "os_spawn: rc=%d", rc);
 
     free(cmd);
     return rc;

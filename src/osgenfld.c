@@ -1,4 +1,4 @@
-/* $Id: osgenfld.c,v 1.4 2004/09/04 21:26:37 mbroek Exp $ */
+/* $Id: osgenfld.c,v 1.5 2004/09/05 10:43:57 mbroek Exp $ */
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -20,15 +20,15 @@ int os_fulldir(char *dst, const char *src, size_t bufsiz)
     if (os_fullpath(dst, tmp, bufsiz) != 0)
     {
         Debug("os_fullpath failed!\n");
-	mklog(2, "[generic] os_fulldir: os_fullpath failed!");
+	mklog(3, "[generic] os_fulldir: os_fullpath failed!");
         return -1;
     }
     Debug1("doing stat on %s\n", dst);
-    mklog(2, "[generic] os_fulldir: absolute path %s", dst);
+    mklog(3, "[generic] os_fulldir: absolute path %s", dst);
     if (stat(dst, &st) != 0)
     {
         Debug("os_fulldir: stat failed!\n");
-	mklog(2, "[generic] os_fulldir: stat failed!");
+	mklog(3, "[generic] os_fulldir: stat failed!");
         return -1;
     }
     Debug1("st_mode is now %o\n", st.st_mode);

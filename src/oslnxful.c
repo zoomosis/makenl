@@ -1,4 +1,4 @@
-/* $Id: oslnxful.c,v 1.6 2004/09/04 21:26:37 mbroek Exp $ */
+/* $Id: oslnxful.c,v 1.7 2004/09/05 10:43:57 mbroek Exp $ */
 
 #define HAVE_OS_FULLPATH
 #include <unistd.h>
@@ -41,7 +41,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsize)
     }
     myfnmerge(dst, NULL, dir, name, ext);
     Debug1("Complete filename: %s\n", dst);
-    mklog(2, "[linux] os_fullpath: complete filename: %s", dst);
+    mklog(3, "[linux] os_fullpath: complete filename: %s", dst);
     chdir(olddir);
     return 0;
 #undef FUNCNAME

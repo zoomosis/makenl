@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.25 2004/09/03 21:46:23 mbroek Exp $ */
+/* $Id: makenl.c,v 1.28 2004/09/08 18:47:51 mbroek Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -123,8 +123,8 @@ void die(int exitcode, int on_stderr, const char *format, ...)
       buf
     );
 
-    mklog(0, "%s", buf);
-    mklog(0, "MakeNL finished (rc=%d)", exitcode);
+    mklog(on_stderr ? 0 : 1, "%s", buf);
+    mklog(1, "MakeNL finished (rc=%d)", exitcode);
 
     exit(exitcode);
 }
@@ -154,6 +154,7 @@ int main(int argc, char *argv[])
     os_getcwd(CurDir, MYMAXDIR - 1);
     os_filecanonify(CurDir);
     WorkMode = parsecfgfile(CFG_file);
+    mklog(1, "Using %s in %s", CfgFile, CurDir);
 
     for (OldWeeks = 3; OldWeeks >= 0; OldWeeks--)
     {
@@ -174,7 +175,7 @@ int main(int argc, char *argv[])
            DOWLongnames[SplitTimePtr->tm_wday],
            MonthLongnames[SplitTimePtr->tm_mon], SplitTimePtr->tm_mday,
            SplitTimePtr->tm_year + 1900);
-    mklog(0, "Begin processing %s -- %d:%02d, %s, %s %d, %d", OutFile,
+    mklog(1, "Begin processing %s -- %d:%02d, %s, %s %d, %d", OutFile,
 	    SplitTimePtr->tm_hour, SplitTimePtr->tm_min,
 	    DOWLongnames[SplitTimePtr->tm_wday],
 	    MonthLongnames[SplitTimePtr->tm_mon], SplitTimePtr->tm_mday,
@@ -182,6 +183,7 @@ int main(int argc, char *argv[])
     if (ShouldProcess)
     {
         myfnmerge(NewFile, NULL, OutDir, OutFile, NULL);
+	mklog(4, "main: shouldprocess %s", NewFile);
         swapext(NewFile, NewFile, "$$$");
         OutFILE = fopen(NewFile, "wb");
         die_if_file(OutFILE, NewFile, 1);
@@ -277,6 +279,7 @@ int main(int argc, char *argv[])
 		myfnmerge(CfgFilenameBuf, NULL, OutDir, OutFile, NULL);
 		makearc(CfgFilenameBuf, 1);
 		strcpy(NewFile, CfgFilenameBuf);
+		mklog(4, "main: NewFile \"%s\"", MAKE_SS(NewFile));
 	    }
 
             sprintf(cmdbuf + strlen(cmdbuf), "%c %c %c %c %c %c\n",
@@ -306,7 +309,7 @@ int main(int argc, char *argv[])
                             SubmitAddress[A_NET], SubmitAddress[A_NODE]);
                 fprintf(stdout, "\nSending \"%s\" to %s\n", NewFile,
                         SubAddrText);
-		mklog(0, "Sending \"%s\" to %s", NewFile, SubAddrText);
+		mklog(1, "Sending \"%s\" to %s", NewFile, SubAddrText);
             }
         }
         cleanit();
@@ -315,8 +318,8 @@ int main(int argc, char *argv[])
         ExitCode += 3;
     fprintf(stdout, "\nCRC = %05u\n\n", OutCRC);
 
-    mklog(0, "CRC = %05u", OutCRC);
-    mklog(0, "MakeNL finished (rc=%d)", ExitCode);
+    mklog(1, "CRC = %05u", OutCRC);
+    mklog(1, "MakeNL finished (rc=%d)", ExitCode);
 
     return ExitCode;
 }

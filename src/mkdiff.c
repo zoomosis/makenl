@@ -1,4 +1,4 @@
-/* $Id: mkdiff.c,v 1.11 2004/09/03 21:46:23 mbroek Exp $ */
+/* $Id: mkdiff.c,v 1.12 2004/09/05 10:43:57 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -139,7 +139,7 @@ int makediff(char *filename)
     fprintf(stdout,
             "\nCreating difference file \"%s\" from \"%s\" and \"%s\"\n",
             diffname, oldname, filename);
-    mklog(0, "Creating difference file \"%s\" from \"%s\" and \"%s\"",
+    mklog(1, "Creating difference file \"%s\" from \"%s\" and \"%s\"",
 	    diffname, oldname, filename);
 
     /* allocate buffer memory for diff-hashing */

@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.9 2004/09/04 21:26:37 mbroek Exp $ */
+/* $Id: fileutil.c,v 1.11 2004/09/05 20:29:49 mbroek Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -273,6 +273,7 @@ void cleanit(void)
     char ext[MYMAXEXT];
     char delname[MYMAXDIR];
 
+    mklog(3, "cleanit: cleanup %s", do_clean ? "yes":"no");
     if (!do_clean)
         return;
     if (getext(NULL, OutFile) != 0)
@@ -284,19 +285,24 @@ void cleanit(void)
         if (OutDiff[0] != 0)
         {
             myfnmerge(delname, NULL, OutDir, OutDiff, ext);
+	    mklog(2, "Cleanup delete %s", delname);
             unlink(delname);
             ext[0] = 'A';
             myfnmerge(delname, NULL, OutDir, OutDiff, ext);
+	    mklog(2, "Cleanup delete %s", delname);
             unlink(delname);
         }
         ext[0] = 'D';
         myfnmerge(delname, NULL, OutDir, OutFile, ext);
+	mklog(2, "Cleanup delete %s", delname);
         unlink(delname);
         ext[0] = 'A';
         myfnmerge(delname, NULL, OutDir, OutFile, ext);
+	mklog(2, "Cleanup delete %s", delname);
         unlink(delname);
         ext[1] = 'D';
         myfnmerge(delname, NULL, OutDir, OutFile, ext);
+	mklog(2, "Cleanup delete %s", delname);
         unlink(delname);
         extptr++;
     }
@@ -320,7 +326,7 @@ void CopyOrMove(int copy, char *source, char *destdir, char *destname)
         return;
     fprintf(stdout, "%sing \"%s\" to \"%s\"\n", copy ? "Copy" : "Mov",
             source, dest);
-    mklog(0, "%sing \"%s\" to \"%s\"", copy ? "Copy" : "Mov", source, dest);
+    mklog(1, "%sing \"%s\" to \"%s\"", copy ? "Copy" : "Mov", source, dest);
     unlink(dest);
     if (!copy && rename(source, dest) == 0)
         return;

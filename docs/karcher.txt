@@ -1,0 +1,163 @@
+
+Ein exaktes Reassembly (Bytegenau) ist leider nicht moeglich, da der
+urpruenglich verwendete Compiler (Microsoft C Version vor 7.0) nicht
+zur Verfuegung steht :-(
+
+----[ NetMail Folder ]--------------------------------------------------------
+On: Sun 19 Dec 1999 16:27    (Rcvd: Sun 19 Dec 1999 21:51)                  #5
+By: Michael Karcher                  2:2410/710.9
+To: Franz Zimmer                     2:2410/710
+Re: f:\FD\SECURE\makenl.arj
+St: Pvt File Rcvd
+------------------------------------------------------------------------------
+Hallo Franz!
+
+Im Attachment befindet sich der Quellcode zu Makenl. An den stellen,
+wo ich vom Original abweiche, habe ich mit "BUG FIXED"-Kommentaren
+darauf hingewiesen. Die Strings sind einfach uebernommen, daher
+heisst es in MERGE.C an einer Stelle "merge cnacled". Es sind viele
+kleine Quellcode-Dateien, und wenn man sie in folgender Reihenfolge
+linkt:
+
+BAUDRATE.C CHECK.C GETKEYW.C FTS5_1.C GETPATH.C FTS5_2.C UPCONT.C
+CLEAN.C CONFIG.C COMMENT.C STRCRC.C APPDIFF.C INSTLST.C OPENLST.C
+SRCHMAX.C CLEANOLD.C MAKEARC.C MKDIFF.C MAKENL.C VARIABLE.C COPYMOVE.C
+ADDRESS.C MSGTOOL.C FTS5_3.C MERGE.C PROCESS.C STACK.C OUTPUT.C
+
+Und die Funktionen aus LIB.C und EXECUTE.ASM in eine Bibliothek
+packt, dann sollte die gleiche Funktionsreihenfolge wie im Original
+in der EXE-Datei auftauchen. Die Quelltexte kompilieren zur Zeit
+unter Borland C 3.1 fehlerfei, aber die Anpassung an ein MSC sollte
+nur bei findfirst und coreleft (_max_avail bei MS) Aenderungen
+erfordern.
+
+Viele Gruesse,
+  Michael Karcher
+
+
+--- FIDOGATE 4.2.3
+
+----[ NetMail Folder ]--------------------------------------------------------
+On: Fri 31 Dec 1999  0:33    (Rcvd: Fri 31 Dec 1999  8:05)                  #8
+By: Michael Karcher                  2:2410/710.9
+To: Franz Zimmer                     2:2410/710
+Re: F:\FD\SECURE\newfiles.zip
+St: Pvt File Rcvd
+------------------------------------------------------------------------------
+
+[...]
+
+Deine Testdaten laufen jetzt alle prima durch, und liefern das
+gleiche Ergebnis wie MAKENL.
+
+Ausserdem habe ich mir mal die modifizierte Version von MAKENL 2.52
+angesehen. Sie unterscheidet sich von MAKENL an folgenden Stellen:
+1) Die Funktion getbaud ist totgelegt und liefert immer "1" zurueck
+2) Die Funktion getstring schmeisst keine Zeichen groesser als
+   127 mehr raus, die fünf Zeilen 
+   while(*(++workptr) != 0)
+   {
+       if(*workptr < 0)
+           *workptr = '?';
+   }
+   werden totgelegt. Wie dieses Fragment nahe legt, muss MAKENL
+   uebrigens mit signed characters uebersetzt werden. Aber in der
+   PRJ ist das ja bereits alles eingestellt.
+Der Y2K-Fix scheint identisch zu funktionieren.
+
+Michael Karcher
+
+--- FIDOGATE 4.2.3
+
+----[ NetMail Folder ]--------------------------------------------------------
+On: Thu 13 Jan 2000 23:14    (Rcvd: Fri 14 Jan 2000 22:10)                 #33
+By: Michael Karcher                  2:2410/710.9
+To: Franz Zimmer                     2:2410/710
+Re: makenl
+St: Pvt Rcvd Replied
+------------------------------------------------------------------------------
+
+[...]
+
+> mkdiff.c: In function `WriteDiffPart':
+> mkdiff.c:418: warning: int format, long int arg (arg 3)
+> mkdiff.c:437: warning: int format, long int arg (arg 3)
+> mkdiff.c:443: warning: int format, long int arg (arg 3)
+Das liegt an den 32-Bit-Pointern von GNU C. Das Original hatte dort
+far-Pointer, die bekanntlich nur arrays innerhalb eines Segmentes
+darstellen koennen, und Borland C hat diese Differenzen als
+ints behandelt.
+
+> openlst.c: In function `searchlistfile':
+> openlst.c:69: warning: unused variable `extension'
+Einfach loeschen
+
+Michael Karcher
+
+--- FIDOGATE 4.2.3
+
+----[ NetMail Folder ]--------------------------------------------------------
+On: Tue 18 Jan 2000 22:55    (Rcvd: Wed 19 Jan 2000 22:01)                 #42
+By: Michael Karcher                  2:2410/710.9
+To: Franz Zimmer                     2:2410/710
+Re: MKNLDATA.ZIP
+St: Pvt Rcvd
+------------------------------------------------------------------------------
+> Es funktioniert nur dann plausibel, wenn in mkdiff.c die vom gcc gewarnten
+> Formate auf %d statt %ld stehen.
+> Mit %ld fand ich ein D-Statement mit einem gewaltig
+> grossen negativen Zahlenwert dazu.
+
+Da steht die Differenz zweier (long*) und nicht zweier long, und im
+Modell small ist die Zeigerdifferenz nun mal ein 16-Bit-Int. Es geht
+ja wohl um: "(long*)(unsigned)*NowRunner-OldRunner". Dabei zeigt Now-
+Runner auf lauter longs. Als erstes wird das auf einen unsigned-int
+konvertiert, da die verlust- und Warnungsfrei in einen (long near *)
+konvertiert werden koennen. (Achtung! 16-Bit-Zeiger sind hier
+*VORRAUSSETZUNG!*). Danach wird das ganze in einen Zeiger konvertiert.
+OldRunner ist ebenfalls ein (long*), und die Differenz zweier (long*)
+ist ein ptr_diff_t, was je nach Lust und Laune des Compilers ein
+char, ein int, ein long, oder sonst irgend ein vorzeichenbehafteter
+Ganzzahltyp sein kein. Im Modell small ist das eben ein Int, unter
+GNU C ein long.
+
+Den differ wuerde ich aber nicht so einfach mir-nix-dir-nix portieren,
+denn der hat da so eine unangenehme Eigenschaft:
+
+Er puffert Hashwerte von Zeilen. In diesem Puffer steht entweder ein
+31-Bit-Hashwert, und das oberste Bit ist gesetzt, oder dort steht ein
+16-Bit-Zeiger (near) auf das Hash-Array der anderen Datei. Diese 16-
+Bit-Zeiger haben im obersten Bit immer 0.
+Der Algorithmus sucht nach Verknuepfungen der beiden Dateien, und
+prueft anhand des obersten Bits, ob da schon eine Verknuepfung
+steht, oder nicht. Wenn man jetzt einen Compiler hat, bei dem
+Zeiger auch das oberste Bit gesetzt haben koennen, gibt es maechtig
+Aerger.
+
+> Die Diff-Files unterscheiden bei identischen Input-Daten sich deutlich
+> zwischen dem originalen MakeNl und der hier produzierten Version,
+> allerdings nur bei unmittelbar aufeinander folgenden C-Statements
+> (warum passiert sowas eigentlich ueberhaupt? z.B. ist C825+C20+C99
+> identisch mit C944).
+Er betrachtet immer nur Abschnitte der Dateien, da das diffing auf
+dem near-heap laeuft, wo gerade mal etwa 30K frei sind. Wie man
+an
+
+-C112
+-C3988
+-C2861
++C324
++C4094
++C2543
+
+sehen kann, puffert das Original 3988 Zeilen, wogegen meine Version
+im Puffer 4094 Zeilen unterbekommt. Wenn am Pufferende eine Verbin-
+dung gefunden wurde, wird einfach gesagt: "Die letzten 112 bzw. 324
+Zeilen im Puffer waren gleich", dann wird der Inhalt der Listen
+bis dorthin vergessen, und die naechste Ladung Zeilen geladen.
+
+Der diff-Teil ist sogar (etwas spaerlich) kommentiert.
+
+Michael Karcher
+
+--- FIDOGATE 4.2.3

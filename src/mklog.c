@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.2 2004/09/03 21:46:23 mbroek Exp $ */
+/* $Id: mklog.c,v 1.3 2004/09/05 10:43:57 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,7 +20,7 @@
 #endif
 
 
-int loglevel = 0;
+int loglevel = 1;
 
 static char *mon[] = {
 	(char *)"Jan",(char *)"Feb",(char *)"Mar",
@@ -28,6 +28,9 @@ static char *mon[] = {
 	(char *)"Jul",(char *)"Aug",(char *)"Sep",
 	(char *)"Oct",(char *)"Nov",(char *)"Dec"
 };
+
+static char *logmark = "?+-dD";
+
 
 
 char *date(void);
@@ -68,7 +71,11 @@ void mklog(int level, const char *format, ...)
     vsprintf(outstr, format, va_ptr);
     va_end(va_ptr);
 
-    fprintf(fp, "%d %s makenl[%d] ", level, date(), getpid());
+#if defined(__unix__)
+    fprintf(fp, "%c %s makenl[%d] ", logmark[level], date(), getpid());
+#else
+    fprintf(fp, "%c %s makenl: ", logmark[level], date());
+#endif
     fprintf(fp, *outstr == '$' ? outstr+1 : outstr);
     if (*outstr == '$')
 	fprintf(fp, ": %s\n", strerror(errno));

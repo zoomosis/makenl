@@ -1,11 +1,6 @@
-$Id: todo.txt,v 1.15 2004/09/04 18:48:45 mbroek Exp $
+$Id: todo.txt,v 1.16 2004/09/05 20:29:49 mbroek Exp $
 
 2004-07-21  19:00  ozzmosis
 
 	* Documentation, documentation, documentation.
-
-2004-09-04  mbroek
-
-	Add a check to see if a DATA or FILES section is present in the .ctl
-
 
