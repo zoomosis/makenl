@@ -1,4 +1,4 @@
-/* $Id: config.h,v 1.9 2004/12/12 19:45:56 mbroek Exp $ */
+/* $Id: config.h,v 1.12 2005/07/19 19:23:21 mbroek Exp $ */
 
 /* Numbers of configuration options */
 #define CFG_ARCCOPY 0
@@ -54,6 +54,10 @@
 
 /* Force submit unchanged file */
 #define CFG_FORCESUBMIT 38
+
+/* Valid baudrates */
+#define	MAX_BAUDRATES	12
+
 
 
 struct switchstruct

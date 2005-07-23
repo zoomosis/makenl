@@ -1,0 +1,19 @@
+MakeNL v3.2.6 -- Source
+** Dedicated to Ben Baker, the original
+MakeNL author.
+------------------------------------------
+A new open-sourced version of MakeNL, the
+nodelist processing program. MakeNL 3.x was
+reverse engineered from MakeNL by Michael
+Karcher, with further modifications by
+Bj”rn Felton, Andrew Clarke, Michiel Broek
+Johan Billing, Michiel Broek &
+Robert Couture.  MakeNL 3.2.6 is a near
+drop-in replacement for an existing 
+installation of MakeNL.
+------------------------------------------
+Please check the WHATSNEW.TXT and the 
+HISTORY.TXT files in this archive before 
+using MakeNL 3.2.6, as there are some 
+important changes implemented in the 
+MAKENL.CTL file. 

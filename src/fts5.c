@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.9 2004/07/17 03:05:06 ozzmosis Exp $ */
+/* $Id: fts5.c,v 1.13 2005/07/22 22:29:13 fido Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -15,6 +15,8 @@
 #ifdef DMALLOC
 #include "dmalloc.h"
 #endif
+
+extern int nl_baudrate[];
 
 static struct switchstruct FTS5KWords[] = {
     {"", 0, 5},
@@ -52,10 +54,20 @@ const int Level4DPos[] = {
 const char *const LevelsSimple[] =
     { "", "Zone", "Region", "Network", "Hub", "Node" };
 char namebuf[16];
-char *Levels[] =
+
+/* Original */
+
+/* char *Levels[] =
     { namebuf, "Zone", "Region", "Host", "Hub", "", "Ogate", "Pvt", "Down",
     "Hold", "Point"
 };
+*/
+
+char *Levels[] =
+  { namebuf, "Zone", "Region", "Host", "Hub", "", "Hold", "Down", "Ogate",
+  "Pvt", "Point"
+};
+
 int Minphone = 3;
 int Alphaphone = 0;
 int Allowunpub = 0;
@@ -237,13 +249,14 @@ static int getphone(char **instring, int *linelevel, int *linenum)
 
 static int getbaud(char **instring, int *linelevel, int *linenum)
 {
-    int e_len;
+    int e_len, i, good;
     char *baud_no;
 
     unused(linelevel);
     unused(linenum);
 
     e_len = 0;
+    good = 0;
     baud_no = *instring;
 
     while ((unsigned char)baud_no[e_len] != 0)
@@ -255,6 +268,30 @@ static int getbaud(char **instring, int *linelevel, int *linenum)
             return 1;
         }
         e_len++;
+    }
+
+    if (e_len == 0)
+    {
+	sprintf(ErrorMessage, "Invalid baud rate -- \"%s\"", *instring);
+	return 1;
+    }
+
+    /* Check with table */
+    for (i = 0; i < MAX_BAUDRATES; i++)
+    {
+	if (nl_baudrate[i] == 0)
+	    break;
+	if (nl_baudrate[i] == atoi(*instring))
+	{
+	    good = 1;
+	    break;
+	}
+    }
+
+    if (good == 0)
+    {
+	sprintf(ErrorMessage, "Invalid baud rate -- \"%s\"", *instring);
+	return 1;
     }
 
     return 0;

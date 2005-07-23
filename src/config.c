@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.29 2004/12/12 19:45:56 mbroek Exp $ */
+/* $Id: config.c,v 1.35 2005/07/22 18:04:25 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,6 +34,7 @@
 int ArcCopySet = 0;
 int ArcMoveSet = 0;
 
+extern int nl_baudrate[];
 
 static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
                                     CFG_FILES */
@@ -360,7 +361,7 @@ static void showusage(char *argv0)
      "\n"
      "  -n (-name)     Specialized cosmetic switch. When you make a composite" "\n"
      "                 nodelist, the generated list begins, by default, with the" "\n"
-     "                 line \"Nodelist for ...\". The /NAME switch may be used to" "\n"
+     "                 line \"Nodelist for ...\". The -name switch may be used to" "\n"
      "                 insert a network name in front of the first word in that" "\n"
      "                 line. If the specified replacement name contains spaces," "\n"
      "                 the entire parameter must be enclosed in quotes." "\n"
@@ -618,6 +619,17 @@ int parsecfgfile(FILE * CFG)
     char cfgline[linelength];
     char cfgSplit[linelength];
     int ArcOpenSet = 0;
+    int i, j;
+    char *p;
+
+    /* Init valid baudrates */
+    for (i = 0; i < MAX_BAUDRATES; i++)
+	nl_baudrate[i] = 0;
+    nl_baudrate[0] = 300;
+    nl_baudrate[1] = 1200;
+    nl_baudrate[2] = 2400;
+    nl_baudrate[3] = 4800;
+    nl_baudrate[4] = 9600;
 
     mode = 0;
     while (fgets(cfgline, linelength - 1, CFG) != NULL)
@@ -712,13 +724,48 @@ int parsecfgfile(FILE * CFG)
         case CFG_BATCHFILE:
             strcpy(BatchFile, args[0]);
             break;
+	case CFG_BAUDRATE:
+	    /* Parse comma separated list of baudrates, maximum twelve */
+	    if (argcounter != 2)
+	    {
+		fprintf(stderr, "%s -- wrong number of arguments\n", cfgline);
+		mklog(0, "%s -- wrong number of arguments", cfgline);
+		mode = -1;
+	    }
+	    for (i = 0; i < MAX_BAUDRATES; i++)
+		nl_baudrate[i] = 0;
+	    i = 0;
+	    while (i < MAX_BAUDRATES)
+	    {
+		if (i == 0)
+		    p = strtok(args[0], ",\n\r\0");
+		else
+		    p = strtok(NULL, ",\n\r\0");
+		if (p == NULL)
+		    break;
+		for (j = 0; j < (int)strlen(p); j++)
+		{
+		    if (! isdigit((unsigned char)p[j]))
+		    {
+			fprintf(stderr, "%s -- invalid baudrate argument\n", cfgline);
+			mklog(0, "%s -- invalid baudrate argument", cfgline);
+			mode = -1;
+			break;
+		    }
+		}
+		if (mode == -1)
+		    break;
+		nl_baudrate[i] = atoi(p);
+		i++;
+	    }
+	    break;
 	case CFG_LOGFILE:
 	    strcpy(LogFile, args[0]);
 	    /*
 	     * Now we know the logfile, start logging immediatly.
 	     */
 	    mklog(1, "");
-	    mklog(1, "MakeNL %s start", MAKENL_VERSION);
+	    mklog(1, "MakeNL %s (%s %s) start", MAKENL_VERSION, MAKENL_OS, MAKENL_CC);
 	    break;
 	case CFG_LOGLEVEL:
             if (args[0][0] >= '1' && args[0][0] <= '4' && args[0][1] == 0)

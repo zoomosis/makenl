@@ -1,0 +1,3 @@
+system dos option stack=8192 option cache option quiet option eliminate option caseexact
+name makenl.exe
+file {config.obj crc16.obj lsttool.obj mkdiff.obj msgtool.obj output.obj process.obj stack.obj strtool.obj upcont.obj fts5.obj fileutil.obj makenl.obj merge.obj os.obj exec.obj spawn.obj}

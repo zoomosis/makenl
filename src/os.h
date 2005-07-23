@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.6 2004/07/18 10:51:37 ozzmosis Exp $ */
+/* $Id: os.h,v 1.10 2005/07/20 18:58:13 mbroek Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -46,42 +46,75 @@
 /* GNU C/EMX for DOS & OS/2 */
 #if defined(__GNUC__) && defined(__EMX__)
 #include "osgnuemx.h"
-
+#define	MAKENL_CC   "EMX"
+					  
 /* GNU C/Linux */
 #elif defined(__GNUC__) && defined(__linux__)
 #include "osgnulnx.h"
-
+#define	MAKENL_CC   "GCC/Linux"
+					  
 /* GNU C/FreeBSD */
 #elif defined(__GNUC__) && defined(__FreeBSD__)
 /* we'll use the Linux ones */
 #include "osgnulnx.h"
+#define	MAKENL_CC    "GCC/FreeBSD"
 
 /* GNU C/DJGPP 2.0 for DOS */
 #elif defined(__GNUC__) && defined(__MSDOS__)
 #include "osgnudjg.h"
+#define	MAKENL_CC   "GCC C/DJGPP"
 
 /* GNU C/Dev-C++ for Windows */
 #elif defined(__GNUC__) && defined(__MINGW32__)
 /* use Microsoft Visual C++ headers */
 #include "osmscwin.h"
+#define	MAKENL_CC   "GNU C/Dev-C++"
 
 /* Borland Turbo C++ 1.0, Borland C++ 3.1 & 4.0, etc. for DOS */
 #elif defined(__TURBOC__) && defined(__MSDOS__)
 #include "ostbcdos.h"
+#define	MAKENL_CC   "Borland Turbo C++"
 
 /* Watcom C/C++ for DOS, OS/2 & Windows */
 #elif defined(__WATCOMC__)
 #include "oswatxxx.h"
+#define	MAKENL_CC   "Watcom C/C++"
 
 /* Microsoft Visual C++ for Windows */
 #elif defined(_MSC_VER) && defined(WIN32)
 #include "osmscwin.h"
+#define	MAKENL_CC   "Microsoft Visual C++"
 
 #else
 #error "It seems to me that you are using an unknown compiler!"
 #endif
 
+/* Platforms */
+#if defined (__DOS16__)
+#define	MAKENL_OS   "DOS 16"
+#elif defined (__DOS4G__)
+#define	MAKENL_OS   "DOS 32"
+#elif defined (__OS2__)
+#define	MAKENL_OS   "OS/2 16"
+#elif defined (__OS2V2__)
+#define MAKENL_OS   "OS/2 32"
+#elif defined (__W32__)
+#define	MAKENL_OS   "Windows/32"
+#elif defined (__MSDOS__)
+#define	MAKENL_OS   "MS-DOS"
+#elif defined (__linux__)
+#define	MAKENL_OS   "GNU/Linux"
+#elif defined (__FreeBSD__)
+#define MAKENL_OS   "FreeBSD"
+#elif defined (__NetBSD__)
+#define MAKENL_OS   "NetBSD"
+#elif defined (__OpenBSD__)
+#define MAKENL_OS   "OpenBSD"
+#else
+#error "Unknown OS!"
+#endif
 
+					  
 #ifndef STR_DIRSEPARATOR
 #error "No one defined STR_DIRSEPARATOR!"
 #else
@@ -143,7 +176,11 @@ char *strupr(char *string);
 #error "Both __DOS16__ and __DOS32__ defined!"
 #endif
 
-#if defined(__MSDOS__) + defined(__OS2__) + defined(__W32__) > 1
+#if defined(__DOS16__) && defined(__DOS4G__)
+#error "Both __DOS16__ and __DOS4G__ defined!"
+#endif
+
+#if defined(__MSDOS__) + defined(__OS2__) + defined(__OS2V2__) + defined(__W32__) > 1
 #error "Ambigous OS specification"
 #endif
 

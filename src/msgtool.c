@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.15 2004/09/13 14:37:09 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.17 2005/05/23 17:08:24 mbroek Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -78,7 +78,8 @@ static unsigned long GetSequence(void)
 
 
 
-static int SearchMaxMSG(const char *path)
+// static 
+int SearchMaxMSG(const char *path)
 {
     char *filename;
     int maxnum = 0;
@@ -152,11 +153,14 @@ FILE *OpenMSGFile(int adress[3], char *filename)
     char filenamebuf[MYMAXDIR], subject[72], date[21];
     int intl, temp;
 
+    mklog(4, "OpenMSGFile entered");	// MB
+    mklog(3, "OpenMSGFile: %d:%d/%d filename=%s", adress[A_ZONE],
+	    adress[A_NET], adress[A_NODE], MAKE_SS(filename));
+
+    mklog(4, "SearchMaxMSG(%s)", MAKE_SS(MessageDir)); // MB
     MSGnum = SearchMaxMSG(MessageDir);
     mklog(4, "OpenMSGFile: MSGnum is set to %d", MSGnum);
 
-    mklog(3, "OpenMSGFile: %d:%d/%d filename=%s", adress[A_ZONE], 
-	    adress[A_NET], adress[A_NODE], MAKE_SS(filename));
     memset(&filenamebuf, 0, sizeof(filenamebuf));
     memset(&msgbuf, 0, sizeof(msgbuf));
 

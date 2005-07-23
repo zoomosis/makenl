@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.6 2004/07/15 17:44:02 ozzmosis Exp $ */
+/* $Id: output.c,v 1.7 2005/07/18 20:30:58 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,6 +8,7 @@
 #include "fts5.h"
 #include "crc16.h"
 #include "fileutil.h"
+#include "mklog.h"
 
 #ifdef MALLOC_DEBUG
 #include "rmalloc.h"
@@ -40,6 +41,7 @@ OutputErrorLine(FILE * file, const char *pre, const char *wrongy,
     if (crc)
         *crc = CRC16String(linebuf, *crc);
     fputs_result = fputs(linebuf, file);
+    mklog(0, "%s", linebuf);
     free(linebuf);
     return fputs_result;
 }

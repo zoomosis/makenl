@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.28 2004/09/08 18:47:51 mbroek Exp $ */
+/* $Id: makenl.c,v 1.32 2005/07/20 18:58:13 mbroek Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -50,6 +50,8 @@ int ExitCode;
 int JustTest;
 
 int MakenlDebug = 0;            /* 1 - Debugs some code here... */
+
+int nl_baudrate[MAX_BAUDRATES];
 
 char *WorkFile = NULL;
 
@@ -132,12 +134,22 @@ void die(int exitcode, int on_stderr, const char *format, ...)
 static void showversion(void)
 {
     fprintf(stderr,
-      "\nMakeNL " MAKENL_VERSION "  Compiled on " __DATE__ " " __TIME__ "\n\n" MAKENL_DEDICATION "\n");
+      "\nMakeNL " MAKENL_VERSION " (" MAKENL_OS " " MAKENL_CC ") Compiled on " __DATE__ " " __TIME__ "\n\n" MAKENL_DEDICATION "\n");
 }
 
 int main(int argc, char *argv[])
 {
-    unused(argc);
+    char    *temp;
+    int	    i;
+
+//    unused(argc);
+    /*
+     * Save commandline and arguments for logging later
+     */
+    temp = calloc(4096, sizeof(char));
+    for (i = 0; i < argc; i++) {
+	sprintf(temp, "%s %s", temp, argv[i]);
+    }
 
     showversion();
 
@@ -154,6 +166,8 @@ int main(int argc, char *argv[])
     os_getcwd(CurDir, MYMAXDIR - 1);
     os_filecanonify(CurDir);
     WorkMode = parsecfgfile(CFG_file);
+    mklog(1, "Commandline:%s", temp);
+    free(temp);
     mklog(1, "Using %s in %s", CfgFile, CurDir);
 
     for (OldWeeks = 3; OldWeeks >= 0; OldWeeks--)

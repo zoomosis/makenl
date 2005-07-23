@@ -1,6 +1,0 @@
-$Id: todo.txt,v 1.16 2004/09/05 20:29:49 mbroek Exp $
-
-2004-07-21  19:00  ozzmosis
-
-	* Documentation, documentation, documentation.
-

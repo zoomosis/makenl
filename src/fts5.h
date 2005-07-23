@@ -1,4 +1,4 @@
-/* $Id: fts5.h,v 1.5 2004/07/12 21:59:57 fido Exp $ */
+/* $Id: fts5.h,v 1.6 2005/07/22 22:29:13 fido Exp $ */
 
 /* Indices for 3D-Adresses */
 #define A_ZONE 0
@@ -6,11 +6,22 @@
 #define A_NODE 2
 #define A_POINT 3
 
+/* Original
+
 enum level_enum
 {
     LEVEL_TOP, LEVEL_ZONE, LEVEL_REGION, LEVEL_HOST, LEVEL_HUB,
     LEVEL_NODE, LEVEL_OGATE, LEVEL_PRIVATE, LEVEL_DOWN, LEVEL_HOLD,
     LEVEL_POINT, LEVEL_COMMENT, LEVEL_EMPTY
+};
+
+*/
+
+enum level_enum
+{
+  LEVEL_TOP, LEVEL_ZONE, LEVEL_REGION, LEVEL_HOST, LEVEL_HUB,
+  LEVEL_NODE, LEVEL_HOLD, LEVEL_DOWN, LEVEL_OGATE, LEVEL_PRIVATE,
+  LEVEL_POINT, LEVEL_COMMENT, LEVEL_EMPTY
 };
 
 /* maximal *length* of phone numbers */

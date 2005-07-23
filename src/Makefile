@@ -19,7 +19,7 @@
 # wmake -f makefile.watcom DEBUG OS=DOS  (16-bit DOS debug)
 # wmake -f makefile.watcom DEBUG OS=D32  (32-bit DOS debug)
 # wmake -f makefile.watcom DEBUG OS=O16  (16-bit OS/2 debug)
-# wmake -f makefile.watcom DEBUG OS=OS2  (32-bit OS/2 debug)
+# wmake -f makefile.watcom DEBUG OS=O32  (32-bit OS/2 debug)
 #
 # wmake -f makefile.watcom clean         (remove temp files)
 
@@ -121,4 +121,4 @@ cleanall: .SYMBOLIC
     del \src\makenl\bin\os2\makenl.exe
     del \src\makenl\bin\os2-16\makenl.exe
     del \src\makenl\bin\win32\makenl.exe
-    
+

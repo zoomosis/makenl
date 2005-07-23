@@ -1,4 +1,4 @@
-/* $Id: osdosful.c,v 1.4 2004/09/05 10:43:57 mbroek Exp $ */
+/* $Id: osdosful.c,v 1.5 2005/05/31 18:31:17 mbroek Exp $ */
 
 #define HAVE_OS_FULLPATH
 
@@ -16,7 +16,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
 
     curdrnum = getdisk();
     Debug1("Old drive number: %d\n", curdrnum);
-    mklog(4, "Old drive number: %d", curdrnum)
+    mklog(4, "Old drive number: %d", curdrnum);
     if (!src || !*src)
         src = ".";
 
