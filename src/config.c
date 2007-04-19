@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.35 2005/07/22 18:04:25 mbroek Exp $ */
+/* $Id: config.c,v 1.35 2005-07-22 18:04:25 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>

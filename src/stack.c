@@ -1,4 +1,4 @@
-/* $Id: stack.c,v 1.10 2004/09/03 21:46:23 mbroek Exp $ */
+/* $Id: stack.c,v 1.10 2004-09-03 21:46:23 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>

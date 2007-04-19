@@ -1,4 +1,4 @@
-/* $Id: osgnudjg.h,v 1.3 2004/07/17 03:05:06 ozzmosis Exp $ */
+/* $Id: osgnudjg.h,v 1.3 2004-07-17 03:05:06 ozzmosis Exp $ */
 
 #include <dir.h>
 #include <stdlib.h>             /* for size_t */

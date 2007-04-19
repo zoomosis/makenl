@@ -1,4 +1,4 @@
-/* $Id: osd16exc.c,v 1.3 2004/07/16 09:00:46 ozzmosis Exp $ */
+/* $Id: osd16exc.c,v 1.3 2004-07-16 09:00:46 ozzmosis Exp $ */
 
 #include "exec.h"
 

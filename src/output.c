@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.7 2005/07/18 20:30:58 mbroek Exp $ */
+/* $Id: output.c,v 1.7 2005-07-18 20:30:58 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>

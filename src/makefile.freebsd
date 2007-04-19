@@ -1,7 +1,7 @@
 # MakeNL makefile for FreeBSD
 # Tested with BSD Make & GNU C 2.95.4
 #
-# $Id: makefile.freebsd,v 1.9 2004/09/02 21:17:39 mbroek Exp $
+# $Id: makefile.freebsd,v 1.10 2007-04-15 16:55:16 ozzmosis Exp $
 #
 # Build with:
 #
@@ -59,4 +59,4 @@ makenl: $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
 
 clean:
-	rm -f *.o makenl
+	rm -f $(OBJS) makenl

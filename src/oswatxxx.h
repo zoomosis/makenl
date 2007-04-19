@@ -1,4 +1,4 @@
-/* $Id: oswatxxx.h,v 1.5 2004/07/17 03:05:06 ozzmosis Exp $ */
+/* $Id: oswatxxx.h,v 1.5 2004-07-17 03:05:06 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <dos.h>

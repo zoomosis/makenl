@@ -1,7 +1,7 @@
 # MakeNL makefile for Linux
 # Tested with GNU Make 3.79.1 & GNU C 3.2
 #
-# $Id: makefile.linux,v 1.7 2004/09/02 21:17:39 mbroek Exp $
+# $Id: makefile.linux,v 1.8 2007-04-16 18:38:03 fido Exp $
 #
 # Build with:
 #
@@ -55,4 +55,4 @@ makenl: $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
 
 clean:
-	rm -f *.o makenl
+	rm -f $(OBJS) makenl

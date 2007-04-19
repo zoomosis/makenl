@@ -1,4 +1,4 @@
-/* $Id: proc.h,v 1.7 2004/07/28 01:11:13 fido Exp $ */
+/* $Id: proc.h,v 1.7 2004-07-28 01:11:13 fido Exp $ */
 
 /* Values for ShouldProcess */
 #define USUAL_PROCESSING 1

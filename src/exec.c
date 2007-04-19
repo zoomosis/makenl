@@ -13,7 +13,7 @@
    BIXname: twagner
  */
 
-/* $Id: exec.c,v 1.3 2004/07/13 04:42:54 ozzmosis Exp $ */
+/* $Id: exec.c,v 1.3 2004-07-13 04:42:54 ozzmosis Exp $ */
 
 #include <stdio.h> 
 #include <stdlib.h>

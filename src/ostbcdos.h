@@ -1,4 +1,4 @@
-/* $Id: ostbcdos.h,v 1.8 2004/07/17 10:20:21 ozzmosis Exp $ */
+/* $Id: ostbcdos.h,v 1.8 2004-07-17 10:20:21 ozzmosis Exp $ */
 
 #include <dir.h>
 #include <stdlib.h>             /* for size_t */

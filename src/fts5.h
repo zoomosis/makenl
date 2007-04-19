@@ -1,4 +1,4 @@
-/* $Id: fts5.h,v 1.6 2005/07/22 22:29:13 fido Exp $ */
+/* $Id: fts5.h,v 1.7 2007-03-26 18:18:33 mbroek Exp $ */
 
 /* Indices for 3D-Adresses */
 #define A_ZONE 0

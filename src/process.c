@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.15 2004/09/05 10:43:57 mbroek Exp $ */
+/* $Id: process.c,v 1.16 2007-04-08 11:34:59 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -238,7 +238,8 @@ processfile(int myMakeType, int myMakeNum, FILE * InputFILE,
         mergeoutpos = ftell(MergeOutFILE);
     if (FooFILE)
         fprintf(FooFILE, "\nComments from %s:\n\n", WorkFile);
-    while (fgets(InputLine, linelength, InputFILE) != NULL)
+    while ((fgets(InputLine, linelength, InputFILE) != NULL)
+	   && (InputLine[0] != '\032'))
     {
         error = ParseFTS5(InputLine, &level, &num);
         if (level >= LEVEL_COMMENT)
@@ -270,7 +271,8 @@ processfile(int myMakeType, int myMakeNum, FILE * InputFILE,
             break;
         }
     }
-    while (fgets(InputLine, linelength, InputFILE) != NULL)
+    while ((fgets(InputLine, linelength, InputFILE) != NULL)
+	    && (InputLine[0] != '\032'))
     {
         error = ParseFTS5(InputLine, &level, &num);
         if (error && *WorkMode == CFG_DATA

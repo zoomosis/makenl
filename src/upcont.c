@@ -1,4 +1,4 @@
-/* $Id: upcont.c,v 1.6 2004/07/15 17:44:02 ozzmosis Exp $ */
+/* $Id: upcont.c,v 1.7 2007-03-26 18:18:33 mbroek Exp $ */
 
 #include <string.h>
 #include <stdio.h>
@@ -25,10 +25,10 @@ static int OnTop[] = {
 /* LEVEL_HOST  --> */ LEVEL_REGION,
 /* LEVEL_HUB   --> */ LEVEL_HOST,
 /* LEVEL_NODE  --> */ LEVEL_TOP,   /* Nodes may be anywhere */
-/* LEVEL_OGATE --> */ LEVEL_HOST,
-/* LEVEL_PRIVATE-> */ LEVEL_HOST,
 /* LEVEL_HOLD  --> */ LEVEL_TOP,   /* Hold and down nodes may be anywhere */
 /* LEVEL_DOWN  --> */ LEVEL_TOP,
+/* LEVEL_OGATE --> */ LEVEL_HOST,
+/* LEVEL_PRIVATE-> */ LEVEL_HOST,
 /* LEVEL_POINT --> */ LEVEL_HUB,   /* Hubs and nodes may have points */
 };
 /* *INDENT-ON* */

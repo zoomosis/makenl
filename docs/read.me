@@ -1,47 +1,48 @@
-Before you do anything else, print the documentation file MAKENL.PRN
-and read Section 1. carefully.  Then follow it's directions.
-
-To print MAKENL.PRN, align your printer so that the print head is
-even with the page perforation, and execute:
-
-        COPY MAKENL.PRN PRN
-
-Contact the coordinator to whom you submit your updates immediately
-if you encounter any problems.
-
---------------------------
-
-If you are upgrading from an earlier version of MakeNL to version
-2.50, and if you MAKE COMPOSITE, the following is important:
-
-By default, earlier versions of MakeNL produced a first line in the
-nodelist similar to:
-
-;A FidoNet Nodelist for Friday, February 8, 1991 -- Day number 039 : 22231
-
-It has been pointed out to me that this default behavior is not very
-good form because "FidoNet" is the registered trade mark of Tom
-Jennings.  Beginning with version 2.50, the default first line of a
-distribution list will look something like:
-
-;A  Nodelist for Friday, February 8, 1991 -- Day number 039 : 22231
-
-You can provide a network name for insertion where "FidoNet" used to
-be.  It can even be "FidoNet!"  Either the "/N" command line switch,
-or the "NAME" configuration verb may be used for this puropse.  Both
-are documented in MAKENL.PRN.  Neither has any effect unless you MAKE
-COMPOSITE.
-
-In case you forget, MakeNL will issue a warning stating that it has
-no network name for the nodelist header, but it will generate the
-list without one.
-
---------------------------
-
-It is not to spec, but I am told certain mailers have difficulty
-handling out-going messages which do not contain a ^AINTL extended
-address, EVEN IF THEY ARE NOT LEAVING YOUR ZONE.  If yours is one of
-these, you may now force MakeNL to add extended addressing to all its
-messages.  See the SUBMIT verb in MAKENL.PRN.
-
-DO NOT USE THIS FEATURE UNLESS YOU ABSOLUTELY NEED IT.  IT'S WRONG!
+Before you do anything else, print the documentation file MAKENL.PRN
+and read Section 1. carefully.  Then follow it's directions.
+
+To print MAKENL.PRN, align your printer so that the print head is
+even with the page perforation, and execute:
+
+        COPY MAKENL.PRN PRN
+
+Contact the coordinator to whom you submit your updates immediately
+if you encounter any problems.
+
+--------------------------
+
+If you are upgrading from an earlier version of MakeNL to version
+2.50, and if you MAKE COMPOSITE, the following is important:
+
+By default, earlier versions of MakeNL produced a first line in the
+nodelist similar to:
+
+;A FidoNet Nodelist for Friday, February 8, 1991 -- Day number 039 : 22231
+
+It has been pointed out to me that this default behavior is not very
+good form because "FidoNet" is the registered trade mark of Tom
+Jennings.  Beginning with version 2.50, the default first line of a
+distribution list will look something like:
+
+;A  Nodelist for Friday, February 8, 1991 -- Day number 039 : 22231
+
+You can provide a network name for insertion where "FidoNet" used to
+be.  It can even be "FidoNet!"  Either the "/N" command line switch,
+or the "NAME" configuration verb may be used for this puropse.  Both
+are documented in MAKENL.PRN.  Neither has any effect unless you MAKE
+COMPOSITE.
+
+In case you forget, MakeNL will issue a warning stating that it has
+no network name for the nodelist header, but it will generate the
+list without one.
+
+--------------------------
+
+It is not to spec, but I am told certain mailers have difficulty
+handling out-going messages which do not contain a ^AINTL extended
+address, EVEN IF THEY ARE NOT LEAVING YOUR ZONE.  If yours is one of
+these, you may now force MakeNL to add extended addressing to all its
+messages.  See the SUBMIT verb in MAKENL.PRN.
+
+DO NOT USE THIS FEATURE UNLESS YOU ABSOLUTELY NEED IT.  IT'S WRONG!
+

@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.3 2004/09/05 10:43:57 mbroek Exp $ */
+/* $Id: mklog.c,v 1.4 2007-04-08 11:45:49 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,6 +60,9 @@ void mklog(int level, const char *format, ...)
 	return;
     }
 
+    /*
+     * Open in textmode, gives the correct lineendings on all OSes.
+     */
     if ((fp = fopen(LogFile, "a")) == NULL)
     {
 	die(0xFF, 1, "Cannot open logfile \"%s\"", LogFile);

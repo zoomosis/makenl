@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.11 2004/09/05 20:29:49 mbroek Exp $ */
+/* $Id: fileutil.c,v 1.13 2007-04-08 14:12:26 mbroek Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -267,6 +267,15 @@ void cleanold(char *path, char *filename, char *ext)
     }
 }
 
+void cleanfile(char *filename)
+{
+    mklog(3, "Cleanup delete %s", filename);
+    if (unlink(filename) == 0)
+    {
+	mklog(1, "Cleanup deleted \"%s\"", filename);
+    }
+}
+
 void cleanit(void)
 {
     char (*extptr)[MYMAXEXT];
@@ -285,25 +294,20 @@ void cleanit(void)
         if (OutDiff[0] != 0)
         {
             myfnmerge(delname, NULL, OutDir, OutDiff, ext);
-	    mklog(2, "Cleanup delete %s", delname);
-            unlink(delname);
-            ext[0] = 'A';
+	    cleanfile(delname);
+	    ext[0] = ArcCopyExt[0];
             myfnmerge(delname, NULL, OutDir, OutDiff, ext);
-	    mklog(2, "Cleanup delete %s", delname);
-            unlink(delname);
+	    cleanfile(delname);
         }
-        ext[0] = 'D';
+        ext[0] = 'd';
         myfnmerge(delname, NULL, OutDir, OutFile, ext);
-	mklog(2, "Cleanup delete %s", delname);
-        unlink(delname);
-        ext[0] = 'A';
+	cleanfile(delname);
+	ext[0] = ArcCopyExt[0];
         myfnmerge(delname, NULL, OutDir, OutFile, ext);
-	mklog(2, "Cleanup delete %s", delname);
-        unlink(delname);
-        ext[1] = 'D';
+	cleanfile(delname);
+        ext[1] = 'd';
         myfnmerge(delname, NULL, OutDir, OutFile, ext);
-	mklog(2, "Cleanup delete %s", delname);
-        unlink(delname);
+	cleanfile(delname);
         extptr++;
     }
     while (extptr < OldExtensions + 4);

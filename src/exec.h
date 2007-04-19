@@ -1,4 +1,4 @@
-/* $Id: exec.h,v 1.2 2004/07/11 09:32:05 ozzmosis Exp $ */
+/* $Id: exec.h,v 1.2 2004-07-11 09:32:05 ozzmosis Exp $ */
 
 #ifndef _EXEC_H
 #define _EXEC_H

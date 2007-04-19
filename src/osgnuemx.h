@@ -1,4 +1,4 @@
-/* $Id: osgnuemx.h,v 1.4 2004/07/18 10:51:37 ozzmosis Exp $ */
+/* $Id: osgnuemx.h,v 1.4 2004-07-18 10:51:37 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>

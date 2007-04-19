@@ -1,4 +1,4 @@
-/* $Id: osgenfld.c,v 1.5 2004/09/05 10:43:57 mbroek Exp $ */
+/* $Id: osgenfld.c,v 1.5 2004-09-05 10:43:57 mbroek Exp $ */
 
 #include <sys/types.h>
 #include <sys/stat.h>

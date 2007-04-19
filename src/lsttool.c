@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.19 2004/12/12 19:45:56 mbroek Exp $ */
+/* $Id: lsttool.c,v 1.20 2007-04-08 11:34:59 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -539,7 +539,7 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
             os_deslashify(foundfile);
 	  justthisfile:
 	    mklog(3, "searchlistfile: justthisfile, foundfile=\"%s\"", foundfile);
-            *file = fopen(foundfile, "r");
+            *file = fopen(foundfile, "rb");
             if (!*file)
                 return -1;
             WorkFile = os_file_getname(foundfile);

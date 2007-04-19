@@ -1,4 +1,4 @@
-/* $Id: mkdiff.c,v 1.12 2004/09/05 10:43:57 mbroek Exp $ */
+/* $Id: mkdiff.c,v 1.17 2007-04-08 13:22:27 mbroek Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -96,7 +96,7 @@ int makediff(char *filename)
         myfnmerge(diffname, NULL, OutDir, OutDiff, OldExtensions[0]);
     }
 
-    OldFile.theFILE = fopen(oldname, "r");
+    OldFile.theFILE = fopen(oldname, "rb");
     if (!OldFile.theFILE)
     {
         fprintf(stderr,
@@ -106,11 +106,11 @@ int makediff(char *filename)
         return 0;
     }
 
-    NowFile.theFILE = fopen(filename, "r");
+    NowFile.theFILE = fopen(filename, "rb");
     if (!NowFile.theFILE)
         die(254, 1, "Unable to open new node list -- \"%s\"\n", filename);
 
-    DiffFILE = fopen(diffname, "w");
+    DiffFILE = fopen(diffname, "wb");
     if (!DiffFILE)
         die(254, 1, "Unable to create difference file -- \"%s\"\n",
             diffname);
@@ -465,7 +465,7 @@ void WriteDiffPart(char *linebuf)
         if (linecount)
         {
             /* There is at least one copyable line */
-            fprintf(DiffFILE, "C%d\n", linecount);
+            fprintf(DiffFILE, "C%d\r\n", linecount);
             continue;
         }
 
@@ -482,7 +482,7 @@ void WriteDiffPart(char *linebuf)
         if (linecount)
         {
             /* Throw them away! */
-            fprintf(DiffFILE, "D%d\n", linecount);
+            fprintf(DiffFILE, "D%d\r\n", linecount);
             continue;
         }
 
@@ -501,7 +501,7 @@ void WriteDiffPart(char *linebuf)
         {
             /* There are such lines - put them into the diff */
 
-            fprintf(DiffFILE, "A%d\n", linecount);
+            fprintf(DiffFILE, "A%d\r\n", linecount);
             aktline = idxnow - linecount;
             while (linecount--)
             {
@@ -520,7 +520,7 @@ void WriteDiffPart(char *linebuf)
             /* a) is larger - so emit the lines till the input line
                appears in output */
             linecount = OldFile.HashList[idxold].lineno - idxnow;
-            fprintf(DiffFILE, "A%d\n", linecount);
+            fprintf(DiffFILE, "A%d\r\n", linecount);
             aktline = idxnow;
             for (; linecount != 0; linecount--)
             {
@@ -534,7 +534,7 @@ void WriteDiffPart(char *linebuf)
             /* b) is larger, so tell the reader to ignore input lines up
                to the matching line */
 
-            fprintf(DiffFILE, "D%d\n",
+            fprintf(DiffFILE, "D%d\r\n",
                     NowFile.HashList[idxnow].lineno - idxold);
             idxold = NowFile.HashList[idxnow].lineno;
         }
@@ -553,13 +553,13 @@ void WriteDiffPart(char *linebuf)
     /* we have to clean up... if there are lines left in the old file -
        DELETE them! */
     if (idxold < OldFile.hashentries)
-        fprintf(DiffFILE, "D%d\n", OldFile.hashentries - idxold);
+        fprintf(DiffFILE, "D%d\r\n", OldFile.hashentries - idxold);
 
     /* if there are additional lines in the new file, they have to appear
        in the diff! */
     if (idxnow < NowFile.hashentries)
     {
-        fprintf(DiffFILE, "A%d\n", NowFile.hashentries - idxnow);
+        fprintf(DiffFILE, "A%d\r\n", NowFile.hashentries - idxnow);
         aktline = idxnow;
         for (; idxnow < NowFile.hashentries; idxnow++)
         {
@@ -579,8 +579,11 @@ int lineread(char *linebuf, int currentline, struct DiffingInfo *f)
     {
         if (fgets(linebuf, linelength, f->theFILE) == NULL)
             return 0;
+	if (linebuf[0] == '\032') /* Ignore EOF line */
+	    return 0;
         f->lineno++;
     }
     while (f->lineno <= currentline);
     return 1;
 }
+

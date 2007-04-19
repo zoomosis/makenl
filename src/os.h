@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.10 2005/07/20 18:58:13 mbroek Exp $ */
+/* $Id: os.h,v 1.11 2007-03-31 07:15:44 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -84,6 +84,10 @@
 #elif defined(_MSC_VER) && defined(WIN32)
 #include "osmscwin.h"
 #define	MAKENL_CC   "Microsoft Visual C++"
+
+#elif defined(__BORLANDC__) && defined(__WIN32__)
+#include "osborwin.h"
+#define MAKENL_CC   "Borland C++"
 
 #else
 #error "It seems to me that you are using an unknown compiler!"

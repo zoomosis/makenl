@@ -1,4 +1,4 @@
-/* $Id: strtool.c,v 1.4 2004/07/15 17:44:02 ozzmosis Exp $ */
+/* $Id: strtool.c,v 1.4 2004-07-15 17:44:02 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <string.h>

@@ -1,17 +1,14 @@
-# MakeNL makefile for Borland C++ 3.x/4.x for DOS
-# Tested with Borland C++ 3.1 & 4.02
+# MakeNL makefile for Borland C++ for Win32
+# Tested with Borland C++ 5.5.1 for Win32
 #
-# $Id: makefile.bcd,v 1.9 2007-04-16 18:38:03 fido Exp $
+# $Id: makefile.bcw,v 1.2 2007-04-16 18:38:03 fido Exp $
 #
 # Build with:
 #
-# make -f makefile.bcd        (release)
-# make -f makefile.bcd clean  (remove temp files)
+# make -f makefile.bcw        (release)
+# make -f makefile.bcw clean  (remove temp files)
 
-CFLAGS=-w -ml
-ASM=tasm
-AFLAGS=-mx
-ADEFS=-DMODL=large
+CFLAGS=-w
 
 OBJS=	config.obj \
 	crc16.obj \

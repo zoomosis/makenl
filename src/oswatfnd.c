@@ -1,4 +1,4 @@
-/* $Id: oswatfnd.c,v 1.2 2004/07/11 09:29:15 ozzmosis Exp $ */
+/* $Id: oswatfnd.c,v 1.2 2004-07-11 09:29:15 ozzmosis Exp $ */
 
 #define HAVE_OS_FIND
 #include <string.h>

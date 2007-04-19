@@ -1,4 +1,4 @@
-/* $Id: osemxexc.c,v 1.4 2004/09/05 10:43:57 mbroek Exp $ */
+/* $Id: osemxexc.c,v 1.4 2004-09-05 10:43:57 mbroek Exp $ */
 
 #include <process.h>
 

@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.32 2005/07/20 18:58:13 mbroek Exp $ */
+/* $Id: makenl.c,v 1.32 2005-07-20 18:58:13 mbroek Exp $ */
 
 #include <stdio.h>
 #include <time.h>

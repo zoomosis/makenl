@@ -1,4 +1,4 @@
-/* $Id: osgengtn.c,v 1.2 2004/07/11 09:29:14 ozzmosis Exp $ */
+/* $Id: osgengtn.c,v 1.2 2004-07-11 09:29:14 ozzmosis Exp $ */
 
 char *os_file_getname(const char *path)
 {

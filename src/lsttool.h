@@ -1,4 +1,4 @@
-/* $Id: lsttool.h,v 1.4 2004/12/12 19:45:56 mbroek Exp $ */
+/* $Id: lsttool.h,v 1.4 2004-12-12 19:45:56 mbroek Exp $ */
 
 #define SEARCH_UPLOAD 0
 #define SEARCH_MAILFILE 1

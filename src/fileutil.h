@@ -1,4 +1,4 @@
-/* $Id: fileutil.h,v 1.6 2004/09/02 21:17:39 mbroek Exp $ */
+/* $Id: fileutil.h,v 1.6 2004-09-02 21:17:39 mbroek Exp $ */
 
 #include "os.h"
 

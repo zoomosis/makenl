@@ -3,7 +3,7 @@
 #
 # Based on makefile by by Alex Woick, 2:244/1351.
 #
-# $Id: makefile.watcom,v 1.9 2004/09/02 21:17:39 mbroek Exp $
+# $Id: makefile.watcom,v 1.10 2007-04-16 18:38:03 fido Exp $
 #
 # Build with:
 #
@@ -90,5 +90,5 @@ makenl.exe: $(OBJS)
 	$(CC) $(CFLAGS) -fe=$@ $(OBJS)
 
 clean: .SYMBOLIC
-	del *.obj
+	del $(OBJS)
 	del makenl.exe

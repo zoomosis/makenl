@@ -1,4 +1,4 @@
-$Id: whatsnew.txt,v 1.16 2005/07/22 23:01:41 fido Exp $
+$Id: whatsnew.txt,v 1.16 2005-07-22 23:01:41 fido Exp $
 
 Support:
 ========

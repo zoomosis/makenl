@@ -1,4 +1,4 @@
-/* $Id: merge.c,v 1.9 2004/09/03 21:46:23 mbroek Exp $ */
+/* $Id: merge.c,v 1.9 2004-09-03 21:46:23 mbroek Exp $ */
 
 #include <string.h>
 #include <stdio.h>

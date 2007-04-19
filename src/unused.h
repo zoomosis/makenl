@@ -1,4 +1,4 @@
-/* $Id: unused.h,v 1.1 2004/07/17 03:05:06 ozzmosis Exp $ */
+/* $Id: unused.h,v 1.1 2004-07-17 03:05:06 ozzmosis Exp $ */
 
 /*
  *  Suppress warning about unused parameter. Written by Paul Edwards and

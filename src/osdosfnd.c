@@ -1,4 +1,4 @@
-/* $Id: osdosfnd.c,v 1.3 2004/07/17 03:05:06 ozzmosis Exp $ */
+/* $Id: osdosfnd.c,v 1.3 2004-07-17 03:05:06 ozzmosis Exp $ */
 
 #include <dos.h>
 #include "unused.h"

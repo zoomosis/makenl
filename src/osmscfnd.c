@@ -1,4 +1,4 @@
-/* $Id: osmscfnd.c,v 1.1 2004/07/18 10:51:37 ozzmosis Exp $ */
+/* $Id: osmscfnd.c,v 1.1 2004-07-18 10:51:37 ozzmosis Exp $ */
 
 #include <io.h>
 

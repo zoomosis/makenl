@@ -1,4 +1,4 @@
-; $Id: spawn.asm,v 1.2 2004/07/11 09:29:15 ozzmosis Exp $
+; $Id: spawn.asm,v 1.2 2004-07-11 09:29:15 ozzmosis Exp $
 
 ;MODIFIED 5th October 1995 by Matthew Parker all changes are public domain.
 

@@ -1,4 +1,4 @@
-/* $Id: osgenexc.c,v 1.4 2004/09/05 10:43:57 mbroek Exp $ */
+/* $Id: osgenexc.c,v 1.4 2004-09-05 10:43:57 mbroek Exp $ */
 
 int os_spawn(const char *command, const char *cmdline)
 {

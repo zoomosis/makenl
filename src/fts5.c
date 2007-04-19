@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.13 2005/07/22 22:29:13 fido Exp $ */
+/* $Id: fts5.c,v 1.13 2005-07-22 22:29:13 fido Exp $ */
 
 #include <stdio.h>
 #include <string.h>

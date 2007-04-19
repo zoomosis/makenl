@@ -1,4 +1,4 @@
-/* $Id: config.h,v 1.12 2005/07/19 19:23:21 mbroek Exp $ */
+/* $Id: config.h,v 1.12 2005-07-19 19:23:21 mbroek Exp $ */
 
 /* Numbers of configuration options */
 #define CFG_ARCCOPY 0

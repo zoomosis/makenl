@@ -1,4 +1,4 @@
-/* $Id: osdosful.c,v 1.5 2005/05/31 18:31:17 mbroek Exp $ */
+/* $Id: osdosful.c,v 1.5 2005-05-31 18:31:17 mbroek Exp $ */
 
 #define HAVE_OS_FULLPATH
 

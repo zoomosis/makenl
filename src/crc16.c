@@ -1,4 +1,4 @@
-/* $Id: crc16.c,v 1.2 2004/07/11 09:29:14 ozzmosis Exp $ */
+/* $Id: crc16.c,v 1.2 2004-07-11 09:29:14 ozzmosis Exp $ */
 
 #include "crc16.h"
 

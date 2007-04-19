@@ -1,4 +1,4 @@
-/* $Id: osgenaps.c,v 1.2 2004/07/11 09:29:14 ozzmosis Exp $ */
+/* $Id: osgenaps.c,v 1.2 2004-07-11 09:29:14 ozzmosis Exp $ */
 
 /* normalize path                                      */
 /* It is assumed that path has one more char allocated */

@@ -1,4 +1,4 @@
-/* $Id: oslnxdsl.c,v 1.2 2004/07/11 09:29:15 ozzmosis Exp $ */
+/* $Id: oslnxdsl.c,v 1.2 2004-07-11 09:29:15 ozzmosis Exp $ */
 
 #define HAVE_OS_DESLASHIFY
 

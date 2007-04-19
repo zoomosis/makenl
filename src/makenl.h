@@ -1,4 +1,4 @@
-/* $Id: makenl.h,v 1.9 2004/08/01 13:56:14 mbroek Exp $ */
+/* $Id: makenl.h,v 1.9 2004-08-01 13:56:14 mbroek Exp $ */
 
 #include "os.h"
 

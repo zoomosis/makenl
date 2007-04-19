@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.17 2005/05/23 17:08:24 mbroek Exp $ */
+/* $Id: msgtool.c,v 1.17 2005-05-23 17:08:24 mbroek Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
