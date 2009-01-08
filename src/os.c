@@ -1,6 +1,6 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: os.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 
 #include <stdio.h>
 #include <string.h>

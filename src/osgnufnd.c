@@ -1,4 +1,4 @@
-/* $Id: osgnufnd.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: osgnufnd.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 
 #define _GNU_SOURCE
 #include <dirent.h>

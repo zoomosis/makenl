@@ -1,4 +1,4 @@
-/* $Id: osgenff.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: osgenff.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 
 char *os_findfile(struct _filefind *pff, const char *path,
                   const char *mask)

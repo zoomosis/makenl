@@ -1,4 +1,4 @@
-/* $Id: msg.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: msg.h,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 
 #define MF_SHIFT_ERRORS 4
 #define MF_SHIFT_SUBMIT 8

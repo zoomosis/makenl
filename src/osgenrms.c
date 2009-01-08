@@ -1,4 +1,4 @@
-/* $Id: osgenrms.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: osgenrms.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 
 /* remove slash/backslash from last part of path name, if present */
 char *os_remove_slash(char *path1)

@@ -1,7 +1,7 @@
 # MakeNL makefile for Microsoft Visual C/C++
 # Tested with Visual C++ 2.0 (cl.exe 9.0)
 #
-# $Id: makefile.msvc,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+# $Id: makefile.msvc,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
 #
 # Build with:
 #

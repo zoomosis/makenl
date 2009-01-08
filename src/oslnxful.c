@@ -1,4 +1,4 @@
-/* $Id: oslnxful.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: oslnxful.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 
 #define HAVE_OS_FULLPATH
 #include <unistd.h>

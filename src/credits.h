@@ -1,4 +1,4 @@
-/* $Id: credits.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+/* $Id: credits.h,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $ */
 
 #define MAKENL_CREDITS \
   "This version of MakeNL is based upon work by Michael Karcher with\n" \

@@ -1,7 +1,7 @@
 # MakeNL makefile for DJGPP 2.0
 # Tested with DJGPP 2.03 (GNU Make 3.79 & GCC 2.95)
 #
-# $Id: makefile.djgpp,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+# $Id: makefile.djgpp,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
 #
 # Build with:
 #

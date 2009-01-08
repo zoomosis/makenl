@@ -1,4 +1,4 @@
-; $Id: net-s.ctl,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+; $Id: net-s.ctl,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
 ;
 ; This is a sample control for a the coordinator of a Hub or small Net.
 ; Edit fields within angle brackets as necessary (removing the brackets).

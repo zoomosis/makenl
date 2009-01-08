@@ -1,4 +1,4 @@
-; $Id: distrib.ctl,v 1.1 2009/01/08 20:07:45 mbroek Exp $
+; $Id: distrib.ctl,v 1.1.1.1 2009/01/08 20:07:45 mbroek Exp $
 ;
 ; This is a sample control for a coordinator who creates distribution files.
 ; On process day, MakeNL is run a second time using this control file.
