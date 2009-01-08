@@ -1,0 +1,26 @@
+makenl (3.2.7d-1) unstable; urgency=low
+
+  * debian/makenl.doc-base:  Added author.  Rewrote abstract. 
+  * See changelog.gz for changes from v3.2.7c to v3.2.7d
+
+ -- Robert James Clay <jame@rocasa.org>  Mon,  9 Jun 2007 13:26:31 -0400
+
+makenl (3.2.7c-1) unstable; urgency=low
+
+  * See changelog.gz for changes from v3.2.7b to v3.2.7c
+
+ -- Robert James Clay <jame@rocasa.org>  Mon, 28 May 2007 10:51:31 -0400
+
+makenl (3.2.7b-1) unstable; urgency=low
+
+  * Changed how historical docs are installed with the debian package.
+  * See changelog.gz for changes from v3.2.7 to v3.2.7b
+
+ -- Robert James Clay <jame@rocasa.org>  Sat, 24 May 2007 17:10:34 -0400
+
+makenl (3.2.7) unstable; urgency=low
+
+  * Initial debianization of makenl.
+  * See changelog.gz for changes up through 3.2.7.
+
+ -- Robert James Clay <jame@rocasa.org>  Wed,  2 May 2007 17:31:04 -0400

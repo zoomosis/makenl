@@ -1,0 +1,62 @@
+# MakeNL makefile for FreeBSD
+# Tested with BSD Make & GNU C 2.95.4
+#
+# $Id: makefile.freebsd,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+#
+# Build with:
+#
+# make -f makefile.freebsd          (release) or
+# make -f makefile.freebsd DEBUG=1  (debug)
+# make -f makefile.freebsd clean    (remove temp files)
+
+CC=gcc
+CFLAGS+= -Wall -W
+
+.ifdef DEBUG
+CFLAGS+= -g
+.else
+CFLAGS+= -s
+.endif
+
+.ifdef EFENCE
+LDFLAGS+= -lefence -L/usr/local/lib
+.endif
+
+.ifdef DMALLOC
+CFLAGS+= -DDMALLOC -I/usr/local/include
+LDFLAGS+= -ldmalloc -L/usr/local/lib
+.endif
+
+.ifdef RMALLOC
+CFLAGS+= -DMALLOC_DEBUG
+.endif
+
+OBJS=	config.o \
+	crc16.o \
+	fileutil.o \
+	fts5.o \
+	lsttool.o \
+	makenl.o \
+	merge.o \
+	mkdiff.o \
+	mklog.o \
+	msgtool.o \
+	output.o \
+	process.o \
+	stack.o \
+	strtool.o \
+	upcont.o \
+	os.o
+
+.ifdef RMALLOC
+OBJS+= rmalloc.o
+.endif
+
+.c.o:
+	$(CC) $(CFLAGS) -c $<
+
+makenl: $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
+
+clean:
+	rm -f $(OBJS) makenl

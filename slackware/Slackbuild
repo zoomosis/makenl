@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+#  $Id: Slackbuild,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+#
+#  Build script for Slackware makenl package.
+#
+#  Michiel Broek <mbroek at mbse eu>
+
+if [ "`id -u`" != "0" ]; then
+    echo "** You must be root to build this package!"
+    exit 1
+fi
+if [ ! -f ../src/version.h ]; then
+    echo "** You must run this script from the slackware directory!"
+    exit 1
+fi
+
+VERSION=`grep MAKENL_VERSION ../src/version.h | awk '{ print $3 }' | tr -d '"'`
+CWD=`pwd`
+if [ "$TMP" = "" ]; then
+    TMP=/tmp
+fi
+ARCH=${ARCH:-i486}
+BUILD=1
+PKG=$TMP/package-makenl
+
+rm -rf $PKG
+mkdir -p $TMP
+mkdir -p $PKG
+
+cd ../src
+make -f makefile.linux clean
+make -f makefile.linux
+
+mkdir -p $PKG/usr/bin
+cat makenl > $PKG/usr/bin/makenl
+strip  $PKG/usr/bin/makenl
+
+mkdir -p $PKG/usr/man/man1
+cat makenl.1 | gzip -9 > $PKG/usr/man/man1/makenl.1.gz
+
+mkdir $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+
+# Documentation
+cd ../docs
+mkdir -p $PKG/usr/doc/makenl-$VERSION
+cat whatsnew.txt > $PKG/usr/doc/makenl-$VERSION/README
+cat history.txt > $PKG/usr/doc/makenl-$VERSION/ChangeLog
+cat makenl.txt > $PKG/usr/doc/makenl-$VERSION/makenl.txt
+mkdir -p $PKG/usr/doc/makenl-$VERSION/history
+for f in felten.txt karcher.eng karcher.txt read.me makenl.prn fts-5000.txt ; do
+    cat $f > $PKG/usr/doc/makenl-$VERSION/history/$f
+done
+mkdir -p $PKG/usr/doc/makenl-$VERSION/examples
+for f in cpyright.txt distrib.ctl epilog.txt hub.ctl net-l.ctl net-s.ctl node.ctl prolog.txt regional.ctl zone.ctl ; do
+    cat $f > $PKG/usr/doc/makenl-$VERSION/examples/$f
+done
+
+# Build the package
+cd $PKG
+makepkg -l y -c n $TMP/makenl-$VERSION-$ARCH-$BUILD.tgz
+tail -n 11 $CWD/slack-desc > $TMP/makenl-$VERSION-$ARCH-$BUILD.txt
+

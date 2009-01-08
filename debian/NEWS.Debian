@@ -1,0 +1,10 @@
+makenl for Debian
+-----------------
+
+This is makenl, an open-sourced version of MakeNL, the
+Fido/FTN nodelist processing program.
+
+Version v3.2.7 was released in April of 2007.  The initial debianization was
+done by Robert James Clay <jame@rocasa.org> on Wed,  2 May 2007 17:31:04 -0400.
+
+ -- Robert James Clay <jame@rocasa.org>  Sat,  5 May 2007 07:31:04 -0400

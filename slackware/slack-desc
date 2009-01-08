@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+makenl: makenl (An open-source Fido/FTN nodelist processing program)
+makenl:
+makenl: MakeNL is an open-sourced version of MakeNL, the Fido/FTN nodelist
+makenl: processing program.  It is used to process Fido/FTN nodelists for
+makenl: submission to coordinators and/or for creation of nodelist files for
+makenl: distribution.  It is a near drop-in replacement for an existing
+makenl: installation of MakeNL.
+makenl:
+makenl: Homepage: http://makenl.darktech.org
+makenl:
+makenl:

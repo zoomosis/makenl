@@ -1,0 +1,80 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH MAKENL 1 "May 10, 2007"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+makenl \- Fido/FTN nodelist processing program.
+.SH SYNOPSIS
+.B makenl
+.RI [<config file>] [\-p|\-t] [\-m[=<nodelist>]] [\-n=<netname>\] [\-d\] 
+.SH DESCRIPTION
+This manual page briefly documents the
+.B makenl
+command.
+.PP
+.\" TeX users may be more comfortable with the \fB<whatever>\fP and
+.\" \fI<whatever>\fP escape sequences to invoke bold face and italics, 
+.\" respectively.
+\fBmakenl\fP is a program that is used to process Fido/FTN nodelists
+for submission to coordinators and/or for creation of nodelist
+files for distribution. It is a near drop-in replacement for an 
+existing installation of MakeNL.
+.SH OPTIONS
+A summary of options is included below.
+.TP
+.B \-p, \-process
+Operate in Process mode, overriding Process statement in makenl.ctl.
+.TP
+.B \-t, \-test
+Operate in Test mode even on the normal process day.
+.TP
+.B \-m, \-merge
+Merge your updated nodelist segment with an existing distribution nodelist to produce a temporary nodelist containing your updates.
+.TP
+.B \-n, \-name
+Specialized cosmetic switch. When you make a composite nodelist, the generated list begins, by default, with the line "Nodelist for ...". The -name switch may be used to insert a network name in front of the first word in that line. If the specified replacement name contains spaces, the entire parameter must be enclosed in quotes.
+.TP
+.B \-d, \-debug
+Enable debugging output for some functions.
+.TP
+.B \-c, -credits
+Who made this program possible.
+.TP
+.B \-h
+Show summary of options.
+.PP
+The program is documented more fully in the files makenl.txt.gz,  README.gz, & changelog.gz;  all in the /usr/share/doc/makenl directory.
+.SH FILES
+.PP
+Examples of these files can be found in the /usr/share/doc/makenl/examples directory.
+.TP
+.B makenl.ctl
+Standard name for the required makenl configuration file: it will look for this file in the current directory if the filename and path for it is not given on the command line.
+.TP
+.B cpyright.txt
+Optional copyright notice for the nodelist file being created.
+.TP
+.B epilog.txt
+Optional file containing text intended for the end of the nodelist file being created.
+.TP
+.B prolog.txt
+Optional file containing text intended for the beginning of the nodelist file being created.
+.SH AUTHORS
+MakeNL 3.x was reverse engineered from MakeNL by Michael Karcher, with further modifications by Bj\[:o]rn Felton, Andrew Clarke, Michiel Broek, Johan Billing, Kees van Eeten, & Robert Couture.
+.PP
+** Dedicated to Ben Baker, the original MakeNL author. 
+.PP
+This manual page was written by Robert James Clay <jame@rocasa.org> for the Debian package (but may be used by others).

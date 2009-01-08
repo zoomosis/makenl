@@ -1,0 +1,7 @@
+ToDo: makenl for Debian
+-----------------------
+    - Include example scripts?
+    - Include an example control file:   /etc/makenl/makenl.ctl ? (conffile?)
+    - Correct debian/watch file, getting 404 error.
+     
+ -- Robert James Clay <jame@rocasa.org>  Sat, 10 May 2007 18:42-0400

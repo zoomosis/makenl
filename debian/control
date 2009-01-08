@@ -1,0 +1,18 @@
+Source: makenl
+Section: admin
+Priority: extra
+Maintainer: Robert James Clay <jame@rocasa.org>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: makenl
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: An open-source Fido/FTN nodelist processing program
+ makenl is an open-sourced version of MakeNL, the Fido/FTN nodelist
+ processing program.  It is used to process Fido/FTN nodelists for
+ submission to coordinators and/or for creation of nodelist files for
+ distribution.  It is a near drop-in replacement for an existing
+ installation of MakeNL.
+  Homepage: http://makenl.darktech.org
+

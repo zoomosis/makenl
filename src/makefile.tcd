@@ -1,0 +1,38 @@
+# MakeNL makefile for Borland Turbo C++ 1.0 for DOS
+#
+# $Id: makefile.tcd,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+#
+# Build with:
+#
+# make -fmakefile.tcd        (release)
+# make -fmakefile.tcd clean  (remove temp files)
+
+CC=tcc
+CFLAGS+= -w -ml
+
+OBJS=	config.obj \
+	crc16.obj \
+	fileutil.obj \
+	fts5.obj \
+	lsttool.obj \
+	makenl.obj \
+	merge.obj \
+	mkdiff.obj \
+	mklog.obj \
+	msgtool.obj \
+	os.obj \
+	output.obj \
+	process.obj \
+	stack.obj \
+	strtool.obj \
+	upcont.obj
+
+.c.obj:
+	$(CC) $(CFLAGS) -c $<
+
+makenl.exe: $(OBJS)
+	$(CC) $(CFLAGS) -e$@ *.obj
+
+clean:
+	del *.obj
+	del makenl.exe

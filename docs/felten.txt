@@ -1,0 +1,40 @@
+Changes made to MakeNL V2.51 - 14-Jun-1992
+Source provided by Bjorn Felten
+------------------------------------------
+All filenames were converted to lower case.
+makenl.h
+Added MAXLINELENGTH constant. Set to 512
+address.c
+appdiff.c
+comment.c
+config.c
+instlst.c
+makenl.c
+merge.c
+mkdiff.c
+output.c
+process.c
+variable.c
+All hard-coded line lengths of 160 were changed to use the MAXLINELENGTH 
+constant.
+config.c
+Hard-coded 159 character line length was changed to MAXLINELENGTH-1
+fts5_2.c
+Added code to pass through any -Unpublished- phone number without further 
+checking. Capitalisation of -Unpublished- is standardized.
+lib.c
+Changed function definition of CRC16DoByte (line 79) to use shorts instead of 
+ints as ints are 32-bit in DJGPP GCC.
+Removed execute_core() and execute() functions. Replaced by execute() function 
+in execute.c
+Changed return code checking of findnext() call (line 403) to check for a non- 
+zero result, instead of -1
+makenl.c
+Bumped version number to 2.6. Added warning banner.
+srchmax.c
+Removed spurious semicolon from end of line 18
+execute.c
+New function used to launch the ARC compressor. Replaces the assembly language 
+routines in the original version with the C library spawn() function.
+makenl.mak
+Rewritten for use with DJGPP GCC
