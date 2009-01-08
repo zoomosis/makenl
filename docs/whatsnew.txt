@@ -1,13 +1,13 @@
-$Id: whatsnew.txt,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+$Id: whatsnew.txt,v 1.2 2009/01/08 20:35:05 mbroek Exp $
 
 Support:
 ========
 
-  Web: http://makenl.darktech.org/
+  Web: http://makenl.sourceforge.net/
   Fido: in the echomail area MAKENL_NG, available on most systems
   that carry the Fidonet WWB areas.
   Please report bugs only to the bugtracker on the web:
-  http://makenl.darktech.org/bugs/
+  http:// ....  Temporary not available, use echomail.
 
 
 Important Changes since MakeNL 2.5x:
