@@ -1,3 +1,10 @@
+makenl (3.2.7e-1) unstable; urgency=low
+
+  * See changelog.gz for changes from v3.2.7d to v3.2.7e
+  * debian/control:  Updated Homepage, added Vcs-Cvs & Vcs-Browser entries
+
+ -- Robert James Clay <jame@mail.rocasa.org>  Mon, 07 Apr 2008 21:38:25 -0400
+
 makenl (3.2.7d-1) unstable; urgency=low
 
   * debian/makenl.doc-base:  Added author.  Rewrote abstract. 

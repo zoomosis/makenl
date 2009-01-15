@@ -4,6 +4,9 @@ Priority: extra
 Maintainer: Robert James Clay <jame@rocasa.org>
 Build-Depends: debhelper (>= 5)
 Standards-Version: 3.7.2
+Vcs-Cvs: cvs -d :pserver:anonymous@makenl.darktech.org:/var/cvsroot 
+Vcs-Browser: http://makenl.darktech.org/cgi-bin/viewcvs.cgi/makenl
+Homepage: http://makenl.darktech.org
 
 Package: makenl
 Architecture: any
@@ -14,5 +17,4 @@ Description: An open-source Fido/FTN nodelist processing program
  submission to coordinators and/or for creation of nodelist files for
  distribution.  It is a near drop-in replacement for an existing
  installation of MakeNL.
-  Homepage: http://makenl.darktech.org
 
