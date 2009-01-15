@@ -3,7 +3,7 @@ Section: admin
 Priority: extra
 Maintainer: Robert James Clay <jame@rocasa.org>
 Build-Depends: debhelper (>= 5)
-Standards-Version: 3.7.2
+Standards-Version: 3.8.0
 Vcs-Cvs: cvs -d :pserver:anonymous@makenl.cvs.sourceforge.net:/var/cvsroot 
 Vcs-Browser: http://makenl.svn.sourceforge.net/cgi-bin/viewcvs.cgi/makenl
 Homepage: http://makenl.sourceforge.net
