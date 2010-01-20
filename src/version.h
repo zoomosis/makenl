@@ -1,6 +1,6 @@
-/* $Id: version.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $  */
+/* $Id: version.h,v 1.2 2010/01/20 22:32:18 jame Exp $  */
 /* Version File */
 
-#define MAKENL_VERSION     "3.2.7e"
+#define MAKENL_VERSION     "3.2.9"
 
 #define MAKENL_DEDICATION  "Dedicated to Ben Baker - The Original Author of MakeNL\n\n"
