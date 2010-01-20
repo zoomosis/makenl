@@ -38,8 +38,8 @@ clean:
 	rm -f build-stamp configure-stamp
 
 	# Clean up after the build process.
-	-$(MAKE) -C src -f makefile.linux clean
-	-$(MAKE) -C docs -f Makefile clean
+	$(MAKE) -C src -f makefile.linux clean
+	$(MAKE) -C docs -f Makefile clean
 
 	dh_clean 
 

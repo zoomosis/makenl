@@ -1,7 +1,7 @@
 Source: makenl
 Section: admin
 Priority: extra
-Maintainer: Robert James Clay <jame@rocasa.org>
+Maintainer: Robert James Clay <jame@rocasa.us>
 Build-Depends: debhelper (>= 5)
 Standards-Version: 3.8.0
 Vcs-Cvs: cvs -d :pserver:anonymous@makenl.cvs.sourceforge.net:/var/cvsroot 
