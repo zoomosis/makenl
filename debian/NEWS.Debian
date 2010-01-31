@@ -1,11 +1,11 @@
-makenl (3.2.9-1) UNRELEASED; urgency=low  
+makenl (3.2.9-1) lenny; urgency=low  
 
     The home site for the MakeNL project was moved to SourceForge in January
     of 2009.  The new Homepage is at http://makenl.sourceforge.net, while
-    the project page for it is at http://sourceforge.net/projecs/makenl.
+    the project page for it is at http://sourceforge.net/projects/makenl.
 
     Someone hatched out an entirely unofficial v3.2.8 archive in 2009 and the
     consensus was that we would skip that version and go directly to v3.2.9
     after v3.2.7.
 
- -- Robert James Clay <jame@rocasa.us>  Wed, 20 Jan 2010 19:21:56 -0500
+ -- Robert James Clay <jame@rocasa.us>  Sun, 31 Jan 2010 11:53:56 -0500
