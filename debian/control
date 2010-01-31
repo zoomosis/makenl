@@ -5,6 +5,7 @@ Maintainer: Robert James Clay <jame@rocasa.us>
 Build-Depends: debhelper (>= 7)
 Standards-Version: 3.8.0
 Vcs-Cvs: :pserver:anonymous@makenl.cvs.sourceforge.net:/var/cvsroot/makenl
+Vcs-Git: git://makenl.git.sourceforge.net/gitroot/makenl/makenl
 Vcs-Browser: http://makenl.cvs.sourceforge.net/makenl
 Homepage: http://makenl.sourceforge.net
 
