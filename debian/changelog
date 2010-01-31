@@ -1,11 +1,17 @@
-makenl (3.2.9-1) UNRELEASED; urgency=low
+makenl (3.2.9-1) unstable; urgency=low
 
-  * See changelog.gz for changes from v3.2.7e to v3.2.9
-  * Change maintainer email address
+  * See changelog.gz for changes from v3.2.7e to v3.2.9.
+  * Change maintainer email address to jame@rocasa.us.
+  * Update debhelper version to v7.
+  * Correct debian/watch file to look for makenl-* files.
+  * Updated debian/NEWS.Debian. 
+  * Make debian packaging copyright explicit in deban/copyright.
+  * Correct section to Text in debian/makenl.doc-base.
+  * debian/control: Add Vcs-Git entry. Correct Vcs-Cvs & Vcs-Browser entries.
   
- -- Robert James Clay <jame@rocasa.us>  Wed, 20 Jan 2010 16:35:43 -0500
+ -- Robert James Clay <jame@mail.rocasa.org>  Sun, 31 Jan 2010 15:37:58 -0500
 
-makenl (3.2.7e-1) UNRELEASED; urgency=low
+makenl (3.2.7e-1) unstable; urgency=low
 
   * See changelog.gz for changes from v3.2.7d to v3.2.7e
   * debian/control:  Updated Standards Version to 3.8.0

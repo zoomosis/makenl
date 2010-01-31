@@ -1,9 +1,9 @@
-/*  $Id: history.txt,v 1.3 2010/01/29 23:18:08 jame Exp $  */
+/*  $Id: history.txt,v 1.4 2010/01/31 20:41:41 jame Exp $  */
 
 
                             MakeNL Revision History
 
-       v3.2.9 -- Jan 20, 2010 (UNRELEASED)
+       v3.2.9 -- Jan 31, 2010 
 
 	    Release version of 3.2.7e for wide distribution.
 	    -- Robert James Clay
