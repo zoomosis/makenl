@@ -9,7 +9,7 @@ makenl (3.2.9-1) unstable; urgency=low
   * Correct section to Text in debian/makenl.doc-base.
   * debian/control: Add Vcs-Git entry. Correct Vcs-Cvs & Vcs-Browser entries.
   
- -- Robert James Clay <jame@mail.rocasa.org>  Sun, 31 Jan 2010 15:37:58 -0500
+ -- Robert James Clay <jame@rocasa.us>  Sun, 31 Jan 2010 15:37:58 -0500
 
 makenl (3.2.7e-1) unstable; urgency=low
 
