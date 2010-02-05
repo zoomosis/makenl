@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+/* $Id: makenl.c,v 1.2 2010/02/05 16:57:04 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -293,7 +293,7 @@ int main(int argc, char *argv[])
 		myfnmerge(CfgFilenameBuf, NULL, OutDir, OutFile, NULL);
 		makearc(CfgFilenameBuf, 1);
 		strcpy(NewFile, CfgFilenameBuf);
-		mklog(4, "main: NewFile \"%s\"", MAKE_SS(NewFile));
+		mklog(4, "main: NewFile \"%s\"", NewFile);
 	    }
 
             sprintf(cmdbuf + strlen(cmdbuf), "%c %c %c %c %c %c\n",
