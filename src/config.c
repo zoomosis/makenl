@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+/* $Id: config.c,v 1.2 2010/02/05 16:51:07 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -309,7 +309,7 @@ static char *ProgramName(const char *argv0, char *def)
         program = p + 1;
     }
 
-#if PROGRAMNAME_STRIP_EXTENSION
+#ifdef PROGRAMNAME_STRIP_EXTENSION
     /* remove the extension from the filename */
 
     p = strrchr(program, '.');
@@ -330,7 +330,7 @@ static char *ProgramName(const char *argv0, char *def)
         return def;
     }
 
-#if PROGRAMNAME_LOWERCASE
+#ifdef PROGRAMNAME_LOWERCASE
     p = program;
 
     while (*p != '\0')

@@ -1,4 +1,4 @@
-/* $Id: oswatxxx.h,v 1.2 2010/01/30 12:22:44 jame Exp $ */
+/* $Id: oswatxxx.h,v 1.3 2010/02/05 16:51:16 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <dos.h>
@@ -41,12 +41,11 @@
 #define MYMAXEXT   _MAX_EXT
 #define MYMAXDRIVE _MAX_DRIVE
 
-
 struct _filefind
 {
 #if defined(__OS2V2__)
     char path[512];
-#elif
+#else
     char path[MYMAXFILE + MYMAXEXT];
 #endif
     struct find_t fileinfo;
@@ -54,3 +53,4 @@ struct _filefind
 
 #define filecmp	   stricmp
 #define filenodir(x) (strpbrk(x,"\\/") == NULL)
+#define strcasecmp stricmp
