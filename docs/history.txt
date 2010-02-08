@@ -1,4 +1,4 @@
-/*  $Id: history.txt,v 1.6 2010/02/05 23:47:31 jame Exp $  */
+/*  $Id: history.txt,v 1.7 2010/02/08 20:44:45 ozzmosis Exp $  */
 
 
                             MakeNL Revision History
@@ -6,7 +6,7 @@
        v3.2.9a -- Feb 5, 2010 (Bugfixes)  (UNRELEASED) 
 
             Fixes for Watcom builds.
-	    -- Andrew Clark
+	    -- Andrew Clarke
 
 	    Updated the support information in docs/whatsnew.txt,
 	    especiallly that for the Bug Tracker.
