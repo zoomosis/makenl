@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: mklog.c,v 1.2 2010/02/08 21:17:27 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -79,7 +79,7 @@ void mklog(int level, const char *format, ...)
 #else
     fprintf(fp, "%c %s makenl: ", logmark[level], date());
 #endif
-    fprintf(fp, *outstr == '$' ? outstr+1 : outstr);
+    fprintf(fp, "%s", *outstr == '$' ? outstr+1 : outstr);
     if (*outstr == '$')
 	fprintf(fp, ": %s\n", strerror(errno));
     else
