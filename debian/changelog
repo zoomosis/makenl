@@ -1,8 +1,8 @@
-makenl (3.2.9a-1) UNRELEASED; urgency=low
+makenl (3.2.9a-1) stable; urgency=low
 
   * See changelog.gz for changes from v3.2.9 to v3.2.9a.
 
- -- Robert James Clay <jame@rocasa.us>  Fri, 05 Feb 2010 18:50:57 -0500
+ -- Robert James Clay <jame@svrpc.rocasa.net>  Sat, 11 Dec 2010 11:55:27 -0500
 
 makenl (3.2.9-1) unstable; urgency=low
 
