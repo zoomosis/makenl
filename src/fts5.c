@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+/* $Id: fts5.c,v 1.2 2012/09/26 01:14:17 ajleary Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -185,11 +185,16 @@ static int getphone(char **instring, int *linelevel, int *linenum)
         *instring = "-Unpublished-";
         break;
     case LEVEL_HOLD:
+        /*
+         * Hold should allow -Unpublished- per FTS5000.002
+         */
+        if (Allowunpub == 0 && (strcmp(*instring, "-Unpublished-") == 0))
+             return 0;
+        break;
     case LEVEL_DOWN:
 	/* 
-	 * Don't allow -Unpublished- even when the node is Down or Hold.
+	 * Don't allow -Unpublished- even when the node is Down.
 	 * All other things are allowed and not checked.
-	 * This is the behaviour of the old Makenl.
 	 */
 	if (Allowunpub == 0 && (strcmp(*instring, "-Unpublished-") == 0))
 	    return 1;

@@ -1,7 +1,22 @@
-/*  $Id: history.txt,v 1.8 2010/12/11 16:47:17 jame Exp $  */
+/*  $Id: history.txt,v 1.9 2012/09/26 01:14:17 ajleary Exp $  */
 
 
                             MakeNL Revision History
+
+       v3.2.9c -- Sep 19, 2012 (Bugfix)
+
+            Incorporated logfile bugfix (SourceForge ID#3531669.)
+            Thanks to Ulrich Schroeter (2:244/1120) for tracking
+            this one down and submitting a patch.
+            -- Andrew Leary
+
+
+       v3.2.9b -- Feb 23, 2012 (Bugfix)
+
+            Allow use of -Unpublished- with Hold nodes without
+            enabling Allowunpub, as per FTS-5000.002.
+            -- Andrew Leary
+
 
        v3.2.9a -- Feb 8, 2010 (Bugfixes)
 	    

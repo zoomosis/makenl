@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.2 2010/02/05 16:57:05 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.3 2012/09/26 01:14:17 ajleary Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -37,6 +37,7 @@ int MyAddress[3];
 
 static int MSGnum;
 static FILE *MailFILE;
+int *FixStack;
 static int MSGFlags;
 static unsigned char msgbuf[0xbe];
 
@@ -152,6 +153,8 @@ FILE *OpenMSGFile(int adress[3], char *filename)
     char intlline[46];
     char filenamebuf[MYMAXDIR], subject[72], date[21];
     int intl, temp;
+
+    FixStack = NULL;    /* BUGFIXED 2012-06-28 us filepointer/stack fix */
 
     mklog(4, "OpenMSGFile entered");	// MB
     mklog(3, "OpenMSGFile: %d:%d/%d filename=%s", adress[A_ZONE],

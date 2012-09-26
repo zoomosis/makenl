@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.2 2010/02/08 21:17:27 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.3 2012/09/26 01:14:17 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -68,10 +68,10 @@ void mklog(int level, const char *format, ...)
 	die(0xFF, 1, "Cannot open logfile \"%s\"", LogFile);
     }
 
-    outstr = calloc(4096, sizeof(char));
+    outstr = malloc(4096);
 
     va_start(va_ptr, format);
-    vsprintf(outstr, format, va_ptr);
+    vsnprintf(outstr, 4096, format, va_ptr);
     va_end(va_ptr);
 
 #if defined(__unix__)
