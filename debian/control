@@ -2,7 +2,7 @@ Source: makenl
 Section: admin
 Priority: extra
 Maintainer: Robert James Clay <jame@rocasa.us>
-Build-Depends: debhelper (>= 7)
+Build-Depends: debhelper (>= 7.0.50)
 Standards-Version: 3.8.0
 Vcs-Cvs: :pserver:anonymous@makenl.cvs.sourceforge.net:/var/cvsroot/makenl
 Vcs-Git: git://makenl.git.sourceforge.net/gitroot/makenl/makenl
