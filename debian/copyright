@@ -5,10 +5,10 @@ This is makenl, an open-sourced version of MakeNL, the Fido/FTN nodelist
 processing program. MakeNL 3.x was reverse engineered from the original
 MakeNL by Michael Karcher, with further modifications by Björn Felton, 
 Andrew Clarke, Michiel Broek, Johan Billing, Kees van Eeten, Robert Couture,
-and Robert James Clay.
+Andrew Leary, and Robert James Clay.
 
 The original source can always be found at:
-	http://sourceforge.net/projects/makenl/files/
+    http://sourceforge.net/projects/makenl/files/
 
 
 # Debian packaging
@@ -16,5 +16,5 @@ The Debian packaging is licensed under the GPL;  on Debian systems,
 the complete text of the GNU General Public License can be found in
 `/usr/share/common-licenses/GPL'.  It is copyrighted as follows:
 
-Copyright (C) 2010-2011 Robert James Clay <jame@rocasa.us>
+Copyright (C) 2010-2012 Robert James Clay <jame@rocasa.us>
 Copyright (C) 2007-2009, Robert James Clay <jame@rocasa.org>
