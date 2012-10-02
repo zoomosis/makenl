@@ -1,7 +1,16 @@
-/*  $Id: history.txt,v 1.9 2012/09/26 01:14:17 ajleary Exp $  */
+/*  $Id: history.txt,v 1.10 2012/10/02 15:24:11 jame Exp $  */
 
 
                             MakeNL Revision History
+
+       v3.2.13 -- Oct 2, 2012
+
+        Counting v3.2.9a as v3.2.10, v3.2.9b as v3.2.11, and v3.2.9c
+        as 3.2.12; setting this patch version as v3.2.13.
+        Debian packaging is separately versioned and is now tracked
+        on its own branch; remove debian/ directory.
+        -- Robert James Clay
+
 
        v3.2.9c -- Sep 19, 2012 (Bugfix)
 
