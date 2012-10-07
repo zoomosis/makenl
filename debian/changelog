@@ -1,9 +1,9 @@
-makenl (3.2.9c-1) UNRELEASED; urgency=low
+makenl (3.2.13-1) UNRELEASED; urgency=low
 
   * Set encoding for debian/copyright to UTF-8.
-  * See changelog.gz for changes from v3.2.9a to v3.2.9c.
+  * See changelog.gz for changes from v3.2.9a to v3.2.13.
 
- -- Robert James Clay <jame@rocasa.us>  Wed, 19 Sep 2012 18:20:17 -0400
+ -- Robert James Clay <jame@rocasa.us>  Sun,  7 Oct 2012 17:13:20 -0500
 
 makenl (3.2.9a-1) stable; urgency=low
 
