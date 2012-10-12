@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.4 2012/10/12 21:58:22 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.5 2012/10/12 23:01:30 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,6 +6,10 @@
 #include <stdarg.h>
 #include <time.h>
 #include <errno.h>
+
+#ifdef __unix__
+#include <unistd.h>
+#endif
 
 #include "makenl.h"
 #include "mklog.h"
@@ -19,72 +23,74 @@
 #include "dmalloc.h"
 #endif
 
-
 int loglevel = 1;
-
-static char *mon[] = {
-	(char *)"Jan",(char *)"Feb",(char *)"Mar",
-	(char *)"Apr",(char *)"May",(char *)"Jun",
-	(char *)"Jul",(char *)"Aug",(char *)"Sep",
-	(char *)"Oct",(char *)"Nov",(char *)"Dec"
-};
 
 static char *logmark = "?+-dD";
 
-
-static char *date(void)
+static char *date_str(void)
 {
-    struct tm   ptm;
-    time_t      now;
-    static char buf[20];
+    time_t now;
+    struct tm ptm;
+    static char buf[128];
 
     now = time(NULL);
     ptm = *localtime(&now);
-    sprintf(buf,"%02d-%s-%04d %02d:%02d:%02d", ptm.tm_mday, mon[ptm.tm_mon], ptm.tm_year+1900,
-				                            ptm.tm_hour, ptm.tm_min, ptm.tm_sec);
-    return(buf);
+    strftime(buf, sizeof buf, "%d-%b-%Y %H:%M:%S", &ptm);
+    return buf;
 }
-
-
 
 void mklog(int level, const char *format, ...)
 {
-    char	*outstr;
-    va_list     va_ptr;
-    FILE	*fp;
+    char outstr[4096];
+    va_list va_ptr;
+    FILE *fp;
     
-    if ((level > loglevel) || (strlen(LogFile) == 0))
+    if (level > loglevel)
     {
+	/* log level is higher than global log level */
 	return;
     }
+    
+    if (*LogFile == '\0')
+    {
+	/* empty log filename */
+	return;
+    }
+    
+    if (format == NULL)
+    {
+	/* avoid segfault */
+	return;
+    }
+    
+    /* Open in textmode, gives the correct lineendings on all OSes. */
 
-    /*
-     * Open in textmode, gives the correct lineendings on all OSes.
-     */
-    if ((fp = fopen(LogFile, "a")) == NULL)
+    fp = fopen(LogFile, "a");
+
+    if (fp == NULL)
     {
 	die(0xFF, 1, "Cannot open logfile \"%s\"", LogFile);
     }
 
-    outstr = malloc(4096);
-
     va_start(va_ptr, format);
-    vsnprintf(outstr, 4096, format, va_ptr);
+    vsnprintf(outstr, sizeof outstr, format, va_ptr);
     va_end(va_ptr);
 
 #if defined(__unix__)
-    fprintf(fp, "%c %s makenl[%d] ", logmark[level], date(), getpid());
+    fprintf(fp, "%c %s makenl[%d] ", logmark[level], date_str(), getpid());
 #else
-    fprintf(fp, "%c %s makenl: ", logmark[level], date());
+    fprintf(fp, "%c %s makenl: ", logmark[level], date_str());
 #endif
     fprintf(fp, "%s", *outstr == '$' ? outstr+1 : outstr);
+
     if (*outstr == '$')
+    {
 	fprintf(fp, ": %s\n", strerror(errno));
+    }
     else
-	fprintf(fp, "\n");
-    fflush(fp);
+    {
+	fputc('\n', fp);
+    }
+    
     fclose(fp);
-
-    free(outstr);
 }
-
