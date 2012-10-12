@@ -1,21 +1,22 @@
 # MakeNL makefile for FreeBSD
-# Tested with BSD Make & GNU C 2.95.4
+# Tested with BSD Make & GNU C 4.2.2
 #
-# $Id: makefile.freebsd,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+# $Id: makefile.freebsd,v 1.2 2012/10/12 21:17:25 ozzmosis Exp $
 #
 # Build with:
 #
 # make -f makefile.freebsd          (release) or
 # make -f makefile.freebsd DEBUG=1  (debug)
 # make -f makefile.freebsd clean    (remove temp files)
+# make -f makefile.freebsd CC=clang (build with clang)
 
 CC=gcc
 CFLAGS+= -Wall -W
 
 .ifdef DEBUG
-CFLAGS+= -g
+LDFLAGS+= -g
 .else
-CFLAGS+= -s
+LDFLAGS+= -s
 .endif
 
 .ifdef EFENCE
