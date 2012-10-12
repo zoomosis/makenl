@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.4 2012/10/12 22:54:00 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.5 2012/10/12 23:17:00 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -148,7 +148,7 @@ static void showversion(void)
       "\nMakeNL " MAKENL_VERSION " (" MAKENL_OS " " MAKENL_CC ") Compiled on " __DATE__ " " __TIME__ "\n\n" MAKENL_DEDICATION "\n");
 }
 
-static char *cmdline(char *argv[])
+static char *cmdline_to_str(char *argv[])
 {
     static char tmp[4096];
     char **p;
@@ -207,7 +207,7 @@ int main(int argc, char *argv[])
     os_getcwd(CurDir, MYMAXDIR - 1);
     os_filecanonify(CurDir);
     WorkMode = parsecfgfile(CFG_file);
-    mklog(1, "Cmdline: %s", cmdline(argv));
+    mklog(1, "Cmdline: %s", cmdline_to_str(argv));
     mklog(1, "Using %s in %s", CfgFile, CurDir);
 
     for (OldWeeks = 3; OldWeeks >= 0; OldWeeks--)
