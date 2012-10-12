@@ -1,7 +1,7 @@
 # MakeNL makefile for FreeBSD
 # Tested with BSD Make & GNU C 4.2.2
 #
-# $Id: makefile.freebsd,v 1.2 2012/10/12 21:17:25 ozzmosis Exp $
+# $Id: makefile.freebsd,v 1.3 2012/10/12 21:46:48 ozzmosis Exp $
 #
 # Build with:
 #
@@ -10,13 +10,10 @@
 # make -f makefile.freebsd clean    (remove temp files)
 # make -f makefile.freebsd CC=clang (build with clang)
 
-CC=gcc
 CFLAGS+= -Wall -W
 
 .ifdef DEBUG
-LDFLAGS+= -g
-.else
-LDFLAGS+= -s
+CFLAGS+= -g
 .endif
 
 .ifdef EFENCE
@@ -57,7 +54,7 @@ OBJS+= rmalloc.o
 	$(CC) $(CFLAGS) -c $<
 
 makenl: $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
+	$(CC) $(LDFLAGS) -o $@ $(OBJS)
 
 clean:
 	rm -f $(OBJS) makenl

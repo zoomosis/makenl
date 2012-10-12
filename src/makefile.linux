@@ -1,22 +1,20 @@
 # MakeNL makefile for Linux
-# Tested with GNU Make 3.79.1 & GNU C 3.2
+# Tested with GNU Make 3.81 & GNU C 4.4.3
 #
-# $Id: makefile.linux,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+# $Id: makefile.linux,v 1.2 2012/10/12 21:46:49 ozzmosis Exp $
 #
 # Build with:
 #
 # make -f makefile.linux          (release) or
 # make -f makefile.linux DEBUG=1  (debug)
 # make -f makefile.linux clean    (remove temp files)
+# make -f makefile.linux CC=clang (build with clang)
 
 CC=gcc
 CFLAGS+= -Wall -W
-CFLAGS+= -pipe
 
 ifdef DEBUG
 CFLAGS+= -g
-else
-CFLAGS+= -s
 endif
 
 ifdef EFENCE
@@ -52,7 +50,7 @@ endif
 	$(CC) $(CFLAGS) -c $<
 
 makenl: $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
+	$(CC) $(LDFLAGS) -o $@ $(OBJS)
 
 clean:
 	rm -f $(OBJS) makenl
