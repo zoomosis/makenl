@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+/* $Id: lsttool.c,v 1.2 2012/10/12 21:21:00 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -183,7 +183,7 @@ static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
     char *crcptr;               /* 0x02 */
     FILE *outFILE;              /* 0x04 */
     FILE *diffFILE;             /* 0x06 */
-    unsigned short newcrc;      /* 0x08 */
+    int newcrc;                 /* 0x08 */
 
     mklog(3, "applydiff \"%s\" to \"%s\"", diffname, outname);
 
@@ -201,7 +201,7 @@ static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
         strcat(DiffLine, "\r\n");
         crcptr = DiffLine + strlen(DiffLine);
         while (*(--crcptr) != ' ');
-        getnumber(crcptr + 1, (int *)&newcrc);
+        getnumber(crcptr + 1, &newcrc);
         fputs(DiffLine, outFILE);
         DiffCRC = 0;
         while (dodiffline(0, oldFILE, diffFILE) == 0)
