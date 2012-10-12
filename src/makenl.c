@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.2 2010/02/05 16:57:04 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.3 2012/10/12 22:42:40 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -137,19 +137,49 @@ static void showversion(void)
       "\nMakeNL " MAKENL_VERSION " (" MAKENL_OS " " MAKENL_CC ") Compiled on " __DATE__ " " __TIME__ "\n\n" MAKENL_DEDICATION "\n");
 }
 
+static char *cmdline(char *argv[])
+{
+    static char tmp[4096];
+    char **p;
+    
+    *tmp = '\0';
+
+    if (argv[0] == NULL)
+    {
+	/* empty command-line and no program name (unlikely but possible) */
+	strcat(tmp, "(null)");
+	return tmp;
+    }
+    
+    /* argv[0] is a special case, no quotes around it */
+    
+    strcat(tmp, argv[0]);
+
+    /* now loop over each argument */
+    
+    p = argv + 1;
+
+    while (*p != NULL)
+    {
+	if (strlen(tmp) + strlen(*p) + 3 > sizeof tmp)
+	{
+	    /* command-line too long, avoid segfault */
+	    strcat(tmp, " ...");
+	    return tmp;
+	}
+	
+	strcat(tmp, " \"");
+	strcat(tmp, *p);
+	strcat(tmp, "\"");
+	p++;
+    }
+
+    return tmp;
+}
+
 int main(int argc, char *argv[])
 {
-    char    *temp;
-    int	    i;
-
-//    unused(argc);
-    /*
-     * Save commandline and arguments for logging later
-     */
-    temp = calloc(4096, sizeof(char));
-    for (i = 0; i < argc; i++) {
-	sprintf(temp, "%s %s", temp, argv[i]);
-    }
+    unused(argc);
 
     showversion();
 
@@ -166,8 +196,7 @@ int main(int argc, char *argv[])
     os_getcwd(CurDir, MYMAXDIR - 1);
     os_filecanonify(CurDir);
     WorkMode = parsecfgfile(CFG_file);
-    mklog(1, "Commandline:%s", temp);
-    free(temp);
+    mklog(1, "Cmdline: %s", cmdline(argv));
     mklog(1, "Using %s in %s", CfgFile, CurDir);
 
     for (OldWeeks = 3; OldWeeks >= 0; OldWeeks--)
