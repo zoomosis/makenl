@@ -1,4 +1,4 @@
-/* $Id: makenl.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+/* $Id: makenl.h,v 1.2 2012/10/12 22:54:00 ozzmosis Exp $ */
 
 #include "os.h"
 
@@ -33,8 +33,6 @@ extern int  ArcOpenCnt;
 
 /* the die-Function from MAKENL.C */
 void die(int exitcode, int on_stderr, const char *format, ...);
-
-#define die_if_file(f, fn, output) if(!f) die(0xFE, 1, "Unable to open \"%s\" for %s\n", fn, output?"Output":"Input");
 
 /* the utility-Functions from STRTOOL.C */
 int getnumber(const char *string, int *output);

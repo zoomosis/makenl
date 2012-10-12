@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.3 2012/10/12 22:42:40 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.4 2012/10/12 22:54:00 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -74,11 +74,22 @@ static FILE *mainMergeOut;
 static char *CfgFile = "makenl.ctl";
 static unsigned short OutCRC;
 
+static void check_fp(FILE *fp, char *fn, char *mode)
+{
+    if (fp != NULL)
+    {
+	return;
+    }
+    
+    die(0xFE, 1, "Unable to open \"%s\" for %s\n", fn, *mode == 'r' ? "input" : "output");
+}
+
 /* Looks for the last day with (dow == weekday) before now.
    The returned time is offset days apart from the found day.
    The wall-clock-time of the returned time equals the wall-clock-
    time of now. If the dayligth-saving-time-flag does not change,
    the returned time is a multiple of 24 hours away */
+
 static time_t searchdow(int weekday, int offset, struct tm **timebuf)
 {
     time_t temp;
@@ -190,7 +201,7 @@ int main(int argc, char *argv[])
         CfgFile = CfgFilenameBuf;
     }
     CFG_file = fopen(CfgFile, "r");
-    die_if_file(CFG_file, CfgFile, 0);
+    check_fp(CFG_file, CfgFile, "r");
     WorkFile = strdup(CfgFile);
     os_filecanonify(WorkFile);
     os_getcwd(CurDir, MYMAXDIR - 1);
@@ -229,7 +240,7 @@ int main(int argc, char *argv[])
 	mklog(4, "main: shouldprocess %s", NewFile);
         swapext(NewFile, NewFile, "$$$");
         OutFILE = fopen(NewFile, "wb");
-        die_if_file(OutFILE, NewFile, 1);
+        check_fp(OutFILE, NewFile, "w");
         fprintf(OutFILE, "%s%05u\r\n", HeaderLine, OutCRC);
         CopyrightLines =
             CopyComment(OutFILE, CopyrightFile, YearBuf, &OutCRC);
@@ -244,7 +255,7 @@ int main(int argc, char *argv[])
         else
         {
             CommentsFILE = fopen(CommentsFile, "w");
-            die_if_file(CommentsFILE, CommentsFile, 1);
+            check_fp(CommentsFILE, CommentsFile, "w");
         }
     }
     mainMergeOut = PrepareMerge();
@@ -262,7 +273,7 @@ int main(int argc, char *argv[])
     {
         myfnmerge(CfgFilenameBuf, NULL, MasterDir, MakeSourceFile, NULL);
         MakeSourceFILE = fopen(CfgFilenameBuf, "r");
-        die_if_file(MakeSourceFILE, CfgFilenameBuf, 0);
+        check_fp(MakeSourceFILE, CfgFilenameBuf, "r");
         ExitCode = processfile(MakeType, MakeNum, MakeSourceFILE, OutFILE, NULL,
           mainMergeOut, SelfMsgFILE, &OutCRC, &WorkMode);
         fclose(MakeSourceFILE);
