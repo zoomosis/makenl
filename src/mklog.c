@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.3 2012/09/26 01:14:17 ajleary Exp $ */
+/* $Id: mklog.c,v 1.4 2012/10/12 21:58:22 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,9 +32,7 @@ static char *mon[] = {
 static char *logmark = "?+-dD";
 
 
-
-char *date(void);
-char *date(void)
+static char *date(void)
 {
     struct tm   ptm;
     time_t      now;
