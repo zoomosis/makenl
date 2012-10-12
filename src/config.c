@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.2 2010/02/05 16:51:07 ozzmosis Exp $ */
+/* $Id: config.c,v 1.3 2012/10/12 23:15:29 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -266,89 +266,12 @@ static const struct switchstruct SwitchXLate[] = {
     {NULL, 0, 0}
 };
 
-static char *ProgramName(const char *argv0, char *def)
-{
-    static char *program = NULL;
-    char *p;
-
-    /* make a quick exit if we've been here before */
-
-    if (program != NULL)
-    {
-        return program;
-    }
-    
-    /* make a copy of the full filename */
-
-    program = malloc(strlen(argv0) + 1);
-
-    if (program == NULL)
-    {
-        /* malloc failed - we may as well return the default */
-
-        return def;
-    }
-
-    strcpy(program, argv0);
-    
-    /* make program name point to the first character after the last \ */
-
-    p = strrchr(program, '\\');
-
-    if (p != NULL)
-    {
-        program = p + 1;
-    }
-
-    /* make program name point to the first character after the last / */
-
-    p = strrchr(program, '/');
-
-    if (p != NULL)
-    {
-        program = p + 1;
-    }
-
-#ifdef PROGRAMNAME_STRIP_EXTENSION
-    /* remove the extension from the filename */
-
-    p = strrchr(program, '.');
-
-    if (p != NULL)
-    {
-        *p = '\0'; 
-    }
-#endif
- 
-    if (*program == '\0')
-    {
-        /*
-         *  somehow we ended up with an empty string!
-         *  return the default instead
-         */
-
-        return def;
-    }
-
-#ifdef PROGRAMNAME_LOWERCASE
-    p = program;
-
-    while (*p != '\0')
-    {
-        *p = tolower(*p);
-        p++;
-    }
-#endif
-
-    return program;
-}
-
-static void showusage(char *argv0)
+static void show_usage()
 {
    die(255, 1,
      "\n"
      "\n"
-     "Usage: %s [<config file>] [-p|-t] [-m[=<nodelist>]] [-n=<netname>] [-d]" "\n"
+     "Usage: makenl [<config file>] [-p|-t] [-m[=<nodelist>]] [-n=<netname>] [-d]" "\n"
      "\n"
      "  -p (-process)  Operate in Process mode, overriding Process statement" "\n"
      "                 in makenl.ctl." "\n"
@@ -368,9 +291,7 @@ static void showusage(char *argv0)
      "\n"
      "  -d (-debug)    Enable debugging output for some functions." "\n"
      "\n"
-     "  -c (-credits)  Who made this possible." "\n",
-
-     ProgramName(argv0, "makenl")
+     "  -c (-credits)  Who made this possible." "\n"
    );
 }
 
@@ -385,7 +306,7 @@ void DoCmdLine(char **argv, char **cfgfilename)
         switch (getswitch(*argv, SwitchXLate, &valueptr))
         {
         default:
-            showusage(argv0);
+            show_usage();
             break;
 
         case 'C':
