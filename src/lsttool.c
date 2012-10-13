@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.3 2012/10/13 00:17:24 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.4 2012/10/13 01:23:33 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -80,7 +80,7 @@ int makearc(char *filename, int move)
             fullpath, filename);
     sprintf(cmdlinebuf, "%s %s", fullpath, filename);
     if (os_spawn(arccommand, cmdlinebuf) != 0)
-        die(0xFD, 1, "Unable to create archive \"%s\"", fullpath);
+        die(0xFD, "Unable to create archive \"%s\"", fullpath);
     strcpy(filename, fullpath);
     return 1;
 }
@@ -117,7 +117,7 @@ int installlist(char *filename, char *extbfr)
     {
         tmpFILE = fopen(tmpname, "r");
         if (!tmpFILE)
-            die(254, 1, "Unable to open new list \"%s\" for input\n",
+            die(254, "Unable to open new list \"%s\" for input\n",
                 tmpname);
         if (fgets(tmpline, linelength, tmpFILE)
             && fgets(oldline, linelength, oldFILE)
@@ -189,10 +189,10 @@ static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
 
     diffFILE = fopen(diffname, "r");
     if (!diffFILE)
-        die(254, 1, "Unable to open %s for input", diffname);
+        die(254, "Unable to open %s for input", diffname);
     outFILE = fopen(outname, "wb");
     if (!outFILE)
-        die(254, 1, "Unable to create %s", outname);
+        die(254, "Unable to create %s", outname);
     firststatus = dodiffline(1, oldFILE, diffFILE);
     if (firststatus == 0)       /* diff fits */
     {

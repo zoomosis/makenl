@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: process.c,v 1.2 2012/10/13 01:23:33 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -71,13 +71,10 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
                    notifyaddr);
         strupr(command);
         if (fieldno < 3)        /* "Net 2410 NET_2410" is minimum... */
-            die(255, 1,
-                "%s\n -- Too few parameters -- Statement ignored\n",
-                linebuf);
+            die(255, "%s\n -- Too few parameters -- Statement ignored\n", linebuf);
         subfile_level = xlate_switch(command, MakeTypes);
         if (MakeType >= subfile_level)
-            die(255, 1,
-                "%s\n -- \"%s\" is invalid list type -- Statement ignored\n",
+            die(255, "%s\n -- \"%s\" is invalid list type -- Statement ignored\n",
                 linebuf, command);
         if (subfile_level < LEVEL_HOST)
         {
@@ -94,16 +91,14 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
         if (fieldno >= 4)
         {
             if (ParseAddress(notifyaddr, NotifyAddress) != 0)
-                die(255, 1, "Invalid NOTIFY address \"%s\" ignored\n",
-                    notifyaddr);
+                die(255, "Invalid NOTIFY address \"%s\" ignored\n", notifyaddr);
             UsualMSGFlags = MailerFlags & (MF_ERRORS | MF_RECEIPT);
         }
         else
             NotifyAddress[A_ZONE] = MyAddress[A_ZONE];
         if (num < 0)
-            die(255, 1,
-                "%s\n -- \"%d\" is invalid list number -- Statement ignored\n",
-                linebuf, num);
+            die(255, "%s\n -- \"%d\" is invalid list number -- Statement ignored\n",
+		linebuf, num);
         subleveltxt = LevelsSimple + subfile_level;
         searchwhere = 0;
 	foundfile[0] = '\0';

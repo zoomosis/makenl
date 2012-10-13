@@ -1,4 +1,4 @@
-/* $Id: merge.c,v 1.2 2012/10/13 00:17:24 ozzmosis Exp $ */
+/* $Id: merge.c,v 1.3 2012/10/13 01:23:33 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdio.h>
@@ -52,7 +52,7 @@ FILE *PrepareMerge(void)
         swapext(MergeFilename, MergeFilename, "999");
         MergeOutFILE = fopen(MergeFilename, "wb");
         if (!MergeOutFILE)
-            die(254, 1, "Unable to create \"%s\"", MergeFilename);
+            die(254, "Unable to create \"%s\"", MergeFilename);
         fgets(linebuf, linelength, MergeInFILE);
         time(&utime);
         tmptr = localtime(&utime);

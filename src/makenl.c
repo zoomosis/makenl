@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.7 2012/10/13 00:41:34 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.8 2012/10/13 01:23:33 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -81,7 +81,7 @@ static void check_fp(FILE *fp, char *fn, char *mode)
 	return;
     }
     
-    die(0xFE, 1, "Unable to open \"%s\" for %s\n", fn, *mode == 'r' ? "input" : "output");
+    die(0xFE, "Unable to open \"%s\" for %s", fn, *mode == 'r' ? "input" : "output");
 }
 
 /* Looks for the last day with (dow == weekday) before now.
@@ -112,31 +112,16 @@ static time_t searchdow(int weekday, int offset, struct tm **timebuf)
     return temp;
 }
 
-void die(int exitcode, int on_stderr, const char *format, ...)
+void die(int exitcode, const char *format, ...)
 {
-    char buf[1024], exitstr[50];
+    char buf[1024];
     va_list arg;
     
     va_start(arg, format);
     vsprintf(buf, format, arg);
     va_end(arg);
 
-    *exitstr = '\0';
-
-    if (exitcode != 0)
-    {
-        sprintf(exitstr, "(rc=%d) ", exitcode);
-    }
-
-    fprintf(
-      on_stderr ? stderr : stdout,
-      "%s%s%s\n",
-      exitcode == 0 ? "" : "ABORT -- ",
-      exitstr,
-      buf
-    );
-
-    mklog(0, buf);
+    mklog(0, "%s (rc=%d)", buf, exitcode);
     mklog(1, "MakeNL finished (rc=%d)", exitcode);
 
     exit(exitcode);
@@ -279,7 +264,7 @@ int main(int argc, char *argv[])
     }
     SelfMsgFILE = CloseMSGFile(ExitCode);
     if (ExitCode > 1)
-        die(255, 1, "Fatal error in %s", WorkFile);
+        die(255, "Fatal error in %s", WorkFile);
     ProcessFILES(WorkMode, CFG_file, OutFILE, CommentsFILE, mainMergeOut,
                  &OutCRC);
     FinishMerge();

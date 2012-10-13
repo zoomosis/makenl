@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: output.c,v 1.2 2012/10/13 01:23:33 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,7 +36,7 @@ OutputErrorLine(FILE * file, const char *pre, const char *wrongy,
                      strlen(wrongy) + 4 +
                      strlen(ErrorMessage) + strlen(post) + 1);
     if (!linebuf)
-        die(253, 1, "No memory left for error message buffer!\n");
+        die(253, "No memory left for error message buffer!\n");
     sprintf(linebuf, "%s%s -- %s%s", pre, wrongy, ErrorMessage, post);
     if (crc)
         *crc = CRC16String(linebuf, *crc);
@@ -127,7 +127,7 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
         strcat(linebegin, "\r\n");
         *crc = CRC16String(linebegin, *crc);
         if (fputs(linebegin, output) == EOF)
-            die(254, 1, "Write error on \"%s\"", OutFile);
+            die(254, "Write error on \"%s\"", OutFile);
         lineno++;
     }
     fclose(CopyFILE);

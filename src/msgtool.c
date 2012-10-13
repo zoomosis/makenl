@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.4 2012/10/13 00:17:24 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.5 2012/10/13 01:23:33 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -249,7 +249,7 @@ FILE *OpenMSGFile(int adress[3], char *filename)
     }
     MailFILE = fopen(MakeMSGFilename(filenamebuf, MSGnum + 1), "wb");
     if (!MailFILE)
-        die(254, 1, "Cannot create %s", filenamebuf);
+        die(254, "Cannot create %s", filenamebuf);
     MSGnum++;
     mklog(3, "OpenMSGFile: opened %s, MSGnum %d", filenamebuf, MSGnum);
     

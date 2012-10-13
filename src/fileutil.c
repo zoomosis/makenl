@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+/* $Id: fileutil.c,v 1.2 2012/10/13 01:23:33 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -336,10 +336,10 @@ void CopyOrMove(int copy, char *source, char *destdir, char *destname)
         return;
     destFILE = fopen(dest, "w");
     if (!destFILE)
-        die(254, 1, "Unable to open %s for output", dest);
+        die(254, "Unable to open %s for output", dest);
     sourceFILE = fopen(source, "r");
     if (!sourceFILE)
-        die(254, 1, "Unable to open %s for input", source);
+        die(254, "Unable to open %s for input", source);
     while ((copychar = getc(sourceFILE)) != EOF)
         putc(copychar, destFILE);
     fclose(sourceFILE);

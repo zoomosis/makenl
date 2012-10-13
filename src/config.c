@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.5 2012/10/13 00:43:26 ozzmosis Exp $ */
+/* $Id: config.c,v 1.6 2012/10/13 01:23:33 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -261,7 +261,7 @@ void DoCmdLine(char **argv, char **cfgfilename)
             break;
 
         case 'C':
-            die(0, 1, MAKENL_CREDITS);
+            die(0, MAKENL_CREDITS);
             break;
 
         case -1:
@@ -939,6 +939,6 @@ int parsecfgfile(FILE * CFG)
     ArcOpenCnt = ArcOpenSet;
 
     if (CheckErrors(mode) == -1)
-        die(0xFF, 1, "Errors in configuration file");
+        die(0xFF, "Errors in configuration file");
     return mode;
 }

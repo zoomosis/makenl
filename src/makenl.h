@@ -1,4 +1,4 @@
-/* $Id: makenl.h,v 1.2 2012/10/12 22:54:00 ozzmosis Exp $ */
+/* $Id: makenl.h,v 1.3 2012/10/13 01:23:33 ozzmosis Exp $ */
 
 #include "os.h"
 
@@ -32,7 +32,7 @@ extern int  ArcOpenCnt;
 #define Debug(msg)       if (MakenlDebug) fprintf(stderr, "DEBUG: " FUNCNAME ": " msg "\n")
 
 /* the die-Function from MAKENL.C */
-void die(int exitcode, int on_stderr, const char *format, ...);
+void die(int exitcode, const char *format, ...);
 
 /* the utility-Functions from STRTOOL.C */
 int getnumber(const char *string, int *output);
