@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.8 2012/10/13 01:23:33 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.9 2012/10/13 01:31:41 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -121,8 +121,8 @@ void die(int exitcode, const char *format, ...)
     vsprintf(buf, format, arg);
     va_end(arg);
 
-    mklog(0, "%s (rc=%d)", buf, exitcode);
-    mklog(1, "MakeNL finished (rc=%d)", exitcode);
+    mklog(0, "%s", buf);
+    mklog(0, "MakeNL finished (rc=%d)", exitcode);
 
     exit(exitcode);
 }
