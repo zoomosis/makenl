@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.6 2012/10/13 00:17:24 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.7 2012/10/13 00:41:34 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -144,8 +144,7 @@ void die(int exitcode, int on_stderr, const char *format, ...)
 
 static void showversion(void)
 {
-    fprintf(stderr,
-      "\nMakeNL " MAKENL_VERSION " (" MAKENL_OS " " MAKENL_CC ") Compiled on " __DATE__ " " __TIME__ "\n\n" MAKENL_DEDICATION "\n");
+    printf("MakeNL " MAKENL_VERSION " (" MAKENL_OS " " MAKENL_CC ") Compiled on " __DATE__ " " __TIME__ "\n\n");
 }
 
 static char *cmdline_to_str(char *argv[])

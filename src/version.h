@@ -1,6 +1,10 @@
-/* $Id: version.h,v 1.5 2012/10/02 15:24:11 jame Exp $  */
+/* $Id: version.h,v 1.6 2012/10/13 00:41:34 ozzmosis Exp $  */
 /* Version File */
 
 #define MAKENL_VERSION     "3.2.13"
 
-#define MAKENL_DEDICATION  "Dedicated to Ben Baker - The Original Author of MakeNL\n\n"
+#define MAKENL_CREDITS \
+  "This version of MakeNL is based upon work by Michael Karcher with\n" \
+  "modifications by Bjorn Felten, Robert Couture, Andrew Clarke,\n" \
+  "Michiel Broek, Malcolm Miles, Johan Billing & others.\n\n" \
+  "Dedicated to Ben Baker - The author of the original MakeNL.\n\n"
