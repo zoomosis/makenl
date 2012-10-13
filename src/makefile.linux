@@ -1,7 +1,7 @@
 # MakeNL makefile for Linux
 # Tested with GNU Make 3.81 & GNU C 4.4.3
 #
-# $Id: makefile.linux,v 1.2 2012/10/12 21:46:49 ozzmosis Exp $
+# $Id: makefile.linux,v 1.3 2012/10/13 00:13:27 ozzmosis Exp $
 #
 # Build with:
 #
@@ -25,22 +25,9 @@ ifdef RMALLOC
 CFLAGS+= -DMALLOC_DEBUG
 endif
 
-OBJS=	config.o \
-	crc16.o \
-	fileutil.o \
-	fts5.o \
-	lsttool.o \
-	makenl.o \
-	merge.o \
-	mkdiff.o \
-	mklog.o \
-	msgtool.o \
-	os.o \
-	output.o \
-	process.o \
-	stack.o \
-	strtool.o \
-	upcont.o
+OBJS+=config.o crc16.o fileutil.o fts5.o lsttool.o makenl.o merge.o
+OBJS+=mkdiff.o mklog.o msgtool.o os.o output.o process.o stack.o
+OBJS+=strtool.o upcont.o
 
 ifdef RMALLOC
 OBJS+= rmalloc.o
