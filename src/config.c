@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.6 2012/10/13 01:23:33 ozzmosis Exp $ */
+/* $Id: config.c,v 1.7 2012/10/13 01:27:30 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -220,30 +220,36 @@ static const struct switchstruct SwitchXLate[] = {
 
 static void show_usage()
 {
-   printf(
-     "Usage: makenl [<config file>] [-p|-t] [-m[=<nodelist>]] [-n=<netname>] [-d]" "\n"
-     "\n"
-     "  -p (-process)  Operate in Process mode, overriding Process statement" "\n"
-     "                 in makenl.ctl." "\n"
-     "\n"
-     "  -t (-test)     Operate in Test mode even on the normal process day." "\n"
-     "\n"
-     "  -m (-merge)    Merge your updated nodelist segment with an existing" "\n"
-     "                 distribution nodelist to produce a temporary nodelist" "\n"
-     "                 containing your updates." "\n"
-     "\n"
-     "  -n (-name)     Specialized cosmetic switch. When you make a composite" "\n"
-     "                 nodelist, the generated list begins, by default, with the" "\n"
-     "                 line \"Nodelist for ...\". The -name switch may be used to" "\n"
-     "                 insert a network name in front of the first word in that" "\n"
-     "                 line. If the specified replacement name contains spaces," "\n"
-     "                 the entire parameter must be enclosed in quotes." "\n"
-     "\n"
-     "  -d (-debug)    Enable debugging output for some functions." "\n"
-     "\n"
-     "  -c (-credits)  Who made this possible." "\n"
-   );
-   exit(255);
+    printf(
+      "Usage: makenl [<config file>] [-p|-t] [-m[=<nodelist>]] [-n=<netname>] [-d]" "\n"
+      "\n"
+      "  -p (-process)  Operate in Process mode, overriding Process statement" "\n"
+      "                 in makenl.ctl." "\n"
+      "\n"
+      "  -t (-test)     Operate in Test mode even on the normal process day." "\n"
+      "\n"
+      "  -m (-merge)    Merge your updated nodelist segment with an existing" "\n"
+      "                 distribution nodelist to produce a temporary nodelist" "\n"
+      "                 containing your updates." "\n"
+      "\n"
+      "  -n (-name)     Specialized cosmetic switch. When you make a composite" "\n"
+      "                 nodelist, the generated list begins, by default, with the" "\n"
+      "                 line \"Nodelist for ...\". The -name switch may be used to" "\n"
+      "                 insert a network name in front of the first word in that" "\n"
+      "                 line. If the specified replacement name contains spaces," "\n"
+      "                 the entire parameter must be enclosed in quotes." "\n"
+      "\n"
+      "  -d (-debug)    Enable debugging output for some functions." "\n"
+      "\n"
+      "  -c (-credits)  Who made this possible." "\n"
+    );
+    exit(255);
+}
+
+static void show_credits(void)
+{
+    printf(MAKENL_CREDITS);
+    exit(255);
 }
 
 void DoCmdLine(char **argv, char **cfgfilename)
@@ -261,7 +267,7 @@ void DoCmdLine(char **argv, char **cfgfilename)
             break;
 
         case 'C':
-            die(0, MAKENL_CREDITS);
+            show_credits();
             break;
 
         case -1:
