@@ -1,7 +1,7 @@
-/* $Id: version.h,v 1.6 2012/10/13 00:41:34 ozzmosis Exp $  */
+/* $Id: version.h,v 1.7 2012/10/13 17:05:18 ozzmosis Exp $  */
 /* Version File */
 
-#define MAKENL_VERSION     "3.2.13"
+#define MAKENL_VERSION     "3.2.14"
 
 #define MAKENL_CREDITS \
   "This version of MakeNL is based upon work by Michael Karcher with\n" \
