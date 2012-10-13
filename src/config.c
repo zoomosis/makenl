@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.4 2012/10/13 00:17:24 ozzmosis Exp $ */
+/* $Id: config.c,v 1.5 2012/10/13 00:43:26 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,7 +13,6 @@
 #include "proc.h"
 #include "lsttool.h"
 #include "fileutil.h"
-#include "credits.h"
 #include "mklog.h"
 #include "version.h"
 
@@ -221,9 +220,7 @@ static const struct switchstruct SwitchXLate[] = {
 
 static void show_usage()
 {
-   die(255, 1,
-     "\n"
-     "\n"
+   printf(
      "Usage: makenl [<config file>] [-p|-t] [-m[=<nodelist>]] [-n=<netname>] [-d]" "\n"
      "\n"
      "  -p (-process)  Operate in Process mode, overriding Process statement" "\n"
@@ -246,6 +243,7 @@ static void show_usage()
      "\n"
      "  -c (-credits)  Who made this possible." "\n"
    );
+   exit(255);
 }
 
 void DoCmdLine(char **argv, char **cfgfilename)
