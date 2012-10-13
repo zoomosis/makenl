@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.3 2012/09/26 01:14:17 ajleary Exp $ */
+/* $Id: msgtool.c,v 1.4 2012/10/13 00:17:24 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -59,7 +59,6 @@ static unsigned long GetSequence(void)
     if ((fp = fopen(seqfile, "r+")) == NULL) {
 	seq = (unsigned long)time(NULL);
 	if ((fp = fopen(seqfile, "w+")) == NULL) {
-	    fprintf(stderr, "Can't create %s\n", seqfile);
 	    mklog(0, "Can't create %s", seqfile);
 	    return seq;
 	} else {
@@ -238,8 +237,7 @@ FILE *OpenMSGFile(int adress[3], char *filename)
     {
         if (MyAddress[A_ZONE] == 0)
         {
-            fprintf(stdout,
-                    "\nWARNING -- Don't know your zone, can't send interzone message to %d:%d/%d\n\n",
+            printf("\nWARNING -- Don't know your zone, can't send interzone message to %d:%d/%d\n\n",
                     adress[A_ZONE], adress[A_NET], adress[A_NODE]);
 	    mklog(1, "WARNING -- Don't know your zone, can't send interzone message to %d:%d/%d",
 		    adress[A_ZONE], adress[A_NET], adress[A_NODE]);

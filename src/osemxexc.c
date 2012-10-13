@@ -1,6 +1,7 @@
-/* $Id: osemxexc.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: osemxexc.c,v 1.2 2012/10/13 00:17:24 ozzmosis Exp $ */
 
 #include <process.h>
+#include "mklog.h"
 
 /* spawn sub-process (currently used for compress/decompress tool) */
 int os_spawn(const char *command, const char *cmdline)
@@ -48,7 +49,6 @@ int os_spawn(const char *command, const char *cmdline)
     }
     else if (rc != 0)
     {
-        printf("os_spawn: program not found\n");
 	mklog(0, "os_spawn: program not found");
         return -1;
     }

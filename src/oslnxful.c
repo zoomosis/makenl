@@ -1,7 +1,9 @@
-/* $Id: oslnxful.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: oslnxful.c,v 1.2 2012/10/13 00:17:24 ozzmosis Exp $ */
 
 #define HAVE_OS_FULLPATH
 #include <unistd.h>
+
+#include "mklog.h"
 
 #ifdef DMALLOC
 #include "dmalloc.h"
@@ -34,7 +36,6 @@ int os_fullpath(char *dst, const char *src, size_t bufsize)
     if (getcwd(dir, MYMAXDIR) == NULL
         || strlen(dir) + strlen(name) + strlen(ext) > bufsize)
     {
-        fprintf(stderr, "Directory name for %s too long!\n", src);
 	mklog(0, "Directory name for %s too long!", src);
         chdir(olddir);
         return -1;

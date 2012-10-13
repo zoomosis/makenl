@@ -1,4 +1,4 @@
-/* $Id: merge.c,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+/* $Id: merge.c,v 1.2 2012/10/13 00:17:24 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdio.h>
@@ -37,13 +37,6 @@ FILE *PrepareMerge(void)
         return 0;
     if (MyAddress[A_NET] == 0)
     {
-#ifdef BENS_TYPOS
-        fprintf(stderr,
-                "WARNING - Your Net or Region number is unknown, Merge cnacled\n");
-#else
-        fprintf(stderr,
-                "WARNING - Your Net or Region number is unknown, Merge cancelled\n");
-#endif
 	mklog(0, "WARNING - Your Net or Region number is unknown, Merge cancelled");
         return 0;
     }
@@ -73,12 +66,8 @@ FILE *PrepareMerge(void)
     {
         swapext(MergeFilename, MergeFilename, NULL); /* Kill any extension */
 
-        fprintf(stderr, "Unable to find distribution file \"%s\"\n",
-          MergeFilename);
-        fputs("less than 3 weeks old.  Processing continues without merging.\n",
-          stderr);
-	mklog(0, "Unable to find distribution file \"%s\" less than 3 weeks old. Processing continues without merging",
-		MergeFilename);
+	mklog(0, "Unable to find distribution file \"%s\" less than 3 weeks old.", MergeFilename);
+	mklog(0, "Processing continues without merging");
         return 0;
     }
     MergeMakeAddr[A_ZONE] = MergeListAddr[A_ZONE] = MyAddress[A_ZONE];
@@ -115,9 +104,6 @@ FILE *PrepareMerge(void)
                 if (MergeMakeAddr[A_ZONE] == 0)
                 {
                     MergeMakeAddr[A_ZONE] = linenum;
-                    fprintf(stderr,
-                            "WARNING - Your Zone is unknown, assuming Zone %d for merge\n",
-                            MergeMakeAddr[A_ZONE]);
 		    mklog(0, "WARNING - Your Zone is unknown, assuming Zone %d for merge",
 			    MergeMakeAddr[A_ZONE]);
                 }

@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.3 2012/10/12 23:15:29 ozzmosis Exp $ */
+/* $Id: config.c,v 1.4 2012/10/13 00:17:24 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,7 +43,6 @@ static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
     {
         if (MakeType == -1)
         {
-            fprintf(stderr, "No MAKE specified -- nothing to make\n");
 	    mklog(0, "No MAKE specified -- nothing to make");
             mode = -1;
         }
@@ -52,20 +51,16 @@ static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
             if (mode == 0 && MakeSourceFile[0] == 0) /* No Source
                                                         specified */
             {
-                fprintf(stderr, "No input file or data specified\n");
 		mklog(0, "No input file or data specified");
                 mode = -1;
             }
             else if (mode == CFG_DATA && MakeSourceFile[0] != 0)
             {
-                fprintf(stderr,
-                        "Master input file and DATA stream both specified\n");
 		mklog(0, "Master input file and DATA stream both specified");
                 mode = -1;
             }
             else if (OutFile[0] == 0)
             {
-                fprintf(stderr, "No output file specified\n");
 		mklog(0, "No output file specified");
                 mode = -1;
             }
@@ -73,93 +68,59 @@ static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
             {
                 if (MasterDir[0] == 0)
                 {
-                    fprintf(stderr,
-                            "No directory for master files specified -- using \"%s\"\n",
-                            CurDir);
 		    mklog(0, "No directory for master files specified -- using \"%s\"",
 			    CurDir);
                     strcpy(MasterDir, CurDir);
                 }
                 if (OutDir[0] == 0)
                 {
-                    fprintf(stderr,
-                            "No directory for output file specified -- using \"%s\"\n",
-                            MasterDir);
 		    mklog(0, "No directory for output file specified -- using \"%s\"",
 			    MasterDir);
                     strcpy(OutDir, MasterDir);
                 }
                 if (UploadDir[0] != 0 && !strcmp(UploadDir, MasterDir))
                 {
-                    fprintf(stderr,
-                            "UPLoads and MASter both specify \"%s\"\n",
-                            MasterDir);
 		    mklog(0, "UPLoads and MASter both specify \"%s\"", MasterDir);
                     mode = -1;
                 }
                 else if (MailfileDir[0] != 0
                          && !strcmp(MailfileDir, MasterDir))
                 {
-                    fprintf(stderr,
-                            "MAIlfiles and MASter both specify \"%s\"\n",
-                            MasterDir);
-		    mklog(0, "MAIlfiles and MASter both specify \"%s\"",
-			    MasterDir);
+		    mklog(0, "MAIlfiles and MASter both specify \"%s\"", MasterDir);
                     mode = -1;
                 }
                 else if (UpdateDir[0] != 0
                          && !strcmp(UpdateDir, MasterDir))
                 {
-                    fprintf(stderr,
-                            "UPDate and MASter both specify \"%s\"\n",
-                            MasterDir);
-		    mklog(0, "UPDate and MASter both specify \"%s\"",
-			    MasterDir);
+		    mklog(0, "UPDate and MASter both specify \"%s\"", MasterDir);
                     mode = -1;
                 }
                 else if (UpdateDir[0] != 0 && UploadDir[0] != 0
                          && !strcmp(UpdateDir, UploadDir))
                 {
-                    fprintf(stderr,
-                            "UPLoads and UPDate both specify \"%s\"\n",
-                            UpdateDir);
-		    mklog(0, "UPLoads and UPDate both specify \"%s\"",
-			    UpdateDir);
+		    mklog(0, "UPLoads and UPDate both specify \"%s\"", UpdateDir);
                     mode = -1;
                 }
                 else if (UpdateDir[0] != 0 && MailfileDir[0] != 0
                          && !filecmp(UpdateDir, MailfileDir))
-                    /* FIXED BUG: The original read "MailfileDir != NULL" */
                 {
-                    fprintf(stderr,
-                            "UPDate and MAIlfiles both specify \"%s\"\n",
-                            UpdateDir);
-		    mklog(0,  "UPDate and MAIlfiles both specify \"%s\"",
-			    UpdateDir);
+		    mklog(0,  "UPDate and MAIlfiles both specify \"%s\"", UpdateDir);
                     mode = -1;
                 }
                 else if (UploadDir[0] != 0 && MailfileDir[0] != 0
                          && !filecmp(UpdateDir, MailfileDir))
                 {
-                    fprintf(stderr,
-                            "UPLoads and MAIlfiles both specify \"%s\"\n",
-                            UploadDir);
-		    mklog(0, "UPLoads and MAIlfiles both specify \"%s\"",
-			    UploadDir);
+		    mklog(0, "UPLoads and MAIlfiles both specify \"%s\"", UploadDir);
                     mode = -1;
                 }
             }
         }
         if (MakeType == 0 && Levels[LEVEL_TOP][0] == 0)
 	{
-            fprintf(stderr,
-                    "WARNING -- No net NAME given for list header (use /N or NAME verb)\n");
 	    mklog(0,  "WARNING -- No net NAME given for list header (use /N or NAME verb)");
 	}
         if (PrivateLevel > 0 && PrivateLevel < MakeType)
         {
-            fprintf(stderr,
-                    "PRIvate phone numbers referred to too high a level\n");
 	    mklog(0, "PRIvate phone numbers referred to too high a level");
             mode = -1;
         }
@@ -174,15 +135,11 @@ static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
         {
             if (MessageDir[0] == 0)
             {
-                fprintf(stderr,
-                        "No message directory specified for notification\n");
 		mklog(0, "No message directory specified for notification");
                 mode = -1;
             }
             else if (MyAddress[A_NET] == 0)
             {
-                fprintf(stderr,
-                        "No local \"From\" net address for notification messages.\n");
 		mklog(0, "No local \"From\" net address for notification messages.");
                 mode = -1;
             }
@@ -191,21 +148,17 @@ static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
                 SubmitAddress[A_ZONE] = MyAddress[A_ZONE];
             if (MailerFlags & MAIL_INTL && MyAddress[A_ZONE] == 0)
             {
-                fprintf(stderr,
-                        "Forced \"INTL\" kluge requested, but your zone is unknown.\n");
 		mklog(0, "Forced \"INTL\" kluge requested, but your zone is unknown.");
                 mode = -1;
             }
         }
 	if ((ArcCopySet == 0) && (ArcMoveSet == 1))
 	{
-	    fprintf(stderr, "\"ArcMove\" keyword found but no \"ArcCopy\" keyword.\n");
 	    mklog(0, "\"ArcMove\" keyword found but no \"ArcCopy\" keyword.");
 	    mode = -1;
 	}
 	if ((ArcCopySet == 1) && (ArcMoveSet == 0))
 	{
-	    fprintf(stderr, "\"ArcCopy\" keyword found but no \"ArcMove\" keyword.\n");
 	    mklog(0, "\"ArcCopy\" keyword found but no \"ArcMove\" keyword.");
 	    mode = -1;
 	}
@@ -566,8 +519,6 @@ int parsecfgfile(FILE * CFG)
         switchno = xlate_switch(strupr(command), CfgEntries);
         if (switchno == -1)
         {
-            fprintf(stderr, "%s\n  -- Unknown keyword -- \"%s\"\n",
-                    cfgline, command);
 	    mklog(0, "%s  -- Unknown keyword -- \"%s\"",
 		    cfgline, command);
             mode = -1;
@@ -582,7 +533,6 @@ int parsecfgfile(FILE * CFG)
         }
         if (arglimit[switchno].min > argcounter)
         {
-            fprintf(stderr, "%s\n -- Too few parameters\n", cfgline);
 	    mklog(0, "%s -- Too few parameters\n", cfgline);
             mode = -1;
             continue;
@@ -592,7 +542,6 @@ int parsecfgfile(FILE * CFG)
                                                                                     arguments... 
                                                                                   */
         {
-            fprintf(stderr, "%s\n -- Too many parameters\n", cfgline);
 	    mklog(0, "%s -- Too many parameters", cfgline);
             mode = -1;
             continue;
@@ -626,8 +575,6 @@ int parsecfgfile(FILE * CFG)
         case CFG_ARCOPEN:
 	    if (ArcOpenSet >= ARCUNPMAX)
 	    {
-		fprintf(stderr, "%s\n -- too many ArcOpen lines -- %d allowed\n",
-		                            cfgline, ArcOpenSet);
 		mklog(0, "%s -- too many ArcOpen lines -- %d allowed",
 			cfgline, ArcOpenSet);
 	        mode = -1;
@@ -649,7 +596,6 @@ int parsecfgfile(FILE * CFG)
 	    /* Parse comma separated list of baudrates, maximum twelve */
 	    if (argcounter != 2)
 	    {
-		fprintf(stderr, "%s -- wrong number of arguments\n", cfgline);
 		mklog(0, "%s -- wrong number of arguments", cfgline);
 		mode = -1;
 	    }
@@ -668,7 +614,6 @@ int parsecfgfile(FILE * CFG)
 		{
 		    if (! isdigit((unsigned char)p[j]))
 		    {
-			fprintf(stderr, "%s -- invalid baudrate argument\n", cfgline);
 			mklog(0, "%s -- invalid baudrate argument", cfgline);
 			mode = -1;
 			break;
@@ -693,8 +638,6 @@ int parsecfgfile(FILE * CFG)
 		loglevel = args[0][0] - '0';
 	    else
 	    {
-		fprintf(stderr,
-		    "LOGLEVEL argument \"%s\" not in range 1 to 4\n", args[0]);
 		mklog(0, "LOGLEVEL argument \"%s\" not in range 1 to 4", args[0]);
 		mode = -1;
 	    }
@@ -721,8 +664,6 @@ int parsecfgfile(FILE * CFG)
             MakeType = xlate_switch(strupr(args[0]), MakeTypes);
             if (MakeType == -1)
             {
-                fprintf(stderr, "%s\n -- Don't know how to make \"%s\"\n",
-                        cfgline, args[0]);
 		mklog(0, "%s -- Don't know how to make \"%s\"",
 			cfgline, args[0]);
                 mode = -1;
@@ -744,9 +685,6 @@ int parsecfgfile(FILE * CFG)
                         strcpy(MakeSourceFile, args[2]);
                     else
                     {
-                        fprintf(stderr,
-                                "%s\n -- Invalid file name -- \"%s\"\n",
-                                cfgline, args[2]);
 			mklog(0, "%s -- Invalid file name -- \"%s\"",
 				cfgline, args[2]);
                         mode = -1;
@@ -755,7 +693,6 @@ int parsecfgfile(FILE * CFG)
             }
             else /* making composite list */ if (argcounter > 2)
             {
-                fprintf(stderr, "%s\n -- To many parameters\n", cfgline);
 		mklog(0, "%s -- To many parameters", cfgline);
                 mode = -1;
             }
@@ -771,9 +708,6 @@ int parsecfgfile(FILE * CFG)
                 Minphone = args[0][0] - '0';
             else
             {
-                fprintf(stderr,
-                        "MINPHONE argument \"%s\" not in range 1 to 9\n",
-                        args[0]);
 		mklog(0, "MINPHONE argument \"%s\" not in range 1 to 9",
 		    args[0]);
                 mode = -1;
@@ -784,9 +718,6 @@ int parsecfgfile(FILE * CFG)
                 Alphaphone = args[0][0] - '0';
             else
             {
-                fprintf(stderr,
-                        "ALPHAPHONE argument \"%s\" must be 0 or 1\n",
-                        args[0]);
 		mklog(0, "ALPHAPHONE argument \"%s\" must be 0 or 1",
 			args[0]);
                 mode = -1;
@@ -797,9 +728,6 @@ int parsecfgfile(FILE * CFG)
                 Allowunpub = args[0][0] - '0';
             else
             {
-                fprintf(stderr,
-                        "ALLOWUNPUB argument \"%s\" must be 0 or 1\n",
-                        args[0]);
 		mklog(0, "ALLOWUNPUB argument \"%s\" must be 0 or 1",
 			args[0]);
                 mode = -1;
@@ -810,9 +738,6 @@ int parsecfgfile(FILE * CFG)
 		ForceSubmit = args[0][0] - '0';
 	    else
 	    {
-		fprintf(stderr,
-		    "FORCESUBMIT argument \"%s\" must be 0 or 1\n",
-		    args[0]);
 		mklog(0, "FORCESUBMIT argument \"%s\" must be 0 or 1",
 		    args[0]);
 		mode = -1;
@@ -826,8 +751,6 @@ int parsecfgfile(FILE * CFG)
             if ((process_day =
                  xlate_switch(strupr(args[0]), DOWSwitchTab)) == -1)
             {
-                fprintf(stderr, "%s\n -- Invalid day of week \"%s\"\n",
-                        cfgline, args[0]);
 		mklog(0, "%s -- Invalid day of week \"%s\"",
 			cfgline, args[0]);
                 mode = -1;
@@ -842,8 +765,6 @@ int parsecfgfile(FILE * CFG)
             NewExtWDay = xlate_switch(strupr(args[0]), DOWSwitchTab);
             if (NewExtWDay == -1)
             {
-                fprintf(stderr, "%s\n -- Invalid day of week \"%s\"\n",
-                        cfgline, args[0]);
 		mklog(0, "%s -- Invalid day of week \"%s\"",
 			cfgline, args[0]);
                 mode = -1;
@@ -856,8 +777,6 @@ int parsecfgfile(FILE * CFG)
             PointLevel = xlate_switch(strupr(args[0]), PointDisp);
             if (PointLevel == -1)
             {
-                fprintf(stderr, "%s\n -- Invalid argument \"%s\"\n",
-                        cfgline, args[0]);
 		mklog(0, "%s -- Invalid argument \"%s\"",
 			cfgline, args[0]);
                 mode = -1;
@@ -868,8 +787,6 @@ int parsecfgfile(FILE * CFG)
             PrivateLevel = xlate_switch(strupr(args[0]), PrivateDisp);
             if (PrivateLevel == -1)
             {
-                fprintf(stderr, "%s\n -- Invalid argument \"%s\"\n",
-                        cfgline, args[0]);
 		mklog(0, "%s -- Invalid argument \"%s\"",
 			cfgline, args[0]);
                 mode = -1;
@@ -885,8 +802,6 @@ int parsecfgfile(FILE * CFG)
                 (cfgline, "%s %ld %ld%1s", command, &ARCThreshold,
                  &DIFFThreshold, foo) != argcounter || foo[0] != 0)
             {
-                fprintf(stderr, "%s\n -- Invalid threshold number(s)\n",
-                        cfgline);
 		mklog(0, "%s -- Invalid threshold number(s)", cfgline);
                 mode = -1;
             }
@@ -894,9 +809,6 @@ int parsecfgfile(FILE * CFG)
                 DIFFThreshold = ARCThreshold * 5 / 3;
             else if (ARCThreshold > DIFFThreshold && DIFFThreshold != -1)
             {
-                fprintf(stderr,
-                        "%s\n -- Archive threshold must not be greater than Diff threshold\n",
-                        cfgline);
 		mklog(0, "%s -- Archive threshold must not be greater than Diff threshold",
 			cfgline);
                 mode = -1;
@@ -912,18 +824,13 @@ int parsecfgfile(FILE * CFG)
             os_filecanonify(args[0]);
             if (GetPath(args[0], switchno) == 0)
             {
-                fprintf(stderr, "%s\n -- Invalid Path -- \"%s\"\n",
-                        cfgline, args[0]);
-		mklog(0, "%s -- Invalid Path -- \"%s\"",
-			cfgline, args[0]);
+		mklog(0, "%s -- Invalid Path -- \"%s\"", cfgline, args[0]);
                 mode = -1;
             }
             break;
         case CFG_OUTDIFF:
             if (strchr(args[0], '.') != NULL)
             {
-                fprintf(stderr, "%s must contain a generic file name\n",
-                        command);
 		mklog(0, "%s must contain a generic file name", command);
                 mode = -1;
             }
@@ -940,8 +847,6 @@ int parsecfgfile(FILE * CFG)
                 strcpy(workptr, args[0]);
             else
             {
-                fprintf(stderr, "%s\n -- Invalid file name -- \"%s\"\n",
-                        cfgline, args[0]);
 		mklog(0, "%s -- Invalid file name -- \"%s\"",
 			cfgline, args[0]);
                 mode = -1;
@@ -971,9 +876,6 @@ int parsecfgfile(FILE * CFG)
                 if (ParseAddress(args[0], SubmitAddress) != 0)
                 {
                   BadAddress:
-                    fprintf(stderr,
-                            "%s\n -- Invalid network address -- \"%s\"\n",
-                            cfgline, args[0]);
 		    mklog(0, "%s -- Invalid network address -- \"%s\"",
 			    cfgline, args[0]);
                     mode = -1;
@@ -985,9 +887,6 @@ int parsecfgfile(FILE * CFG)
                 switch (xlate_switch(strupr(args[0]), NotifyType))
                 {
                 case -1:
-                    fprintf(stderr,
-                            "%s\n -- Bad SEND parameter -- \"%s\"\n",
-                            cfgline, args[0]);
 		    mklog(0, "%s -- Bad SEND parameter -- \"%s\"",
 			    cfgline, args[0]);
                     mode = -1;
@@ -1012,8 +911,6 @@ int parsecfgfile(FILE * CFG)
             MailerFlags |= notifybits;
             if (workptr)        /* Pointing to an invalid flag */
             {
-                fprintf(stderr, "%s\n -- Bad message flag -- \"%s\"\n",
-                        cfgline, workptr);
 		mklog(0, "%s -- Bad message flag -- \"%s\"",
 			cfgline, workptr);
                 mode = -1;

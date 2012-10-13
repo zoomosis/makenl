@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.5 2012/10/12 23:01:30 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.6 2012/10/13 00:17:24 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,24 +45,13 @@ void mklog(int level, const char *format, ...)
     va_list va_ptr;
     FILE *fp;
     
-    if (level > loglevel)
-    {
-	/* log level is higher than global log level */
-	return;
-    }
-    
-    if (*LogFile == '\0')
-    {
-	/* empty log filename */
-	return;
-    }
-    
     if (format == NULL)
     {
 	/* avoid segfault */
+	die(0xFF, 1, "Logic error: Bad format specifier in mklog()");
 	return;
     }
-    
+
     /* Open in textmode, gives the correct lineendings on all OSes. */
 
     fp = fopen(LogFile, "a");
@@ -70,6 +59,7 @@ void mklog(int level, const char *format, ...)
     if (fp == NULL)
     {
 	die(0xFF, 1, "Cannot open logfile \"%s\"", LogFile);
+	return;
     }
 
     va_start(va_ptr, format);
@@ -81,16 +71,24 @@ void mklog(int level, const char *format, ...)
 #else
     fprintf(fp, "%c %s makenl: ", logmark[level], date_str());
 #endif
-    fprintf(fp, "%s", *outstr == '$' ? outstr+1 : outstr);
 
+    fprintf(fp, "%s", *outstr == '$' ? outstr + 1 : outstr);
+
+    if (level == 0)
+    {
+	fprintf(stderr, "%s", *outstr == '$' ? outstr + 1 : outstr);
+    }
+    
     if (*outstr == '$')
     {
-	fprintf(fp, ": %s\n", strerror(errno));
+	fprintf(fp,     ": %s\n", strerror(errno));
+	fprintf(stderr, ": %s\n", strerror(errno)); 
     }
     else
     {
 	fputc('\n', fp);
+	fputc('\n', stderr);
     }
-    
+
     fclose(fp);
 }

@@ -1,4 +1,4 @@
-/* $Id: mkdiff.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: mkdiff.c,v 1.2 2012/10/13 00:17:24 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -104,9 +104,6 @@ int makediff(char *filename)
     OldFile.theFILE = fopen(oldname, "rb");
     if (!OldFile.theFILE)
     {
-        fprintf(stderr,
-                "\nOld file \"%s\" does not exist, no difference file made\n",
-                oldname);
 	mklog(0, "Old file \"%s\" does not exist, no difference file made", oldname);
         return 0;
     }
@@ -141,8 +138,7 @@ int makediff(char *filename)
     }
     fputs(linebuf, DiffFILE);
 
-    fprintf(stdout,
-            "\nCreating difference file \"%s\" from \"%s\" and \"%s\"\n",
+    printf("\nCreating difference file \"%s\" from \"%s\" and \"%s\"\n",
             diffname, oldname, filename);
     mklog(1, "Creating difference file \"%s\" from \"%s\" and \"%s\"",
 	    diffname, oldname, filename);
@@ -162,8 +158,6 @@ int makediff(char *filename)
     }
     if (!OldFile.CollTbl)
     {
-        fprintf(stderr,
-                "Unable to allocate memory -- no difference file generated\n");
 	mklog(0, "Unable to allocate memory -- no difference file generated");
         fclose(OldFile.theFILE);
         fclose(NowFile.theFILE);

@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.2 2012/10/12 21:21:00 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.3 2012/10/13 00:17:24 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -140,7 +140,7 @@ int installlist(char *filename, char *extbfr)
 
     if (unchanged && (ShouldProcess & FORCED_PROCESSING) && ForceSubmit) 
     {
-	fputs("Unchanged output file will be forced submitted\n", stdout);
+	puts("Unchanged output file will be forced submitted");
 	mklog(1, "Unchanged output file will be forced submitted");
 	unchanged = 0;
     }
@@ -163,7 +163,7 @@ int installlist(char *filename, char *extbfr)
                 unlink(tmpname);
             }
         }
-        fputs("Unchanged output file will NOT be submitted.\n", stdout);
+        puts("Unchanged output file will NOT be submitted.");
 	mklog(1, "Unchanged output file will NOT be submitted");
     }
     else
@@ -434,12 +434,11 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
 	    }
 	    if (ArcOpen[0] == '\0')
 	    {
-		fprintf(stderr, "No ArcOpen command for \"%s\"\n", foundfile);
 		mklog(0, "No ArcOpen command for \"%s\"", foundfile);
 	    }
 	    else
 	    {
-		fprintf(stdout, "Attempting to unpack archive \"%s\"\n", foundfile);
+		printf("Attempting to unpack archive \"%s\"\n", foundfile);
 		mklog(1, "Attempting to unpack archive \"%s\"", foundfile);
 	    }
             myfnmerge(fnamebuf, NULL, path, NULL, NULL);
@@ -450,7 +449,6 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
 	     */
 	    if (chdir(fnamebuf))
 	    {
-		fprintf(stderr, "Can't chdir to \"%s\"\n", fnamebuf);
 		mklog(0, "Can't chdir to \"%s\"", fnamebuf);
 	    }
 	    else
@@ -460,7 +458,6 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
 		sprintf(cmdlinebuf, "%s", foundfile);
 		if ((ArcOpen[0] == '\0') || (os_spawn(ArcOpen, cmdlinebuf) != 0))
 		{
-		    fprintf(stderr, "Unable to unpack archive \"%s\".\n", foundfile);
 		    mklog(0, "Unable to unpack archive \"%s\"", foundfile);
 		    WorkFile = os_file_getname(foundfile);
 		    os_filecanonify(WorkFile);
@@ -480,8 +477,7 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
                                                                              file 
                                                                            */
         {
-            fprintf(stdout, "Attempting to apply difference file \"%s\"\n",
-                    foundfile);
+            printf("Attempting to apply difference file \"%s\"\n", foundfile);
 	    mklog(1, "Attempting to apply difference file \"%s\"", foundfile);
             extptr = OldExtensions;
             do
@@ -508,9 +504,7 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
             unlink(foundfile);
             if (searchwhere == 0)
             {
-                fprintf(stdout,
-                        "Unable to apply difference file \"%s\".  ",
-                        foundfile);
+                printf("Unable to apply difference file \"%s\".  ", foundfile);
 		mklog(1, "Unable to apply difference file \"%s\"", foundfile);
                 WorkFile = os_file_getname(foundfile);
                 os_filecanonify(WorkFile);
