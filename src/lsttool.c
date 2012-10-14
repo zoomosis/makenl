@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.6 2012/10/14 14:49:17 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.7 2012/10/14 14:56:24 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -115,7 +115,7 @@ int installlist(char *filename, char *extbfr)
     {
         tmpFILE = fopen(tmpname, "r");
         if (!tmpFILE)
-            die(254, "Unable to open new list \"%s\" for input\n",
+            die(254, "Unable to open new list '%s' for input\n",
                 tmpname);
         if (fgets(tmpline, linelength, tmpFILE)
             && fgets(oldline, linelength, oldFILE)
@@ -181,7 +181,7 @@ static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
     FILE *diffFILE;             /* 0x06 */
     int newcrc;                 /* 0x08 */
 
-    mklog(LOG_DEBUG, "applydiff \"%s\" to \"%s\"", diffname, outname);
+    mklog(LOG_DEBUG, "applydiff '%s' to '%s'", diffname, outname);
 
     diffFILE = fopen(diffname, "r");
     if (!diffFILE)
@@ -327,7 +327,7 @@ openlist(FILE ** listFILEptr, char *filename, char *foundfile, int where,
     char ext[MYMAXEXT];
     char name[MYMAXFILE + MYMAXEXT];
 
-    mklog(LOG_DEBUG, "openlist \"%s\", mustbenew %s", filename, mustbenew ? "yes":"no");
+    mklog(LOG_DEBUG, "openlist '%s', mustbenew %s", filename, mustbenew ? "yes":"no");
 
     myfnsplit(filename, NULL, NULL, name, ext);
     switch (where)
@@ -395,7 +395,7 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
     int i;
     char ArcOpen[ARCCMDMAX];
 
-    mklog(LOG_DEBUG, "searchlistfile: \"%s\" \"%s\" \"%s\" \"%s\" %d", path, foundfile, name, ext, unpackedonly);
+    mklog(LOG_DEBUG, "searchlistfile: '%s' '%s' '%s' '%s' %d", path, foundfile, name, ext, unpackedonly);
 
     if (path[0] == 0)
         return 0;
@@ -410,7 +410,7 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
             foundfile[0] = '\0';
             return 0;
         }
-        mklog(LOG_DEBUG, "searchlistfile(): found \"%s\"", findresult);
+        mklog(LOG_DEBUG, "searchlistfile(): found '%s'", findresult);
         getext(extbuf, findresult);
         myfnmerge(foundfile, NULL, path, findresult, NULL);
         os_deslashify(foundfile);
@@ -451,13 +451,13 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
                 sprintf(cmdlinebuf, "%s", foundfile);
                 if ((ArcOpen[0] == '\0') || (os_spawn(ArcOpen, cmdlinebuf) != 0))
                 {
-                    mklog(LOG_ERROR, "Unable to unpack archive \"%s\"", foundfile);
+                    mklog(LOG_ERROR, "Unable to unpack archive '%s'", foundfile);
                     WorkFile = os_file_getname(foundfile);
                     os_filecanonify(WorkFile);
                     *file = OpenMSGFile(NotifyAddress, NULL);
                     if (*file != NULL)
                     {
-                        fprintf(*file, "Unable to unpack archive \"%s\".\n", WorkFile);
+                        fprintf(*file, "Unable to unpack archive '%s'.\n", WorkFile);
                         fputs("Please resubmit it.", *file);
                         CloseMSGFile(1);
                     }
@@ -521,7 +521,7 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
             myfnmerge(foundfile, NULL, path, name, *extptr);
             os_deslashify(foundfile);
 justthisfile:
-            mklog(LOG_DEBUG, "searchlistfile: justthisfile, foundfile=\"%s\"", foundfile);
+            mklog(LOG_DEBUG, "searchlistfile: justthisfile, foundfile='%s'", foundfile);
             *file = fopen(foundfile, "rb");
             if (!*file)
                 return -1;

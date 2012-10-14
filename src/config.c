@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.10 2012/10/14 14:49:17 ozzmosis Exp $ */
+/* $Id: config.c,v 1.11 2012/10/14 14:56:24 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -67,49 +67,49 @@ static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
             {
                 if (MasterDir[0] == 0)
                 {
-                    mklog(LOG_ERROR, "No directory for master files specified -- using \"%s\"",
+                    mklog(LOG_ERROR, "No directory for master files specified -- using '%s'",
                             CurDir);
                     strcpy(MasterDir, CurDir);
                 }
                 if (OutDir[0] == 0)
                 {
-                    mklog(LOG_ERROR, "No directory for output file specified -- using \"%s\"",
+                    mklog(LOG_ERROR, "No directory for output file specified -- using '%s'",
                             MasterDir);
                     strcpy(OutDir, MasterDir);
                 }
                 if (UploadDir[0] != 0 && !strcmp(UploadDir, MasterDir))
                 {
-                    mklog(LOG_ERROR, "UPLoads and MASter both specify \"%s\"", MasterDir);
+                    mklog(LOG_ERROR, "UPLoads and MASter both specify '%s'", MasterDir);
                     mode = -1;
                 }
                 else if (MailfileDir[0] != 0
                          && !strcmp(MailfileDir, MasterDir))
                 {
-                    mklog(LOG_ERROR, "MAIlfiles and MASter both specify \"%s\"", MasterDir);
+                    mklog(LOG_ERROR, "MAIlfiles and MASter both specify '%s'", MasterDir);
                     mode = -1;
                 }
                 else if (UpdateDir[0] != 0
                          && !strcmp(UpdateDir, MasterDir))
                 {
-                    mklog(LOG_ERROR, "UPDate and MASter both specify \"%s\"", MasterDir);
+                    mklog(LOG_ERROR, "UPDate and MASter both specify '%s'", MasterDir);
                     mode = -1;
                 }
                 else if (UpdateDir[0] != 0 && UploadDir[0] != 0
                          && !strcmp(UpdateDir, UploadDir))
                 {
-                    mklog(LOG_ERROR, "UPLoads and UPDate both specify \"%s\"", UpdateDir);
+                    mklog(LOG_ERROR, "UPLoads and UPDate both specify '%s'", UpdateDir);
                     mode = -1;
                 }
                 else if (UpdateDir[0] != 0 && MailfileDir[0] != 0
                          && !filecmp(UpdateDir, MailfileDir))
                 {
-                    mklog(LOG_ERROR,  "UPDate and MAIlfiles both specify \"%s\"", UpdateDir);
+                    mklog(LOG_ERROR,  "UPDate and MAIlfiles both specify '%s'", UpdateDir);
                     mode = -1;
                 }
                 else if (UploadDir[0] != 0 && MailfileDir[0] != 0
                          && !filecmp(UpdateDir, MailfileDir))
                 {
-                    mklog(LOG_ERROR, "UPLoads and MAIlfiles both specify \"%s\"", UploadDir);
+                    mklog(LOG_ERROR, "UPLoads and MAIlfiles both specify '%s'", UploadDir);
                     mode = -1;
                 }
             }
@@ -523,7 +523,7 @@ int parsecfgfile(FILE * CFG)
         switchno = xlate_switch(strupr(command), CfgEntries);
         if (switchno == -1)
         {
-            mklog(LOG_ERROR, "%s  -- Unknown keyword -- \"%s\"",
+            mklog(LOG_ERROR, "%s  -- Unknown keyword -- '%s'",
                     cfgline, command);
             mode = -1;
             break;
@@ -642,7 +642,7 @@ int parsecfgfile(FILE * CFG)
             }
             else
             {
-                mklog(LOG_ERROR, "LOGLEVEL argument \"%s\" not in range 1 to 4", args[0]);
+                mklog(LOG_ERROR, "LOGLEVEL argument '%s' not in range 1 to 4", args[0]);
                 mode = -1;
             }
             break;
@@ -668,7 +668,7 @@ int parsecfgfile(FILE * CFG)
             MakeType = xlate_switch(strupr(args[0]), MakeTypes);
             if (MakeType == -1)
             {
-                mklog(LOG_ERROR, "%s -- Don't know how to make \"%s\"",
+                mklog(LOG_ERROR, "%s -- Don't know how to make '%s'",
                         cfgline, args[0]);
                 mode = -1;
             }
@@ -689,7 +689,7 @@ int parsecfgfile(FILE * CFG)
                         strcpy(MakeSourceFile, args[2]);
                     else
                     {
-                        mklog(LOG_ERROR, "%s -- Invalid file name -- \"%s\"",
+                        mklog(LOG_ERROR, "%s -- Invalid file name -- '%s'",
                                 cfgline, args[2]);
                         mode = -1;
                     }
@@ -712,7 +712,7 @@ int parsecfgfile(FILE * CFG)
                 Minphone = args[0][0] - '0';
             else
             {
-                mklog(LOG_ERROR, "MINPHONE argument \"%s\" not in range 1 to 9",
+                mklog(LOG_ERROR, "MINPHONE argument '%s' not in range 1 to 9",
                     args[0]);
                 mode = -1;
             }
@@ -722,7 +722,7 @@ int parsecfgfile(FILE * CFG)
                 Alphaphone = args[0][0] - '0';
             else
             {
-                mklog(LOG_ERROR, "ALPHAPHONE argument \"%s\" must be 0 or 1",
+                mklog(LOG_ERROR, "ALPHAPHONE argument '%s' must be 0 or 1",
                         args[0]);
                 mode = -1;
             }
@@ -732,7 +732,7 @@ int parsecfgfile(FILE * CFG)
                 Allowunpub = args[0][0] - '0';
             else
             {
-                mklog(LOG_ERROR, "ALLOWUNPUB argument \"%s\" must be 0 or 1",
+                mklog(LOG_ERROR, "ALLOWUNPUB argument '%s' must be 0 or 1",
                         args[0]);
                 mode = -1;
             }
@@ -742,7 +742,7 @@ int parsecfgfile(FILE * CFG)
                 ForceSubmit = args[0][0] - '0';
             else
             {
-                mklog(LOG_ERROR, "FORCESUBMIT argument \"%s\" must be 0 or 1",
+                mklog(LOG_ERROR, "FORCESUBMIT argument '%s' must be 0 or 1",
                     args[0]);
                 mode = -1;
             }
@@ -755,7 +755,7 @@ int parsecfgfile(FILE * CFG)
             if ((process_day =
                  xlate_switch(strupr(args[0]), DOWSwitchTab)) == -1)
             {
-                mklog(LOG_ERROR, "%s -- Invalid day of week \"%s\"",
+                mklog(LOG_ERROR, "%s -- Invalid day of week '%s'",
                         cfgline, args[0]);
                 mode = -1;
                 break;
@@ -769,7 +769,7 @@ int parsecfgfile(FILE * CFG)
             NewExtWDay = xlate_switch(strupr(args[0]), DOWSwitchTab);
             if (NewExtWDay == -1)
             {
-                mklog(LOG_ERROR, "%s -- Invalid day of week \"%s\"",
+                mklog(LOG_ERROR, "%s -- Invalid day of week '%s'",
                         cfgline, args[0]);
                 mode = -1;
                 break;
@@ -781,7 +781,7 @@ int parsecfgfile(FILE * CFG)
             PointLevel = xlate_switch(strupr(args[0]), PointDisp);
             if (PointLevel == -1)
             {
-                mklog(LOG_ERROR, "%s -- Invalid argument \"%s\"",
+                mklog(LOG_ERROR, "%s -- Invalid argument '%s'",
                         cfgline, args[0]);
                 mode = -1;
                 break;
@@ -791,7 +791,7 @@ int parsecfgfile(FILE * CFG)
             PrivateLevel = xlate_switch(strupr(args[0]), PrivateDisp);
             if (PrivateLevel == -1)
             {
-                mklog(LOG_ERROR, "%s -- Invalid argument \"%s\"",
+                mklog(LOG_ERROR, "%s -- Invalid argument '%s'",
                         cfgline, args[0]);
                 mode = -1;
                 break;
@@ -828,7 +828,7 @@ int parsecfgfile(FILE * CFG)
             os_filecanonify(args[0]);
             if (GetPath(args[0], switchno) == 0)
             {
-                mklog(LOG_ERROR, "%s -- Invalid Path -- \"%s\"", cfgline, args[0]);
+                mklog(LOG_ERROR, "%s -- Invalid Path -- '%s'", cfgline, args[0]);
                 mode = -1;
             }
             break;
@@ -851,7 +851,7 @@ int parsecfgfile(FILE * CFG)
                 strcpy(workptr, args[0]);
             else
             {
-                mklog(LOG_ERROR, "%s -- Invalid file name -- \"%s\"",
+                mklog(LOG_ERROR, "%s -- Invalid file name -- '%s'",
                         cfgline, args[0]);
                 mode = -1;
             }
@@ -880,7 +880,7 @@ int parsecfgfile(FILE * CFG)
                 if (ParseAddress(args[0], SubmitAddress) != 0)
                 {
                   BadAddress:
-                    mklog(LOG_ERROR, "%s -- Invalid network address -- \"%s\"",
+                    mklog(LOG_ERROR, "%s -- Invalid network address -- '%s'",
                             cfgline, args[0]);
                     mode = -1;
                     break;
@@ -891,7 +891,7 @@ int parsecfgfile(FILE * CFG)
                 switch (xlate_switch(strupr(args[0]), NotifyType))
                 {
                 case -1:
-                    mklog(LOG_ERROR, "%s -- Bad SEND parameter -- \"%s\"",
+                    mklog(LOG_ERROR, "%s -- Bad SEND parameter -- '%s'",
                             cfgline, args[0]);
                     mode = -1;
                     break;
@@ -915,7 +915,7 @@ int parsecfgfile(FILE * CFG)
             MailerFlags |= notifybits;
             if (workptr)        /* Pointing to an invalid flag */
             {
-                mklog(LOG_ERROR, "%s -- Bad message flag -- \"%s\"",
+                mklog(LOG_ERROR, "%s -- Bad message flag -- '%s'",
                         cfgline, workptr);
                 mode = -1;
             }

@@ -1,4 +1,4 @@
-/* $Id: upcont.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: upcont.c,v 1.2 2012/10/14 14:56:24 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdio.h>
@@ -68,13 +68,13 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
     }
     if (maketype > level)
     {
-        sprintf(ErrorMessage, "Unexpected \"%s\" statement in %s file",
+        sprintf(ErrorMessage, "Unexpected '%s' statement in %s file",
                 Levels[level], LevelsSimple[maketype]);
         return 2;
     }
     if (level == maketype && maketype != LEVEL_NODE)
     {
-        sprintf(ErrorMessage, "Multiple \"%s\" statememts",
+        sprintf(ErrorMessage, "Multiple '%s' statememts",
                 (maketype > LEVEL_HUB) ? "Node" : Levels[maketype]);
         return 2;
     }
@@ -144,7 +144,7 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
       check_level:
         if (OnTop[level] > *ctxlevel)
         {
-            sprintf(ErrorMessage, "\"%s\" not allowed in a %s",
+            sprintf(ErrorMessage, "'%s' not allowed in a %s",
                     Levels[level], LevelsSimple[*ctxlevel]);
             if (level > LEVEL_HOST)
                 return 1;

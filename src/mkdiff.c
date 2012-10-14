@@ -1,4 +1,4 @@
-/* $Id: mkdiff.c,v 1.5 2012/10/14 14:49:17 ozzmosis Exp $ */
+/* $Id: mkdiff.c,v 1.6 2012/10/14 14:56:24 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -104,17 +104,17 @@ int makediff(char *filename)
     OldFile.theFILE = fopen(oldname, "rb");
     if (!OldFile.theFILE)
     {
-        mklog(LOG_ERROR, "Old file \"%s\" does not exist, no difference file made", oldname);
+        mklog(LOG_ERROR, "Old file '%s' does not exist, no difference file made", oldname);
         return 0;
     }
 
     NowFile.theFILE = fopen(filename, "rb");
     if (!NowFile.theFILE)
-        die(254, "Unable to open new node list -- \"%s\"\n", filename);
+        die(254, "Unable to open new node list -- '%s'\n", filename);
 
     DiffFILE = fopen(diffname, "wb");
     if (!DiffFILE)
-        die(254, "Unable to create difference file -- \"%s\"\n", diffname);
+        die(254, "Unable to create difference file -- '%s'\n", diffname);
 
     /* skip first line of new file */
     if (!fgets(linebuf, linelength, NowFile.theFILE))

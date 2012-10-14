@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.4 2012/10/14 14:49:17 ozzmosis Exp $ */
+/* $Id: process.c,v 1.5 2012/10/14 14:56:24 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -74,7 +74,7 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
             die(255, "%s\n -- Too few parameters -- Statement ignored\n", linebuf);
         subfile_level = xlate_switch(command, MakeTypes);
         if (MakeType >= subfile_level)
-            die(255, "%s\n -- \"%s\" is invalid list type -- Statement ignored\n",
+            die(255, "%s\n -- '%s' is invalid list type -- Statement ignored\n",
                 linebuf, command);
         if (subfile_level < LEVEL_HOST)
         {
@@ -91,7 +91,7 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
         if (fieldno >= 4)
         {
             if (ParseAddress(notifyaddr, NotifyAddress) != 0)
-                die(255, "Invalid NOTIFY address \"%s\" ignored\n", notifyaddr);
+                die(255, "Invalid NOTIFY address '%s' ignored\n", notifyaddr);
             UsualMSGFlags = MailerFlags & (MF_ERRORS | MF_RECEIPT);
         }
         else
@@ -323,7 +323,7 @@ processfile(int myMakeType, int myMakeNum, FILE * InputFILE,
     {
         unmarkstack();          /* Throw away any numbers of this file */
         sprintf(InputLine,
-                "Fatal error(s) caused file \"%s\" to be rejected\r\n",
+                "Fatal error(s) caused file '%s' to be rejected\r\n",
                 WorkFile);
         fputs(InputLine, stdout);
         if (SelfMsgFILE)

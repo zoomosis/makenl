@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.4 2012/10/14 14:49:17 ozzmosis Exp $ */
+/* $Id: output.c,v 1.5 2012/10/14 14:56:24 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -125,7 +125,7 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
         strcat(linebegin, "\r\n");
         *crc = CRC16String(linebegin, *crc);
         if (fputs(linebegin, output) == EOF)
-            die(254, "Write error on \"%s\"", OutFile);
+            die(254, "Write error on '%s'", OutFile);
         lineno++;
     }
     fclose(CopyFILE);
