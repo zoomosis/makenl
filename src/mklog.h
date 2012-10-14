@@ -1,8 +1,5 @@
-/* $Id: mklog.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
-
-#define MAKE_SS(x) (x)?(x):"(null)"
+/* $Id: mklog.h,v 1.2 2012/10/14 14:07:22 ozzmosis Exp $ */
 
 extern int loglevel;
 
-void mklog(int, const char *, ...);
-
+void mklog(int level, const char *format, ...)

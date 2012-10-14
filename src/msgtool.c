@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.7 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.8 2012/10/14 14:07:22 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -97,7 +97,7 @@ int SearchMaxMSG(const char *path)
     }
     os_findclose(&f);
 
-    mklog(4, "SearchMaxMSG: path=%s, result=%d", MAKE_SS(path), maxnum);
+    mklog(4, "SearchMaxMSG: path=%s, result=%d", make_str_safe(path), maxnum);
     return maxnum;
 }
 
@@ -157,7 +157,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
 
     mklog(4, "OpenMSGFile entered");        // MB
     mklog(3, "OpenMSGFile: %d:%d/%d filename=%s", address[A_ZONE],
-            address[A_NET], address[A_NODE], MAKE_SS(filename));
+            address[A_NET], address[A_NODE], make_str_safe(filename));
 
     mklog(4, "SearchMaxMSG(%s)", MessageDir); // MB
     MSGnum = SearchMaxMSG(MessageDir);

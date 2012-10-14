@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.3 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: fileutil.c,v 1.4 2012/10/14 14:07:22 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -107,7 +107,7 @@ myfnmerge(char *output, const char *drive, const char *dir,
     int lenleft;
 
     mklog(4, "myfnmerge: drive=\"%s\" dir=\"%s\" name=\"%s\" ext=\"%s\"", 
-            MAKE_SS(drive), MAKE_SS(dir), MAKE_SS(name), MAKE_SS(ext));
+      make_str_safe(drive), make_str_safe(dir), make_str_safe(name), make_str_safe(ext));
 
     lenleft = MYMAXDIR - 1;
     if (drive && *drive != 0)
