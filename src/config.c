@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.12 2012/10/14 14:59:08 ozzmosis Exp $ */
+/* $Id: config.c,v 1.13 2012/10/14 15:24:21 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -632,7 +632,8 @@ int parsecfgfile(FILE * CFG)
         case CFG_LOGFILE:
             strcpy(LogFile, args[0]);
             /* Now we know the logfile, start logging immediately */
-            mklog(LOG_INFO, "MakeNL %s (%s %s) started", MAKENL_VERSION, MAKENL_OS, MAKENL_CC);
+            mklog(LOG_LOGONLY, MAKENL_LONG_VERSION);
+            mklog(LOG_INFO, "MakeNL started");
             break;
         case CFG_LOGLEVEL:
             if (args[0][0] >= '1' && args[0][0] <= '4' && args[0][1] == 0)

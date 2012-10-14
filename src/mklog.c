@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.15 2012/10/14 15:05:36 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.16 2012/10/14 15:24:21 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -98,7 +98,7 @@ void mklog(int level, const char *format, ...)
         std_fp = stdout;
     }
 
-    if (level < LOG_DEBUG || debug_mode)
+    if (level < LOG_LOGONLY || debug_mode)
     {
         fprintf(std_fp, "%s", *outstr == '$' ? outstr + 1 : outstr);
     }
@@ -117,7 +117,7 @@ void mklog(int level, const char *format, ...)
         fclose(log_fp);
     }
 
-    if (level < LOG_DEBUG || debug_mode)
+    if (level < LOG_LOGONLY || debug_mode)
     {
         if (*outstr == '$')
         {
