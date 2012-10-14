@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.3 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: process.c,v 1.4 2012/10/14 14:49:17 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -116,19 +116,15 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
             os_filecanonify(foundfile);
             if (searchwhere > 0)
             {
-                fprintf(stdout, "Processing %-8s%5d -- file %s\n",
-                        *subleveltxt, num, foundfile);
-                mklog(1, "Processing %-8s%5d -- file %s", *subleveltxt, num, foundfile);
-                if (UsualMSGFlags != 0 && searchwhere < SEARCH_UPDATE + 1) /* newly 
-                                                                              received 
-                                                                              file 
-                                                                            */
+                mklog(LOG_INFO, "Processing %-8s%5d -- file '%s'", *subleveltxt, num, foundfile);
+                if (UsualMSGFlags != 0 && searchwhere < SEARCH_UPDATE + 1) 
                 {
+                    /* newly received file */
                     NotifyMsgFILE = OpenMSGFile(NotifyAddress, NULL);
                     if (NotifyMsgFILE)
-                        fprintf(NotifyMsgFILE,
-                                "Your nodelist update, %s, has been received",
-                                WorkFile);
+		    {
+                        fprintf(NotifyMsgFILE, "Your nodelist update '%s' has been received", WorkFile);
+		    }
                 }
                 commFILE =
                     (searchwhere ==
@@ -163,10 +159,7 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
         case 0:                /* not found */
             if (!ShouldProcess)
                 break;
-            fprintf(stdout, "No file found for %s %d file %s\n",
-                    LevelsSimple[subfile_level], num, filename);
-            mklog(1, "No file found for %s %d file %s",
-                    LevelsSimple[subfile_level], num, filename);
+            mklog(LOG_INFO, "No file found for %s %d file '%s'", LevelsSimple[subfile_level], num, filename);
             break;
         case SEARCH_UPLOAD + 1:
             cleanold(MailfileDir, filename, NULL);

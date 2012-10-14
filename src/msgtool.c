@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.8 2012/10/14 14:07:22 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.9 2012/10/14 14:49:17 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -59,7 +59,7 @@ static unsigned long GetSequence(void)
     if ((fp = fopen(seqfile, "r+")) == NULL) {
         seq = (unsigned long)time(NULL);
         if ((fp = fopen(seqfile, "w+")) == NULL) {
-            mklog(0, "Can't create %s", seqfile);
+            mklog(LOG_ERROR, "Can't create %s", seqfile);
             return seq;
         } else {
             fwrite(&seq, 1, sizeof(seq), fp);
@@ -97,7 +97,7 @@ int SearchMaxMSG(const char *path)
     }
     os_findclose(&f);
 
-    mklog(4, "SearchMaxMSG: path=%s, result=%d", make_str_safe(path), maxnum);
+    mklog(LOG_DEBUG, "SearchMaxMSG: path=%s, result=%d", make_str_safe(path), maxnum);
     return maxnum;
 }
 
@@ -155,13 +155,13 @@ FILE *OpenMSGFile(int address[3], char *filename)
 
     FixStack = NULL;    /* BUGFIXED 2012-06-28 us filepointer/stack fix */
 
-    mklog(4, "OpenMSGFile entered");        // MB
-    mklog(3, "OpenMSGFile: %d:%d/%d filename=%s", address[A_ZONE],
+    mklog(LOG_DEBUG, "OpenMSGFile entered");        // MB
+    mklog(LOG_DEBUG, "OpenMSGFile: %d:%d/%d filename=%s", address[A_ZONE],
             address[A_NET], address[A_NODE], make_str_safe(filename));
 
-    mklog(4, "SearchMaxMSG(%s)", MessageDir); // MB
+    mklog(LOG_DEBUG, "SearchMaxMSG(%s)", MessageDir); // MB
     MSGnum = SearchMaxMSG(MessageDir);
-    mklog(4, "OpenMSGFile: MSGnum is set to %d", MSGnum);
+    mklog(LOG_DEBUG, "OpenMSGFile: MSGnum is set to %d", MSGnum);
 
     memset(&filenamebuf, 0, sizeof(filenamebuf));
     memset(&msgbuf, 0, sizeof(msgbuf));
@@ -237,10 +237,8 @@ FILE *OpenMSGFile(int address[3], char *filename)
     {
         if (MyAddress[A_ZONE] == 0)
         {
-            printf("\nWARNING -- Don't know your zone, can't send interzone message to %d:%d/%d\n\n",
-                    address[A_ZONE], address[A_NET], address[A_NODE]);
-            mklog(1, "WARNING -- Don't know your zone, can't send interzone message to %d:%d/%d",
-                    address[A_ZONE], address[A_NET], address[A_NODE]);
+            mklog(LOG_INFO, "WARNING -- Don't know your zone, can't send interzone message to %d:%d/%d",
+              address[A_ZONE], address[A_NET], address[A_NODE]);
             return (MailFILE = NULL);
         }
         sprintf(intlline, "\x01INTL %d:%d/%d %d:%d/%d\r\n", address[A_ZONE],
@@ -251,7 +249,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
     if (!MailFILE)
         die(254, "Cannot create %s", filenamebuf);
     MSGnum++;
-    mklog(3, "OpenMSGFile: opened %s, MSGnum %d", filenamebuf, MSGnum);
+    mklog(LOG_DEBUG, "OpenMSGFile: opened %s, MSGnum %d", filenamebuf, MSGnum);
     
     fwrite(&msgbuf, sizeof(msgbuf), 1, MailFILE);
     fputs(intlline, MailFILE);
@@ -259,11 +257,11 @@ FILE *OpenMSGFile(int address[3], char *filename)
             MyAddress[A_NET], MyAddress[A_NODE], GetSequence());
     if (!filename)
     {
-        mklog(4, "OpenMSGFile: return with open MailFILE");
+        mklog(LOG_DEBUG, "OpenMSGFile: return with open MailFILE");
         return MailFILE;
     }
     fclose(MailFILE);
-    mklog(4, "OpenMSGFile: closed, seems Ok");
+    mklog(LOG_DEBUG, "OpenMSGFile: closed, seems Ok");
     return (FILE *) ! NULL;     /* Just say OK - but it *smells* */
 }
 
@@ -274,11 +272,11 @@ FILE *CloseMSGFile(int status)
     char filename[MYMAXDIR];
     int        i, temp = 0;
 
-    mklog(3, "CloseMSGFile: status=%d", status);
+    mklog(LOG_DEBUG, "CloseMSGFile: status=%d", status);
 
     if (MailFILE != NULL)
     {
-        mklog(4, "CloseMSGFile: MailFILE is open");
+        mklog(LOG_DEBUG, "CloseMSGFile: MailFILE is open");
         if (status >= 0)
         {
             if (status != 0)
@@ -299,7 +297,7 @@ FILE *CloseMSGFile(int status)
             }
             if (MSGFlags)
             {
-                mklog(4, "CloseMSGFile: MSGFlags != 0");
+                mklog(LOG_DEBUG, "CloseMSGFile: MSGFlags != 0");
                 putc(0, MailFILE);
                 fseek(MailFILE, 0L, SEEK_SET);
                 temp |=
@@ -313,15 +311,15 @@ FILE *CloseMSGFile(int status)
             else
                 status = -1;
         }
-        mklog(4, "CloseMSGFile: closing file, status is now %d, MSGnum=%d", status, MSGnum);
+        mklog(LOG_DEBUG, "CloseMSGFile: closing file, status is now %d, MSGnum=%d", status, MSGnum);
         fclose(MailFILE);
         if (status < 0)
         {
             unlink(MakeMSGFilename(filename, MSGnum--));
-            mklog(3, "CloseMSGFile: unlink %s", filename);
+            mklog(LOG_DEBUG, "CloseMSGFile: unlink %s", filename);
         }
     }
-    mklog(4, "CloseMSGFile: MSGnum=%d", MSGnum);
+    mklog(LOG_DEBUG, "CloseMSGFile: MSGnum=%d", MSGnum);
     MailFILE = NULL;
     return MailFILE;
 }
@@ -334,7 +332,7 @@ char *MakeMSGFilename(char *outbuf, int num)
 
     sprintf(buffer, "%u", num);
     myfnmerge(outbuf, NULL, MessageDir, buffer, "msg");
-    mklog(4, "MakeMSGFilenam: num=%d MSGnum=%d", num, MSGnum);
+    mklog(LOG_DEBUG, "MakeMSGFilenam: num=%d MSGnum=%d", num, MSGnum);
     return outbuf;
 }
 

@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.5 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.6 2012/10/14 14:49:17 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,7 +54,7 @@ int makearc(char *filename, int move)
 
     if (filesize(filename) <= ARCThreshold || ARCThreshold == -1)
     {
-        mklog(3, "Skip arc for %s", filename);
+        mklog(LOG_DEBUG, "Skip arc for %s", filename);
         return 0;
     }
 
@@ -75,12 +75,10 @@ int makearc(char *filename, int move)
     myfnmerge(fullpath, NULL, OutDir, name, ext);
     os_filecanonify(fullpath);
     os_filecanonify(filename);
-    mklog(1, "Creating archive \"%s\" containing \"%s\"", fullpath, filename);
-    fprintf(stdout, "\nCreating archive \"%s\" containing \"%s\"\n",
-            fullpath, filename);
+    mklog(LOG_INFO, "Creating archive '%s' containing '%s'", fullpath, filename);
     sprintf(cmdlinebuf, "%s %s", fullpath, filename);
     if (os_spawn(arccommand, cmdlinebuf) != 0)
-        die(0xFD, "Unable to create archive \"%s\"", fullpath);
+        die(0xFD, "Unable to create archive '%s'", fullpath);
     strcpy(filename, fullpath);
     return 1;
 }
@@ -140,8 +138,7 @@ int installlist(char *filename, char *extbfr)
 
     if (unchanged && (ShouldProcess & FORCED_PROCESSING) && ForceSubmit) 
     {
-        puts("Unchanged output file will be forced submitted");
-        mklog(1, "Unchanged output file will be forced submitted");
+        mklog(LOG_INFO, "Unchanged output file will be forced submitted");
         unchanged = 0;
     }
     
@@ -163,8 +160,7 @@ int installlist(char *filename, char *extbfr)
                 unlink(tmpname);
             }
         }
-        puts("Unchanged output file will NOT be submitted.");
-        mklog(1, "Unchanged output file will NOT be submitted");
+        mklog(LOG_INFO, "Unchanged output file will NOT be submitted");
     }
     else
     {
@@ -185,7 +181,7 @@ static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
     FILE *diffFILE;             /* 0x06 */
     int newcrc;                 /* 0x08 */
 
-    mklog(3, "applydiff \"%s\" to \"%s\"", diffname, outname);
+    mklog(LOG_DEBUG, "applydiff \"%s\" to \"%s\"", diffname, outname);
 
     diffFILE = fopen(diffname, "r");
     if (!diffFILE)
@@ -331,7 +327,7 @@ openlist(FILE ** listFILEptr, char *filename, char *foundfile, int where,
     char ext[MYMAXEXT];
     char name[MYMAXFILE + MYMAXEXT];
 
-    mklog(3, "openlist \"%s\", mustbenew %s", filename, mustbenew ? "yes":"no");
+    mklog(LOG_DEBUG, "openlist \"%s\", mustbenew %s", filename, mustbenew ? "yes":"no");
 
     myfnsplit(filename, NULL, NULL, name, ext);
     switch (where)
@@ -399,30 +395,28 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
     int i;
     char ArcOpen[ARCCMDMAX];
 
-    mklog(3, "searchlistfile: \"%s\" \"%s\" \"%s\" \"%s\" %d", path, foundfile, name, ext, unpackedonly);
+    mklog(LOG_DEBUG, "searchlistfile: \"%s\" \"%s\" \"%s\" \"%s\" %d", path, foundfile, name, ext, unpackedonly);
 
     if (path[0] == 0)
         return 0;
     while (!(ext[0] == 0 && unpackedonly))
     {        
-        mklog(4, "searchlistfile: in top of while loop");
+        mklog(LOG_DEBUG, "searchlistfile(): in top of while loop");
         myfnmerge(foundfile, NULL, NULL, name, ext[0] ? ext : "*");
         findresult = os_findfile(&f, path, foundfile);
         if (!findresult)
         {
-            mklog(4, "searchlistfile: nothing found, return 0");
+            mklog(LOG_DEBUG, "searchlistfile(): nothing found, return 0");
             foundfile[0] = '\0';
             return 0;
         }
-        mklog(4, "searchlistfile: found \"%s\"", findresult);
+        mklog(LOG_DEBUG, "searchlistfile(): found \"%s\"", findresult);
         getext(extbuf, findresult);
         myfnmerge(foundfile, NULL, path, findresult, NULL);
         os_deslashify(foundfile);
-        if ((unarc = unpacker(foundfile)) != NULL)  /* Compressed file        */
+        if ((unarc = unpacker(foundfile)) != NULL)  /* Compressed file */
         {
-            /*
-             * Search decompressor
-             */
+            /* Search decompressor */
             ArcOpen[0] = '\0';
             for (i = 0; i < ArcOpenCnt; i++)
             {
@@ -434,12 +428,11 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
             }
             if (ArcOpen[0] == '\0')
             {
-                mklog(0, "No ArcOpen command for \"%s\"", foundfile);
+                mklog(LOG_ERROR, "No ArcOpen command for '%s'", foundfile);
             }
             else
             {
-                printf("Attempting to unpack archive \"%s\"\n", foundfile);
-                mklog(1, "Attempting to unpack archive \"%s\"", foundfile);
+                mklog(LOG_INFO, "Attempting to unpack archive '%s'", foundfile);
             }
             myfnmerge(fnamebuf, NULL, path, NULL, NULL);
             os_deslashify(fnamebuf);
@@ -449,7 +442,7 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
              */
             if (chdir(fnamebuf))
             {
-                mklog(0, "Can't chdir to \"%s\"", fnamebuf);
+                mklog(LOG_ERROR, "Can't chdir to '%s'", fnamebuf);
             }
             else
             {
@@ -458,7 +451,7 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
                 sprintf(cmdlinebuf, "%s", foundfile);
                 if ((ArcOpen[0] == '\0') || (os_spawn(ArcOpen, cmdlinebuf) != 0))
                 {
-                    mklog(0, "Unable to unpack archive \"%s\"", foundfile);
+                    mklog(LOG_ERROR, "Unable to unpack archive \"%s\"", foundfile);
                     WorkFile = os_file_getname(foundfile);
                     os_filecanonify(WorkFile);
                     *file = OpenMSGFile(NotifyAddress, NULL);
@@ -477,8 +470,7 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
                                                                              file 
                                                                            */
         {
-            printf("Attempting to apply difference file \"%s\"\n", foundfile);
-            mklog(1, "Attempting to apply difference file \"%s\"", foundfile);
+            mklog(LOG_INFO, "Attempting to apply difference file '%s'", foundfile);
             extptr = OldExtensions;
             do
             {
@@ -504,17 +496,14 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
             unlink(foundfile);
             if (searchwhere == 0)
             {
-                printf("Unable to apply difference file \"%s\".  ", foundfile);
-                mklog(1, "Unable to apply difference file \"%s\"", foundfile);
+                mklog(LOG_INFO, "Unable to apply difference file '%s'", foundfile);
                 WorkFile = os_file_getname(foundfile);
                 os_filecanonify(WorkFile);
                 *file = OpenMSGFile(NotifyAddress, NULL);
                 if (*file)
                 {
-                    fprintf(*file,
-                            "Unable to apply difference file \"%s\".  ",
-                            WorkFile);
-                    fputs("Please submit your full update file.", *file);
+                    fprintf(*file, "Unable to apply difference file '%s'. ", WorkFile);
+                    fprintf(*file, "Please submit your full update file.");
                     *file = CloseMSGFile(1);
                 }
             }
@@ -531,8 +520,8 @@ searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
         {
             myfnmerge(foundfile, NULL, path, name, *extptr);
             os_deslashify(foundfile);
-          justthisfile:
-            mklog(3, "searchlistfile: justthisfile, foundfile=\"%s\"", foundfile);
+justthisfile:
+            mklog(LOG_DEBUG, "searchlistfile: justthisfile, foundfile=\"%s\"", foundfile);
             *file = fopen(foundfile, "rb");
             if (!*file)
                 return -1;

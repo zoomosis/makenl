@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.10 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.11 2012/10/14 14:49:17 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -49,7 +49,7 @@ int MakeNum;
 int ExitCode;
 int JustTest;
 
-int MakenlDebug = 0;            /* 1 - Debugs some code here... */
+int debug_mode = 0;
 
 int nl_baudrate[MAX_BAUDRATES];
 
@@ -121,8 +121,8 @@ void die(int exitcode, const char *format, ...)
     vsprintf(buf, format, arg);
     va_end(arg);
 
-    mklog(0, "%s", buf);
-    mklog(0, "MakeNL finished (rc=%d)", exitcode);
+    mklog(LOG_ERROR, "%s", buf);
+    mklog(LOG_ERROR, "MakeNL finished (rc=%d)", exitcode);
 
     exit(exitcode);
 }
@@ -191,8 +191,8 @@ int main(int argc, char *argv[])
     os_getcwd(CurDir, MYMAXDIR - 1);
     os_filecanonify(CurDir);
     WorkMode = parsecfgfile(CFG_file);
-    mklog(1, "Cmdline: %s", cmdline_to_str(argv));
-    mklog(1, "Using %s in %s", CfgFile, CurDir);
+    mklog(LOG_INFO, "Cmdline: %s", cmdline_to_str(argv));
+    mklog(LOG_INFO, "Using '%s' in '%s'", CfgFile, CurDir);
 
     for (OldWeeks = 3; OldWeeks >= 0; OldWeeks--)
     {
@@ -208,12 +208,7 @@ int main(int argc, char *argv[])
             YearBuf, OldExtensions[0]);
     time(&UnixTime);
     SplitTimePtr = localtime(&UnixTime);
-    printf("Begin processing %s -- %d:%02d, %s, %s %d, %d\n\n", OutFile,
-           SplitTimePtr->tm_hour, SplitTimePtr->tm_min,
-           DOWLongnames[SplitTimePtr->tm_wday],
-           MonthLongnames[SplitTimePtr->tm_mon], SplitTimePtr->tm_mday,
-           SplitTimePtr->tm_year + 1900);
-    mklog(1, "Begin processing %s -- %d:%02d, %s, %s %d, %d", OutFile,
+    mklog(LOG_INFO, "Begin processing '%s' -- %d:%02d, %s, %s %d, %d", OutFile,
             SplitTimePtr->tm_hour, SplitTimePtr->tm_min,
             DOWLongnames[SplitTimePtr->tm_wday],
             MonthLongnames[SplitTimePtr->tm_mon], SplitTimePtr->tm_mday,
@@ -221,7 +216,7 @@ int main(int argc, char *argv[])
     if (ShouldProcess)
     {
         myfnmerge(NewFile, NULL, OutDir, OutFile, NULL);
-        mklog(4, "main: shouldprocess %s", NewFile);
+        mklog(LOG_DEBUG, "main(): shouldprocess %s", NewFile);
         swapext(NewFile, NewFile, "$$$");
         OutFILE = fopen(NewFile, "wb");
         check_fp(OutFILE, NewFile, "w");
@@ -317,7 +312,7 @@ int main(int argc, char *argv[])
                 myfnmerge(CfgFilenameBuf, NULL, OutDir, OutFile, NULL);
                 makearc(CfgFilenameBuf, 1);
                 strcpy(NewFile, CfgFilenameBuf);
-                mklog(4, "main: NewFile \"%s\"", NewFile);
+                mklog(LOG_DEBUG, "main(): NewFile == '%s'", NewFile);
             }
 
             sprintf(cmdbuf + strlen(cmdbuf), "%c %c %c %c %c %c\n",
@@ -345,19 +340,18 @@ int main(int argc, char *argv[])
                 else
                     sprintf(SubAddrText, "%d:%d/%d", SubmitAddress[A_ZONE],
                             SubmitAddress[A_NET], SubmitAddress[A_NODE]);
-                fprintf(stdout, "\nSending \"%s\" to %s\n", NewFile,
-                        SubAddrText);
-                mklog(1, "Sending \"%s\" to %s", NewFile, SubAddrText);
+                mklog(LOG_INFO, "Sending '%s' to %s", NewFile, SubAddrText);
             }
         }
         cleanit();
     }
     else
+    {
         ExitCode += 3;
-    fprintf(stdout, "\nCRC = %05u\n\n", OutCRC);
+    }
 
-    mklog(1, "CRC = %05u", OutCRC);
-    mklog(1, "MakeNL finished (rc=%d)", ExitCode);
+    mklog(LOG_INFO, "CRC = %05u", OutCRC);
+    mklog(LOG_INFO, "MakeNL finished (rc=%d)", ExitCode);
 
     return ExitCode;
 }

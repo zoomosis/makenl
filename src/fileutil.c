@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.4 2012/10/14 14:07:22 ozzmosis Exp $ */
+/* $Id: fileutil.c,v 1.5 2012/10/14 14:49:17 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -106,7 +106,7 @@ myfnmerge(char *output, const char *drive, const char *dir,
 {
     int lenleft;
 
-    mklog(4, "myfnmerge: drive=\"%s\" dir=\"%s\" name=\"%s\" ext=\"%s\"", 
+    mklog(LOG_DEBUG, "myfnmerge: drive=\"%s\" dir=\"%s\" name=\"%s\" ext=\"%s\"", 
       make_str_safe(drive), make_str_safe(dir), make_str_safe(name), make_str_safe(ext));
 
     lenleft = MYMAXDIR - 1;
@@ -269,10 +269,10 @@ void cleanold(char *path, char *filename, char *ext)
 
 void cleanfile(char *filename)
 {
-    mklog(3, "Cleanup delete %s", filename);
+    mklog(LOG_DEBUG, __FILE__ ": cleanfile(): delete %s", filename);
     if (unlink(filename) == 0)
     {
-        mklog(1, "Cleanup deleted \"%s\"", filename);
+        mklog(LOG_INFO, __FILE__ ": cleanfile(): deleted \"%s\"", filename);
     }
 }
 
@@ -282,7 +282,7 @@ void cleanit(void)
     char ext[MYMAXEXT];
     char delname[MYMAXDIR];
 
-    mklog(3, "cleanit: cleanup %s", do_clean ? "yes":"no");
+    mklog(LOG_DEBUG, __FILE__ ": cleanit(): cleanup %s", do_clean ? "yes":"no");
     if (!do_clean)
         return;
     if (getext(NULL, OutFile) != 0)
@@ -328,18 +328,16 @@ void CopyOrMove(int copy, char *source, char *destdir, char *destname)
               getext(NULL, destname) ? NULL : OldExtensions[0]);
     if (!filecmp(dest, source))
         return;
-    fprintf(stdout, "%sing \"%s\" to \"%s\"\n", copy ? "Copy" : "Mov",
-            source, dest);
-    mklog(1, "%sing \"%s\" to \"%s\"", copy ? "Copy" : "Mov", source, dest);
+    mklog(LOG_INFO, "%sing '%s' to '%s'", copy ? "Copy" : "Mov", source, dest);
     unlink(dest);
     if (!copy && rename(source, dest) == 0)
         return;
     destFILE = fopen(dest, "w");
     if (!destFILE)
-        die(254, "Unable to open %s for output", dest);
+        die(254, "Unable to open '%s' for output", dest);
     sourceFILE = fopen(source, "r");
     if (!sourceFILE)
-        die(254, "Unable to open %s for input", source);
+        die(254, "Unable to open '%s' for input", source);
     while ((copychar = getc(sourceFILE)) != EOF)
         putc(copychar, destFILE);
     fclose(sourceFILE);

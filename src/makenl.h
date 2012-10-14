@@ -1,4 +1,4 @@
-/* $Id: makenl.h,v 1.4 2012/10/14 14:07:22 ozzmosis Exp $ */
+/* $Id: makenl.h,v 1.5 2012/10/14 14:49:17 ozzmosis Exp $ */
 
 #include "os.h"
 
@@ -12,7 +12,7 @@ extern int MakeNum;
 extern int ExitCode;
 extern int NewExtWDay;
 extern int JustTest;
-extern int MakenlDebug;
+extern int debug_mode;
 
 #define linelength 512
 #define ARCCMDMAX 20
@@ -28,9 +28,6 @@ extern char ArcCopyCmd[ARCCMDMAX];
 extern char ArcMoveCmd[ARCCMDMAX];
 extern char ArcOpenCmd[ARCUNPMAX][ARCCMDMAX];
 extern int  ArcOpenCnt;
-
-#define Debug1(msg, arg) if (MakenlDebug) fprintf(stderr, "DEBUG: " FUNCNAME ": " msg "\n", arg)
-#define Debug(msg)       if (MakenlDebug) fprintf(stderr, "DEBUG: " FUNCNAME ": " msg "\n")
 
 /* the die function from makenl.c */
 void die(int exitcode, const char *format, ...);

@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.3 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: output.c,v 1.4 2012/10/14 14:49:17 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,9 +20,8 @@
 
 char ErrorMessage[linelength];
 
-int
-OutputErrorLine(FILE * file, const char *pre, const char *wrongy,
-                const char *post, unsigned short *crc)
+int OutputErrorLine(FILE * file, const char *pre, const char *wrongy,
+  const char *post, unsigned short *crc)
 {
     char *linebuf;
     int fputs_result;
@@ -41,7 +40,7 @@ OutputErrorLine(FILE * file, const char *pre, const char *wrongy,
     if (crc)
         *crc = CRC16String(linebuf, *crc);
     fputs_result = fputs(linebuf, file);
-    mklog(0, "%s", linebuf);
+    mklog(LOG_ERROR, "%s", linebuf);
     free(linebuf);
     return fputs_result;
 }
@@ -99,8 +98,7 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
         if (MakeType == LEVEL_TOP)
         {
             /* In the composite nodelist, these files should be present. */
-            fprintf(stderr, "WARNING -- file %s not found\n", Copyfile);
-            mklog(0, "WARNING -- file %s not found", Copyfile);
+            mklog(LOG_ERROR, "WARNING -- file %s not found", Copyfile);
         }
         return lineno;
     }

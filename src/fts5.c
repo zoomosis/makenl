@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.3 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: fts5.c,v 1.4 2012/10/14 14:49:17 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -153,8 +153,7 @@ static int getstring(char **instring, int *linelevel, int *linenum)
     }
     else
     {
-        printf("*WARNING Empty field has been replaced with -Unknown-\n\n");
-        mklog(1, "*WARNING Empty field has been replaced with -Unknown-\n\n");
+        mklog(LOG_INFO, "*WARNING Empty field has been replaced with -Unknown-");
         *instring = "-Unknown-";
     }
     return 0;
@@ -174,8 +173,7 @@ static int getphone(char **instring, int *linelevel, int *linenum)
     /* Mini spellchecker */
     if ((strcasecmp(*instring, "-Unpublished-") == 0) && strcmp(*instring, "-Unpublished-"))
     {
-        printf("*WARNING %s has been replaced with -Unpublished-\n\n", *instring);
-        mklog(1, "*WARNING %s has been replaced with -Unpublished-", *instring);
+        mklog(LOG_INFO, "*WARNING '%s' has been replaced with '-Unpublished-'", *instring);
         *instring = "-Unpublished-";
     }
 
