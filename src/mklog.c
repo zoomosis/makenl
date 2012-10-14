@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.14 2012/10/14 14:59:08 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.15 2012/10/14 15:05:36 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -65,7 +65,9 @@ void mklog(int level, const char *format, ...)
 
         if (log_fp == NULL)
         {
-            die(255, "Cannot open logfile '%s'", LogFile);
+            fprintf(stderr, "Cannot open logfile '%s'\n", LogFile);
+            exit(255);
+            /* now keep lint happy... */
             return;
         }
     }
