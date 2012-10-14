@@ -1,4 +1,4 @@
-/* $Id: oswatxxx.h,v 1.3 2010/02/05 16:51:16 ozzmosis Exp $ */
+/* $Id: oswatxxx.h,v 1.4 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <dos.h>
@@ -51,6 +51,6 @@ struct _filefind
     struct find_t fileinfo;
 };
 
-#define filecmp	   stricmp
+#define filecmp stricmp
 #define filenodir(x) (strpbrk(x,"\\/") == NULL)
 #define strcasecmp stricmp

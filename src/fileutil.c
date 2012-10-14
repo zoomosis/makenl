@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.2 2012/10/13 01:23:33 ozzmosis Exp $ */
+/* $Id: fileutil.c,v 1.3 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -107,7 +107,7 @@ myfnmerge(char *output, const char *drive, const char *dir,
     int lenleft;
 
     mklog(4, "myfnmerge: drive=\"%s\" dir=\"%s\" name=\"%s\" ext=\"%s\"", 
-	    MAKE_SS(drive), MAKE_SS(dir), MAKE_SS(name), MAKE_SS(ext));
+            MAKE_SS(drive), MAKE_SS(dir), MAKE_SS(name), MAKE_SS(ext));
 
     lenleft = MYMAXDIR - 1;
     if (drive && *drive != 0)
@@ -272,7 +272,7 @@ void cleanfile(char *filename)
     mklog(3, "Cleanup delete %s", filename);
     if (unlink(filename) == 0)
     {
-	mklog(1, "Cleanup deleted \"%s\"", filename);
+        mklog(1, "Cleanup deleted \"%s\"", filename);
     }
 }
 
@@ -294,20 +294,20 @@ void cleanit(void)
         if (OutDiff[0] != 0)
         {
             myfnmerge(delname, NULL, OutDir, OutDiff, ext);
-	    cleanfile(delname);
-	    ext[0] = ArcCopyExt[0];
+            cleanfile(delname);
+            ext[0] = ArcCopyExt[0];
             myfnmerge(delname, NULL, OutDir, OutDiff, ext);
-	    cleanfile(delname);
+            cleanfile(delname);
         }
         ext[0] = 'd';
         myfnmerge(delname, NULL, OutDir, OutFile, ext);
-	cleanfile(delname);
-	ext[0] = ArcCopyExt[0];
+        cleanfile(delname);
+        ext[0] = ArcCopyExt[0];
         myfnmerge(delname, NULL, OutDir, OutFile, ext);
-	cleanfile(delname);
+        cleanfile(delname);
         ext[1] = 'd';
         myfnmerge(delname, NULL, OutDir, OutFile, ext);
-	cleanfile(delname);
+        cleanfile(delname);
         extptr++;
     }
     while (extptr < OldExtensions + 4);

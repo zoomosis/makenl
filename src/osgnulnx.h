@@ -1,4 +1,4 @@
-/* $Id: osgnulnx.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: osgnulnx.h,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -12,7 +12,7 @@
 #define MYMAXPATH  1088
 #define MYMAXEXT   12
 #define MYMAXDRIVE 3
-#define filecmp	   strcmp
+#define filecmp    strcmp
 #define filenodir(x) (strchr(x,'/') == NULL)
 #define stricmp    strcasecmp
 

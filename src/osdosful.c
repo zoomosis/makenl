@@ -1,4 +1,4 @@
-/* $Id: osdosful.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: osdosful.c,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #define HAVE_OS_FULLPATH
 
@@ -23,17 +23,17 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
     if (src[1] == ':')          /* drive letter specified */
     {
         Debug("You specified a drive letter\n");
-	mklog(4, "You specified a drive letter");
+        mklog(4, "You specified a drive letter");
         reqdrnum = toupper(src[0]) - 'A';
         if (reqdrnum != curdrnum) /* requested drive is not current drive */
         {
             Debug1("Switching to drive %d\n", reqdrnum);
-	    mklog(4, "Switching to drive %d", reqdrnum);
+            mklog(4, "Switching to drive %d", reqdrnum);
             setdisk(reqdrnum);  /* set current disk */
             if (getdisk() != reqdrnum) /* Specified drive does not exist */
             {
                 Debug("This drive does not exist\n");
-		mklog(4, "This drive does not exist");
+                mklog(4, "This drive does not exist");
                 return -1;
             }
         }
@@ -58,18 +58,18 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
         if (!fname)             /* no backslash */
         {
             Debug("You don't have any backslash in the file name.\n");
-	    mklog(4, "You don't have any backslash in the file name.");
+            mklog(4, "You don't have any backslash in the file name.");
             if (!(dir[0] == '.' && (dir[1] == '.' || dir[1] == '\0')))
             {
                 Debug("I assume this file is relative to cwd.\n");
-		mklog(4, "I assume this file is relative to cwd.");
+                mklog(4, "I assume this file is relative to cwd.");
                 fname = dir;
                 dir = ".";
             }
             else
             {
                 Debug("Looks like relative directory only");
-		mklog(4, "Looks like relative directory only");
+                mklog(4, "Looks like relative directory only");
                 fname = "";
             }
         }
@@ -78,7 +78,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
 
         Debug1("Directory is now %s\n", dir);
         Debug1("File name is now %s\n", fname);
-	mklog(4, "Directory is now %s, File name is now %s", dir, fname);
+        mklog(4, "Directory is now %s, File name is now %s", dir, fname);
         /* fname = pure file name */
         /* dir = relative path, only directory */
 
@@ -86,7 +86,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
         if (chdir((*dir) ? dir : "\\") == 0)
         {
             Debug("chdir() suceeded. The directory exists.\n");
-	    mklog(4, "chdir() suceeded. The directory exists.");
+            mklog(4, "chdir() suceeded. The directory exists.");
             if (getcwd(dst, bufsiz) != NULL)
             {
                 rc = 0;
@@ -97,7 +97,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
                     strcat(dst, fname);
                 }
                 Debug1("final full name is %s\n", fname);
-		mklog(4, "final full name is %s", fname);
+                mklog(4, "final full name is %s", fname);
             }
         }
         chdir(curdir);

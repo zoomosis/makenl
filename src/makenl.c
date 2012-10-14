@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.9 2012/10/13 01:31:41 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.10 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -78,7 +78,7 @@ static void check_fp(FILE *fp, char *fn, char *mode)
 {
     if (fp != NULL)
     {
-	return;
+        return;
     }
     
     die(0xFE, "Unable to open \"%s\" for %s", fn, *mode == 'r' ? "input" : "output");
@@ -141,9 +141,9 @@ static char *cmdline_to_str(char *argv[])
 
     if (argv[0] == NULL)
     {
-	/* empty command-line and no program name (unlikely but possible) */
-	strcat(tmp, "(null)");
-	return tmp;
+        /* empty command-line and no program name (unlikely but possible) */
+        strcat(tmp, "(null)");
+        return tmp;
     }
     
     /* argv[0] is a special case, no quotes around it */
@@ -156,17 +156,17 @@ static char *cmdline_to_str(char *argv[])
 
     while (*p != NULL)
     {
-	if (strlen(tmp) + strlen(*p) + 3 > sizeof tmp)
-	{
-	    /* command-line too long, avoid segfault */
-	    strcat(tmp, " ...");
-	    return tmp;
-	}
-	
-	strcat(tmp, " \"");
-	strcat(tmp, *p);
-	strcat(tmp, "\"");
-	p++;
+        if (strlen(tmp) + strlen(*p) + 3 > sizeof tmp)
+        {
+            /* command-line too long, avoid segfault */
+            strcat(tmp, " ...");
+            return tmp;
+        }
+        
+        strcat(tmp, " \"");
+        strcat(tmp, *p);
+        strcat(tmp, "\"");
+        p++;
     }
 
     return tmp;
@@ -214,14 +214,14 @@ int main(int argc, char *argv[])
            MonthLongnames[SplitTimePtr->tm_mon], SplitTimePtr->tm_mday,
            SplitTimePtr->tm_year + 1900);
     mklog(1, "Begin processing %s -- %d:%02d, %s, %s %d, %d", OutFile,
-	    SplitTimePtr->tm_hour, SplitTimePtr->tm_min,
-	    DOWLongnames[SplitTimePtr->tm_wday],
-	    MonthLongnames[SplitTimePtr->tm_mon], SplitTimePtr->tm_mday,
-	    SplitTimePtr->tm_year + 1900);
+            SplitTimePtr->tm_hour, SplitTimePtr->tm_min,
+            DOWLongnames[SplitTimePtr->tm_wday],
+            MonthLongnames[SplitTimePtr->tm_mon], SplitTimePtr->tm_mday,
+            SplitTimePtr->tm_year + 1900);
     if (ShouldProcess)
     {
         myfnmerge(NewFile, NULL, OutDir, OutFile, NULL);
-	mklog(4, "main: shouldprocess %s", NewFile);
+        mklog(4, "main: shouldprocess %s", NewFile);
         swapext(NewFile, NewFile, "$$$");
         OutFILE = fopen(NewFile, "wb");
         check_fp(OutFILE, NewFile, "w");
@@ -308,17 +308,17 @@ int main(int argc, char *argv[])
                     strcat(cmdbuf, "no-diff ");
             }
             else
-	    {
+            {
                 strcat(cmdbuf, "no-diff ");
-		/*
-		 * New feature: compress hub and host segments.
-		 * Added in 2004 when file size doesn't matter anymore.
-		 */
-		myfnmerge(CfgFilenameBuf, NULL, OutDir, OutFile, NULL);
-		makearc(CfgFilenameBuf, 1);
-		strcpy(NewFile, CfgFilenameBuf);
-		mklog(4, "main: NewFile \"%s\"", NewFile);
-	    }
+                /*
+                 * New feature: compress hub and host segments.
+                 * Added in 2004 when file size doesn't matter anymore.
+                 */
+                myfnmerge(CfgFilenameBuf, NULL, OutDir, OutFile, NULL);
+                makearc(CfgFilenameBuf, 1);
+                strcpy(NewFile, CfgFilenameBuf);
+                mklog(4, "main: NewFile \"%s\"", NewFile);
+            }
 
             sprintf(cmdbuf + strlen(cmdbuf), "%c %c %c %c %c %c\n",
                     OldExtensions[0][0], OldExtensions[0][1],
@@ -347,7 +347,7 @@ int main(int argc, char *argv[])
                             SubmitAddress[A_NET], SubmitAddress[A_NODE]);
                 fprintf(stdout, "\nSending \"%s\" to %s\n", NewFile,
                         SubAddrText);
-		mklog(1, "Sending \"%s\" to %s", NewFile, SubAddrText);
+                mklog(1, "Sending \"%s\" to %s", NewFile, SubAddrText);
             }
         }
         cleanit();

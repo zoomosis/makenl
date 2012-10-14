@@ -1,4 +1,4 @@
-/* $Id: config.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+/* $Id: config.h,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 /* Numbers of configuration options */
 #define CFG_ARCCOPY 0
@@ -50,13 +50,13 @@
 
 /* Logfile */
 #define CFG_LOGFILE 36
-#define	CFG_LOGLEVEL 37
+#define CFG_LOGLEVEL 37
 
 /* Force submit unchanged file */
 #define CFG_FORCESUBMIT 38
 
 /* Valid baudrates */
-#define	MAX_BAUDRATES	12
+#define MAX_BAUDRATES 12
 
 
 

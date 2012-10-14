@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: os.h,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -22,14 +22,14 @@
  */
 
 #ifdef __GNUC__
-#define __FLAT__                /* flat memory model, min. 32-bit */
+#define __FLAT__  /* flat memory model, min. 32-bit */
 #endif
 
 #ifndef max
-#define max(a,b)    (((a) > (b)) ? (a) : (b))
+#define max(a,b)  (((a) > (b)) ? (a) : (b))
 #endif
 #ifndef min
-#define min(a,b)    (((a) < (b)) ? (a) : (b))
+#define min(a,b)  (((a) < (b)) ? (a) : (b))
 #endif
 
 /* Defaults for overwriteable functions */
@@ -46,54 +46,54 @@
 /* GNU C/EMX for DOS & OS/2 */
 #if defined(__GNUC__) && defined(__EMX__)
 #include "osgnuemx.h"
-#define	MAKENL_CC   "EMX"
-					  
+#define MAKENL_CC "EMX"
+                                          
 /* GNU C/Linux */
 #elif defined(__GNUC__) && defined(__linux__)
 #include "osgnulnx.h"
-#define	MAKENL_CC   "GCC/Linux"
-					  
+#define MAKENL_CC "GCC/Linux"
+                                          
 /* GNU C/FreeBSD */
 #elif defined(__GNUC__) && defined(__FreeBSD__)
 /* we'll use the Linux ones */
 #include "osgnulnx.h"
-#define	MAKENL_CC    "GCC/FreeBSD"
+#define MAKENL_CC "GCC/FreeBSD"
 
 /* GNU C/Apple OS X (Darwin) */
 #elif defined(__GNUC__) && defined(__APPLE__)
 /* we'll use the Linux ones */
 #include "osgnulnx.h"
-#define MAKENL_CC    "GCC/OS X"
+#define MAKENL_CC "GCC/OS X"
 
 /* GNU C/DJGPP 2.0 for DOS */
 #elif defined(__GNUC__) && defined(__MSDOS__)
 #include "osgnudjg.h"
-#define	MAKENL_CC   "GCC C/DJGPP"
+#define MAKENL_CC "GCC C/DJGPP"
 
 /* GNU C/Dev-C++ for Windows */
 #elif defined(__GNUC__) && defined(__MINGW32__)
 /* use Microsoft Visual C++ headers */
 #include "osmscwin.h"
-#define	MAKENL_CC   "GNU C/Dev-C++"
+#define MAKENL_CC "GNU C/Dev-C++"
 
 /* Borland Turbo C++ 1.0, Borland C++ 3.1 & 4.0, etc. for DOS */
 #elif defined(__TURBOC__) && defined(__MSDOS__)
 #include "ostbcdos.h"
-#define	MAKENL_CC   "Borland Turbo C++"
+#define MAKENL_CC "Borland Turbo C++"
 
 /* Watcom C/C++ for DOS, OS/2 & Windows */
 #elif defined(__WATCOMC__)
 #include "oswatxxx.h"
-#define	MAKENL_CC   "Watcom C/C++"
+#define MAKENL_CC "Watcom C/C++"
 
 /* Microsoft Visual C++ for Windows */
 #elif defined(_MSC_VER) && defined(WIN32)
 #include "osmscwin.h"
-#define	MAKENL_CC   "Microsoft Visual C++"
+#define MAKENL_CC "Microsoft Visual C++"
 
 #elif defined(__BORLANDC__) && defined(__WIN32__)
 #include "osborwin.h"
-#define MAKENL_CC   "Borland C++"
+#define MAKENL_CC "Borland C++"
 
 #else
 #error "It seems to me that you are using an unknown compiler!"
@@ -101,47 +101,44 @@
 
 /* Platforms */
 #if defined (__DOS16__)
-#define	MAKENL_OS   "DOS 16"
+#define MAKENL_OS "DOS 16"
 #elif defined (__DOS4G__)
-#define	MAKENL_OS   "DOS 32"
+#define MAKENL_OS "DOS 32"
 #elif defined (__OS2__)
-#define	MAKENL_OS   "OS/2 16"
+#define MAKENL_OS "OS/2 16"
 #elif defined (__OS2V2__)
-#define MAKENL_OS   "OS/2 32"
+#define MAKENL_OS "OS/2 32"
 #elif defined (__W32__)
-#define	MAKENL_OS   "Windows/32"
+#define MAKENL_OS "Windows/32"
 #elif defined (__MSDOS__)
-#define	MAKENL_OS   "MS-DOS"
+#define MAKENL_OS "MS-DOS"
 #elif defined (__linux__)
-#define	MAKENL_OS   "GNU/Linux"
+#define MAKENL_OS "GNU/Linux"
 #elif defined (__FreeBSD__)
-#define MAKENL_OS   "FreeBSD"
+#define MAKENL_OS "FreeBSD"
 #elif defined (__APPLE__)
-#define MAKENL_OS   "OS X (Darwin)"
+#define MAKENL_OS "OS X (Darwin)"
 #elif defined (__NetBSD__)
-#define MAKENL_OS   "NetBSD"
+#define MAKENL_OS "NetBSD"
 #elif defined (__OpenBSD__)
-#define MAKENL_OS   "OpenBSD"
+#define MAKENL_OS "OpenBSD"
 #else
 #error "Unknown OS!"
 #endif
 
-					  
+
 #ifndef STR_DIRSEPARATOR
 #error "No one defined STR_DIRSEPARATOR!"
 #else
 #define CHAR_DIRSEPARATOR STR_DIRSEPARATOR[0]
 #endif
 
-/* ------------------------------------------------------------------------- */
-/* os-independant global function declarations                               */
+/* os-independant global function declarations */
 
-char *os_findfirst(struct _filefind *pff, const char *path,
-                   const char *mask);
+char *os_findfirst(struct _filefind *pff, const char *path, const char *mask);
 char *os_findnext(struct _filefind *pff);
 void os_findclose(struct _filefind *pff);
-char *os_findfile(struct _filefind *pff, const char *path,
-                  const char *mask);
+char *os_findfile(struct _filefind *pff, const char *path, const char *mask);
 
 char *os_file_getname(const char *path);
 int os_fullpath(char *dst, const char *src, size_t bufsiz);
@@ -170,11 +167,9 @@ char *os_fgets(char *buf, size_t len, FILE * f);
 char *strupr(char *string);
 #endif
 
-
 /* some sanity checks for compiler defines */
 
-/* The GNUC-Check was thrown out. There can be GNU C with MSDOS, OS/2 or
-   WIN32... */
+/* The GNUC-Check was thrown out. There can be GNU C with MSDOS, OS/2 or WIN32... */
 
 #if defined(__FLAT__) && defined(__SMALL__)
 #error "Both __FLAT__ and __SMALL__ defined!"
@@ -193,7 +188,7 @@ char *strupr(char *string);
 #endif
 
 #if defined(__MSDOS__) + defined(__OS2__) + defined(__OS2V2__) + defined(__W32__) > 1
-#error "Ambigous OS specification"
+#error "Ambiguous OS specification"
 #endif
 
 #endif

@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.2 2012/10/13 01:23:33 ozzmosis Exp $ */
+/* $Id: output.c,v 1.3 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -88,7 +88,7 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
 
     /* Don't include copyright, prolog and epilog unless we make the composite list */
     if (MakeType != LEVEL_TOP)
-	return lineno;
+        return lineno;
     if (!Copyfile)
         return lineno;
     myfnmerge(fullname, NULL, MasterDir, Copyfile, NULL);
@@ -96,12 +96,12 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
     CopyFILE = fopen(fullname, "r");
     if (!CopyFILE)
     {
-	if (MakeType == LEVEL_TOP)
-	{
-	    /* In the composite nodelist, these files should be present. */
-	    fprintf(stderr, "WARNING -- file %s not found\n", Copyfile);
-	    mklog(0, "WARNING -- file %s not found", Copyfile);
-	}
+        if (MakeType == LEVEL_TOP)
+        {
+            /* In the composite nodelist, these files should be present. */
+            fprintf(stderr, "WARNING -- file %s not found\n", Copyfile);
+            mklog(0, "WARNING -- file %s not found", Copyfile);
+        }
         return lineno;
     }
     while ((linebegin =

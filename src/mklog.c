@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.10 2012/10/14 13:28:33 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.11 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,7 +8,7 @@
 #include <errno.h>
 
 #ifdef __unix__
-# include <unistd.h>
+#include <unistd.h>
 #endif
 
 #include "makenl.h"
@@ -16,11 +16,11 @@
 #include "fileutil.h"
 
 #ifdef MALLOC_DEBUG
-# include "rmalloc.h"
+#include "rmalloc.h"
 #endif
 
 #ifdef DMALLOC
-# include "dmalloc.h"
+#include "dmalloc.h"
 #endif
 
 static int logopened = 0;
@@ -51,20 +51,20 @@ void mklog(int level, const char *format, ...)
     
     if (format == NULL)
     {
-	/* avoid segfault */
-	return;
+        /* avoid segfault */
+        return;
     }
 
     /* Open in textmode, gives the correct lineendings on all OSes. */
 
     if (*LogFile != '\0')
     {
-	fp = fopen(LogFile, "a");
+        fp = fopen(LogFile, "a");
 
-	if (fp == NULL)
-	{
-	    die(0xFF, "Cannot open logfile \"%s\"", LogFile);
-	    return;
+        if (fp == NULL)
+        {
+            die(0xFF, "Cannot open logfile \"%s\"", LogFile);
+            return;
         }
     }
 
@@ -82,41 +82,41 @@ void mklog(int level, const char *format, ...)
         }
 
 #if defined(__unix__)
-	fprintf(fp, "%c %s makenl[%d] ", logmark[level], date_str(), getpid());
+        fprintf(fp, "%c %s makenl[%d] ", logmark[level], date_str(), getpid());
 #else
-	fprintf(fp, "%c %s makenl: ", logmark[level], date_str());
+        fprintf(fp, "%c %s makenl: ", logmark[level], date_str());
 #endif
         fprintf(fp, "%s", *outstr == '$' ? outstr + 1 : outstr);
     }
 
     if (level == 0 || MakenlDebug)
     {
-	fprintf(stderr, "%s", *outstr == '$' ? outstr + 1 : outstr);
+        fprintf(stderr, "%s", *outstr == '$' ? outstr + 1 : outstr);
     }
 
     if (fp != NULL)
     {
-	if (*outstr == '$')
-	{
-	    fprintf(fp, ": %s\n", strerror(errno));
+        if (*outstr == '$')
+        {
+            fprintf(fp, ": %s\n", strerror(errno));
         }
-	else
-	{
-	    fputc('\n', fp);
+        else
+        {
+            fputc('\n', fp);
         }
 
-	fclose(fp);
+        fclose(fp);
     }
 
     if (level == 0 || MakenlDebug)
     {
-	if (*outstr == '$')
-	{
-	    fprintf(stderr, ": %s\n", strerror(errno));
+        if (*outstr == '$')
+        {
+            fprintf(stderr, ": %s\n", strerror(errno));
         }
-	else
-	{
-	    fputc('\n', stderr);
+        else
+        {
+            fputc('\n', stderr);
         }
     }
 }

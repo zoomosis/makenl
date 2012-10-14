@@ -1,4 +1,4 @@
-/* $Id: mkdiff.c,v 1.3 2012/10/13 01:23:33 ozzmosis Exp $ */
+/* $Id: mkdiff.c,v 1.4 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -104,7 +104,7 @@ int makediff(char *filename)
     OldFile.theFILE = fopen(oldname, "rb");
     if (!OldFile.theFILE)
     {
-	mklog(0, "Old file \"%s\" does not exist, no difference file made", oldname);
+        mklog(0, "Old file \"%s\" does not exist, no difference file made", oldname);
         return 0;
     }
 
@@ -140,7 +140,7 @@ int makediff(char *filename)
     printf("\nCreating difference file \"%s\" from \"%s\" and \"%s\"\n",
             diffname, oldname, filename);
     mklog(1, "Creating difference file \"%s\" from \"%s\" and \"%s\"",
-	    diffname, oldname, filename);
+            diffname, oldname, filename);
 
     /* allocate buffer memory for diff-hashing */
     OldFile.CollTbl = NULL;
@@ -157,7 +157,7 @@ int makediff(char *filename)
     }
     if (!OldFile.CollTbl)
     {
-	mklog(0, "Unable to allocate memory -- no difference file generated");
+        mklog(0, "Unable to allocate memory -- no difference file generated");
         fclose(OldFile.theFILE);
         fclose(NowFile.theFILE);
         fclose(DiffFILE);
@@ -576,8 +576,8 @@ int lineread(char *linebuf, int currentline, struct DiffingInfo *f)
     {
         if (fgets(linebuf, linelength, f->theFILE) == NULL)
             return 0;
-	if (linebuf[0] == '\032') /* Ignore EOF line */
-	    return 0;
+        if (linebuf[0] == '\032') /* Ignore EOF line */
+            return 0;
         f->lineno++;
     }
     while (f->lineno <= currentline);

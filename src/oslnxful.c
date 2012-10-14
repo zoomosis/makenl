@@ -1,4 +1,4 @@
-/* $Id: oslnxful.c,v 1.2 2012/10/13 00:17:24 ozzmosis Exp $ */
+/* $Id: oslnxful.c,v 1.3 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #define HAVE_OS_FULLPATH
 #include <unistd.h>
@@ -30,13 +30,13 @@ int os_fullpath(char *dst, const char *src, size_t bufsize)
     if (dir[0] && chdir(dir) == -1)
     {
         Debug1("change directory to '%s' failed!\n", dir);
-	mklog(2, "[linux] os_fullpath: change directory to '%s' failed!", dir);
+        mklog(2, "[linux] os_fullpath: change directory to '%s' failed!", dir);
         return -1;
     }
     if (getcwd(dir, MYMAXDIR) == NULL
         || strlen(dir) + strlen(name) + strlen(ext) > bufsize)
     {
-	mklog(0, "Directory name for %s too long!", src);
+        mklog(0, "Directory name for %s too long!", src);
         chdir(olddir);
         return -1;
     }

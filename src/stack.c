@@ -1,4 +1,4 @@
-/* $Id: stack.c,v 1.2 2012/10/13 00:17:24 ozzmosis Exp $ */
+/* $Id: stack.c,v 1.3 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -108,8 +108,8 @@ int addnumber(int maketype, int makenum, int markpos)
         }
         else
         {
-	    mklog(0, "WARNING -- Unable to allocate more space for number stack");
-	    mklog(0, "Duplicate number checking limited to %d numbers", NumberStackLen);
+            mklog(0, "WARNING -- Unable to allocate more space for number stack");
+            mklog(0, "Duplicate number checking limited to %d numbers", NumberStackLen);
             NStackNotFull = 0;
         }
     }

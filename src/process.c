@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.2 2012/10/13 01:23:33 ozzmosis Exp $ */
+/* $Id: process.c,v 1.3 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -98,10 +98,10 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
             NotifyAddress[A_ZONE] = MyAddress[A_ZONE];
         if (num < 0)
             die(255, "%s\n -- \"%d\" is invalid list number -- Statement ignored\n",
-		linebuf, num);
+                linebuf, num);
         subleveltxt = LevelsSimple + subfile_level;
         searchwhere = 0;
-	foundfile[0] = '\0';
+        foundfile[0] = '\0';
         do
         {
             if (ShouldProcess == 0 && MergeOutFILE == 0) /* Process only
@@ -118,7 +118,7 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
             {
                 fprintf(stdout, "Processing %-8s%5d -- file %s\n",
                         *subleveltxt, num, foundfile);
-		mklog(1, "Processing %-8s%5d -- file %s", *subleveltxt, num, foundfile);
+                mklog(1, "Processing %-8s%5d -- file %s", *subleveltxt, num, foundfile);
                 if (UsualMSGFlags != 0 && searchwhere < SEARCH_UPDATE + 1) /* newly 
                                                                               received 
                                                                               file 
@@ -165,8 +165,8 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
                 break;
             fprintf(stdout, "No file found for %s %d file %s\n",
                     LevelsSimple[subfile_level], num, filename);
-	    mklog(1, "No file found for %s %d file %s",
-		    LevelsSimple[subfile_level], num, filename);
+            mklog(1, "No file found for %s %d file %s",
+                    LevelsSimple[subfile_level], num, filename);
             break;
         case SEARCH_UPLOAD + 1:
             cleanold(MailfileDir, filename, NULL);
@@ -234,7 +234,7 @@ processfile(int myMakeType, int myMakeNum, FILE * InputFILE,
     if (FooFILE)
         fprintf(FooFILE, "\nComments from %s:\n\n", WorkFile);
     while ((fgets(InputLine, linelength, InputFILE) != NULL)
-	   && (InputLine[0] != '\032'))
+           && (InputLine[0] != '\032'))
     {
         error = ParseFTS5(InputLine, &level, &num);
         if (level >= LEVEL_COMMENT)
@@ -267,7 +267,7 @@ processfile(int myMakeType, int myMakeNum, FILE * InputFILE,
         }
     }
     while ((fgets(InputLine, linelength, InputFILE) != NULL)
-	    && (InputLine[0] != '\032'))
+            && (InputLine[0] != '\032'))
     {
         error = ParseFTS5(InputLine, &level, &num);
         if (error && *WorkMode == CFG_DATA

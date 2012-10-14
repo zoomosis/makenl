@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.6 2012/10/14 13:03:46 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.7 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -52,26 +52,26 @@ static char *MakeMSGFilename(char *outbuf, int num);
 static unsigned long GetSequence(void)
 {
     unsigned long   seq;
-    char	    seqfile[MYMAXDIR];
-    FILE	    *fp;
+    char            seqfile[MYMAXDIR];
+    FILE            *fp;
     sprintf(seqfile, "%s/sequence.dat", MasterDir);
 
     if ((fp = fopen(seqfile, "r+")) == NULL) {
-	seq = (unsigned long)time(NULL);
-	if ((fp = fopen(seqfile, "w+")) == NULL) {
-	    mklog(0, "Can't create %s", seqfile);
-	    return seq;
-	} else {
-	    fwrite(&seq, 1, sizeof(seq), fp);
-	    fclose(fp);
-	    return seq;
-	}
+        seq = (unsigned long)time(NULL);
+        if ((fp = fopen(seqfile, "w+")) == NULL) {
+            mklog(0, "Can't create %s", seqfile);
+            return seq;
+        } else {
+            fwrite(&seq, 1, sizeof(seq), fp);
+            fclose(fp);
+            return seq;
+        }
     } else {
-	fread(&seq, 1, sizeof(seq), fp);
-	seq++;
-	fseek(fp, 0, SEEK_SET);
-	fwrite(&seq, 1, sizeof(seq), fp);
-	fclose(fp);
+        fread(&seq, 1, sizeof(seq), fp);
+        seq++;
+        fseek(fp, 0, SEEK_SET);
+        fwrite(&seq, 1, sizeof(seq), fp);
+        fclose(fp);
     }
     return seq;
 }
@@ -143,10 +143,10 @@ int ParseAddress(const char *string, int out[3])
 FILE *OpenMSGFile(int address[3], char *filename)
 {
     static char *DOWNames[] =
-	    { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+            { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
     static char *MonthNames[12] =
-	    { "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
-	      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+            { "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
     time_t akt_time;
     struct tm *the_time;
     char intlline[46];
@@ -155,9 +155,9 @@ FILE *OpenMSGFile(int address[3], char *filename)
 
     FixStack = NULL;    /* BUGFIXED 2012-06-28 us filepointer/stack fix */
 
-    mklog(4, "OpenMSGFile entered");	// MB
+    mklog(4, "OpenMSGFile entered");        // MB
     mklog(3, "OpenMSGFile: %d:%d/%d filename=%s", address[A_ZONE],
-	    address[A_NET], address[A_NODE], MAKE_SS(filename));
+            address[A_NET], address[A_NODE], MAKE_SS(filename));
 
     mklog(4, "SearchMaxMSG(%s)", MessageDir); // MB
     MSGnum = SearchMaxMSG(MessageDir);
@@ -172,7 +172,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
 
     if (filename)
     {
-	sprintf(subject, "%s", filename);
+        sprintf(subject, "%s", filename);
         MSGFlags = (MailerFlags & MF_SUBMIT) >> MF_SHIFT_SUBMIT;
         temp = (MSGFlags & MF_CRASH ? MSG_CRASH : 0) |
             (MSGFlags & MF_HOLD ? MSG_HOLD : 0) |
@@ -191,9 +191,9 @@ FILE *OpenMSGFile(int address[3], char *filename)
     /* BUG FIXED: Y2K-bug changed tm_year to tm_year % 100 and its format
      *        to %02d */
     sprintf(date, "%s %2d %s %02d %02d:%02d",
-	    DOWNames[the_time->tm_wday], the_time->tm_mday,
-	    MonthNames[the_time->tm_mon], the_time->tm_year % 100,
-	    the_time->tm_hour, the_time->tm_min);
+            DOWNames[the_time->tm_wday], the_time->tm_mday,
+            MonthNames[the_time->tm_mon], the_time->tm_year % 100,
+            the_time->tm_hour, the_time->tm_min);
     memcpy(&msgbuf[0x90], date, 20);
     msgbuf[0xba] = (temp & 0x00ff);     /* Atribute */
     msgbuf[0xbb] = (temp & 0xff00) >> 8;
@@ -205,32 +205,32 @@ FILE *OpenMSGFile(int address[3], char *filename)
     if (MyAddress[A_ZONE] == address[A_ZONE])
     {
         intlline[0] = 0;
-	msgbuf[0xae] = (address[A_NET] & 0x00ff);	/* destNet	*/
-	msgbuf[0xaf] = (address[A_NET] & 0xff00) >> 8;
-	msgbuf[0xa6] = (address[A_NODE] & 0x00ff);	/* destNode	*/
-	msgbuf[0xa7] = (address[A_NODE] & 0xff00) >> 8;
-	msgbuf[0xb0] = (address[A_ZONE] & 0x00ff);	/* destZone	*/
-	msgbuf[0xb1] = (address[A_ZONE] & 0xff00) >> 8;
+        msgbuf[0xae] = (address[A_NET] & 0x00ff);        /* destNet        */
+        msgbuf[0xaf] = (address[A_NET] & 0xff00) >> 8;
+        msgbuf[0xa6] = (address[A_NODE] & 0x00ff);        /* destNode        */
+        msgbuf[0xa7] = (address[A_NODE] & 0xff00) >> 8;
+        msgbuf[0xb0] = (address[A_ZONE] & 0x00ff);        /* destZone        */
+        msgbuf[0xb1] = (address[A_ZONE] & 0xff00) >> 8;
         intl = MailerFlags & (MF_INTL |
                               (MF_INTL << MF_SHIFT_ERRORS) |
                               (MF_INTL << MF_SHIFT_SUBMIT));
     }
     else
     {
-	msgbuf[0xae] = (MyAddress[A_ZONE] & 0x00ff);	/* destNet	*/
-	msgbuf[0xaf] = (MyAddress[A_ZONE] & 0xff00) >> 8;
-	msgbuf[0xa6] = (address[A_ZONE] & 0x00ff);	/* destNode	*/
-	msgbuf[0xa7] = (address[A_ZONE] & 0xff00) >> 8;
-	msgbuf[0xb0] = (MyAddress[A_ZONE] & 0x00ff);	/* destZone	*/
-	msgbuf[0xb1] = (MyAddress[A_ZONE] & 0xff00) >> 8;
+        msgbuf[0xae] = (MyAddress[A_ZONE] & 0x00ff);        /* destNet        */
+        msgbuf[0xaf] = (MyAddress[A_ZONE] & 0xff00) >> 8;
+        msgbuf[0xa6] = (address[A_ZONE] & 0x00ff);        /* destNode        */
+        msgbuf[0xa7] = (address[A_ZONE] & 0xff00) >> 8;
+        msgbuf[0xb0] = (MyAddress[A_ZONE] & 0x00ff);        /* destZone        */
+        msgbuf[0xb1] = (MyAddress[A_ZONE] & 0xff00) >> 8;
         intl = 1;
     }
 
-    msgbuf[0xa8] = (MyAddress[A_NODE] & 0x00ff);	/* origNode	*/
+    msgbuf[0xa8] = (MyAddress[A_NODE] & 0x00ff);        /* origNode        */
     msgbuf[0xa9] = (MyAddress[A_NODE] & 0xff00) >> 8;
-    msgbuf[0xac] = (MyAddress[A_NET] & 0x00ff);		/* origNet	*/
+    msgbuf[0xac] = (MyAddress[A_NET] & 0x00ff);                /* origNet        */
     msgbuf[0xad] = (MyAddress[A_NET] & 0xff00) >> 8;
-    msgbuf[0xb2] = (MyAddress[A_ZONE] & 0x00ff);	/* origZone	*/
+    msgbuf[0xb2] = (MyAddress[A_ZONE] & 0x00ff);        /* origZone        */
     msgbuf[0xb3] = (MyAddress[A_ZONE] & 0xff00) >> 8;
     
     if (intl)
@@ -239,8 +239,8 @@ FILE *OpenMSGFile(int address[3], char *filename)
         {
             printf("\nWARNING -- Don't know your zone, can't send interzone message to %d:%d/%d\n\n",
                     address[A_ZONE], address[A_NET], address[A_NODE]);
-	    mklog(1, "WARNING -- Don't know your zone, can't send interzone message to %d:%d/%d",
-		    address[A_ZONE], address[A_NET], address[A_NODE]);
+            mklog(1, "WARNING -- Don't know your zone, can't send interzone message to %d:%d/%d",
+                    address[A_ZONE], address[A_NET], address[A_NODE]);
             return (MailFILE = NULL);
         }
         sprintf(intlline, "\x01INTL %d:%d/%d %d:%d/%d\r\n", address[A_ZONE],
@@ -256,10 +256,10 @@ FILE *OpenMSGFile(int address[3], char *filename)
     fwrite(&msgbuf, sizeof(msgbuf), 1, MailFILE);
     fputs(intlline, MailFILE);
     fprintf(MailFILE, "\x01MSGID: %d:%d/%d %08lx\r\n", MyAddress[A_ZONE], 
-	    MyAddress[A_NET], MyAddress[A_NODE], GetSequence());
+            MyAddress[A_NET], MyAddress[A_NODE], GetSequence());
     if (!filename)
     {
-	mklog(4, "OpenMSGFile: return with open MailFILE");
+        mklog(4, "OpenMSGFile: return with open MailFILE");
         return MailFILE;
     }
     fclose(MailFILE);
@@ -272,54 +272,54 @@ FILE *OpenMSGFile(int address[3], char *filename)
 FILE *CloseMSGFile(int status)
 {
     char filename[MYMAXDIR];
-    int	i, temp = 0;
+    int        i, temp = 0;
 
     mklog(3, "CloseMSGFile: status=%d", status);
 
     if (MailFILE != NULL)
     {
-	mklog(4, "CloseMSGFile: MailFILE is open");
+        mklog(4, "CloseMSGFile: MailFILE is open");
         if (status >= 0)
         {
             if (status != 0)
             {
-                MSGFlags >>= MF_SHIFT_ERRORS;	/* Use the error flags	    */
-		for (i = 0x48; i; i++)		/* Search end of subject    */
-		{
-		    if (msgbuf[i] == '\0')
-		    {
-			break;
-		    }
-		}
+                MSGFlags >>= MF_SHIFT_ERRORS;        /* Use the error flags            */
+                for (i = 0x48; i; i++)                /* Search end of subject    */
+                {
+                    if (msgbuf[i] == '\0')
+                    {
+                        break;
+                    }
+                }
                 memcpy(&msgbuf[i], " with errors", 12);
             }
             else
-	    {
+            {
                 MSGFlags &= MF_RECEIPT;
-	    }
+            }
             if (MSGFlags)
             {
-		mklog(4, "CloseMSGFile: MSGFlags != 0");
+                mklog(4, "CloseMSGFile: MSGFlags != 0");
                 putc(0, MailFILE);
                 fseek(MailFILE, 0L, SEEK_SET);
                 temp |=
                     (MSGFlags & MF_CRASH ? MSG_CRASH : 0) | (MSGFlags &
                                                              MF_HOLD ?
                                                              MSG_HOLD : 0);
-		msgbuf[0xba] = (temp & 0x00ff);     /* Atribute */
-		msgbuf[0xbb] = (temp & 0xff00) >> 8;
+                msgbuf[0xba] = (temp & 0x00ff);     /* Atribute */
+                msgbuf[0xbb] = (temp & 0xff00) >> 8;
                 fwrite(&msgbuf, sizeof(msgbuf), 1, MailFILE);
             }
             else
                 status = -1;
         }
-	mklog(4, "CloseMSGFile: closing file, status is now %d, MSGnum=%d", status, MSGnum);
+        mklog(4, "CloseMSGFile: closing file, status is now %d, MSGnum=%d", status, MSGnum);
         fclose(MailFILE);
         if (status < 0)
-	{
+        {
             unlink(MakeMSGFilename(filename, MSGnum--));
-	    mklog(3, "CloseMSGFile: unlink %s", filename);
-	}
+            mklog(3, "CloseMSGFile: unlink %s", filename);
+        }
     }
     mklog(4, "CloseMSGFile: MSGnum=%d", MSGnum);
     MailFILE = NULL;

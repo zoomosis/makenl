@@ -1,4 +1,4 @@
-/* $Id: osmscwin.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: osmscwin.h,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +12,7 @@
 #define MYMAXPATH  MYMAXFILE
 #define MYMAXEXT   13
 #define MYMAXDRIVE 3
-#define filecmp	   stricmp
+#define filecmp    stricmp
 #define filenodir(x) (strchr(x,'/') == NULL)
 
 /* Needed definitions */

@@ -1,4 +1,4 @@
-/* $Id: oslnxget.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: oslnxget.c,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 char *os_fgets(char *buffer, size_t len, FILE * f)
 {
@@ -11,7 +11,7 @@ char *os_fgets(char *buffer, size_t len, FILE * f)
      * if we didn't read anything.
      */
     if (result != NULL && buffer[0] == ('Z' & 0x1F))
-	return NULL;
+        return NULL;
     /* 
      * This should not happen, EOF should allways be at the begin of a line.
      */

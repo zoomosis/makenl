@@ -1,4 +1,4 @@
-/* $Id: ostbcdos.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: ostbcdos.h,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <dir.h>
 #include <stdlib.h>             /* for size_t */
@@ -34,5 +34,5 @@ struct _filefind
     struct ffblk fileinfo;
 };
 
-#define filecmp	   stricmp
+#define filecmp  stricmp
 #define filenodir(x) (strpbrk((x),"\\/") == NULL)

@@ -1,4 +1,4 @@
-/* $Id: osgnuemx.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: osgnuemx.h,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -16,7 +16,7 @@
 #define HAVE_OS_GETCWD
 #define HAVE_OS_FGETS
 #define HAVE_STRUPR
-#define filecmp	   stricmp
+#define filecmp  stricmp
 #define filenodir(x) (strpbrk(x,"\\/") == NULL)
 
 /* Needed definitions */

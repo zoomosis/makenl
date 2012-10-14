@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.2 2012/09/26 01:14:17 ajleary Exp $ */
+/* $Id: fts5.c,v 1.3 2012/10/14 13:47:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -174,9 +174,9 @@ static int getphone(char **instring, int *linelevel, int *linenum)
     /* Mini spellchecker */
     if ((strcasecmp(*instring, "-Unpublished-") == 0) && strcmp(*instring, "-Unpublished-"))
     {
-	printf("*WARNING %s has been replaced with -Unpublished-\n\n", *instring);
-	mklog(1, "*WARNING %s has been replaced with -Unpublished-", *instring);
-	*instring = "-Unpublished-";
+        printf("*WARNING %s has been replaced with -Unpublished-\n\n", *instring);
+        mklog(1, "*WARNING %s has been replaced with -Unpublished-", *instring);
+        *instring = "-Unpublished-";
     }
 
     switch (*linelevel)
@@ -192,39 +192,39 @@ static int getphone(char **instring, int *linelevel, int *linenum)
              return 0;
         break;
     case LEVEL_DOWN:
-	/* 
-	 * Don't allow -Unpublished- even when the node is Down.
-	 * All other things are allowed and not checked.
-	 */
-	if (Allowunpub == 0 && (strcmp(*instring, "-Unpublished-") == 0))
-	    return 1;
+        /* 
+         * Don't allow -Unpublished- even when the node is Down.
+         * All other things are allowed and not checked.
+         */
+        if (Allowunpub == 0 && (strcmp(*instring, "-Unpublished-") == 0))
+            return 1;
         /* Hold and down nodes don't need a valid number */
         break;
     case LEVEL_POINT:
         /* Points may have unpublished phones */
         if (!strcmp(*instring, "-Unpublished-"))
             return 0;
-	/* Fall thru */
+        /* Fall thru */
     default:
-	if (Allowunpub == 1 && (strcmp(*instring, "-Unpublished-") == 0))
-	    return 0;
-	if (Alphaphone == 1)
-	{
-	    if (Allowunpub == 0 && (strcmp(*instring, "-Unpublished-") == 0))
-		return 1;
+        if (Allowunpub == 1 && (strcmp(*instring, "-Unpublished-") == 0))
+            return 0;
+        if (Alphaphone == 1)
+        {
+            if (Allowunpub == 0 && (strcmp(*instring, "-Unpublished-") == 0))
+                return 1;
 
-	    /* Check if this is alpha, if not do a normal phone check. */
-	    phoneno = *instring;
-	    phonewalk = phoneno;
-	    do
-	    {
-		phonechar = *phonewalk;
-		phonewalk++;
-		if (isalpha((unsigned char)phonechar))
-		    return 0;
-	    } 
-	    while (phonechar);
-	}
+            /* Check if this is alpha, if not do a normal phone check. */
+            phoneno = *instring;
+            phonewalk = phoneno;
+            do
+            {
+                phonechar = *phonewalk;
+                phonewalk++;
+                if (isalpha((unsigned char)phonechar))
+                    return 0;
+            } 
+            while (phonechar);
+        }
         phoneno = *instring;
         phonewalk = phoneno;
         brackets = 0;
@@ -302,26 +302,26 @@ static int getbaud(char **instring, int *linelevel, int *linenum)
 
     if (e_len == 0)
     {
-	sprintf(ErrorMessage, "Invalid baud rate -- \"%s\"", *instring);
-	return 1;
+        sprintf(ErrorMessage, "Invalid baud rate -- \"%s\"", *instring);
+        return 1;
     }
 
     /* Check with table */
     for (i = 0; i < MAX_BAUDRATES; i++)
     {
-	if (nl_baudrate[i] == 0)
-	    break;
-	if (nl_baudrate[i] == atoi(*instring))
-	{
-	    good = 1;
-	    break;
-	}
+        if (nl_baudrate[i] == 0)
+            break;
+        if (nl_baudrate[i] == atoi(*instring))
+        {
+            good = 1;
+            break;
+        }
     }
 
     if (good == 0)
     {
-	sprintf(ErrorMessage, "Invalid baud rate -- \"%s\"", *instring);
-	return 1;
+        sprintf(ErrorMessage, "Invalid baud rate -- \"%s\"", *instring);
+        return 1;
     }
 
     return 0;
