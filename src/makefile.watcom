@@ -3,7 +3,7 @@
 #
 # Based on makefile by by Alex Woick, 2:244/1351.
 #
-# $Id: makefile.watcom,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+# $Id: makefile.watcom,v 1.2 2012/10/14 04:29:52 ozzmosis Exp $
 #
 # Build with:
 #
@@ -30,7 +30,7 @@ OS=WIN
 AC=wasm
 ACFLAGS+= -DWATCOM -zq
 
-CFLAGS+= -zq -zp1 -wx -k8192
+CFLAGS+= -zq -zp1 -wx -k16384
 
 !ifeq OS DOS
 CC=wcl
