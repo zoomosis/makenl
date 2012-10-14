@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.7 2012/10/13 01:27:30 ozzmosis Exp $ */
+/* $Id: config.c,v 1.8 2012/10/14 13:28:33 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -631,15 +631,15 @@ int parsecfgfile(FILE * CFG)
 	    break;
 	case CFG_LOGFILE:
 	    strcpy(LogFile, args[0]);
-	    /*
-	     * Now we know the logfile, start logging immediatly.
-	     */
-	    mklog(1, "");
-	    mklog(1, "MakeNL %s (%s %s) start", MAKENL_VERSION, MAKENL_OS, MAKENL_CC);
+	    /* Now we know the logfile, start logging immediately */
+	    mklog(1, "MakeNL %s (%s %s) started", MAKENL_VERSION, MAKENL_OS, MAKENL_CC);
 	    break;
 	case CFG_LOGLEVEL:
             if (args[0][0] >= '1' && args[0][0] <= '4' && args[0][1] == 0)
+	    {
+		
 		loglevel = args[0][0] - '0';
+	    }
 	    else
 	    {
 		mklog(0, "LOGLEVEL argument \"%s\" not in range 1 to 4", args[0]);

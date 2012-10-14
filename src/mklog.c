@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.9 2012/10/14 13:09:29 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.10 2012/10/14 13:28:33 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,6 +22,8 @@
 #ifdef DMALLOC
 # include "dmalloc.h"
 #endif
+
+static int logopened = 0;
 
 int loglevel = 1;
 
@@ -72,6 +74,13 @@ void mklog(int level, const char *format, ...)
 
     if (fp != NULL)
     {
+        if (logopened == 0)
+        {
+            /* if this is the first log entry, start with an empty line before it */
+            logopened = 1;
+            fputc('\n', fp);
+        }
+
 #if defined(__unix__)
 	fprintf(fp, "%c %s makenl[%d] ", logmark[level], date_str(), getpid());
 #else
