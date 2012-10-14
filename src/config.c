@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.11 2012/10/14 14:56:24 ozzmosis Exp $ */
+/* $Id: config.c,v 1.12 2012/10/14 14:59:08 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -945,6 +945,6 @@ int parsecfgfile(FILE * CFG)
     ArcOpenCnt = ArcOpenSet;
 
     if (CheckErrors(mode) == -1)
-        die(0xFF, "Errors in configuration file");
+        die(255, "Errors in configuration file");
     return mode;
 }

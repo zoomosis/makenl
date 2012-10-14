@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.7 2012/10/14 14:56:24 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.8 2012/10/14 14:59:08 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -78,7 +78,7 @@ int makearc(char *filename, int move)
     mklog(LOG_INFO, "Creating archive '%s' containing '%s'", fullpath, filename);
     sprintf(cmdlinebuf, "%s %s", fullpath, filename);
     if (os_spawn(arccommand, cmdlinebuf) != 0)
-        die(0xFD, "Unable to create archive '%s'", fullpath);
+        die(253, "Unable to create archive '%s'", fullpath);
     strcpy(filename, fullpath);
     return 1;
 }

@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.12 2012/10/14 14:56:24 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.13 2012/10/14 14:59:08 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -81,7 +81,7 @@ static void check_fp(FILE *fp, char *fn, char *mode)
         return;
     }
     
-    die(0xFE, "Unable to open '%s' for %s", fn, *mode == 'r' ? "input" : "output");
+    die(254, "Unable to open '%s' for %s", fn, *mode == 'r' ? "input" : "output");
 }
 
 /* Looks for the last day with (dow == weekday) before now.
