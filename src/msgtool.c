@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.5 2012/10/13 01:23:33 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.6 2012/10/14 13:03:46 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -140,7 +140,7 @@ int ParseAddress(const char *string, int out[3])
 
 
 
-FILE *OpenMSGFile(int adress[3], char *filename)
+FILE *OpenMSGFile(int address[3], char *filename)
 {
     static char *DOWNames[] =
 	    { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
@@ -156,8 +156,8 @@ FILE *OpenMSGFile(int adress[3], char *filename)
     FixStack = NULL;    /* BUGFIXED 2012-06-28 us filepointer/stack fix */
 
     mklog(4, "OpenMSGFile entered");	// MB
-    mklog(3, "OpenMSGFile: %d:%d/%d filename=%s", adress[A_ZONE],
-	    adress[A_NET], adress[A_NODE], MAKE_SS(filename));
+    mklog(3, "OpenMSGFile: %d:%d/%d filename=%s", address[A_ZONE],
+	    address[A_NET], address[A_NODE], MAKE_SS(filename));
 
     mklog(4, "SearchMaxMSG(%s)", MessageDir); // MB
     MSGnum = SearchMaxMSG(MessageDir);
@@ -200,17 +200,17 @@ FILE *OpenMSGFile(int adress[3], char *filename)
 
     if (!MSGFlags)
         return (MailFILE = NULL);
-    if (!adress[A_ZONE])
-        adress[A_ZONE] = MyAddress[A_ZONE];
-    if (MyAddress[A_ZONE] == adress[A_ZONE])
+    if (!address[A_ZONE])
+        address[A_ZONE] = MyAddress[A_ZONE];
+    if (MyAddress[A_ZONE] == address[A_ZONE])
     {
         intlline[0] = 0;
-	msgbuf[0xae] = (adress[A_NET] & 0x00ff);	/* destNet	*/
-	msgbuf[0xaf] = (adress[A_NET] & 0xff00) >> 8;
-	msgbuf[0xa6] = (adress[A_NODE] & 0x00ff);	/* destNode	*/
-	msgbuf[0xa7] = (adress[A_NODE] & 0xff00) >> 8;
-	msgbuf[0xb0] = (adress[A_ZONE] & 0x00ff);	/* destZone	*/
-	msgbuf[0xb1] = (adress[A_ZONE] & 0xff00) >> 8;
+	msgbuf[0xae] = (address[A_NET] & 0x00ff);	/* destNet	*/
+	msgbuf[0xaf] = (address[A_NET] & 0xff00) >> 8;
+	msgbuf[0xa6] = (address[A_NODE] & 0x00ff);	/* destNode	*/
+	msgbuf[0xa7] = (address[A_NODE] & 0xff00) >> 8;
+	msgbuf[0xb0] = (address[A_ZONE] & 0x00ff);	/* destZone	*/
+	msgbuf[0xb1] = (address[A_ZONE] & 0xff00) >> 8;
         intl = MailerFlags & (MF_INTL |
                               (MF_INTL << MF_SHIFT_ERRORS) |
                               (MF_INTL << MF_SHIFT_SUBMIT));
@@ -219,8 +219,8 @@ FILE *OpenMSGFile(int adress[3], char *filename)
     {
 	msgbuf[0xae] = (MyAddress[A_ZONE] & 0x00ff);	/* destNet	*/
 	msgbuf[0xaf] = (MyAddress[A_ZONE] & 0xff00) >> 8;
-	msgbuf[0xa6] = (adress[A_ZONE] & 0x00ff);	/* destNode	*/
-	msgbuf[0xa7] = (adress[A_ZONE] & 0xff00) >> 8;
+	msgbuf[0xa6] = (address[A_ZONE] & 0x00ff);	/* destNode	*/
+	msgbuf[0xa7] = (address[A_ZONE] & 0xff00) >> 8;
 	msgbuf[0xb0] = (MyAddress[A_ZONE] & 0x00ff);	/* destZone	*/
 	msgbuf[0xb1] = (MyAddress[A_ZONE] & 0xff00) >> 8;
         intl = 1;
@@ -238,13 +238,13 @@ FILE *OpenMSGFile(int adress[3], char *filename)
         if (MyAddress[A_ZONE] == 0)
         {
             printf("\nWARNING -- Don't know your zone, can't send interzone message to %d:%d/%d\n\n",
-                    adress[A_ZONE], adress[A_NET], adress[A_NODE]);
+                    address[A_ZONE], address[A_NET], address[A_NODE]);
 	    mklog(1, "WARNING -- Don't know your zone, can't send interzone message to %d:%d/%d",
-		    adress[A_ZONE], adress[A_NET], adress[A_NODE]);
+		    address[A_ZONE], address[A_NET], address[A_NODE]);
             return (MailFILE = NULL);
         }
-        sprintf(intlline, "\x01INTL %d:%d/%d %d:%d/%d\r\n", adress[A_ZONE],
-                adress[A_NET], adress[A_NODE], MyAddress[A_ZONE],
+        sprintf(intlline, "\x01INTL %d:%d/%d %d:%d/%d\r\n", address[A_ZONE],
+                address[A_NET], address[A_NODE], MyAddress[A_ZONE],
                 MyAddress[A_NET], MyAddress[A_NODE]);
     }
     MailFILE = fopen(MakeMSGFilename(filenamebuf, MSGnum + 1), "wb");
