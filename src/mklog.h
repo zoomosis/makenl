@@ -1,5 +1,5 @@
-/* $Id: mklog.h,v 1.2 2012/10/14 14:07:22 ozzmosis Exp $ */
+/* $Id: mklog.h,v 1.3 2012/10/14 14:08:58 ozzmosis Exp $ */
 
 extern int loglevel;
 
-void mklog(int level, const char *format, ...)
+void mklog(int level, const char *format, ...);
