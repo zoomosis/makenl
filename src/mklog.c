@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.8 2012/10/13 01:23:33 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.9 2012/10/14 13:09:29 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -80,7 +80,7 @@ void mklog(int level, const char *format, ...)
         fprintf(fp, "%s", *outstr == '$' ? outstr + 1 : outstr);
     }
 
-    if (level == 0)
+    if (level == 0 || MakenlDebug)
     {
 	fprintf(stderr, "%s", *outstr == '$' ? outstr + 1 : outstr);
     }
@@ -99,7 +99,7 @@ void mklog(int level, const char *format, ...)
 	fclose(fp);
     }
 
-    if (level == 0)
+    if (level == 0 || MakenlDebug)
     {
 	if (*outstr == '$')
 	{
