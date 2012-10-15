@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.9 2012/10/14 14:49:17 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.10 2012/10/15 00:42:58 ajleary Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -25,7 +25,7 @@
 #define MSG_FILE     0x0010
 #define MSG_KILLSENT 0x0080
 #define MSG_LOCAL    0x0100
-#define MSG_HOLD     0x0400
+#define MSG_HOLD     0x0200
 
 
 
