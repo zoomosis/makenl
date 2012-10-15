@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.16 2012/10/14 15:24:21 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.17 2012/10/15 09:45:39 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,6 +9,10 @@
 
 #ifdef __unix__
 #include <unistd.h>
+#endif
+
+#ifdef __WATCOMC__
+#include <process.h>
 #endif
 
 #include "makenl.h"
@@ -85,7 +89,7 @@ void mklog(int level, const char *format, ...)
             fputc('\n', log_fp);
         }
 
-#if defined(__unix__)
+#if defined(__unix__) || defined(__WATCOMC__)
         fprintf(log_fp, "%c %s makenl[%d] ", logmark[level], date_str(), getpid());
 #else
         fprintf(log_fp, "%c %s makenl: ", logmark[level], date_str());
