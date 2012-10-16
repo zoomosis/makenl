@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: os.h,v 1.3 2012/10/16 19:57:43 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -23,13 +23,6 @@
 
 #ifdef __GNUC__
 #define __FLAT__  /* flat memory model, min. 32-bit */
-#endif
-
-#ifndef max
-#define max(a,b)  (((a) > (b)) ? (a) : (b))
-#endif
-#ifndef min
-#define min(a,b)  (((a) < (b)) ? (a) : (b))
 #endif
 
 /* Defaults for overwriteable functions */

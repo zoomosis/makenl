@@ -1,4 +1,4 @@
-/* $Id: makenl.h,v 1.5 2012/10/14 14:49:17 ozzmosis Exp $ */
+/* $Id: makenl.h,v 1.6 2012/10/16 19:57:43 ozzmosis Exp $ */
 
 #include "os.h"
 
@@ -40,3 +40,11 @@ char *cutspaces(char *string);
 /* necessary for some C implementations where printf("%s\n", NULL) would cause a segfault */
 
 #define make_str_safe(x) (x)?(x):"(null)"
+
+#ifndef max
+#define max(a,b)  (((a) > (b)) ? (a) : (b))
+#endif
+
+#ifndef min
+#define min(a,b)  (((a) < (b)) ? (a) : (b))
+#endif
