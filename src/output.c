@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.5 2012/10/14 14:56:24 ozzmosis Exp $ */
+/* $Id: output.c,v 1.6 2012/10/16 09:15:51 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,7 +40,7 @@ int OutputErrorLine(FILE * file, const char *pre, const char *wrongy,
     if (crc)
         *crc = CRC16String(linebuf, *crc);
     fputs_result = fputs(linebuf, file);
-    mklog(LOG_ERROR, "%s", linebuf);
+    mklog(LOG_LOGONLY, "%s%s -- %s", pre, wrongy, ErrorMessage);
     free(linebuf);
     return fputs_result;
 }

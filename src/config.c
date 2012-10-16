@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.16 2012/10/16 09:11:35 ozzmosis Exp $ */
+/* $Id: config.c,v 1.17 2012/10/16 09:15:51 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -523,8 +523,7 @@ int parsecfgfile(FILE * CFG)
         switchno = xlate_switch(strupr(command), CfgEntries);
         if (switchno == -1)
         {
-            mklog(LOG_ERROR, "%s  -- Unknown keyword -- '%s'",
-                    cfgline, command);
+            mklog(LOG_ERROR, "'%s': Unknown keyword '%s'", cfgline, command);
             mode = -1;
             break;
         }
@@ -537,7 +536,7 @@ int parsecfgfile(FILE * CFG)
         }
         if (arglimit[switchno].min > argcounter)
         {
-            mklog(LOG_ERROR, "%s -- Too few parameters\n", cfgline);
+            mklog(LOG_ERROR, "Not enough parameters for '%s' command", cfgline);
             mode = -1;
             continue;
         }
@@ -546,7 +545,7 @@ int parsecfgfile(FILE * CFG)
                                                                                     arguments... 
                                                                                   */
         {
-            mklog(LOG_ERROR, "%s -- Too many parameters", cfgline);
+            mklog(LOG_ERROR, "Too many parameters for '%s' command", cfgline);
             mode = -1;
             continue;
         }
@@ -681,7 +680,7 @@ int parsecfgfile(FILE * CFG)
                     workptr = args[1];
                 if (getnodenum(&workptr, &MakeType, &MakeNum) != 0)
                 {
-                    OutputErrorLine(stderr, cfgline, "\n", "\n", NULL);
+                    OutputErrorLine(stderr, cfgline, "", "\n", NULL);
                     mode = -1;
                 }
                 if (argcounter == 4) /* Source file given */
