@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.5 2012/10/14 14:56:24 ozzmosis Exp $ */
+/* $Id: process.c,v 1.6 2012/10/16 09:07:34 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -122,9 +122,9 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
                     /* newly received file */
                     NotifyMsgFILE = OpenMSGFile(NotifyAddress, NULL);
                     if (NotifyMsgFILE)
-		    {
+                    {
                         fprintf(NotifyMsgFILE, "Your nodelist update '%s' has been received", WorkFile);
-		    }
+                    }
                 }
                 commFILE =
                     (searchwhere ==

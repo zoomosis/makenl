@@ -1,6 +1,6 @@
-/* $Id: fts5.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+/* $Id: fts5.h,v 1.2 2012/10/16 09:07:34 ozzmosis Exp $ */
 
-/* Indices for 3D-Adresses */
+/* Indices for 3D-Addresses */
 #define A_ZONE 0
 #define A_NET 1
 #define A_NODE 2

@@ -1,4 +1,4 @@
-/* $Id: msg.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: msg.h,v 1.2 2012/10/16 09:07:34 ozzmosis Exp $ */
 
 #define MF_SHIFT_ERRORS 4
 #define MF_SHIFT_SUBMIT 8
@@ -20,5 +20,5 @@ extern int SubmitAddress[3];
 extern int MyAddress[3];
 
 int ParseAddress(const char *string, int *out);
-FILE *OpenMSGFile(int *adress, char *filename);
+FILE *OpenMSGFile(int *address, char *filename);
 FILE *CloseMSGFile(int status);

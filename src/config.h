@@ -1,4 +1,4 @@
-/* $Id: config.h,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: config.h,v 1.3 2012/10/16 09:07:34 ozzmosis Exp $ */
 
 /* Numbers of configuration options */
 #define CFG_ARCCOPY 0
@@ -19,7 +19,7 @@
 #define CFG_MESSAGES 13
 #define CFG_MINPHONE 14
 #define CFG_NAME 15
-#define CFG_NETADRESS 16
+#define CFG_NETADDRESS 16
 #define CFG_NOTIFY 17
 #define CFG_OUTDIFF 18
 #define CFG_OUTFILE 19

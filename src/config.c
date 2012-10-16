@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.14 2012/10/16 09:01:54 ozzmosis Exp $ */
+/* $Id: config.c,v 1.15 2012/10/16 09:07:34 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -147,7 +147,7 @@ static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
                 SubmitAddress[A_ZONE] = MyAddress[A_ZONE];
             if (MailerFlags & MAIL_INTL && MyAddress[A_ZONE] == 0)
             {
-                mklog(LOG_ERROR, "Forced 'INTL' kluge requested, but your zone is unknown.");
+                mklog(LOG_ERROR, "Forced 'INTL' kludge requested, but your zone is unknown.");
                 mode = -1;
             }
         }
@@ -373,7 +373,7 @@ const struct switchstruct CfgEntries[] = {
     {"MESSAGES", 3, CFG_MESSAGES},
     {"MINPHONE", 3, CFG_MINPHONE},
     {"NAME", 3, CFG_NAME},
-    {"NETADRESS", 3, CFG_NETADRESS},
+    {"NETADDRESS", 3, CFG_NETADDRESS},
     {"NOTIFY", 3, CFG_NOTIFY},
     {"OUTDIFF", 4, CFG_OUTDIFF},
     {"OUTFILE", 4, CFG_OUTFILE},
@@ -748,7 +748,7 @@ int parsecfgfile(FILE * CFG)
                 mode = -1;
             }
             break;
-        case CFG_NETADRESS:
+        case CFG_NETADDRESS:
             if (ParseAddress(args[0], MyAddress) != 0)
                 goto BadAddress;
             break;
