@@ -1,4 +1,4 @@
-/* $Id: crc16.c,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+/* $Id: crc16.c,v 1.2 2012/10/16 18:52:12 ozzmosis Exp $ */
 
 #include "crc16.h"
 
@@ -36,7 +36,7 @@ static unsigned int CRC16Tab[] =
 
 unsigned short CRC16DoByte(unsigned char byte, unsigned short CRCnow)
 {
-    return ((CRCnow << 8) | byte) ^ CRC16Tab[CRCnow >> 8];
+    return (unsigned short)(((CRCnow << 8) | byte) ^ CRC16Tab[CRCnow >> 8]);
 }
 
 unsigned short CRC16String(const char *str, unsigned short crc)

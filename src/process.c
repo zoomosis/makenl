@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.6 2012/10/16 09:07:34 ozzmosis Exp $ */
+/* $Id: process.c,v 1.7 2012/10/16 18:52:12 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -203,7 +203,7 @@ processfile(int myMakeType, int myMakeNum, FILE * InputFILE,
 {
     long outpos = 0;
     long mergeoutpos = 0;
-    int error = 0;
+    int error;
     int level;
     int num;
     int contextlevel;

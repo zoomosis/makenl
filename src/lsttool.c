@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.8 2012/10/14 14:59:08 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.9 2012/10/16 18:52:12 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -94,7 +94,7 @@ int installlist(char *filename, char *extbfr)
     FILE *oldFILE = NULL;
     char *tmpstart;
     int weeksold = 0;
-    FILE *tmpFILE = NULL;
+    FILE *tmpFILE;
     int unchanged = 0;
     char (*extptr)[MYMAXEXT];
     char tmpname[linelength];

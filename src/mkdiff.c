@@ -1,4 +1,4 @@
-/* $Id: mkdiff.c,v 1.6 2012/10/14 14:56:24 ozzmosis Exp $ */
+/* $Id: mkdiff.c,v 1.7 2012/10/16 18:52:12 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -409,8 +409,8 @@ int Get2Bit(char *bitptr, unsigned short bitno)
 
 void Set2Bit(char *bitptr, unsigned short bitno, int val)
 {
-    bitptr[COLLTBLBYTEPOS(bitno)] &= ~(3 << COLLTBLBITPOS(bitno));
-    bitptr[COLLTBLBYTEPOS(bitno)] |= val << COLLTBLBITPOS(bitno);
+    bitptr[COLLTBLBYTEPOS(bitno)] &= (char) (~(3 << COLLTBLBITPOS(bitno)));
+    bitptr[COLLTBLBYTEPOS(bitno)] |= (char) (val << COLLTBLBITPOS(bitno));
 }
 
 

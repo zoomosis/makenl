@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.17 2012/10/16 09:15:51 ozzmosis Exp $ */
+/* $Id: config.c,v 1.18 2012/10/16 18:52:12 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -218,7 +218,7 @@ static const struct switchstruct SwitchXLate[] = {
     {NULL, 0, 0}
 };
 
-static void show_usage()
+static void show_usage(void)
 {
     printf(
       "Usage: makenl [<config file>] [-p|-t] [-m[=<nodelist>]] [-n=<netname>] [-d]" "\n"
@@ -254,9 +254,7 @@ static void show_credits(void)
 
 void DoCmdLine(char **argv, char **cfgfilename)
 {
-    char *argv0, *tmpptr, *valueptr;
-
-    argv0 = argv[0];
+    char *tmpptr, *valueptr;
 
     while (*(++argv) != NULL)
     {
@@ -530,7 +528,8 @@ int parsecfgfile(FILE * CFG)
         argcounter = 1;
         while (argcounter < arglimit[switchno].max)
         {
-            if (!(args[argcounter - 1] = strtok(NULL, cfgspacechars)))
+            args[argcounter - 1] = strtok(NULL, cfgspacechars);
+            if (!args[argcounter - 1])
                 break;
             argcounter++;
         }

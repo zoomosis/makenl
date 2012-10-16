@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.6 2012/10/14 14:56:24 ozzmosis Exp $ */
+/* $Id: fileutil.c,v 1.7 2012/10/16 18:52:12 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -203,8 +203,6 @@ myfnsplit(const char *input, char *drive, char *dir, char *name, char *ext)
             *(name++) = *(input++);
         *name = 0;
     }
-    else
-        input = splitptr;
     if (ext)
     {
         if (*splitptr)
@@ -339,7 +337,7 @@ void CopyOrMove(int copy, char *source, char *destdir, char *destname)
     if (!sourceFILE)
         die(254, "Unable to open '%s' for input", source);
     while ((copychar = getc(sourceFILE)) != EOF)
-        putc(copychar, destFILE);
+        fputc(copychar, destFILE);
     fclose(sourceFILE);
     fclose(destFILE);
     if (!copy)

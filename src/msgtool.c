@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.11 2012/10/16 01:18:42 ajleary Exp $ */
+/* $Id: msgtool.c,v 1.12 2012/10/16 18:52:12 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -195,8 +195,8 @@ FILE *OpenMSGFile(int address[3], char *filename)
             MonthNames[the_time->tm_mon], the_time->tm_year % 100,
             the_time->tm_hour, the_time->tm_min);
     memcpy(&msgbuf[0x90], date, 20);
-    msgbuf[0xba] = (temp & 0x00ff);     /* Atribute */
-    msgbuf[0xbb] = (temp & 0xff00) >> 8;
+    msgbuf[0xba] = (unsigned char)(temp & 0x00ff);     /* Attribute */
+    msgbuf[0xbb] = (unsigned char)((temp & 0xff00) >> 8);
 
     if (!MSGFlags)
         return (MailFILE = NULL);
@@ -205,33 +205,33 @@ FILE *OpenMSGFile(int address[3], char *filename)
     if (MyAddress[A_ZONE] == address[A_ZONE])
     {
         intlline[0] = 0;
-        msgbuf[0xae] = (address[A_NET] & 0x00ff);        /* destNet        */
-        msgbuf[0xaf] = (address[A_NET] & 0xff00) >> 8;
-        msgbuf[0xa6] = (address[A_NODE] & 0x00ff);        /* destNode        */
-        msgbuf[0xa7] = (address[A_NODE] & 0xff00) >> 8;
-        msgbuf[0xb0] = (address[A_ZONE] & 0x00ff);        /* destZone        */
-        msgbuf[0xb1] = (address[A_ZONE] & 0xff00) >> 8;
+        msgbuf[0xae] = (unsigned char)(address[A_NET] & 0x00ff);        /* destNet        */
+        msgbuf[0xaf] = (unsigned char)((address[A_NET] & 0xff00) >> 8);
+        msgbuf[0xa6] = (unsigned char)(address[A_NODE] & 0x00ff);        /* destNode        */
+        msgbuf[0xa7] = (unsigned char)((address[A_NODE] & 0xff00) >> 8);
+        msgbuf[0xb0] = (unsigned char)(address[A_ZONE] & 0x00ff);        /* destZone        */
+        msgbuf[0xb1] = (unsigned char)((address[A_ZONE] & 0xff00) >> 8);
         intl = MailerFlags & (MF_INTL |
                               (MF_INTL << MF_SHIFT_ERRORS) |
                               (MF_INTL << MF_SHIFT_SUBMIT));
     }
     else
     {
-        msgbuf[0xae] = (MyAddress[A_ZONE] & 0x00ff);        /* destNet        */
-        msgbuf[0xaf] = (MyAddress[A_ZONE] & 0xff00) >> 8;
-        msgbuf[0xa6] = (address[A_ZONE] & 0x00ff);        /* destNode        */
-        msgbuf[0xa7] = (address[A_ZONE] & 0xff00) >> 8;
-        msgbuf[0xb0] = (MyAddress[A_ZONE] & 0x00ff);        /* destZone        */
-        msgbuf[0xb1] = (MyAddress[A_ZONE] & 0xff00) >> 8;
+        msgbuf[0xae] = (unsigned char)(MyAddress[A_ZONE] & 0x00ff);        /* destNet        */
+        msgbuf[0xaf] = (unsigned char)((MyAddress[A_ZONE] & 0xff00) >> 8);
+        msgbuf[0xa6] = (unsigned char)(address[A_ZONE] & 0x00ff);        /* destNode        */
+        msgbuf[0xa7] = (unsigned char)((address[A_ZONE] & 0xff00) >> 8);
+        msgbuf[0xb0] = (unsigned char)(MyAddress[A_ZONE] & 0x00ff);        /* destZone        */
+        msgbuf[0xb1] = (unsigned char)((MyAddress[A_ZONE] & 0xff00) >> 8);
         intl = 1;
     }
 
-    msgbuf[0xa8] = (MyAddress[A_NODE] & 0x00ff);        /* origNode        */
-    msgbuf[0xa9] = (MyAddress[A_NODE] & 0xff00) >> 8;
-    msgbuf[0xac] = (MyAddress[A_NET] & 0x00ff);                /* origNet        */
-    msgbuf[0xad] = (MyAddress[A_NET] & 0xff00) >> 8;
-    msgbuf[0xb2] = (MyAddress[A_ZONE] & 0x00ff);        /* origZone        */
-    msgbuf[0xb3] = (MyAddress[A_ZONE] & 0xff00) >> 8;
+    msgbuf[0xa8] = (unsigned char)(MyAddress[A_NODE] & 0x00ff);        /* origNode        */
+    msgbuf[0xa9] = (unsigned char)((MyAddress[A_NODE] & 0xff00) >> 8);
+    msgbuf[0xac] = (unsigned char)(MyAddress[A_NET] & 0x00ff);                /* origNet        */
+    msgbuf[0xad] = (unsigned char)((MyAddress[A_NET] & 0xff00) >> 8);
+    msgbuf[0xb2] = (unsigned char)(MyAddress[A_ZONE] & 0x00ff);        /* origZone        */
+    msgbuf[0xb3] = (unsigned char)((MyAddress[A_ZONE] & 0xff00) >> 8);
     
     if (intl)
     {
@@ -270,7 +270,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
 FILE *CloseMSGFile(int status)
 {
     char filename[MYMAXDIR];
-    int        i, temp = 0;
+    int i, temp;
 
     mklog(LOG_DEBUG, "CloseMSGFile: status=%d", status);
 
@@ -309,8 +309,8 @@ FILE *CloseMSGFile(int status)
                                                              /* Add CRASH
                                                                 or HOLD
                                                                 if needed */
-                msgbuf[0xba] = (temp & 0x00ff);     /* Atribute */
-                msgbuf[0xbb] = (temp & 0xff00) >> 8;
+                msgbuf[0xba] = (unsigned char)(temp & 0x00ff);     /* Attribute */
+                msgbuf[0xbb] = (unsigned char)((temp & 0xff00) >> 8);
                 fwrite(&msgbuf, sizeof(msgbuf), 1, MailFILE);
             }
             else
