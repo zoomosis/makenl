@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.10 2012/10/15 00:42:58 ajleary Exp $ */
+/* $Id: msgtool.c,v 1.11 2012/10/16 01:18:42 ajleary Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -289,7 +289,7 @@ FILE *CloseMSGFile(int status)
                         break;
                     }
                 }
-                memcpy(&msgbuf[i], " with errors", 12);
+                memcpy(&msgbuf[i], " with errors\0", 13);
             }
             else
             {
@@ -300,10 +300,15 @@ FILE *CloseMSGFile(int status)
                 mklog(LOG_DEBUG, "CloseMSGFile: MSGFlags != 0");
                 putc(0, MailFILE);
                 fseek(MailFILE, 0L, SEEK_SET);
+                temp = (msgbuf[0xbb] << 8) + msgbuf[0xba]; /* Get current
+                                                              .MSG flags */ 
                 temp |=
                     (MSGFlags & MF_CRASH ? MSG_CRASH : 0) | (MSGFlags &
                                                              MF_HOLD ?
                                                              MSG_HOLD : 0);
+                                                             /* Add CRASH
+                                                                or HOLD
+                                                                if needed */
                 msgbuf[0xba] = (temp & 0x00ff);     /* Atribute */
                 msgbuf[0xbb] = (temp & 0xff00) >> 8;
                 fwrite(&msgbuf, sizeof(msgbuf), 1, MailFILE);
