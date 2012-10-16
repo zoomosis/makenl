@@ -1,29 +1,7 @@
-/* $Id: os.h,v 1.3 2012/10/16 19:57:43 ozzmosis Exp $ */
+/* $Id: os.h,v 1.4 2012/10/16 20:21:04 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
-
-/* Operating system and compiler dependant functions */
-/* Definitions for:                                               */
-/* __GNUC__     GNU C Compiler                                    */
-/* __EMX__      emx for DOS/OS2                                   */
-/* __WATCOMC__  Watcom C Compiler 10.0b under DOS, OS/2 and Win32 */
-/* __TURBOC__   Turbo C 2.00 and above, Borland C, under DOS      */
-
-/* Operating systems/memory model:
-   __FLAT__   32-bit flat memory model
-   __SMALL__  DOS small memory model
-   __MSDOS__  DOS 16 or 32-bit
-   __DOS16__  DOS 16-bit
-   __DOS32__  DOS 32-bit (currently: dos4gw for Watcom)
-   __EMX__    emx+gcc (32-bit dual executable DOS/OS2)
-   __OS2__    OS/2 2.0 and above
-   __W32__    Win32 (Win9x/NT)
- */
-
-#ifdef __GNUC__
-#define __FLAT__  /* flat memory model, min. 32-bit */
-#endif
 
 /* Defaults for overwriteable functions */
 #define OSAPS "osgenaps.c"
@@ -35,88 +13,69 @@
 #define OSFLD "osgenfld.c"
 #define OSGTN "osgengtn.c"
 
-
-/* GNU C/EMX for DOS & OS/2 */
-#if defined(__GNUC__) && defined(__EMX__)
-#include "osgnuemx.h"
-#define MAKENL_CC "EMX"
-                                          
-/* GNU C/Linux */
-#elif defined(__GNUC__) && defined(__linux__)
-#include "osgnulnx.h"
-#define MAKENL_CC "GCC/Linux"
-                                          
-/* GNU C/FreeBSD */
-#elif defined(__GNUC__) && defined(__FreeBSD__)
-/* we'll use the Linux ones */
-#include "osgnulnx.h"
-#define MAKENL_CC "GCC/FreeBSD"
-
-/* GNU C/Apple OS X (Darwin) */
-#elif defined(__GNUC__) && defined(__APPLE__)
-/* we'll use the Linux ones */
-#include "osgnulnx.h"
-#define MAKENL_CC "GCC/OS X"
-
-/* GNU C/DJGPP 2.0 for DOS */
-#elif defined(__GNUC__) && defined(__MSDOS__)
-#include "osgnudjg.h"
-#define MAKENL_CC "GCC C/DJGPP"
-
-/* GNU C/Dev-C++ for Windows */
-#elif defined(__GNUC__) && defined(__MINGW32__)
-/* use Microsoft Visual C++ headers */
-#include "osmscwin.h"
-#define MAKENL_CC "GNU C/Dev-C++"
-
-/* Borland Turbo C++ 1.0, Borland C++ 3.1 & 4.0, etc. for DOS */
+#if defined(__clang__)
+#define __FLAT__
+#define MAKENL_CC "Clang"
+#elif defined(__GNUC__)
+#define __FLAT__  /* flat memory model */
+#define MAKENL_CC "GNU C"
 #elif defined(__TURBOC__) && defined(__MSDOS__)
 #include "ostbcdos.h"
-#define MAKENL_CC "Borland Turbo C++"
-
-/* Watcom C/C++ for DOS, OS/2 & Windows */
+#define MAKENL_CC "Turbo C"
 #elif defined(__WATCOMC__)
 #include "oswatxxx.h"
-#define MAKENL_CC "Watcom C/C++"
-
-/* Microsoft Visual C++ for Windows */
+#define MAKENL_CC "Watcom C"
 #elif defined(_MSC_VER) && defined(WIN32)
 #include "osmscwin.h"
-#define MAKENL_CC "Microsoft Visual C++"
-
+#define MAKENL_CC "MSVC"
 #elif defined(__BORLANDC__) && defined(__WIN32__)
 #include "osborwin.h"
-#define MAKENL_CC "Borland C++"
-
-#else
-#error "It seems to me that you are using an unknown compiler!"
+#define MAKENL_CC "Borland C"
 #endif
 
-/* Platforms */
+#if defined(__GNUC__)
+#if defined(__EMX__)
+#include "osgnuemx.h"
+#elif defined(__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
+#include "osgnulnx.h"
+#elif defined(__DJGPP__)
+#include "osgnudjg.h"
+#elif defined(__MINGW32__)
+/* use Microsoft Visual C++ headers */
+#include "osmscwin.h"
+#endif
+#endif
+
+#ifndef MAKENL_CC
+#error "Unknown compiler detected. Cannot continue."
+#endif
+
 #if defined (__DOS16__)
-#define MAKENL_OS "DOS 16"
+#define MAKENL_OS "DOS16"
 #elif defined (__DOS4G__)
-#define MAKENL_OS "DOS 32"
+#define MAKENL_OS "DOS32"
+#elif defined (__EMX__)
+#define MAKENL_OS "EMX"
 #elif defined (__OS2__)
-#define MAKENL_OS "OS/2 16"
+#define MAKENL_OS "OS/2 16-bit"
 #elif defined (__OS2V2__)
-#define MAKENL_OS "OS/2 32"
+#define MAKENL_OS "OS/2 32-bit"
 #elif defined (__W32__)
-#define MAKENL_OS "Windows/32"
+#define MAKENL_OS "Win32"
 #elif defined (__MSDOS__)
 #define MAKENL_OS "MS-DOS"
 #elif defined (__linux__)
-#define MAKENL_OS "GNU/Linux"
+#define MAKENL_OS "Linux"
 #elif defined (__FreeBSD__)
 #define MAKENL_OS "FreeBSD"
 #elif defined (__APPLE__)
-#define MAKENL_OS "OS X (Darwin)"
+#define MAKENL_OS "Darwin"
 #elif defined (__NetBSD__)
 #define MAKENL_OS "NetBSD"
 #elif defined (__OpenBSD__)
 #define MAKENL_OS "OpenBSD"
 #else
-#error "Unknown OS!"
+#error "Unknown build target detected. Cannot continue."
 #endif
 
 
