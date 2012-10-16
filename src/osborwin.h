@@ -1,4 +1,4 @@
-/* $Id: osborwin.h,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: osborwin.h,v 1.3 2012/10/16 18:15:07 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,6 +18,7 @@
 #define MYMAXDRIVE 3
 #define filecmp    stricmp
 #define filenodir(x) (strchr(x,'/') == NULL)
+#define strcasecmp stricmp
 
 /* Needed definitions */
 #define OSFND "osmscfnd.c"
