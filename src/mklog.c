@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.17 2012/10/15 09:45:39 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.18 2012/10/16 21:30:07 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,8 +27,6 @@
 #include "dmalloc.h"
 #endif
 
-static int logopened = 0;
-
 int loglevel = 1;
 
 static char *logmark = "?+-dD";
@@ -45,57 +43,25 @@ static char *date_str(void)
     return buf;
 }
 
-void mklog(int level, const char *format, ...)
+static void logwrite(int level, char *outstr)
 {
-    char outstr[4096];
-    va_list va_ptr;
+    static int logopened = 0;
+
     FILE *log_fp;
     FILE *std_fp;
+    int need_strerror;
 
     std_fp = stderr;
     log_fp = NULL;
-    
-    if (format == NULL)
+    need_strerror = 0;
+
+    if (*outstr == '$')
     {
-        /* avoid segfault */
-        return;
+        need_strerror = 1;
+        outstr++;
     }
 
-    /* Open in textmode, gives the correct lineendings on all OSes. */
-
-    if (*LogFile != '\0')
-    {
-        log_fp = fopen(LogFile, "a");
-
-        if (log_fp == NULL)
-        {
-            fprintf(stderr, "Cannot open logfile '%s'\n", LogFile);
-            exit(255);
-            /* now keep lint happy... */
-            return;
-        }
-    }
-
-    va_start(va_ptr, format);
-    vsnprintf(outstr, sizeof outstr, format, va_ptr);
-    va_end(va_ptr);
-
-    if (log_fp != NULL)
-    {
-        if (logopened == 0)
-        {
-            /* if this is the first log entry, start with an empty line before it */
-            logopened = 1;
-            fputc('\n', log_fp);
-        }
-
-#if defined(__unix__) || defined(__WATCOMC__)
-        fprintf(log_fp, "%c %s makenl[%d] ", logmark[level], date_str(), getpid());
-#else
-        fprintf(log_fp, "%c %s makenl: ", logmark[level], date_str());
-#endif
-        fprintf(log_fp, "%s", *outstr == '$' ? outstr + 1 : outstr);
-    }
+    /* write to stderr/stdout */
 
     if (level == LOG_INFO)
     {
@@ -104,26 +70,9 @@ void mklog(int level, const char *format, ...)
 
     if (level < LOG_LOGONLY || debug_mode)
     {
-        fprintf(std_fp, "%s", *outstr == '$' ? outstr + 1 : outstr);
-    }
+        fprintf(std_fp, "%s", outstr);
 
-    if (log_fp != NULL)
-    {
-        if (*outstr == '$')
-        {
-            fprintf(log_fp, ": %s\n", strerror(errno));
-        }
-        else
-        {
-            fputc('\n', log_fp);
-        }
-
-        fclose(log_fp);
-    }
-
-    if (level < LOG_LOGONLY || debug_mode)
-    {
-        if (*outstr == '$')
+        if (need_strerror)
         {
             fprintf(std_fp, ": %s\n", strerror(errno));
         }
@@ -132,4 +81,73 @@ void mklog(int level, const char *format, ...)
             fputc('\n', std_fp);
         }
     }
+
+    if (!debug_mode && level == LOG_DEBUG && loglevel < 2)
+    {
+        /*
+         *  if we're not running in debug mode (makenl -d), don't write
+         *  debugging messages to the log file unless loglevel set to >1
+         */
+        return;
+    }
+
+    if (*LogFile == '\0')
+    {
+        /* log filename was not set */
+        return;
+    }
+    
+    /* write to logfile */
+
+    log_fp = fopen(LogFile, "a");
+
+    if (log_fp == NULL)
+    {
+        fprintf(stderr, "Cannot open logfile '%s'\n", LogFile);
+        exit(255);
+    }
+
+    if (logopened == 0)
+    {
+        /* if this is the first log entry, write an empty line before it */
+        logopened = 1;
+        fputc('\n', log_fp);
+    }
+
+#if defined(__unix__) || defined(__WATCOMC__)
+    fprintf(log_fp, "%c %s makenl[%d] ", logmark[level], date_str(), getpid());
+#else
+    fprintf(log_fp, "%c %s makenl: ", logmark[level], date_str());
+#endif
+
+    fprintf(log_fp, "%s", outstr);
+
+    if (need_strerror)
+    {
+        fprintf(log_fp, ": %s\n", strerror(errno));
+    }
+    else
+    {
+        fputc('\n', log_fp);
+    }
+
+    fclose(log_fp);
+}
+
+void mklog(int level, const char *format, ...)
+{
+    char outstr[4096];
+    va_list va_ptr;
+    
+    if (format == NULL)
+    {
+        fprintf(stderr, "NULL format string for va_start()\n");
+        exit(255);
+    }
+
+    va_start(va_ptr, format);
+    vsnprintf(outstr, sizeof outstr, format, va_ptr);
+    va_end(va_ptr);
+
+    logwrite(level, outstr);
 }
