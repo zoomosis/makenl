@@ -1,4 +1,4 @@
-/* $Id: upcont.c,v 1.2 2012/10/14 14:56:24 ozzmosis Exp $ */
+/* $Id: upcont.c,v 1.3 2012/10/16 09:01:54 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdio.h>
@@ -62,7 +62,7 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
             makeleveltxt = Node;
         else
             makeleveltxt = Levels[maketype];
-        sprintf(ErrorMessage, "Expected \"%s %d\", got \"%s %d\"",
+        sprintf(ErrorMessage, "Expected '%s %d', got '%s %d'",
                 makeleveltxt, makenum, leveltxt, num);
         return 2;
     }

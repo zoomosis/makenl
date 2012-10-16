@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.13 2012/10/14 15:24:21 ozzmosis Exp $ */
+/* $Id: config.c,v 1.14 2012/10/16 09:01:54 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -139,7 +139,7 @@ static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
             }
             else if (MyAddress[A_NET] == 0)
             {
-                mklog(LOG_ERROR, "No local \"From\" net address for notification messages.");
+                mklog(LOG_ERROR, "No local 'From' net address for notification messages.");
                 mode = -1;
             }
             else if (SubmitAddress[A_NET] != 0
@@ -147,18 +147,18 @@ static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
                 SubmitAddress[A_ZONE] = MyAddress[A_ZONE];
             if (MailerFlags & MAIL_INTL && MyAddress[A_ZONE] == 0)
             {
-                mklog(LOG_ERROR, "Forced \"INTL\" kluge requested, but your zone is unknown.");
+                mklog(LOG_ERROR, "Forced 'INTL' kluge requested, but your zone is unknown.");
                 mode = -1;
             }
         }
         if ((ArcCopySet == 0) && (ArcMoveSet == 1))
         {
-            mklog(LOG_ERROR, "\"ArcMove\" keyword found but no \"ArcCopy\" keyword.");
+            mklog(LOG_ERROR, "'ArcMove' keyword found but no 'ArcCopy' keyword.");
             mode = -1;
         }
         if ((ArcCopySet == 1) && (ArcMoveSet == 0))
         {
-            mklog(LOG_ERROR, "\"ArcCopy\" keyword found but no \"ArcMove\" keyword.");
+            mklog(LOG_ERROR, "'ArcCopy' keyword found but no 'ArcMove' keyword.");
             mode = -1;
         }
     }
@@ -234,7 +234,7 @@ static void show_usage()
       "\n"
       "  -n (-name)     Specialized cosmetic switch. When you make a composite" "\n"
       "                 nodelist, the generated list begins, by default, with the" "\n"
-      "                 line \"Nodelist for ...\". The -name switch may be used to" "\n"
+      "                 line 'Nodelist for ...'. The -name switch may be used to" "\n"
       "                 insert a network name in front of the first word in that" "\n"
       "                 line. If the specified replacement name contains spaces," "\n"
       "                 the entire parameter must be enclosed in quotes." "\n"

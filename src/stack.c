@@ -1,4 +1,4 @@
-/* $Id: stack.c,v 1.4 2012/10/14 14:49:17 ozzmosis Exp $ */
+/* $Id: stack.c,v 1.5 2012/10/16 09:01:54 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -78,7 +78,7 @@ int addnumber(int maketype, int makenum, int markpos)
         {
             if (*numberptr == makenum)
             {
-                sprintf(ErrorMessage, "Duplicate %s number -- \"%d\"",
+                sprintf(ErrorMessage, "Duplicate %s number -- '%d'",
                         Describe4D[NumberListValid], makenum);
                 if (NumberListValid >= A_NODE)
                     status = 1;
