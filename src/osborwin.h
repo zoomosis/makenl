@@ -1,4 +1,4 @@
-/* $Id: osborwin.h,v 1.3 2012/10/16 18:15:07 ozzmosis Exp $ */
+/* $Id: osborwin.h,v 1.4 2012/10/17 01:24:43 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,7 +6,9 @@
 #include <direct.h>
 
 #ifdef __WIN32__
-#define __W32__ 1
+#ifndef WIN32
+#define WIN32 1
+#endif
 #endif
 
 #define STR_DIRSEPARATOR "\\"

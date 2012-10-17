@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.4 2012/10/16 20:21:04 ozzmosis Exp $ */
+/* $Id: os.h,v 1.5 2012/10/17 01:24:43 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -60,7 +60,7 @@
 #define MAKENL_OS "OS/2 16-bit"
 #elif defined (__OS2V2__)
 #define MAKENL_OS "OS/2 32-bit"
-#elif defined (__W32__)
+#elif defined (WIN32)
 #define MAKENL_OS "Win32"
 #elif defined (__MSDOS__)
 #define MAKENL_OS "MS-DOS"
@@ -139,7 +139,7 @@ char *strupr(char *string);
 #error "Both __DOS16__ and __DOS4G__ defined!"
 #endif
 
-#if defined(__MSDOS__) + defined(__OS2__) + defined(__OS2V2__) + defined(__W32__) > 1
+#if defined(__MSDOS__) + defined(__OS2__) + defined(__OS2V2__) + defined(WIN32) > 1
 #error "Ambiguous OS specification"
 #endif
 

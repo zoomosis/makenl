@@ -1,9 +1,10 @@
-/* $Id: oswatxxx.h,v 1.4 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: oswatxxx.h,v 1.5 2012/10/17 01:24:43 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <dos.h>
 #include <direct.h>
 #include <io.h>
+#include <process.h>
 
 #define STR_DIRSEPARATOR "\\"
 
@@ -28,12 +29,15 @@
 #endif
 
 #ifdef __NT__
-#define __W32__
+#ifndef WIN32
+#define WIN32 1
+#endif
 #endif
 
 #define HAVE_OS_FULLPATH
 #define HAVE_OS_FGETS
 #define HAVE_STRUPR
+#define HAVE_GETPID
 
 #define MYMAXFILE  _MAX_FNAME
 #define MYMAXDIR   _MAX_DIR

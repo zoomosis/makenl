@@ -1,4 +1,4 @@
-/* $Id: osgnulnx.h,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: osgnulnx.h,v 1.3 2012/10/17 01:24:43 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -12,6 +12,7 @@
 #define MYMAXPATH  1088
 #define MYMAXEXT   12
 #define MYMAXDRIVE 3
+
 #define filecmp    strcmp
 #define filenodir(x) (strchr(x,'/') == NULL)
 #define stricmp    strcasecmp
@@ -26,6 +27,8 @@
 #define OSDSL "oslnxdsl.c"
 
 #define USE_OWN_FGETS "oslnxget.c"
+
+#define HAVE_GETPID
 
 struct _filefind
 {

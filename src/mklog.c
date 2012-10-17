@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.18 2012/10/16 21:30:07 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.19 2012/10/17 01:24:43 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,17 +7,10 @@
 #include <time.h>
 #include <errno.h>
 
-#ifdef __unix__
-#include <unistd.h>
-#endif
-
-#ifdef __WATCOMC__
-#include <process.h>
-#endif
-
 #include "makenl.h"
 #include "mklog.h"
 #include "fileutil.h"
+#include "os.h"
 
 #ifdef MALLOC_DEBUG
 #include "rmalloc.h"
@@ -114,7 +107,7 @@ static void logwrite(int level, char *outstr)
         fputc('\n', log_fp);
     }
 
-#if defined(__unix__) || defined(__WATCOMC__)
+#ifdef HAVE_GETPID
     fprintf(log_fp, "%c %s makenl[%d] ", logmark[level], date_str(), getpid());
 #else
     fprintf(log_fp, "%c %s makenl: ", logmark[level], date_str());

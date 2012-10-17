@@ -1,13 +1,11 @@
-# MakeNL makefile for Microsoft Visual C/C++
+# MakeNL makefile for Microsoft Visual C/C++ for Windows
 # Tested with Visual C++ 2.0 (cl.exe 9.0)
 #
-# $Id: makefile.msvc,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+# $Id: makefile.msvc,v 1.2 2012/10/17 01:24:43 ozzmosis Exp $
 #
 # Build with:
 #
-# nmake -f makefile.msvc               (Win32 release)
-# nmake -f makefile.msvc OS=WIN        (Win32 release)
-#
+# nmake -f makefile.msvc
 # nmake -f makefile.msvc clean         (remove temp files)
 
 CC=cl
@@ -17,22 +15,9 @@ CFLAGS= -nologo -W3 -DWIN32
 CFLAGS= $(CFLAGS) -Zd
 !endif
 
-OBJS=	config.obj \
-	crc16.obj \
-	fileutil.obj \
-	fts5.obj \
-	lsttool.obj \
-	makenl.obj \
-	merge.obj \
-	mkdiff.obj \
-	mklog.obj \
-	msgtool.obj \
-	os.obj \
-	output.obj \
-	process.obj \
-	stack.obj \
-	strtool.obj \
-	upcont.obj
+OBJS=config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
+OBJS=$(OBJS) merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
+OBJS=$(OBJS) process.obj stack.obj strtool.obj upcont.obj
 
 .c.obj:
 	$(CC) $(CFLAGS) -c $<
@@ -42,4 +27,4 @@ makenl.exe: $(OBJS)
 
 clean:
 	del $(OBJS)
-        del makenl.exe
+	del makenl.exe
