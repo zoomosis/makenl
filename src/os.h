@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.5 2012/10/17 01:24:43 ozzmosis Exp $ */
+/* $Id: os.h,v 1.6 2012/10/17 11:36:54 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -28,6 +28,9 @@
 #elif defined(_MSC_VER) && defined(WIN32)
 #include "osmscwin.h"
 #define MAKENL_CC "MSVC"
+#elif defined(__LCC__)
+#include "osmscwin.h"
+#define MAKENL_CC "LCC"
 #elif defined(__BORLANDC__) && defined(__WIN32__)
 #include "osborwin.h"
 #define MAKENL_CC "Borland C"

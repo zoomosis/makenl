@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.9 2012/10/16 18:52:12 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.10 2012/10/17 11:36:54 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,15 +34,10 @@ int  ArcOpenCnt = 0;
 
 int ForceSubmit = 0;
 
-#if 0
-static unsigned int arcparas = 0x4000; /* 256 KBytes */
-
-#endif
 static unsigned short DiffCRC;
 static char DiffLine[linelength];
 static int EditCount;
 static int AddLines;
-static int dodiffline(int checktop, FILE * oldFILE, FILE * diffFILE);
 
 int makearc(char *filename, int move)
 {
@@ -173,55 +168,6 @@ int installlist(char *filename, char *extbfr)
     return unchanged;
 }
 
-static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
-{
-    int firststatus;
-    char *crcptr;               /* 0x02 */
-    FILE *outFILE;              /* 0x04 */
-    FILE *diffFILE;             /* 0x06 */
-    int newcrc;                 /* 0x08 */
-
-    mklog(LOG_DEBUG, "applydiff '%s' to '%s'", diffname, outname);
-
-    diffFILE = fopen(diffname, "r");
-    if (!diffFILE)
-        die(254, "Unable to open %s for input", diffname);
-    outFILE = fopen(outname, "wb");
-    if (!outFILE)
-        die(254, "Unable to create %s", outname);
-    firststatus = dodiffline(1, oldFILE, diffFILE);
-    if (firststatus == 0)       /* diff fits */
-    {
-        /* DiffLine now contains the new header including CRC */
-        cutspaces(DiffLine);
-        strcat(DiffLine, "\r\n");
-        crcptr = DiffLine + strlen(DiffLine);
-        while (*(--crcptr) != ' ');
-        getnumber(crcptr + 1, &newcrc);
-        fputs(DiffLine, outFILE);
-        DiffCRC = 0;
-        while (dodiffline(0, oldFILE, diffFILE) == 0)
-        {
-            cutspaces(DiffLine);
-            strcat(DiffLine, "\r\n");
-            fputs(DiffLine, outFILE);
-            DiffCRC = CRC16String(DiffLine, DiffCRC);
-        }
-        putc('\x1A', outFILE);
-    }
-    fclose(outFILE);
-    fclose(oldFILE);
-    fclose(diffFILE);
-    if (firststatus == -1
-        || CRC16DoByte((char)(newcrc & 0xFF),
-                       CRC16DoByte((char)(newcrc >> 8), DiffCRC)) != 0)
-    {
-        unlink(outname);
-        return -1;
-    }
-    return 0;
-}
-
 static int dodiffline(int checktop, FILE * oldFILE, FILE * diffFILE)
 {
     char topline[linelength];
@@ -272,6 +218,54 @@ static int dodiffline(int checktop, FILE * oldFILE, FILE * diffFILE)
     return 0;
 }
 
+static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
+{
+    int firststatus;
+    char *crcptr;               /* 0x02 */
+    FILE *outFILE;              /* 0x04 */
+    FILE *diffFILE;             /* 0x06 */
+    int newcrc;                 /* 0x08 */
+
+    mklog(LOG_DEBUG, "applydiff '%s' to '%s'", diffname, outname);
+
+    diffFILE = fopen(diffname, "r");
+    if (!diffFILE)
+        die(254, "Unable to open %s for input", diffname);
+    outFILE = fopen(outname, "wb");
+    if (!outFILE)
+        die(254, "Unable to create %s", outname);
+    firststatus = dodiffline(1, oldFILE, diffFILE);
+    if (firststatus == 0)       /* diff fits */
+    {
+        /* DiffLine now contains the new header including CRC */
+        cutspaces(DiffLine);
+        strcat(DiffLine, "\r\n");
+        crcptr = DiffLine + strlen(DiffLine);
+        while (*(--crcptr) != ' ');
+        getnumber(crcptr + 1, &newcrc);
+        fputs(DiffLine, outFILE);
+        DiffCRC = 0;
+        while (dodiffline(0, oldFILE, diffFILE) == 0)
+        {
+            cutspaces(DiffLine);
+            strcat(DiffLine, "\r\n");
+            fputs(DiffLine, outFILE);
+            DiffCRC = CRC16String(DiffLine, DiffCRC);
+        }
+        putc('\x1A', outFILE);
+    }
+    fclose(outFILE);
+    fclose(oldFILE);
+    fclose(diffFILE);
+    if (firststatus == -1
+        || CRC16DoByte((char)(newcrc & 0xFF),
+                       CRC16DoByte((char)(newcrc >> 8), DiffCRC)) != 0)
+    {
+        unlink(outname);
+        return -1;
+    }
+    return 0;
+}
 
 
 /*
@@ -308,81 +302,13 @@ char *unpacker(char *fn)
     return NULL;        /* Unknown compressed or plain ASCII        */
 }
 
-
-
-static int searchlistfile(FILE ** someptr, const char *path,
-                          char *foundfile, char *name, char *ext,
-                          int unpackedonly);
-
-/* Returns:
-   -1 : error
-    0 : not found
-   >0 : found, next search for same list should start here
- */
-int
-openlist(FILE ** listFILEptr, char *filename, char *foundfile, int where,
-         int mustbenew)
-{
-    int status;
-    char ext[MYMAXEXT];
-    char name[MYMAXFILE + MYMAXEXT];
-
-    mklog(LOG_DEBUG, "openlist '%s', mustbenew %s", filename, mustbenew ? "yes":"no");
-
-    myfnsplit(filename, NULL, NULL, name, ext);
-    switch (where)
-    {
-    default:
-        return 0;
-    case SEARCH_UPLOAD:
-        status =
-            searchlistfile(listFILEptr, UploadDir, foundfile, name, ext,
-                           0);
-        if (status == 1)
-            return SEARCH_MAILFILE;
-        if (status != 0)
-            return -1;
-        /* FALLTHROUGH */
-    case SEARCH_MAILFILE:
-        status =
-            searchlistfile(listFILEptr, MailfileDir, foundfile, name, ext,
-                           0);
-        if (status == 1)
-            return SEARCH_UPDATE;
-        if (status != 0)
-            return -1;
-        /* FALLTHROUGH */
-    case SEARCH_UPDATE:
-        if (mustbenew)
-            return 0;
-        status =
-            searchlistfile(listFILEptr, UpdateDir, foundfile, name, ext,
-                           1);
-        if (status == 1)
-            return SEARCH_MASTER;
-        if (status != 0)
-            return -1;
-    case SEARCH_MASTER:
-        if (mustbenew)
-            return 0;
-        status =
-            searchlistfile(listFILEptr, MasterDir, foundfile, name, ext,
-                           1);
-        if (status == 1)
-            return SEARCH_NOWHERE;
-        if (status != 0)
-            return -1;
-        return 0;
-    }
-}
-
 /* Returns:
    -1: error
     0: no matching file found
-   +1: file found and opened */
-int
-searchlistfile(FILE ** file, const char *path, char *foundfile, char *name,
-               char *ext, int unpackedonly)
+   +1: file found and opened
+ */
+
+static int searchlistfile(FILE ** file, const char *path, char *foundfile, char *name, char *ext, int unpackedonly)
 {
     struct _filefind f;
     char fnamebuf[MYMAXDIR];
@@ -531,4 +457,57 @@ justthisfile:
         }
     }
     return 0;
+}
+
+/* Returns:
+   -1 : error
+    0 : not found
+   >0 : found, next search for same list should start here
+ */
+
+int openlist(FILE ** listFILEptr, char *filename, char *foundfile, int where, int mustbenew)
+{
+    int status;
+    char ext[MYMAXEXT];
+    char name[MYMAXFILE + MYMAXEXT];
+
+    mklog(LOG_DEBUG, "openlist '%s', mustbenew %s", filename, mustbenew ? "yes":"no");
+
+    myfnsplit(filename, NULL, NULL, name, ext);
+    switch (where)
+    {
+    default:
+        return 0;
+    case SEARCH_UPLOAD:
+        status = searchlistfile(listFILEptr, UploadDir, foundfile, name, ext, 0);
+        if (status == 1)
+            return SEARCH_MAILFILE;
+        if (status != 0)
+            return -1;
+        /* FALLTHROUGH */
+    case SEARCH_MAILFILE:
+        status = searchlistfile(listFILEptr, MailfileDir, foundfile, name, ext, 0);
+        if (status == 1)
+            return SEARCH_UPDATE;
+        if (status != 0)
+            return -1;
+        /* FALLTHROUGH */
+    case SEARCH_UPDATE:
+        if (mustbenew)
+            return 0;
+        status = searchlistfile(listFILEptr, UpdateDir, foundfile, name, ext, 1);
+        if (status == 1)
+            return SEARCH_MASTER;
+        if (status != 0)
+            return -1;
+    case SEARCH_MASTER:
+        if (mustbenew)
+            return 0;
+        status = searchlistfile(listFILEptr, MasterDir, foundfile, name, ext, 1);
+        if (status == 1)
+            return SEARCH_NOWHERE;
+        if (status != 0)
+            return -1;
+        return 0;
+    }
 }

@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.12 2012/10/16 18:52:12 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.13 2012/10/17 11:36:54 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -40,11 +40,6 @@ static FILE *MailFILE;
 int *FixStack;
 static int MSGFlags;
 static unsigned char msgbuf[0xbe];
-
-
-static char *MakeMSGFilename(char *outbuf, int num);
-
-
 
 /*
  * Get unique sequence number
@@ -138,7 +133,15 @@ int ParseAddress(const char *string, int out[3])
     return 0;
 }
 
+static char *MakeMSGFilename(char *outbuf, int num)
+{
+    char buffer[6];
 
+    sprintf(buffer, "%u", num);
+    myfnmerge(outbuf, NULL, MessageDir, buffer, "msg");
+    mklog(LOG_DEBUG, "MakeMSGFilenam: num=%d MSGnum=%d", num, MSGnum);
+    return outbuf;
+}
 
 FILE *OpenMSGFile(int address[3], char *filename)
 {
@@ -328,16 +331,3 @@ FILE *CloseMSGFile(int status)
     MailFILE = NULL;
     return MailFILE;
 }
-
-
-
-char *MakeMSGFilename(char *outbuf, int num)
-{
-    char buffer[6];
-
-    sprintf(buffer, "%u", num);
-    myfnmerge(outbuf, NULL, MessageDir, buffer, "msg");
-    mklog(LOG_DEBUG, "MakeMSGFilenam: num=%d MSGnum=%d", num, MSGnum);
-    return outbuf;
-}
-

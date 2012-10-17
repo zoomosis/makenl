@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.20 2012/10/17 10:48:19 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.21 2012/10/17 11:36:54 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
