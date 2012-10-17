@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.19 2012/10/17 01:24:43 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.20 2012/10/17 10:48:19 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,7 +45,6 @@ static void logwrite(int level, char *outstr)
     int need_strerror;
 
     std_fp = stderr;
-    log_fp = NULL;
     need_strerror = 0;
 
     if (*outstr == '$')

@@ -1,34 +1,20 @@
-# MakeNL makefile for Borland C++ for Win32
-# Tested with Borland C++ 5.5.1 for Win32
+# MakeNL makefile for Borland C++ for Windows
+# Tested with bcc32 5.6 for Win32 (Borland C++ Builder 6)
 #
-# $Id: makefile.bcw,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+# $Id: makefile.bcw,v 1.2 2012/10/17 10:48:19 ozzmosis Exp $
 #
 # Build with:
 #
 # make -f makefile.bcw        (release)
 # make -f makefile.bcw clean  (remove temp files)
 
+CC=bcc32
+
 CFLAGS=-w
 
-OBJS=	config.obj \
-	crc16.obj \
-	fileutil.obj \
-	fts5.obj \
-	lsttool.obj \
-	makenl.obj \
-	merge.obj \
-	mkdiff.obj \
-	mklog.obj \
-	msgtool.obj \
-	os.obj \
-	output.obj \
-	process.obj \
-	stack.obj \
-	strtool.obj \
-	upcont.obj
-
-.asm.obj:
-        $(ASM) $(AFLAGS) $(ADEFS) $<
+OBJS=config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
+OBJS=$(OBJS) merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
+OBJS=$(OBJS) process.obj stack.obj strtool.obj upcont.obj
 
 .c.obj:
 	$(CC) $(CFLAGS) -c $<
