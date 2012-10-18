@@ -1,7 +1,7 @@
 # MakeNL makefile for FreeBSD
 # Tested with BSD Make & GNU C 4.2.2
 #
-# $Id: makefile.freebsd,v 1.4 2012/10/13 00:13:27 ozzmosis Exp $
+# $Id: makefile.bsd,v 1.1 2012/10/18 14:34:44 ozzmosis Exp $
 #
 # Build with:
 #
