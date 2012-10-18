@@ -1,14 +1,18 @@
-# MakeNL makefile for FreeBSD
-# Tested with BSD Make & GNU C 4.2.2
+# MakeNL makefile for FreeBSD, NetBSD, OpenBSD & Apple Darwin.
 #
-# $Id: makefile.bsd,v 1.1 2012/10/18 14:34:44 ozzmosis Exp $
+# $Id: makefile.bsd,v 1.2 2012/10/18 14:37:14 ozzmosis Exp $
+#
+# Tested with:
+#
+# - BSD Make & GNU C 4.2.2 on FreeBSD 8.2.
+# - BSD Make & GNU C 4.5.3 on NetBSD 6.0.
 #
 # Build with:
 #
-# make -f makefile.freebsd          (release) or
-# make -f makefile.freebsd DEBUG=1  (debug)
-# make -f makefile.freebsd clean    (remove temp files)
-# make -f makefile.freebsd CC=clang (build with clang)
+# make -f makefile.bsd          (release) or
+# make -f makefile.bsd DEBUG=1  (debug)
+# make -f makefile.bsd clean    (remove temp files)
+# make -f makefile.bsd CC=clang (build with clang instead of gcc)
 
 CFLAGS+= -Wall -W
 
