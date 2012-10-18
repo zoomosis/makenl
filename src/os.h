@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.6 2012/10/17 11:36:54 ozzmosis Exp $ */
+/* $Id: os.h,v 1.7 2012/10/18 14:29:56 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -39,7 +39,7 @@
 #if defined(__GNUC__)
 #if defined(__EMX__)
 #include "osgnuemx.h"
-#elif defined(__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
+#elif defined(__linux__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__APPLE__)
 #include "osgnulnx.h"
 #elif defined(__DJGPP__)
 #include "osgnudjg.h"
