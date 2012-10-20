@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.7 2012/10/18 14:29:56 ozzmosis Exp $ */
+/* $Id: os.h,v 1.8 2012/10/20 16:06:41 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -22,6 +22,10 @@
 #elif defined(__TURBOC__) && defined(__MSDOS__)
 #include "ostbcdos.h"
 #define MAKENL_CC "Turbo C"
+#elif defined(__WATCOMC__) && defined(__LINUX__)
+#define __linux__
+#include "osgnulnx.h"
+#define MAKENL_CC "Watcom C"
 #elif defined(__WATCOMC__)
 #include "oswatxxx.h"
 #define MAKENL_CC "Watcom C"
@@ -50,37 +54,36 @@
 #endif
 
 #ifndef MAKENL_CC
-#error "Unknown compiler detected. Cannot continue."
+#error "Unknown compiler detected. MAKENL_CC was not defined."
 #endif
 
-#if defined (__DOS16__)
+#if defined(__DOS16__)
 #define MAKENL_OS "DOS16"
-#elif defined (__DOS4G__)
+#elif defined(__DOS4G__)
 #define MAKENL_OS "DOS32"
-#elif defined (__EMX__)
+#elif defined(__EMX__)
 #define MAKENL_OS "EMX"
-#elif defined (__OS2__)
+#elif defined(__OS2__)
 #define MAKENL_OS "OS/2 16-bit"
-#elif defined (__OS2V2__)
+#elif defined(__OS2V2__)
 #define MAKENL_OS "OS/2 32-bit"
-#elif defined (WIN32)
+#elif defined(WIN32)
 #define MAKENL_OS "Win32"
-#elif defined (__MSDOS__)
+#elif defined(__MSDOS__)
 #define MAKENL_OS "MS-DOS"
-#elif defined (__linux__)
+#elif defined(__linux__)
 #define MAKENL_OS "Linux"
-#elif defined (__FreeBSD__)
+#elif defined(__FreeBSD__)
 #define MAKENL_OS "FreeBSD"
-#elif defined (__APPLE__)
+#elif defined(__APPLE__)
 #define MAKENL_OS "Darwin"
-#elif defined (__NetBSD__)
+#elif defined(__NetBSD__)
 #define MAKENL_OS "NetBSD"
-#elif defined (__OpenBSD__)
+#elif defined(__OpenBSD__)
 #define MAKENL_OS "OpenBSD"
 #else
-#error "Unknown build target detected. Cannot continue."
+#error "Unknown build target detected. MAKENL_OS was not defined."
 #endif
-
 
 #ifndef STR_DIRSEPARATOR
 #error "No one defined STR_DIRSEPARATOR!"
@@ -110,7 +113,6 @@ int os_spawn(const char *command, const char *cmdline);
 #define os_getcwd getcwd
 #endif
 
-
 #ifdef USE_OWN_FGETS
 #include <stdio.h>
 char *os_fgets(char *buf, size_t len, FILE * f);
@@ -123,8 +125,6 @@ char *strupr(char *string);
 #endif
 
 /* some sanity checks for compiler defines */
-
-/* The GNUC-Check was thrown out. There can be GNU C with MSDOS, OS/2 or WIN32... */
 
 #if defined(__FLAT__) && defined(__SMALL__)
 #error "Both __FLAT__ and __SMALL__ defined!"
@@ -143,7 +143,7 @@ char *strupr(char *string);
 #endif
 
 #if defined(__MSDOS__) + defined(__OS2__) + defined(__OS2V2__) + defined(WIN32) > 1
-#error "Ambiguous OS specification"
+#error "Ambiguous OS specification!"
 #endif
 
 #endif

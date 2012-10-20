@@ -1,7 +1,7 @@
 # MakeNL makefile for Watcom C/C++
 # Tested with OpenWatcom 1.9
 #
-# $Id: makefile.watcom,v 1.4 2012/10/14 04:51:35 ozzmosis Exp $
+# $Id: makefile.watcom,v 1.5 2012/10/20 16:06:41 ozzmosis Exp $
 #
 # Build with:
 #
@@ -11,13 +11,15 @@
 # wmake -f makefile.watcom OS=D32        (DOS 32-bit)
 # wmake -f makefile.watcom OS=O16        (OS/2 16-bit)
 # wmake -f makefile.watcom OS=OS2        (OS/2 32-bit)
+# wmake -f makefile.watcom OS=LNX        (Linux)
 #
-# wmake -f makefile.watcom DEBUG         (OS/2 32-bit debug)
-# wmake -f makefile.watcom DEBUG OS=WIN  (Windows 32-bit debug)
-# wmake -f makefile.watcom DEBUG OS=DOS  (DOS 16-bit debug)
-# wmake -f makefile.watcom DEBUG OS=D32  (DOS 32-bit debug)
-# wmake -f makefile.watcom DEBUG OS=O16  (OS/2 16-bit debug)
-# wmake -f makefile.watcom DEBUG OS=OS2  (OS/2 32-bit debug)
+# wmake -f makefile.watcom DEBUG=1         (OS/2 32-bit debug)
+# wmake -f makefile.watcom DEBUG=1 OS=WIN  (Windows 32-bit debug)
+# wmake -f makefile.watcom DEBUG=1 OS=DOS  (DOS 16-bit debug)
+# wmake -f makefile.watcom DEBUG=1 OS=D32  (DOS 32-bit debug)
+# wmake -f makefile.watcom DEBUG=1 OS=O16  (OS/2 16-bit debug)
+# wmake -f makefile.watcom DEBUG=1 OS=OS2  (OS/2 32-bit debug)
+# wmake -f makefile.watcom DEBUG=1 OS=LNX  (Linux debug)
 #
 # wmake -f makefile.watcom clean         (remove temp files)
 
@@ -54,19 +56,31 @@ CC=wcl386
 CFLAGS+= -bt=nt -l=nt
 !endif
 
+!ifeq OS LNX
+CC=wcl386
+CFLAGS+= -bcl=linux
+RM=rm -f
+!endif
+
 !ifdef DEBUG
 CFLAGS+= -d2 -hw
 !endif
 
-OBJS+= config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj merge.obj mkdiff.obj
-OBJS+= mklog.obj msgtool.obj os.obj output.obj process.obj stack.obj strtool.obj upcont.obj
+!ifndef RM
+RM=del
+!endif
+
+OBJS+= config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
+OBJS+= merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
+OBJS+= process.obj stack.obj strtool.obj upcont.obj
 
 .c.obj:
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -fo=$@ -c $<
 
 makenl.exe: $(OBJS)
 	$(CC) $(CFLAGS) -fe=$@ $(OBJS)
 
 clean: .SYMBOLIC
-	del *.obj
-	del makenl.exe
+	$(RM) $(OBJS)
+	$(RM) *.err
+	$(RM) makenl.exe
