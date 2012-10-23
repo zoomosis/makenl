@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.13 2012/10/17 11:36:54 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.14 2012/10/23 04:48:29 ajleary Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -145,8 +145,9 @@ static char *MakeMSGFilename(char *outbuf, int num)
 
 FILE *OpenMSGFile(int address[3], char *filename)
 {
-    static char *DOWNames[] =
-            { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+    /* static char *DOWNames[] =
+            { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" }; */
+    /* Unused - now using FTS-1 date/time field vs. SEAdog format */
     static char *MonthNames[12] =
             { "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
@@ -193,10 +194,10 @@ FILE *OpenMSGFile(int address[3], char *filename)
     the_time = localtime(&akt_time);
     /* BUG FIXED: Y2K-bug changed tm_year to tm_year % 100 and its format
      *        to %02d */
-    sprintf(date, "%s %2d %s %02d %02d:%02d",
-            DOWNames[the_time->tm_wday], the_time->tm_mday,
-            MonthNames[the_time->tm_mon], the_time->tm_year % 100,
-            the_time->tm_hour, the_time->tm_min);
+    sprintf(date, "%02d %s %02d  %02d:%02d:%02d",
+            the_time->tm_mday, MonthNames[the_time->tm_mon],
+            the_time->tm_year % 100, the_time->tm_hour, the_time->tm_min, 
+            the_time->tm_sec); /* Switch to FTS-1 date/time vs. SEAdog */
     memcpy(&msgbuf[0x90], date, 20);
     msgbuf[0xba] = (unsigned char)(temp & 0x00ff);     /* Attribute */
     msgbuf[0xbb] = (unsigned char)((temp & 0xff00) >> 8);
