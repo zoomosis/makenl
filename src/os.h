@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.8 2012/10/20 16:06:41 ozzmosis Exp $ */
+/* $Id: os.h,v 1.9 2012/10/27 23:26:12 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -43,7 +43,7 @@
 #if defined(__GNUC__)
 #if defined(__EMX__)
 #include "osgnuemx.h"
-#elif defined(__linux__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__APPLE__)
+#elif defined(__linux__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__APPLE__) || defined(__minix)
 #include "osgnulnx.h"
 #elif defined(__DJGPP__)
 #include "osgnudjg.h"
@@ -81,6 +81,8 @@
 #define MAKENL_OS "NetBSD"
 #elif defined(__OpenBSD__)
 #define MAKENL_OS "OpenBSD"
+#elif defined(__minix)
+#define MAKENL_OS "Minix"
 #else
 #error "Unknown build target detected. MAKENL_OS was not defined."
 #endif
