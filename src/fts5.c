@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.5 2012/10/14 14:56:24 ozzmosis Exp $ */
+/* $Id: fts5.c,v 1.6 2012/11/05 23:54:59 ajleary Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -191,11 +191,11 @@ static int getphone(char **instring, int *linelevel, int *linenum)
         break;
     case LEVEL_DOWN:
         /* 
-         * Don't allow -Unpublished- even when the node is Down.
+         * Allow -Unpublished- when the node is Down.
          * All other things are allowed and not checked.
          */
         if (Allowunpub == 0 && (strcmp(*instring, "-Unpublished-") == 0))
-            return 1;
+            return 0;
         /* Hold and down nodes don't need a valid number */
         break;
     case LEVEL_POINT:
