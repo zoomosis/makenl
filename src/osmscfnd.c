@@ -1,4 +1,4 @@
-/* $Id: osmscfnd.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: osmscfnd.c,v 1.2 2012/11/09 05:03:39 ajleary Exp $ */
 
 #include <io.h>
 
@@ -12,7 +12,7 @@ char *os_findfirst(struct _filefind *pff, const char *path,
     strcat(tmp, mask);
     pff->handle = _findfirst(tmp, &pff->fileinfo);
 
-    if (pff->handle == 0)
+    if (pff->handle == -1)
     {
         return NULL;
     }
