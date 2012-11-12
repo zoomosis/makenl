@@ -1,4 +1,4 @@
-/* $Id: ostbcdos.h,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: ostbcdos.h,v 1.3 2012/11/12 17:30:01 ozzmosis Exp $ */
 
 #include <dir.h>
 #include <stdlib.h>             /* for size_t */
@@ -36,3 +36,7 @@ struct _filefind
 
 #define filecmp  stricmp
 #define filenodir(x) (strpbrk((x),"\\/") == NULL)
+#define strcasecmp stricmp
+
+/* vsnprintf() unavailable on very old version of Turbo C, so use insecure vsprintf() */
+#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
