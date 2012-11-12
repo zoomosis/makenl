@@ -1,9 +1,10 @@
-/* $Id: osborwin.h,v 1.4 2012/10/17 01:24:43 ozzmosis Exp $ */
+/* $Id: osborwin.h,v 1.5 2012/11/12 16:33:15 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <io.h>
 #include <direct.h>
+#include <process.h>
 
 #ifdef __WIN32__
 #ifndef WIN32
@@ -30,6 +31,7 @@
 #define OSCWD "osmsccwd.c"
 
 #define HAVE_STRUPR
+#define HAVE_GETPID
 
 struct _filefind
 {
