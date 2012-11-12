@@ -1,7 +1,7 @@
-# MakeNL makefile for DJGPP 2.0
-# Tested with DJGPP 2.03 (GNU Make 3.79 & GCC 2.95)
+# MakeNL makefile for DJGPP 2.03
+# Tested with GNU Make 3.79 & GCC 2.95
 #
-# $Id: makefile.djgpp,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+# $Id: makefile.djgpp,v 1.2 2012/11/12 18:35:31 ozzmosis Exp $
 #
 # Build with:
 #
@@ -18,22 +18,9 @@ else
 CFLAGS+= -s
 endif
 
-OBJS=	config.o \
-	crc16.o \
-	fileutil.o \
-	fts5.o \
-	lsttool.o \
-	makenl.o \
-	merge.o \
-	mkdiff.o \
-	mklog.o \
-	msgtool.o \
-	os.o \
-	output.o \
-	process.o \
-	stack.o \
-	strtool.o \
-	upcont.o
+OBJS+=config.o crc16.o fileutil.o fts5.o lsttool.o makenl.o merge.o
+OBJS+=mkdiff.o mklog.o msgtool.o os.o output.o process.o stack.o
+OBJS+=strtool.o upcont.o
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<
