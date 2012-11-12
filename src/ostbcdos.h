@@ -1,8 +1,9 @@
-/* $Id: ostbcdos.h,v 1.3 2012/11/12 17:30:01 ozzmosis Exp $ */
+/* $Id: ostbcdos.h,v 1.4 2012/11/12 18:04:01 ozzmosis Exp $ */
 
 #include <dir.h>
 #include <stdlib.h>             /* for size_t */
 #include <io.h>
+#include <process.h>
 
 #define STR_DIRSEPARATOR "\\"
 
@@ -18,6 +19,7 @@
 #endif
 
 #define HAVE_STRUPR
+#define HAVE_GETPID
 
 #define __DOS16__
 #define F_OK 0
