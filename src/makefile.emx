@@ -1,7 +1,7 @@
 # MakeNL makefile for EMX 0.9d
-# Tested with EMX 0.9d (GNU Make 3.79.1 & GCC 2.8.1)
+# Tested with GNU Make 3.79.1 & GNU C 2.8.1
 #
-# $Id: makefile.emx,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+# $Id: makefile.emx,v 1.2 2012/11/12 18:27:13 ozzmosis Exp $
 #
 # Build with:
 #
@@ -14,26 +14,11 @@ CFLAGS+= -W -Wall
 
 ifdef DEBUG
 CFLAGS+= -g
-else
-CFLAGS+= -s
 endif
 
-OBJS=	config.o \
-	crc16.o \
-	fileutil.o \
-	fts5.o \
-	lsttool.o \
-	makenl.o \
-	merge.o \
-	mkdiff.o \
-	mklog.o \
-	msgtool.o \
-	os.o \
-	output.o \
-	process.o \
-	stack.o \
-	strtool.o \
-	upcont.o
+OBJS+=config.o crc16.o fileutil.o fts5.o lsttool.o makenl.o merge.o
+OBJS+=mkdiff.o mklog.o msgtool.o os.o output.o process.o stack.o
+OBJS+=strtool.o upcont.o
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<

@@ -1,4 +1,4 @@
-/* $Id: osemxexc.c,v 1.4 2012/10/14 14:49:17 ozzmosis Exp $ */
+/* $Id: osemxexc.c,v 1.5 2012/11/12 18:27:13 ozzmosis Exp $ */
 
 #include <process.h>
 #include "mklog.h"
@@ -16,34 +16,29 @@ int os_spawn(const char *command, const char *cmdline)
     strcpy(tmpfn, command);
     pext = strchr(tmpfn, '\0');
 
-    Debug1("os_spawn: trying `%s'\n", tmpfn);
     mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
     rc = _path(execfn, tmpfn);
     if (rc != 0)
     {
         strcpy(pext, ".EXE");
-        Debug1("os_spawn: trying `%s'\n", tmpfn);
         mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
         rc = _path(execfn, tmpfn);
     }
     else if (rc != 0 && _osmode == OS2_MODE)
     {
         strcpy(pext, ".CMD");
-        Debug1("os_spawn: trying `%s'\n", tmpfn);
         mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
         rc = _path(execfn, tmpfn);
     }
     else if (rc != 0 && _osmode != OS2_MODE)
     {
         strcpy(pext, ".COM");
-        Debug1("os_spawn: trying `%s'\n", tmpfn);
         mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
         rc = _path(execfn, tmpfn);
     }
     else if (rc != 0 && _osmode != OS2_MODE)
     {
         strcpy(pext, ".BAT");
-        Debug1("os_spawn: trying `%s'\n", tmpfn);
         mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
         rc = _path(execfn, tmpfn);
     }
@@ -58,10 +53,8 @@ int os_spawn(const char *command, const char *cmdline)
         return -1;
 
     sprintf(cmd, "%s %s", command, cmdline);
-    Debug1("found: executing `%s'\n", cmd);
     mklog(LOG_DEBUG, "found: executing `%s'", cmd);
     rc = system(cmd);
-    Debug1("os_spawn rc=%d\n", rc);
     mklog(LOG_DEBUG, "os_spawn rc=%d", rc);
 
     free(cmd);
