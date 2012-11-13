@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.9 2012/10/27 23:26:12 ozzmosis Exp $ */
+/* $Id: os.h,v 1.10 2012/11/13 19:44:24 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -103,7 +103,6 @@ char *os_findfile(struct _filefind *pff, const char *path, const char *mask);
 char *os_file_getname(const char *path);
 int os_fullpath(char *dst, const char *src, size_t bufsiz);
 int os_fulldir(char *dst, const char *src, size_t bufsiz);
-char *os_getcwd(char *buffer, int size);
 char *os_append_slash(char *path);
 char *os_remove_slash(char *path);
 char *os_deslashify(char *name);
@@ -111,7 +110,7 @@ char *os_filecanonify(char *s);
 
 int os_spawn(const char *command, const char *cmdline);
 
-#ifndef USE_OWN_GETCWD
+#ifndef os_getcwd
 #define os_getcwd getcwd
 #endif
 
