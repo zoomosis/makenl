@@ -1,4 +1,4 @@
-/* $Id: osgnudjg.h,v 1.3 2012/11/13 19:47:01 ozzmosis Exp $ */
+/* $Id: osgnudjg.h,v 1.4 2012/11/13 20:40:16 ozzmosis Exp $ */
 
 #include <dir.h>
 #include <stdlib.h>             /* for size_t */
@@ -33,3 +33,6 @@ struct _filefind
 #define filecmp stricmp
 #define filenodir(x) (strpbrk((x),"\\/") == NULL)
 #define strcasecmp stricmp
+
+/* vsnprintf() unavailable in DJGPP, so use insecure vsprintf() */
+#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
