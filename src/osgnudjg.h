@@ -1,4 +1,4 @@
-/* $Id: osgnudjg.h,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: osgnudjg.h,v 1.3 2012/11/13 19:47:01 ozzmosis Exp $ */
 
 #include <dir.h>
 #include <stdlib.h>             /* for size_t */
@@ -32,3 +32,4 @@ struct _filefind
 
 #define filecmp stricmp
 #define filenodir(x) (strpbrk((x),"\\/") == NULL)
+#define strcasecmp stricmp
