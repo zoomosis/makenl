@@ -1,7 +1,7 @@
 # MakeNL makefile for Watcom C/C++
 # Tested with OpenWatcom 1.9
 #
-# $Id: makefile.watcom,v 1.5 2012/10/20 16:06:41 ozzmosis Exp $
+# $Id: makefile.watcom,v 1.6 2012/11/13 20:09:22 ozzmosis Exp $
 #
 # Build with:
 #
@@ -82,5 +82,4 @@ makenl.exe: $(OBJS)
 
 clean: .SYMBOLIC
 	$(RM) $(OBJS)
-	$(RM) *.err
 	$(RM) makenl.exe
