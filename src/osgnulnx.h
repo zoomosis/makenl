@@ -1,4 +1,4 @@
-/* $Id: osgnulnx.h,v 1.3 2012/10/17 01:24:43 ozzmosis Exp $ */
+/* $Id: osgnulnx.h,v 1.4 2012/11/13 19:41:13 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -15,7 +15,6 @@
 
 #define filecmp    strcmp
 #define filenodir(x) (strchr(x,'/') == NULL)
-#define stricmp    strcasecmp
 
 /* Needed definitions */
 #define OSFND "osgnufnd.c"
