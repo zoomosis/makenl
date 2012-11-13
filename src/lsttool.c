@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.11 2012/10/18 14:40:14 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.12 2012/11/13 22:38:44 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -47,7 +47,7 @@ int makearc(char *filename, int move)
     char cmdlinebuf[MYMAXPATH];
     char arccommand[ARCCMDMAX];
 
-    if (filesize(filename) <= ARCThreshold || ARCThreshold == -1)
+    if (os_filesize(filename) <= ARCThreshold || ARCThreshold == -1)
     {
         mklog(LOG_DEBUG, "Skip arc for %s", filename);
         return 0;
@@ -240,10 +240,16 @@ static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
         cutspaces(DiffLine);
         strcat(DiffLine, "\r\n");
         crcptr = DiffLine + strlen(DiffLine);
-        while (*(--crcptr) != ' ');
+
+        while (*(--crcptr) != ' ')
+        {
+            /* no-op */
+        }
+
         getnumber(crcptr + 1, &newcrc);
         fputs(DiffLine, outFILE);
         DiffCRC = 0;
+
         while (dodiffline(0, oldFILE, diffFILE) == 0)
         {
             cutspaces(DiffLine);
@@ -251,6 +257,7 @@ static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
             fputs(DiffLine, outFILE);
             DiffCRC = CRC16String(DiffLine, DiffCRC);
         }
+
         putc('\x1A', outFILE);
     }
     fclose(outFILE);

@@ -1,4 +1,4 @@
-/* $Id: fileutil.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+/* $Id: fileutil.h,v 1.2 2012/11/13 22:38:44 ozzmosis Exp $ */
 
 #include "os.h"
 
@@ -33,7 +33,7 @@ void myfnmerge(char *output, const char *drive, const char *dir,
                const char *name, const char *ext);
 void myfnsplit(const char *input, char *drive, char *dir, char *name,
                char *ext);
-long filesize(const char *filename);
+long os_filesize(const char *filename);
 extern int do_clean;
 extern char OldExtensions[4][MYMAXEXT];
 

@@ -1,0 +1,26 @@
+# MakeNL makefile for Digital Mars C for Windows
+# Tested with Digital Mars C 8.42n
+#
+# $Id: makefile.dmc,v 1.1 2012/11/13 22:38:44 ozzmosis Exp $
+#
+# Build with:
+#
+# make -f makefile.dmc
+# make -f makefile.dmc clean (remove temp files)
+
+CC=dmc
+CFLAGS=-w-
+
+OBJS=config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
+OBJS=$(OBJS) merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
+OBJS=$(OBJS) process.obj stack.obj strtool.obj upcont.obj
+
+.c.obj:
+	$(CC) $(CFLAGS) -c $<
+
+makenl.exe: $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS)
+
+clean:
+	del $(OBJS)
+	del makenl.exe

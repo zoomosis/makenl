@@ -1,4 +1,4 @@
-/* $Id: mkdiff.c,v 1.8 2012/10/17 11:36:54 ozzmosis Exp $ */
+/* $Id: mkdiff.c,v 1.9 2012/11/13 22:38:44 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -319,7 +319,7 @@ int makediff(char *filename)
     char linebuf[linelength];
 
     swapext(oldname, filename, OldExtensions[1]);
-    if (filesize(filename) > DIFFThreshold  && DIFFThreshold != -1)
+    if (os_filesize(filename) > DIFFThreshold  && DIFFThreshold != -1)
     {
         cause = CAUSE_THRESHOLD;
         strcpy(newext, OldExtensions[0]);

@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.7 2012/10/16 18:52:12 ozzmosis Exp $ */
+/* $Id: fileutil.c,v 1.8 2012/11/13 22:38:44 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -213,7 +213,7 @@ myfnsplit(const char *input, char *drive, char *dir, char *name, char *ext)
     }
 }
 
-long filesize(const char *filename)
+long os_filesize(const char *filename)
 {
     long size;
     int handle;
