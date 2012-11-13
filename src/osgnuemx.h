@@ -1,4 +1,4 @@
-/* $Id: osgnuemx.h,v 1.2 2012/10/14 13:47:56 ozzmosis Exp $ */
+/* $Id: osgnuemx.h,v 1.3 2012/11/13 19:44:55 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -18,6 +18,7 @@
 #define HAVE_STRUPR
 #define filecmp  stricmp
 #define filenodir(x) (strpbrk(x,"\\/") == NULL)
+#define strcasecmp stricmp
 
 /* Needed definitions */
 #define OSFND "osgnufnd.c"
