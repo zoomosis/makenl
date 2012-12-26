@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.6 2012/10/16 09:15:51 ozzmosis Exp $ */
+/* $Id: output.c,v 1.7 2012/12/26 04:21:08 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -85,9 +85,10 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
     char fullname[MYMAXDIR];
     char linebuf[linelength];
 
+    /* Removed 12/12/12 */
     /* Don't include copyright, prolog and epilog unless we make the composite list */
-    if (MakeType != LEVEL_TOP)
-        return lineno;
+    /* if (MakeType != LEVEL_TOP)
+        return lineno; */
     if (!Copyfile)
         return lineno;
     myfnmerge(fullname, NULL, MasterDir, Copyfile, NULL);
