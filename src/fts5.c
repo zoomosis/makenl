@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.6 2012/11/05 23:54:59 ajleary Exp $ */
+/* $Id: fts5.c,v 1.7 2012/12/29 04:38:59 ajleary Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -69,7 +69,7 @@ char *Levels[] =
   "Pvt", "Point"
 };
 
-int Minphone = 3;
+int Minphone = 1;
 int Alphaphone = 0;
 int Allowunpub = 0;
 int PrivateLevel;
