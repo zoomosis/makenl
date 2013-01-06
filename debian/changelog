@@ -1,9 +1,15 @@
-makenl (3.2.13-1) UNRELEASED; urgency=low
+makenl (3.3.0-1) UNRELEASED; urgency=low
+
+  * See changelog.gz for changes from v3.2.13 to v3.3.0.
+
+ -- Robert James Clay <jame@rocasa.us>  Sun, 06 Jan 2013 11:22:52 -0500
+
+makenl (3.2.13-1) unstable; urgency=low
 
   * Set encoding for debian/copyright to UTF-8.
   * See changelog.gz for changes from v3.2.9a to v3.2.13.
 
- -- Robert James Clay <jame@rocasa.us>  Sun,  7 Oct 2012 17:13:20 -0500
+ -- Robert James Clay <jame@rocasa.us>  Sun,  7 Oct 2012 17:19:13 -0500
 
 makenl (3.2.9a-1) stable; urgency=low
 
