@@ -1,0 +1,20 @@
+MakeNL for Debian
+-----------------
+
+Building a Debian package of MakeNL
+   The following packages should be installed first:  dpkg-dev, debhelper,
+and fakeroot.  The devscripts package may also be useful to you.
+   The source tree should be available with the top level directory being
+named the same as the version noted in the debian/changelog file:  i.e.,
+"makenl-3.2.7".  Once that is done, an installable Debian package can be
+created as follows:
+
+1) cd to the top level directory of the source;  this is the directory that
+contains the debian, docs, and src directories.
+2) Run the following command:  dpkg-buildpackage -rfakeroot -b -uc -us
+3) The resulting Debian package will be in the directory above the one
+you did the build from.  To install, run the command "dkpg -i" on that file.
+To remove it:  run the command "dpkg -r makenl".
+
+
+ -- Robert James Clay <jame@rocasa.org>  Sat,  5 May 2007 11:35 -0400

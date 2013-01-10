@@ -1,0 +1,81 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# MakeNL debian/rules 
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+CFLAGS = -Wall -g
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	# Add here commands to configure the package.
+
+	touch configure-stamp
+
+
+build: build-stamp
+
+build-stamp: configure-stamp 
+	dh_testdir
+
+	# Add here commands to compile the package.
+	$(MAKE) -C src -f makefile.linux
+	#$(MAKE) -C docs -f Makefile
+
+	touch $@
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+
+	# Clean up after the build process.
+	$(MAKE) -C src -f makefile.linux clean
+	$(MAKE) -C docs -f Makefile clean
+
+	dh_clean 
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+
+	# Add here commands to install the package into debian/makenl.
+	#$(MAKE) DESTDIR=$(CURDIR)/debian/makenl install
+	cp src/makenl $(CURDIR)/debian/makenl/usr/bin
+
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs docs/history.txt
+	dh_installdocs
+	cp docs/whatsnew.txt $(CURDIR)/debian/makenl/usr/share/doc/makenl/README
+	dh_installexamples
+	dh_install
+	dh_installman src/makenl.1
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure

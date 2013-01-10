@@ -1,0 +1,10 @@
+Document: makenl
+Title: Debian makenl Manual
+Author: Ben Baker
+Abstract: This manual describes what makenl is
+ and how it can be used to manage FTN nodelists
+ on Debian based systems.
+Section: Text
+
+Format: text
+Files: /usr/share/doc/makenl/makenl.txt.gz
