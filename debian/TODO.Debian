@@ -1,6 +1,7 @@
 ToDo: makenl for Debian
 -----------------------
 
-    - Clarify makenl copyrights/licensing in debian/copyright
-     
- -- Robert James Clay <jame@rocasa.us>  Sun, 31 Jan 2010 11:58 -0500
+- Change debian/rules to use dh() style.
+- Clarify makenl copyrights/licensing in debian/copyright?
+
+ -- Robert James Clay <jame@rocasa.us>  Tue,  8 Jan 2013 12:07:11 -0500
