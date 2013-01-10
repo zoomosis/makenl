@@ -1,11 +1,17 @@
-makenl (3.3.0-1) stable; urgency=low
+makenl (3.3.0-1~1) UNRELEASED; urgency=low
 
+  * Add installation of docs/makenl.html documentation file.
   * Add patch file debian/patches/KeywordSubstitutionNoise.patch.
   * Updated the ending copyright year for the debian/ directory files.
+  * Add Build-Depends for asciidoc and enable build of docs directory.
   * Remove src/todo.txt from debian/install file as it is not in the source.
+  * Debian directory no longer tracked in CVS, so remove Vcs-Cvs line from
+    the debian/control file.
+  * Update Vcs-Git & Vcs-Browser in debian/control because debian directory now
+    tracked in the Git repository.
   * New upstream release: see changelog.gz for changes from v3.2.13 to v3.3.0.
 
- -- Robert James Clay <jame@rocasa.us>  Thu, 10 Jan 2013 10:21:38 -0500
+ -- Robert James Clay <jame@rocasa.us>  Thu, 10 Jan 2013 13:53:49 -0500
 
 makenl (3.2.13-1) unstable; urgency=low
 
