@@ -4,18 +4,6 @@ Description: CVS Keyword substitution noise
 Author: Robert James Clay <jame@rocasa.us>
 Last-Update: <2013-01-10>
 
----
-The information above should follow the Patch Tagging Guidelines, please
-checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
-are templates for supplementary fields that you might want to add:
-
-Origin: <vendor|upstream|other>, <url of original patch>
-Bug: <url in upstream bugtracker>
-Bug-Debian: http://bugs.debian.org/<bugnumber>
-Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
-Forwarded: <no|not-needed|url proving that it has been forwarded>
-Reviewed-By: <name and email of someone who approved the patch>
-
 --- makenl-3.3.0.orig/docs/node.ctl
 +++ makenl-3.3.0/docs/node.ctl
 @@ -1,4 +1,4 @@
