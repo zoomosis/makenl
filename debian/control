@@ -4,8 +4,8 @@ Priority: extra
 Maintainer: Robert James Clay <jame@rocasa.us>
 Build-Depends: debhelper (>= 7.0.50)
 Standards-Version: 3.8.0
-Vcs-Git: git://makenl.git.sourceforge.net/gitroot/makenl/makenl
-Vcs-Browser: http://makenl.cvs.sourceforge.net/makenl
+Vcs-Git: git://git.code.sf.net/p/makenl/code
+Vcs-Browser: http://http://sourceforge.net/p/makenl/code
 Homepage: http://makenl.sourceforge.net
 
 Package: makenl
