@@ -1,8 +1,10 @@
 makenl (3.3.0-2~1) UNRELEASED; urgency=low
 
-  * Start development for v3.3.0-2.
+  * Set debhelper compatibility to 8 in debian/compat.
+  * Update Standards-Version to 3.9.3 in debian/control.
+  * Set debhelper Build-Depends to v8.0.0 in debian/control.
 
- -- Robert James Clay <jame@rocasa.us>  Thu, 10 Jan 2013 17:29:34 -0500
+ -- Robert James Clay <jame@rocasa.us>  Thu, 10 Jan 2013 17:44:29 -0500
 
 makenl (3.3.0-1) stable; urgency=low
 
