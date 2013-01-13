@@ -3,17 +3,17 @@ MakeNL for Debian
 
    This is makenl, an open-sourced version of MakeNL, the Fido/FTN nodelist
 processing program. MakeNL 3.x was reverse engineered from MakeNL by
-Michael Karcher, with further modifications by Björn Felton, Andrew Clarke, 
+Michael Karcher, with further modifications by Bj√∂rn Felton, Andrew Clarke,
 Michiel Broek, Johan Billing, Kees van Eeten & Robert Couture. The Debian
-package is maintained by Robert James Clay.
+packaging is maintained by Robert James Clay.
 
    Original source archives as well as binaries for various platforms can always
 be found at the MakeNL project site:  http://sourceforge.net/projects/makenl.
    MakeNL archives in ZIP format are also distributed via the Filegate
 (http://www.filegate.net) COORDUTL file echo and can be found there and also
 at any system that carries that file echo. The source code is also available 
-via anonymous CVS, and can also be browsed online;  see the web site for the
-information about those.  Support for the program is available in the message
+via anonymous CVS, and can also be browsed online; see the web site for the
+information about those. Support for the program is available in the message
 echo MAKENL_NG.
 
 
@@ -24,4 +24,4 @@ echo MAKENL_NG.
 - The binary file itself is installed as /usr/bin/makenl.
 
 
- -- Robert James Clay <jame@rocasa.org>  Sat, 24 Jan 2009 21:50 -0500
+ -- Robert James Clay <jame@rocasa.us>  Sun, 13 Jan 2013 18:15:21 -0500
