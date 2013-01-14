@@ -1,10 +1,13 @@
-makenl (3.3.0-2~1) UNRELEASED; urgency=low
+makenl (3.3.0-2~2) UNRELEASED; urgency=low
 
+  * Rewrite the debian/rules file to use dh().
   * Set debhelper compatibility to 8 in debian/compat.
   * Update Standards-Version to 3.9.3 in debian/control.
+  * Minor edits plus add makenl-dbg stanza to debian/control.
   * Set debhelper Build-Depends to v8.0.0 in debian/control.
+  * Minor edits to debian/README.Debian and change it to UTF-8.
 
- -- Robert James Clay <jame@rocasa.us>  Thu, 10 Jan 2013 17:44:29 -0500
+ -- Robert James Clay <jame@rocasa.us>  Sun, 13 Jan 2013 20:01:19 -0500
 
 makenl (3.3.0-1) stable; urgency=low
 
