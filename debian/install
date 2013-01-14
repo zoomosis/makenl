@@ -1,5 +1,6 @@
-docs/felten.txt		usr/share/doc/makenl/history
-docs/karcher.*		usr/share/doc/makenl/history
-docs/read.me		usr/share/doc/makenl/history
-docs/makenl.prn		usr/share/doc/makenl/history
-docs/fts-5000.txt	usr/share/doc/makenl/history
+src/makenl          usr/bin
+docs/felten.txt     usr/share/doc/makenl/history
+docs/karcher.*      usr/share/doc/makenl/history
+docs/read.me        usr/share/doc/makenl/history
+docs/makenl.prn     usr/share/doc/makenl/history
+docs/fts-5000.txt   usr/share/doc/makenl/history
