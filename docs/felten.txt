@@ -1,5 +1,5 @@
 Changes made to MakeNL V2.51 - 14-Jun-1992
-Source provided by Bjorn Felten
+Source provided by Björn Felten
 ------------------------------------------
 All filenames were converted to lower case.
 makenl.h
