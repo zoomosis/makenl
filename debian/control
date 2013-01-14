@@ -13,8 +13,19 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: An open-source Fido/FTN nodelist processing program
  makenl is an open-sourced version of MakeNL, the Fido/FTN nodelist
- processing program.  It is used to process Fido/FTN nodelists for
+ processing program. It is used to process Fido/FTN nodelists for
  submission to coordinators and/or for creation of nodelist files for
- distribution.  It is a near drop-in replacement for an existing
+ distribution. It is a near drop-in replacement for an existing
  installation of MakeNL.
 
+Package: makenl-dbg
+Architecture: any
+Section: debug
+Depends: makenl (= ${binary:Version}), ${misc:Depends}
+Description: debugging symbols for makenl
+ makenl is an open-sourced version of MakeNL, the Fido/FTN nodelist
+ processing program. It is used to process Fido/FTN nodelists for
+ submission to coordinators and/or for creation of nodelist files for
+ distribution.
+ .
+ This package contains the debugging symbols for makenl.
