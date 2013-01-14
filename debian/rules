@@ -1,13 +1,6 @@
 #!/usr/bin/make -f
 # debian/rules for makenl
 
-include /usr/share/hardening-includes/hardening.make
-
-CFLAGS=$(shell dpkg-buildflags --get CFLAGS)
-LDFLAGS=$(shell dpkg-buildflags --get LDFLAGS)
-CFLAGS+=$(HARDENING_CFLAGS)
-LDFLAGS+=$(HARDENING_LDFLAGS)
-
 %:
 	dh $@
 
