@@ -1,10 +1,10 @@
-makenl (3.3.0-1) stable; urgency=low
+makenl (3.3.3-1) stable; urgency=low
 
     A package with debug symbols is now available for MakeNL as makenl-dbg. Some
     information about how to use it can be found at the following URL:
     http://wiki.debian.org/HowToGetABacktrace
 
- -- Robert James Clay <jame@rocasa.us>  Sun, 13 Jan 2013 07:10:34 -0500
+ -- Robert James Clay <jame@rocasa.us>  Thu, 17 Jan 2013 12:24:14 -0500
 
 makenl (3.2.9-1) lenny; urgency=low  
 
