@@ -1,7 +1,19 @@
 ToDo: makenl for Debian
 -----------------------
 
-- Change debian/rules to use dh() style.
-- Clarify makenl copyrights/licensing in debian/copyright?
+- Clarify makenl copyrights/licensing in debian/copyright, as part of redoing
+  as per dep5, and because of the followng lintian warning:
+   copyright-refers-to-versionless-license-file usr/share/common-licenses/GPL
+  Which means that debian/copyright needs to be at least updated in any case.
 
- -- Robert James Clay <jame@rocasa.us>  Tue,  8 Jan 2013 12:07:11 -0500
+- The docs Makefile uses asciidoc to create an makenl.html file. Add what
+  is necessary to use that in the packaging.
+
+- Lintian warnings: hardening. Ref: http://wiki.debian.org/Hardening
+  W: makenl: hardening-no-relro usr/bin/makenl
+  W: makenl: hardening-no-fortify-functions usr/bin/makenl
+
+- Other Lintian warnings:
+W: makenl: description-synopsis-starts-with-article
+
+ -- Robert James Clay <jame@rocasa.us>  Thu, 17 Jan 2013 15:44:37 -0500
