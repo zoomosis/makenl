@@ -1,0 +1,300 @@
+Description: CVS Keyword substition noise
+ Diff caused by CVS/RCS Keyword substitution related noise as compared against
+ the makenl_3.3.3.orig.tar.gz source archive file.
+Author: Robert James Clay <jame@rocasa.us>
+Last-Update: <2013-01-17>
+
+--- makenl-3.3.3.orig/docs/node.ctl
++++ makenl-3.3.3/docs/node.ctl
+@@ -1,4 +1,4 @@
+-; $Id: node.ctl,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
++; $Id: node.ctl,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+ ;
+ ; Sample control file for an individual node
+ 
+--- makenl-3.3.3.orig/docs/zone.ctl
++++ makenl-3.3.3/docs/zone.ctl
+@@ -1,4 +1,4 @@
+-; $Id: zone.ctl,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
++; $Id: zone.ctl,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+ ;
+ ; This is a sample control for a the coordinator of a Zone.
+ ; Edit fields within angle brackets as necessary (removing the brackets)
+--- makenl-3.3.3.orig/docs/net-l.ctl
++++ makenl-3.3.3/docs/net-l.ctl
+@@ -1,4 +1,4 @@
+-; $Id: net-l.ctl,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
++; $Id: net-l.ctl,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+ ;
+ ; This is a sample control for a the coordinator of a large Net, whose
+ ; Hub coordinators maintain their own segments.
+--- makenl-3.3.3.orig/docs/net-s.ctl
++++ makenl-3.3.3/docs/net-s.ctl
+@@ -1,4 +1,4 @@
+-; $Id: net-s.ctl,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
++; $Id: net-s.ctl,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+ ;
+ ; This is a sample control for a the coordinator of a Hub or small Net.
+ ; Edit fields within angle brackets as necessary (removing the brackets).
+--- makenl-3.3.3.orig/docs/hub.ctl
++++ makenl-3.3.3/docs/hub.ctl
+@@ -1,4 +1,4 @@
+-; $Id: hub.ctl,v 1.1.1.1 2009/01/08 20:07:45 mbroek Exp $
++; $Id: hub.ctl,v 1.1 2009/01/08 20:07:45 mbroek Exp $
+ ;
+ ; This is a sample control for a the coordinator of a Hub or small Net.
+ ; Edit fields within angle brackets as necessary (removing the brackets).
+--- makenl-3.3.3.orig/docs/distrib.ctl
++++ makenl-3.3.3/docs/distrib.ctl
+@@ -1,4 +1,4 @@
+-; $Id: distrib.ctl,v 1.1.1.1 2009/01/08 20:07:45 mbroek Exp $
++; $Id: distrib.ctl,v 1.1 2009/01/08 20:07:45 mbroek Exp $
+ ;
+ ; This is a sample control for a coordinator who creates distribution files.
+ ; On process day, MakeNL is run a second time using this control file.
+--- makenl-3.3.3.orig/docs/regional.ctl
++++ makenl-3.3.3/docs/regional.ctl
+@@ -1,4 +1,4 @@
+-; $Id: regional.ctl,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
++; $Id: regional.ctl,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+ ;
+ ; This is a sample control for a the coordinator of a Region.
+ ; Edit fields within angle brackets as necessary (removing the brackets)
+--- makenl-3.3.3.orig/slackware/Slackbuild
++++ makenl-3.3.3/slackware/Slackbuild
+@@ -1,6 +1,6 @@
+ #!/bin/sh
+ #
+-#  $Id: Slackbuild,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
++#  $Id: Slackbuild,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+ #
+ #  Build script for Slackware makenl package.
+ #
+--- makenl-3.3.3.orig/src/osmscful.c
++++ makenl-3.3.3/src/osmscful.c
+@@ -1,4 +1,4 @@
+-/* $Id: osmscful.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: osmscful.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ #define HAVE_OS_FULLPATH
+ 
+--- makenl-3.3.3.orig/src/osgengtn.c
++++ makenl-3.3.3/src/osgengtn.c
+@@ -1,4 +1,4 @@
+-/* $Id: osgengtn.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: osgengtn.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ char *os_file_getname(const char *path)
+ {
+--- makenl-3.3.3.orig/src/oswatfnd.c
++++ makenl-3.3.3/src/oswatfnd.c
+@@ -1,4 +1,4 @@
+-/* $Id: oswatfnd.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: oswatfnd.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ #define HAVE_OS_FIND
+ #include <string.h>
+--- makenl-3.3.3.orig/src/lsttool.h
++++ makenl-3.3.3/src/lsttool.h
+@@ -1,4 +1,4 @@
+-/* $Id: lsttool.h,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $ */
++/* $Id: lsttool.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+ 
+ #define SEARCH_UPLOAD 0
+ #define SEARCH_MAILFILE 1
+--- makenl-3.3.3.orig/src/osdosfnd.c
++++ makenl-3.3.3/src/osdosfnd.c
+@@ -1,4 +1,4 @@
+-/* $Id: osdosfnd.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: osdosfnd.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ #include <dos.h>
+ #include "unused.h"
+--- makenl-3.3.3.orig/src/spawn.asm
++++ makenl-3.3.3/src/spawn.asm
+@@ -1,4 +1,4 @@
+-; $Id: spawn.asm,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $
++; $Id: spawn.asm,v 1.1 2009/01/08 20:07:47 mbroek Exp $
+ 
+ ;MODIFIED 5th October 1995 by Matthew Parker all changes are public domain.
+ 
+--- makenl-3.3.3.orig/src/oswatful.c
++++ makenl-3.3.3/src/oswatful.c
+@@ -1,4 +1,4 @@
+-/* $Id: oswatful.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: oswatful.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ /* make an absolute path from given relative path */
+ int os_fullpath(char *dst, const char *src, size_t bufsiz)
+--- makenl-3.3.3.orig/src/osgenaps.c
++++ makenl-3.3.3/src/osgenaps.c
+@@ -1,4 +1,4 @@
+-/* $Id: osgenaps.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: osgenaps.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ /* normalize path                                      */
+ /* It is assumed that path has one more char allocated */
+--- makenl-3.3.3.orig/src/spawn.h
++++ makenl-3.3.3/src/spawn.h
+@@ -1,4 +1,4 @@
+-/* $Id: spawn.h,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: spawn.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ /*
+  *  SPAWN.H
+--- makenl-3.3.3.orig/src/osgencan.c
++++ makenl-3.3.3/src/osgencan.c
+@@ -1,4 +1,4 @@
+-/* $Id: osgencan.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: osgencan.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ char *os_filecanonify(char *s)
+ {
+--- makenl-3.3.3.orig/src/oslnxdsl.c
++++ makenl-3.3.3/src/oslnxdsl.c
+@@ -1,4 +1,4 @@
+-/* $Id: oslnxdsl.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: oslnxdsl.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ #define HAVE_OS_DESLASHIFY
+ 
+--- makenl-3.3.3.orig/src/stack.h
++++ makenl-3.3.3/src/stack.h
+@@ -1,4 +1,4 @@
+-/* $Id: stack.h,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: stack.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ int addnumber(int maketype, int makenum, int markpos);
+ void unmarkstack(void);
+--- makenl-3.3.3.orig/src/osgenrms.c
++++ makenl-3.3.3/src/osgenrms.c
+@@ -1,4 +1,4 @@
+-/* $Id: osgenrms.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: osgenrms.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ /* remove slash/backslash from last part of path name, if present */
+ char *os_remove_slash(char *path1)
+--- makenl-3.3.3.orig/src/ignore.h
++++ makenl-3.3.3/src/ignore.h
+@@ -1,3 +1,3 @@
+-/* $Id: ignore.h,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $ */
++/* $Id: ignore.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+ 
+ /* This file is used as substitute */
+--- makenl-3.3.3.orig/src/crc16.h
++++ makenl-3.3.3/src/crc16.h
+@@ -1,4 +1,4 @@
+-/* $Id: crc16.h,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $ */
++/* $Id: crc16.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+ 
+ unsigned short CRC16DoByte(unsigned char byte, unsigned short CRCnow);
+ unsigned short CRC16String(const char *str, unsigned short crc);
+--- makenl-3.3.3.orig/src/osemxful.c
++++ makenl-3.3.3/src/osemxful.c
+@@ -1,4 +1,4 @@
+-/* $Id: osemxful.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: osemxful.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ #define HAVE_OS_FULLPATH
+ 
+--- makenl-3.3.3.orig/src/osgendsl.c
++++ makenl-3.3.3/src/osgendsl.c
+@@ -1,4 +1,4 @@
+-/* $Id: osgendsl.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: osgendsl.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ /* converts slashes to backslashes for pathnames under DOS or EMX */
+ char *os_deslashify(char *name)
+--- makenl-3.3.3.orig/src/strtool.c
++++ makenl-3.3.3/src/strtool.c
+@@ -1,4 +1,4 @@
+-/* $Id: strtool.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: strtool.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ #include <stdlib.h>
+ #include <string.h>
+--- makenl-3.3.3.orig/src/os.c
++++ makenl-3.3.3/src/os.c
+@@ -1,6 +1,6 @@
+ /* os.c -- Operating system dependant functions for makenl */
+ 
+-/* $Id: os.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: os.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ #include <stdio.h>
+ #include <string.h>
+--- makenl-3.3.3.orig/src/exec.c
++++ makenl-3.3.3/src/exec.c
+@@ -13,7 +13,7 @@
+    BIXname: twagner
+  */
+ 
+-/* $Id: exec.c,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $ */
++/* $Id: exec.c,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+ 
+ #include <stdio.h> 
+ #include <stdlib.h>
+--- makenl-3.3.3.orig/src/osd16exc.c
++++ makenl-3.3.3/src/osd16exc.c
+@@ -1,4 +1,4 @@
+-/* $Id: osd16exc.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: osd16exc.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ #include "exec.h"
+ 
+--- makenl-3.3.3.orig/src/osgnufnd.c
++++ makenl-3.3.3/src/osgnufnd.c
+@@ -1,4 +1,4 @@
+-/* $Id: osgnufnd.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: osgnufnd.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ #define _GNU_SOURCE
+ #include <dirent.h>
+--- makenl-3.3.3.orig/src/merge.h
++++ makenl-3.3.3/src/merge.h
+@@ -1,4 +1,4 @@
+-/* $Id: merge.h,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $ */
++/* $Id: merge.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+ 
+ FILE *PrepareMerge(void);
+ void FinishMerge(void);
+--- makenl-3.3.3.orig/src/osgenupr.c
++++ makenl-3.3.3/src/osgenupr.c
+@@ -1,4 +1,4 @@
+-/* $Id: osgenupr.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: osgenupr.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ #include <ctype.h>
+ 
+--- makenl-3.3.3.orig/src/proc.h
++++ makenl-3.3.3/src/proc.h
+@@ -1,4 +1,4 @@
+-/* $Id: proc.h,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: proc.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ /* Values for ShouldProcess */
+ #define USUAL_PROCESSING 1
+--- makenl-3.3.3.orig/src/osgenff.c
++++ makenl-3.3.3/src/osgenff.c
+@@ -1,4 +1,4 @@
+-/* $Id: osgenff.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: osgenff.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ char *os_findfile(struct _filefind *pff, const char *path,
+                   const char *mask)
+--- makenl-3.3.3.orig/src/upcont.h
++++ makenl-3.3.3/src/upcont.h
+@@ -1,4 +1,4 @@
+-/* $Id: upcont.h,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
++/* $Id: upcont.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+ 
+ int UpdateContext(int level, int num, int makenum, int *ctxnum,
+                   int *ctxlevel, int maketype);
+--- makenl-3.3.3.orig/src/exec.h
++++ makenl-3.3.3/src/exec.h
+@@ -1,4 +1,4 @@
+-/* $Id: exec.h,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $ */
++/* $Id: exec.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
+ 
+ #ifndef _EXEC_H
+ #define _EXEC_H
