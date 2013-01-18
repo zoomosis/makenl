@@ -1,3 +1,9 @@
+makenl (3.3.3-1ppa1~precise1) precise; urgency=low
+
+  * Initial release of v3.3.3-1 for Ubuntu v12.04 LTS (precise).
+
+ -- Robert James Clay <jame@rocasa.us>  Fri, 18 Jan 2013 00:26:31 -0500
+
 makenl (3.3.3-1) stable; urgency=low
 
   * Rewrite the debian/rules file to use dh().
