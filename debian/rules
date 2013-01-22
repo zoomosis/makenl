@@ -1,6 +1,10 @@
 #!/usr/bin/make -f
 # debian/rules for makenl
 
+export CPPFLAGS:=$(shell dpkg-buildflags --get CPPFLAGS)
+export CFLAGS:=$(shell dpkg-buildflags --get CFLAGS)
+export LDFLAGS:=$(shell dpkg-buildflags --get LDFLAGS)
+
 %:
 	dh $@
 
