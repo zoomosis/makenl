@@ -1,8 +1,10 @@
-makenl (3.3.3-2) UNRELEASED; urgency=low
+makenl (3.3.3-2~1) UNRELEASED; urgency=low
 
-  * Start development for version v3.3.3-2.
+  * Add dpkg-dev to the Build-Depends in debian/control.
+  * Use dpkg-buildflags to set default build flags in debian/rules.
+  * Add '00-' to beginning of the KeywordSubstitutionNoise.patch file name.
 
- -- Robert James Clay <jame@rocasa.us>  Tue, 22 Jan 2013 11:33:14 -0500
+ -- Robert James Clay <jame@rocasa.us>  Tue, 22 Jan 2013 13:52:40 -0500
 
 makenl (3.3.3-1) stable; urgency=low
 
