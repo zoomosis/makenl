@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.14 2012/10/14 15:24:21 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.15 2013/01/30 21:58:10 ajleary Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -189,7 +189,7 @@ int main(int argc, char *argv[])
     mklog(LOG_INFO, "Cmdline: %s", cmdline_to_str(argv));
     mklog(LOG_INFO, "Using '%s' in '%s'", CfgFile, CurDir);
 
-    for (OldWeeks = 3; OldWeeks >= 0; OldWeeks--)
+    for (OldWeeks = 7; OldWeeks >= 0; OldWeeks--)
     {
         searchdow(NewExtWDay, -7 * OldWeeks + 6, &SplitTimePtr);
         sprintf(OldExtensions[OldWeeks], "%03d",
