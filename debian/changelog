@@ -1,3 +1,9 @@
+makenl (3.3.0-1ppa2~1) UNRELEASED; urgency=low
+
+  * Start development for next 'lucid' package of MakeNL.
+
+ -- Robert James Clay <jame@rocasa.us>  Thu, 31 Jan 2013 15:45:25 -0500
+
 makenl (3.3.0-1ppa1~lucid1) lucid; urgency=low
 
   * Initial release of v3.3.0-1 for Ubuntu v10.04 (lucid).
