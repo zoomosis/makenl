@@ -11,7 +11,7 @@ Homepage: http://makenl.sourceforge.net
 Package: makenl
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: An open-source Fido/FTN nodelist processing program
+Description: open-source Fidonet/FTN nodelist processing program
  makenl is an open-sourced version of MakeNL, the Fido/FTN nodelist
  processing program. It is used to process Fido/FTN nodelists for
  submission to coordinators and/or for creation of nodelist files for
