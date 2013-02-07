@@ -1,4 +1,4 @@
-makenl (3.3.5-1~1) UNRELEASED; urgency=low
+makenl (3.3.5-0wheezy1) wheezy; urgency=low
 
   * Updates to debian/control:
     - Update and rewrite the package synopsis.
@@ -9,7 +9,7 @@ makenl (3.3.5-1~1) UNRELEASED; urgency=low
     - Remove 00-KeywordSubstitutionNoise.patch as it is no longer needed.
   * New upstream release: see changelog.gz for changes from v3.3.3 to v3.3.5.
 
- -- Robert James Clay <jame@rocasa.us>  Thu, 07 Feb 2013 14:59:14 -0500
+ -- Robert James Clay <jame@rocasa.us>  Thu, 07 Feb 2013 15:17:03 -0500
 
 makenl (3.3.3-1) stable; urgency=low
 
