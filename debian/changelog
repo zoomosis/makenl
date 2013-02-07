@@ -1,4 +1,4 @@
-makenl (3.3.3-2~1) UNRELEASED; urgency=low
+makenl (3.3.4-1) UNRELEASED; urgency=low
 
   * New upstream fix from v3.3.4:
     - Increase maximum nodelist segment age to 7 weeks.
@@ -10,7 +10,7 @@ makenl (3.3.3-2~1) UNRELEASED; urgency=low
     - Add '00-' to beginning of the KeywordSubstitutionNoise.patch file name.
     - Add the file 10-IncreaseMaximumNodelistSegmentAgeTo7Weeks.patch.
 
- -- Robert James Clay <jame@rocasa.us>  Wed, 06 Feb 2013 17:24:43 -0500
+ -- Robert James Clay <jame@rocasa.us>  Thu, 07 Feb 2013 12:07:24 -0500
 
 makenl (3.3.3-1) stable; urgency=low
 
