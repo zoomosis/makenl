@@ -5,10 +5,10 @@ makenl (3.3.5-1~1) UNRELEASED; urgency=low
     - Add dpkg-dev to the Build-Depends in debian/control.
   * Use dpkg-buildflags to set default build flags in debian/rules.
   * Changes to debian/patches/:
-    - Add '00-' to beginning of the KeywordSubstitutionNoise.patch file name.
+    - Remove 00-KeywordSubstitutionNoise.patch as it is no longer needed.
   * New upstream release: see changelog.gz for changes from v3.3.3 to v3.3.5.
 
- -- Robert James Clay <jame@rocasa.us>  Thu, 07 Feb 2013 12:14:24 -0500
+ -- Robert James Clay <jame@rocasa.us>  Thu, 07 Feb 2013 13:51:14 -0500
 
 makenl (3.3.3-1) stable; urgency=low
 
