@@ -1,10 +1,16 @@
 makenl (3.3.3-2~1) UNRELEASED; urgency=low
 
-  * Add dpkg-dev to the Build-Depends in debian/control.
+  * New upstream fix from v3.3.4:
+    - Increase maximum nodelist segment age to 7 weeks.
+  * Updates to debian/control:
+    - Update and rewrite the package synopsis.
+    - Add dpkg-dev to the Build-Depends in debian/control.
   * Use dpkg-buildflags to set default build flags in debian/rules.
-  * Add '00-' to beginning of the KeywordSubstitutionNoise.patch file name.
+  * Changes to debian/patches/:
+    - Add '00-' to beginning of the KeywordSubstitutionNoise.patch file name.
+    - Add the file 10-IncreaseMaximumNodelistSegmentAgeTo7Weeks.patch.
 
- -- Robert James Clay <jame@rocasa.us>  Tue, 22 Jan 2013 13:52:40 -0500
+ -- Robert James Clay <jame@rocasa.us>  Wed, 06 Feb 2013 17:24:43 -0500
 
 makenl (3.3.3-1) stable; urgency=low
 
