@@ -3,12 +3,13 @@ makenl (3.3.5-1~1) UNRELEASED; urgency=low
   * Updates to debian/control:
     - Update and rewrite the package synopsis.
     - Add dpkg-dev to the Build-Depends in debian/control.
+  * Update and rewrite contents of the debian/copyright file.
   * Use dpkg-buildflags to set default build flags in debian/rules.
   * Changes to debian/patches/:
     - Remove 00-KeywordSubstitutionNoise.patch as it is no longer needed.
   * New upstream release: see changelog.gz for changes from v3.3.3 to v3.3.5.
 
- -- Robert James Clay <jame@rocasa.us>  Thu, 07 Feb 2013 13:51:14 -0500
+ -- Robert James Clay <jame@rocasa.us>  Thu, 07 Feb 2013 14:59:14 -0500
 
 makenl (3.3.3-1) stable; urgency=low
 
