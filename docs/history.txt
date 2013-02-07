@@ -1,4 +1,4 @@
-/*  $Id: history.txt,v 1.18 2013/02/07 13:31:58 jame Exp $  */
+/*  $Id: history.txt,v 1.19 2013/02/07 14:18:57 jame Exp $  */
 
 
                             MakeNL Revision History
@@ -359,7 +359,7 @@ code snippet :)
 
             ALPHaphone 1 (0 or not in CFG disables)
 
-       V2.52 -- April 16, 1998 -- Y2k patch (Bjorn Felten -- 2:203/0)
+       V2.52 -- April 16, 1998 -- Y2k patch (Björn Felten -- 2:203/0)
 
             Patched  the  year  written  in  attach  and  receipt  mail.
             Removed  the  check for Hi ASCII and "erroneous" baud rates.
