@@ -1,8 +1,12 @@
-makenl (3.3.0-1ppa2~1) UNRELEASED; urgency=low
+makenl (3.3.0-1ppa1~lucid2) lucid; urgency=low
 
-  * Start development for next 'lucid' package of MakeNL.
+  * Changes for debian/patches:
+    - Rename KeywordSubstitutionNoise.patch with leading '00-'. 
+    - Add the file 05-IncludeCopyrightPrologAndEpilogInAllSegments.patch.
+    - Add the file 06-ChangeDefaultForMINphoneTo1.patch.
+    - Add the file 10-IncreaseMaximumNodelistSegmentAgeTo7Weeks.patch.
 
- -- Robert James Clay <jame@rocasa.us>  Thu, 31 Jan 2013 15:45:25 -0500
+ -- Robert James Clay <jame@rocasa.us>  Sat,  9 Feb 2013 07:02:37 -0500
 
 makenl (3.3.0-1ppa1~lucid1) lucid; urgency=low
 
