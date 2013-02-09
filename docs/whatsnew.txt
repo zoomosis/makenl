@@ -1,13 +1,14 @@
-$Id: whatsnew.txt,v 1.3 2010/02/05 23:31:23 jame Exp $
+$Id: whatsnew.txt,v 1.4 2013/02/07 14:40:17 jame Exp $
 
 Support:
 ========
 
-  Web: http://makenl.sourceforge.net/
-  Fido: in the echomail area MAKENL_NG, available on most systems
-  that carry the Fidonet NAB and/or WWB areas.
-  Please report bugs only to the bugtracker on the web:
-  http://sourceforge.net/tracker/?group_id=191700&atid=938433
+  Web:      http://makenl.sourceforge.net/
+  Fidonet:  The echomail area MAKENL_NG, available to most systems
+  Trackers: Besides discussions in the echo, Bugs and Feature Requests
+            can be registered and tracked at:
+            http://sourceforge.net/p/makenl/bugs/
+            http://sourceforge.net/p/makenl/feature-requests/
 
 
 Important Changes since MakeNL 2.5x:
