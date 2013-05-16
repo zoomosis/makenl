@@ -1,3 +1,9 @@
+makenl (3.3.5-0squeeze1~1) UNRELEASED; urgency=low
+
+  * Backport MakeNL v3.3.5 to Debian v6 (squeeze).
+
+ -- Robert James Clay <jame@rocasa.us>  Thu, 16 May 2013 07:10:31 -0400
+
 makenl (3.3.5-0wheezy1) wheezy; urgency=low
 
   * Updates to debian/control:
