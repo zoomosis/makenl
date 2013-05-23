@@ -1,4 +1,3 @@
 00-KeywordSubstitutionNoise.patch
 05-IncludeCopyrightPrologAndEpilogInAllSegments.patch
-06-ChangeDefaultForMINphoneTo1.patch
 10-IncreaseMaximumNodelistSegmentAgeTo7Weeks.patch
