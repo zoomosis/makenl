@@ -1,19 +1,13 @@
-ToDo: makenl for Debian
------------------------
+ToDo: MakeNL Debian packaging
+=============================
 
-- Clarify makenl copyrights/licensing in debian/copyright, as part of redoing
-  as per dep5, and because of the followng lintian warning:
-   copyright-refers-to-versionless-license-file usr/share/common-licenses/GPL
-  Which means that debian/copyright needs to be at least updated in any case.
+- The debian/copyright file has been updated to a new machine readable format,
+  but the copyright information (specifically authors and years) still needs
+  to be up verified and updated as necessary.
 
-- The docs Makefile uses asciidoc to create an makenl.html file. Add what
-  is necessary to use that in the packaging.
+- Lintian warnings during a package build for Debian packages.
+  Ref: http://wiki.debian.org/Hardening
+W: makenl: hardening-no-fortify-functions usr/bin/makenl
 
-- Lintian warnings: hardening. Ref: http://wiki.debian.org/Hardening
-  W: makenl: hardening-no-relro usr/bin/makenl
-  W: makenl: hardening-no-fortify-functions usr/bin/makenl
 
-- Other Lintian warnings:
-W: makenl: description-synopsis-starts-with-article
-
- -- Robert James Clay <jame@rocasa.us>  Thu, 17 Jan 2013 15:44:37 -0500
+ -- Robert James Clay <jame@rocasa.us>  Thu, 23 May 2013 16:46:36 -0400
