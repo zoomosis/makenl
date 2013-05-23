@@ -1,8 +1,12 @@
-makenl (3.3.5-0wheezy2~1) UNRELEASED; urgency=low
+makenl (3.3.5-0wheezy2) wheezy; urgency=low
 
-  * Start development for v3.3.5-0wheezy2.
+  * Change how the docs/whatsnew.txt file is installed.
+  * Update the patching information in debian/README.source.
+  * Enable use of asciidoc to create makenl.html from makenl.txt.
+  * Rename the files debian/dirs, debian/docs, debian/examples, debian/install,
+    and debian/manpages to include the 'makenl' package name.
 
- -- Robert James Clay <jame@rocasa.us>  Thu, 23 May 2013 15:51:07 -0400
+ -- Robert James Clay <jame@rocasa.us>  Thu, 23 May 2013 17:24:05 -0400
 
 makenl (3.3.5-0wheezy1) wheezy; urgency=low
 
