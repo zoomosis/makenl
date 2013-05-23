@@ -4,64 +4,64 @@ Description: CVS Keyword substitution noise
 Author: Robert James Clay <jame@rocasa.us>
 Last-Update: <2013-01-10>
 
---- makenl-3.3.0.orig/docs/node.ctl
-+++ makenl-3.3.0/docs/node.ctl
+--- a/docs/node.ctl
++++ b/docs/node.ctl
 @@ -1,4 +1,4 @@
 -; $Id: node.ctl,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
 +; $Id: node.ctl,v 1.1 2009/01/08 20:07:46 mbroek Exp $
  ;
  ; Sample control file for an individual node
  
---- makenl-3.3.0.orig/docs/zone.ctl
-+++ makenl-3.3.0/docs/zone.ctl
+--- a/docs/zone.ctl
++++ b/docs/zone.ctl
 @@ -1,4 +1,4 @@
 -; $Id: zone.ctl,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
 +; $Id: zone.ctl,v 1.1 2009/01/08 20:07:46 mbroek Exp $
  ;
  ; This is a sample control for a the coordinator of a Zone.
  ; Edit fields within angle brackets as necessary (removing the brackets)
---- makenl-3.3.0.orig/docs/net-l.ctl
-+++ makenl-3.3.0/docs/net-l.ctl
+--- a/docs/net-l.ctl
++++ b/docs/net-l.ctl
 @@ -1,4 +1,4 @@
 -; $Id: net-l.ctl,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
 +; $Id: net-l.ctl,v 1.1 2009/01/08 20:07:46 mbroek Exp $
  ;
  ; This is a sample control for a the coordinator of a large Net, whose
  ; Hub coordinators maintain their own segments.
---- makenl-3.3.0.orig/docs/net-s.ctl
-+++ makenl-3.3.0/docs/net-s.ctl
+--- a/docs/net-s.ctl
++++ b/docs/net-s.ctl
 @@ -1,4 +1,4 @@
 -; $Id: net-s.ctl,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
 +; $Id: net-s.ctl,v 1.1 2009/01/08 20:07:46 mbroek Exp $
  ;
  ; This is a sample control for a the coordinator of a Hub or small Net.
  ; Edit fields within angle brackets as necessary (removing the brackets).
---- makenl-3.3.0.orig/docs/hub.ctl
-+++ makenl-3.3.0/docs/hub.ctl
+--- a/docs/hub.ctl
++++ b/docs/hub.ctl
 @@ -1,4 +1,4 @@
 -; $Id: hub.ctl,v 1.1.1.1 2009/01/08 20:07:45 mbroek Exp $
 +; $Id: hub.ctl,v 1.1 2009/01/08 20:07:45 mbroek Exp $
  ;
  ; This is a sample control for a the coordinator of a Hub or small Net.
  ; Edit fields within angle brackets as necessary (removing the brackets).
---- makenl-3.3.0.orig/docs/distrib.ctl
-+++ makenl-3.3.0/docs/distrib.ctl
+--- a/docs/distrib.ctl
++++ b/docs/distrib.ctl
 @@ -1,4 +1,4 @@
 -; $Id: distrib.ctl,v 1.1.1.1 2009/01/08 20:07:45 mbroek Exp $
 +; $Id: distrib.ctl,v 1.1 2009/01/08 20:07:45 mbroek Exp $
  ;
  ; This is a sample control for a coordinator who creates distribution files.
  ; On process day, MakeNL is run a second time using this control file.
---- makenl-3.3.0.orig/docs/regional.ctl
-+++ makenl-3.3.0/docs/regional.ctl
+--- a/docs/regional.ctl
++++ b/docs/regional.ctl
 @@ -1,4 +1,4 @@
 -; $Id: regional.ctl,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $
 +; $Id: regional.ctl,v 1.1 2009/01/08 20:07:46 mbroek Exp $
  ;
  ; This is a sample control for a the coordinator of a Region.
  ; Edit fields within angle brackets as necessary (removing the brackets)
---- makenl-3.3.0.orig/slackware/Slackbuild
-+++ makenl-3.3.0/slackware/Slackbuild
+--- a/slackware/Slackbuild
++++ b/slackware/Slackbuild
 @@ -1,6 +1,6 @@
  #!/bin/sh
  #
@@ -70,151 +70,151 @@ Last-Update: <2013-01-10>
  #
  #  Build script for Slackware makenl package.
  #
---- makenl-3.3.0.orig/src/osmscful.c
-+++ makenl-3.3.0/src/osmscful.c
+--- a/src/osmscful.c
++++ b/src/osmscful.c
 @@ -1,4 +1,4 @@
 -/* $Id: osmscful.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: osmscful.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  #define HAVE_OS_FULLPATH
  
---- makenl-3.3.0.orig/src/osgengtn.c
-+++ makenl-3.3.0/src/osgengtn.c
+--- a/src/osgengtn.c
++++ b/src/osgengtn.c
 @@ -1,4 +1,4 @@
 -/* $Id: osgengtn.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: osgengtn.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  char *os_file_getname(const char *path)
  {
---- makenl-3.3.0.orig/src/oswatfnd.c
-+++ makenl-3.3.0/src/oswatfnd.c
+--- a/src/oswatfnd.c
++++ b/src/oswatfnd.c
 @@ -1,4 +1,4 @@
 -/* $Id: oswatfnd.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: oswatfnd.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  #define HAVE_OS_FIND
  #include <string.h>
---- makenl-3.3.0.orig/src/lsttool.h
-+++ makenl-3.3.0/src/lsttool.h
+--- a/src/lsttool.h
++++ b/src/lsttool.h
 @@ -1,4 +1,4 @@
 -/* $Id: lsttool.h,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $ */
 +/* $Id: lsttool.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
  
  #define SEARCH_UPLOAD 0
  #define SEARCH_MAILFILE 1
---- makenl-3.3.0.orig/src/osdosfnd.c
-+++ makenl-3.3.0/src/osdosfnd.c
+--- a/src/osdosfnd.c
++++ b/src/osdosfnd.c
 @@ -1,4 +1,4 @@
 -/* $Id: osdosfnd.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: osdosfnd.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  #include <dos.h>
  #include "unused.h"
---- makenl-3.3.0.orig/src/spawn.asm
-+++ makenl-3.3.0/src/spawn.asm
+--- a/src/spawn.asm
++++ b/src/spawn.asm
 @@ -1,4 +1,4 @@
 -; $Id: spawn.asm,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $
 +; $Id: spawn.asm,v 1.1 2009/01/08 20:07:47 mbroek Exp $
  
  ;MODIFIED 5th October 1995 by Matthew Parker all changes are public domain.
  
---- makenl-3.3.0.orig/src/oswatful.c
-+++ makenl-3.3.0/src/oswatful.c
+--- a/src/oswatful.c
++++ b/src/oswatful.c
 @@ -1,4 +1,4 @@
 -/* $Id: oswatful.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: oswatful.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  /* make an absolute path from given relative path */
  int os_fullpath(char *dst, const char *src, size_t bufsiz)
---- makenl-3.3.0.orig/src/osgenaps.c
-+++ makenl-3.3.0/src/osgenaps.c
+--- a/src/osgenaps.c
++++ b/src/osgenaps.c
 @@ -1,4 +1,4 @@
 -/* $Id: osgenaps.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: osgenaps.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  /* normalize path                                      */
  /* It is assumed that path has one more char allocated */
---- makenl-3.3.0.orig/src/spawn.h
-+++ makenl-3.3.0/src/spawn.h
+--- a/src/spawn.h
++++ b/src/spawn.h
 @@ -1,4 +1,4 @@
 -/* $Id: spawn.h,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: spawn.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  /*
   *  SPAWN.H
---- makenl-3.3.0.orig/src/osgencan.c
-+++ makenl-3.3.0/src/osgencan.c
+--- a/src/osgencan.c
++++ b/src/osgencan.c
 @@ -1,4 +1,4 @@
 -/* $Id: osgencan.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: osgencan.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  char *os_filecanonify(char *s)
  {
---- makenl-3.3.0.orig/src/oslnxdsl.c
-+++ makenl-3.3.0/src/oslnxdsl.c
+--- a/src/oslnxdsl.c
++++ b/src/oslnxdsl.c
 @@ -1,4 +1,4 @@
 -/* $Id: oslnxdsl.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: oslnxdsl.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  #define HAVE_OS_DESLASHIFY
  
---- makenl-3.3.0.orig/src/stack.h
-+++ makenl-3.3.0/src/stack.h
+--- a/src/stack.h
++++ b/src/stack.h
 @@ -1,4 +1,4 @@
 -/* $Id: stack.h,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: stack.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  int addnumber(int maketype, int makenum, int markpos);
  void unmarkstack(void);
---- makenl-3.3.0.orig/src/osgenrms.c
-+++ makenl-3.3.0/src/osgenrms.c
+--- a/src/osgenrms.c
++++ b/src/osgenrms.c
 @@ -1,4 +1,4 @@
 -/* $Id: osgenrms.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: osgenrms.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  /* remove slash/backslash from last part of path name, if present */
  char *os_remove_slash(char *path1)
---- makenl-3.3.0.orig/src/ignore.h
-+++ makenl-3.3.0/src/ignore.h
+--- a/src/ignore.h
++++ b/src/ignore.h
 @@ -1,3 +1,3 @@
 -/* $Id: ignore.h,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $ */
 +/* $Id: ignore.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
  
  /* This file is used as substitute */
---- makenl-3.3.0.orig/src/crc16.h
-+++ makenl-3.3.0/src/crc16.h
+--- a/src/crc16.h
++++ b/src/crc16.h
 @@ -1,4 +1,4 @@
 -/* $Id: crc16.h,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $ */
 +/* $Id: crc16.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
  
  unsigned short CRC16DoByte(unsigned char byte, unsigned short CRCnow);
  unsigned short CRC16String(const char *str, unsigned short crc);
---- makenl-3.3.0.orig/src/osemxful.c
-+++ makenl-3.3.0/src/osemxful.c
+--- a/src/osemxful.c
++++ b/src/osemxful.c
 @@ -1,4 +1,4 @@
 -/* $Id: osemxful.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: osemxful.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  #define HAVE_OS_FULLPATH
  
---- makenl-3.3.0.orig/src/osgendsl.c
-+++ makenl-3.3.0/src/osgendsl.c
+--- a/src/osgendsl.c
++++ b/src/osgendsl.c
 @@ -1,4 +1,4 @@
 -/* $Id: osgendsl.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: osgendsl.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  /* converts slashes to backslashes for pathnames under DOS or EMX */
  char *os_deslashify(char *name)
---- makenl-3.3.0.orig/src/strtool.c
-+++ makenl-3.3.0/src/strtool.c
+--- a/src/strtool.c
++++ b/src/strtool.c
 @@ -1,4 +1,4 @@
 -/* $Id: strtool.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: strtool.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  #include <stdlib.h>
  #include <string.h>
---- makenl-3.3.0.orig/src/os.c
-+++ makenl-3.3.0/src/os.c
+--- a/src/os.c
++++ b/src/os.c
 @@ -1,6 +1,6 @@
  /* os.c -- Operating system dependant functions for makenl */
  
@@ -223,8 +223,8 @@ Last-Update: <2013-01-10>
  
  #include <stdio.h>
  #include <string.h>
---- makenl-3.3.0.orig/src/exec.c
-+++ makenl-3.3.0/src/exec.c
+--- a/src/exec.c
++++ b/src/exec.c
 @@ -13,7 +13,7 @@
     BIXname: twagner
   */
@@ -234,94 +234,67 @@ Last-Update: <2013-01-10>
  
  #include <stdio.h> 
  #include <stdlib.h>
---- makenl-3.3.0.orig/src/osd16exc.c
-+++ makenl-3.3.0/src/osd16exc.c
+--- a/src/osd16exc.c
++++ b/src/osd16exc.c
 @@ -1,4 +1,4 @@
 -/* $Id: osd16exc.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: osd16exc.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  #include "exec.h"
  
---- makenl-3.3.0.orig/src/osgnufnd.c
-+++ makenl-3.3.0/src/osgnufnd.c
+--- a/src/osgnufnd.c
++++ b/src/osgnufnd.c
 @@ -1,4 +1,4 @@
 -/* $Id: osgnufnd.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: osgnufnd.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  #define _GNU_SOURCE
  #include <dirent.h>
---- makenl-3.3.0.orig/src/merge.h
-+++ makenl-3.3.0/src/merge.h
+--- a/src/merge.h
++++ b/src/merge.h
 @@ -1,4 +1,4 @@
 -/* $Id: merge.h,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $ */
 +/* $Id: merge.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
  
  FILE *PrepareMerge(void);
  void FinishMerge(void);
---- makenl-3.3.0.orig/src/osgenupr.c
-+++ makenl-3.3.0/src/osgenupr.c
+--- a/src/osgenupr.c
++++ b/src/osgenupr.c
 @@ -1,4 +1,4 @@
 -/* $Id: osgenupr.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: osgenupr.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  #include <ctype.h>
  
---- makenl-3.3.0.orig/src/proc.h
-+++ makenl-3.3.0/src/proc.h
+--- a/src/proc.h
++++ b/src/proc.h
 @@ -1,4 +1,4 @@
 -/* $Id: proc.h,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: proc.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  /* Values for ShouldProcess */
  #define USUAL_PROCESSING 1
---- makenl-3.3.0.orig/src/osgenff.c
-+++ makenl-3.3.0/src/osgenff.c
+--- a/src/osgenff.c
++++ b/src/osgenff.c
 @@ -1,4 +1,4 @@
 -/* $Id: osgenff.c,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: osgenff.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  char *os_findfile(struct _filefind *pff, const char *path,
                    const char *mask)
---- makenl-3.3.0.orig/src/upcont.h
-+++ makenl-3.3.0/src/upcont.h
+--- a/src/upcont.h
++++ b/src/upcont.h
 @@ -1,4 +1,4 @@
 -/* $Id: upcont.h,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
 +/* $Id: upcont.h,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
  
  int UpdateContext(int level, int num, int makenum, int *ctxnum,
                    int *ctxlevel, int maketype);
---- makenl-3.3.0.orig/src/exec.h
-+++ makenl-3.3.0/src/exec.h
+--- a/src/exec.h
++++ b/src/exec.h
 @@ -1,4 +1,4 @@
 -/* $Id: exec.h,v 1.1.1.1 2009/01/08 20:07:46 mbroek Exp $ */
 +/* $Id: exec.h,v 1.1 2009/01/08 20:07:46 mbroek Exp $ */
  
  #ifndef _EXEC_H
  #define _EXEC_H
---- /dev/null
-+++ makenl-3.3.0/test/001.ctl
-@@ -0,0 +1,24 @@
-+; MakeNL test control file
-+;
-+; From: Roy Witt, 1:387/0
-+; Date: 2012-10-14
-+
-+logfile 001.log
-+master .
-+update ./update
-+make Network 387
-+outfile 001.
-+submit 1:19/0
-+netaddress 1:387/0
-+messages ./netmail
-+outpath ./outfile
-+
-+data
-+Host,387,San_Antonio_TX_SATX_Area_Net,San_Antonio_TX,Roy_Witt,000-00-00-00-00,300,CM,MO,LO,INA:lone-star.dyndns.org,IBN
-+Hub,1,LoneStar_Echomail_Hub,San_Antonio_TX,Roy_Witt,000-00-00-00-00,300,CM,MO,XX,INA:lone-star.dyndns.org,IBN,U,NEC
-+,6,Lone_Star_Internet_Gate,San_Antonio_TX,Roy_Witt,000-00-00-00-00,300,CM,MO,XX,INA:lone-star.dyndns.org,IBN
-+PVT,10,CompTA_Radical,San_Antonio_TX,Roy_Witt,-Unpublished-,300,CM,MO,XX,INA:z28krazy.dyndns.org,IBN
-+,20,Bedrock_BBS,Helotes_TX,Rick_Waller,000-0-0-0-0,300,CM,XA,INA:bbs.kristyandrick.com,ITN,IBN
-+,22,Flying_\A/_Ranch,Las_Brisas_TX,Roy_Witt,000-00-00-00-00,300,CM,MO,XX,INA:lone-star.dyndns.org,IBN,IEM:autoham22@yahoo.com
-+Hold,99,Fidonet_Applicant_Test_Node,San_Antonio_TX,New_Dude,-Unpublished-,2400
-+Hold,999,New_Fidonet_Applicant,San_Antonio_TX,New_Sysop,-Unpublished-,2400,
