@@ -10,11 +10,11 @@ export LDFLAGS:=$(shell dpkg-buildflags --get LDFLAGS)
 
 override_dh_auto_clean:
 	$(MAKE) -C src -f makefile.linux clean
-	#$(MAKE) -C docs -f Makefile clean
+	$(MAKE) -C docs -f Makefile clean
 
 override_dh_auto_build:
 	$(MAKE) -C src -f makefile.linux
-	#$(MAKE) -C docs -f Makefile
+	$(MAKE) -C docs -f Makefile
 
 override_dh_auto_install:
 	dh_auto_install --destdir=debian/makenl
