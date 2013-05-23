@@ -1,4 +1,4 @@
-makenl (3.3.3-0lucid1~2) UNRELEASED; urgency=low
+makenl (3.3.3-0lucid1) lucid; urgency=low
 
   * Backport MakeNL v3.3.3 to Ubuntu v10.04 (lucid).
   * Changes for debian/patches:
@@ -8,7 +8,7 @@ makenl (3.3.3-0lucid1~2) UNRELEASED; urgency=low
     - Remove 10-IncreaseMaximumNodelistSegmentAgeTo7Weeks.patch.
   * Update and rewrite debian/copyright file, using machine readable format.
 
- -- Robert James Clay <jame@rocasa.us>  Thu, 23 May 2013 15:16:43 -0400
+ -- Robert James Clay <jame@rocasa.us>  Thu, 23 May 2013 15:38:44 -0400
 
 makenl (3.3.0-1ppa1~lucid2) lucid; urgency=low
 
