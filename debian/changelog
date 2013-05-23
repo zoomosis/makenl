@@ -2,10 +2,11 @@ makenl (3.3.3-0lucid1) lucid; urgency=low
 
   * Backport MakeNL v3.3.3 to Ubuntu v10.04 (lucid).
   * Changes for debian/patches:
+    - Refresh the 00-KeywordSubstitutionNoise.patch.
     - Remove the file 05-IncludeCopyrightPrologAndEpilogInAllSegments.patch.
     - Remove the file 06-ChangeDefaultForMINphoneTo1.patch.
 
- -- Robert James Clay <jame@rocasa.us>  Thu, 23 May 2013 11:22:04 -0400
+ -- Robert James Clay <jame@rocasa.us>  Thu, 23 May 2013 12:19:22 -0400
 
 makenl (3.3.0-1ppa1~lucid2) lucid; urgency=low
 
