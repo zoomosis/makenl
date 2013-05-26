@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.7 2012/12/29 04:38:59 ajleary Exp $ */
+/* $Id: fts5.c,v 1.8 2013/05/26 01:23:46 ajleary Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -72,6 +72,7 @@ char *Levels[] =
 int Minphone = 1;
 int Alphaphone = 0;
 int Allowunpub = 0;
+int Allow8Bit = 0;
 int PrivateLevel;
 int PointLevel = -2;            /* don't allow points */
 char *FTS5Line[8];
@@ -147,7 +148,7 @@ static int getstring(char **instring, int *linelevel, int *linenum)
         Space2Under(workptr--);
         while (*(++workptr) != 0)
         {
-            if (*workptr & 0x80)
+            if (*workptr & 0x80 && !Allow8Bit)
                 *workptr = '?';
         }
     }

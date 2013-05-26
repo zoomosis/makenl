@@ -1,7 +1,15 @@
-/*  $Id: history.txt,v 1.20 2013/02/07 14:56:40 jame Exp $  */
+/*  $Id: history.txt,v 1.21 2013/05/26 01:23:46 ajleary Exp $  */
 
 
                             MakeNL Revision History
+
+       v3.3.6 -- May 25, 2013
+
+            Add new configuration option "Allow8Bit" which disables the
+            replacement of characters above 0x7f with question marks.  This
+            option defaults to 0 (off); to enable it add Allow8Bit 1 to your
+            .CTL file.
+            -- Andrew Leary
 
        v3.3.5 -- Feb 07, 2013
 

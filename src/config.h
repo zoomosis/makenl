@@ -1,4 +1,4 @@
-/* $Id: config.h,v 1.3 2012/10/16 09:07:34 ozzmosis Exp $ */
+/* $Id: config.h,v 1.4 2013/05/26 01:23:46 ajleary Exp $ */
 
 /* Numbers of configuration options */
 #define CFG_ARCCOPY 0
@@ -54,6 +54,9 @@
 
 /* Force submit unchanged file */
 #define CFG_FORCESUBMIT 38
+
+/* Allow 8-bit characters */
+#define CFG_ALLOW8BIT 39
 
 /* Valid baudrates */
 #define MAX_BAUDRATES 12
