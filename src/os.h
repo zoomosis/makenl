@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.11 2012/11/13 22:38:44 ozzmosis Exp $ */
+/* $Id: os.h,v 1.12 2013/08/11 11:16:30 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -16,31 +16,46 @@
 #if defined(__clang__)
 #define __FLAT__
 #define MAKENL_CC "Clang"
+
 #elif defined(__GNUC__)
 #define __FLAT__  /* flat memory model */
 #define MAKENL_CC "GNU C"
+
 #elif defined(__TURBOC__) && defined(__MSDOS__)
 #include "ostbcdos.h"
 #define MAKENL_CC "Turbo C"
+
+#elif defined(__HIGHC__)
+#include "oswatxxx.h"
+/* vsnprintf() unavailable in High C, so use insecure vsprintf() */
+#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
+#define MAKENL_CC "MetaWare High C"
+
 #elif defined(__WATCOMC__) && defined(__LINUX__)
 #define __linux__
 #include "osgnulnx.h"
 #define MAKENL_CC "Watcom C"
+
 #elif defined(__WATCOMC__)
 #include "oswatxxx.h"
 #define MAKENL_CC "Watcom C"
+
 #elif defined(_MSC_VER) && defined(WIN32)
 #include "osmscwin.h"
 #define MAKENL_CC "MSVC"
+
 #elif defined(__LCC__)
 #include "osmscwin.h"
 #define MAKENL_CC "LCC"
+
 #elif defined(__DMC__)
 #include "osmscwin.h"
 #define MAKENL_CC "DMC"
+
 #elif defined(__BORLANDC__) && defined(__WIN32__)
 #include "osborwin.h"
 #define MAKENL_CC "Borland C"
+
 #endif
 
 #if defined(__GNUC__)
