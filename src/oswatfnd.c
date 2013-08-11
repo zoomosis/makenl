@@ -1,7 +1,8 @@
-/* $Id: oswatfnd.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: oswatfnd.c,v 1.2 2013/08/11 23:05:43 ozzmosis Exp $ */
 
 #define HAVE_OS_FIND
 #include <string.h>
+#include "unused.h"
 
 char *os_findfirst(struct _filefind *pff, const char *path,
                    const char *mask)
@@ -33,5 +34,9 @@ char *os_findnext(struct _filefind *pff)
 
 void os_findclose(struct _filefind *pff)
 {
+#if defined(__TURBOC__) && defined(__OS2__)
+    unused(pff);
+#else
     _dos_findclose(&pff->fileinfo);
+#endif
 }

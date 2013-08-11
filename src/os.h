@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.12 2013/08/11 11:16:30 ozzmosis Exp $ */
+/* $Id: os.h,v 1.13 2013/08/11 23:05:43 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -24,6 +24,10 @@
 #elif defined(__TURBOC__) && defined(__MSDOS__)
 #include "ostbcdos.h"
 #define MAKENL_CC "Turbo C"
+
+#elif defined(__TURBOC__) && defined(__OS2__)
+#include "osbcos2.h"
+#define MAKENL_CC "Borland C"
 
 #elif defined(__HIGHC__)
 #include "oswatxxx.h"
@@ -82,8 +86,12 @@
 #elif defined(__EMX__)
 #define MAKENL_OS "EMX"
 #elif defined(__OS2__)
+#ifdef __TURBOC__
+#define MAKENL_OS "OS/2 32-bit"
+#else
 #define MAKENL_OS "OS/2 16-bit"
-#elif defined(__OS2V2__)
+#endif
+#elif defined(__OS2V2__) || defined(_OS2)
 #define MAKENL_OS "OS/2 32-bit"
 #elif defined(WIN32)
 #define MAKENL_OS "Win32"
