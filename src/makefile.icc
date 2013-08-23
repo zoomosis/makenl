@@ -1,0 +1,30 @@
+# MakeNL makefile for IBM VisualAge C/C++
+# Tested with VisualAge 3.6
+#
+# $Id: makefile.icc,v 1.1 2013/08/23 14:50:01 ozzmosis Exp $
+#
+# Build with:
+#
+# nmake -f makefile.icc          (release)
+# nmake -f makefile.icc DEBUG=1  (debug)
+# nmame -f makefile.icc clean    (remove temp files)
+
+CFLAGS=-Q+
+
+!ifdef DEBUG
+CFLAGS= $(CFLAGS) -Ti+
+!endif
+
+OBJS= config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
+OBJS= $(OBJS) merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
+OBJS= $(OBJS) process.obj stack.obj strtool.obj upcont.obj patmat.obj
+
+.c.obj:
+	$(CC) $(CFLAGS) -fo$@ -c $<
+
+makenl.exe: $(OBJS)
+	$(CC) $(CFLAGS) -fe$@ $(OBJS)
+
+clean:
+	del $(OBJS)
+	del makenl.exe

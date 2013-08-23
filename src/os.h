@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.13 2013/08/11 23:05:43 ozzmosis Exp $ */
+/* $Id: os.h,v 1.14 2013/08/23 14:50:01 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -34,6 +34,12 @@
 /* vsnprintf() unavailable in High C, so use insecure vsprintf() */
 #define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 #define MAKENL_CC "MetaWare High C"
+
+#elif defined(__IBMC__)
+#include "osibmxxx.h"
+/* vsnprintf() unavailable in VisualAge C, so use insecure vsprintf() */
+#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
+#define MAKENL_CC "IBM VisualAge C"
 
 #elif defined(__WATCOMC__) && defined(__LINUX__)
 #define __linux__
@@ -86,7 +92,7 @@
 #elif defined(__EMX__)
 #define MAKENL_OS "EMX"
 #elif defined(__OS2__)
-#ifdef __TURBOC__
+#if defined(__TURBOC__) || defined(__HIGHC__) || defined(__IBMC__)
 #define MAKENL_OS "OS/2 32-bit"
 #else
 #define MAKENL_OS "OS/2 16-bit"

@@ -1,4 +1,4 @@
-/* $Id: osgenfld.c,v 1.4 2013/08/11 23:05:43 ozzmosis Exp $ */
+/* $Id: osgenfld.c,v 1.5 2013/08/23 14:51:07 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -29,6 +29,8 @@ int os_fulldir(char *dst, const char *src, size_t bufsiz)
     mklog(LOG_DEBUG, __FILE__ ": os_fulldir(): st_mode is now %o", st.st_mode);
 #ifdef __TURBOC__
     return S_ISDIR(st.st_mode) ? 0 : -1;
+#elif defined(__IBMC__)
+    return st.st_mode & S_IFDIR ? 0 : -1;
 #else
     return ((st.st_mode & S_IFMT) == S_IFDIR) ? 0 : -1;
 #endif
