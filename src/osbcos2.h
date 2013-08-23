@@ -1,8 +1,9 @@
-/* $Id: osbcos2.h,v 1.1 2013/08/11 23:05:43 ozzmosis Exp $ */
+/* $Id: osbcos2.h,v 1.2 2013/08/23 14:55:00 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <dos.h>
 #include <direct.h>
+#include <dirent.h>
 #include <io.h>
 #include <process.h>
 
@@ -25,8 +26,11 @@
 
 struct _filefind
 {
-    char path[512];
-    struct find_t fileinfo;
+    char path[MYMAXDIR];
+    char mask[MYMAXFILE];
+    DIR *dirp;
+    struct dirent *pentry;
+    int flags;
 };
 
 #define filecmp stricmp
