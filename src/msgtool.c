@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.15 2013/08/23 16:03:09 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.16 2013/08/23 16:20:05 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -156,11 +156,11 @@ FILE *OpenMSGFile(int address[3], char *filename)
     char filenamebuf[MYMAXDIR], subject[72], date[21];
     int intl, temp;
 
-    mklog(LOG_DEBUG, "OpenMSGFile entered");        // MB
+    mklog(LOG_DEBUG, "OpenMSGFile entered");
     mklog(LOG_DEBUG, "OpenMSGFile: %d:%d/%d filename=%s", address[A_ZONE],
             address[A_NET], address[A_NODE], make_str_safe(filename));
 
-    mklog(LOG_DEBUG, "SearchMaxMSG(%s)", MessageDir); // MB
+    mklog(LOG_DEBUG, "SearchMaxMSG('%s')", MessageDir);
     MSGnum = SearchMaxMSG(MessageDir);
     mklog(LOG_DEBUG, "OpenMSGFile: MSGnum is set to %d", MSGnum);
 
