@@ -1,6 +1,26 @@
-cmake_minimum_required (VERSION 2.6)
-project (makenl)
+# ########## MakeNL Source Directory ##########
 
-add_executable (makenl config.c crc16.c fileutil.c fts5.c lsttool.c
-makenl.c merge.c mkdiff.c mklog.c msgtool.c output.c process.c stack.c
-strtool.c upcont.c os.c)
+# ########## MakeNL Executable ##########
+ADD_EXECUTABLE (makenl
+    config.c
+    crc16.c
+    fileutil.c
+    fts5.c
+    lsttool.c
+    makenl.c
+    merge.c
+    mkdiff.c
+    mklog.c
+    msgtool.c
+    output.c
+    process.c
+    stack.c
+    strtool.c
+    upcont.c
+    os.c
+)
+
+# add install target for executable:
+INSTALL(TARGETS makenl DESTINATION bin)
+# add install target for man page:
+INSTALL(FILES makenl.1 DESTINATION share/man/man1)
