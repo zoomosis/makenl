@@ -1,7 +1,46 @@
-/*  $Id: history.txt,v 1.21 2013/05/26 01:23:46 ajleary Exp $  */
+/*  $Id: history.txt,v 1.22 2013/09/02 16:51:15 jame Exp $  */
 
 
                             MakeNL Revision History
+
+       -- September 2, 2013
+
+            Reformat src/CMakeLists.txt and add creation of install targets
+            to it.
+            Import docs/CMakeLists.txt and top level CMakeLists.txt from my
+            local development branch.
+            -- Robert James Clay
+
+       -- August 29, 2013
+
+            EMX fix: gcc 3.3 does not support mixed mode executables.
+            Remove the 'add_definitions' line from src/CMakeLists.txt as it
+            breaks the MSVC build.
+            -- Andrew Clarke
+
+       -- August 28, 2013
+
+            Add clean up of the 'WorkFile' to /src/makenl.c
+            Create initial version of CMake build file src/CMakeLists.txt.
+            -- Andrew Clarke
+
+       -- August 23, 2013
+
+            IBM VisualAge C/C++ for OS/2 port.
+            Fix OldExtensions[] array overrun segfault.
+            Correction to how the stack is getting fixed plus cosmetic fixes in
+            the src/msgtool.c file.
+            Possible fix for crash in the Watcom OS/2 version (bug #17), plus
+            patches for the IBM VisualAge C/C++, Borland C & Metaware High C
+            OS/2 versions.
+            -- Andrew Clarke
+
+       -- August 11, 2013
+
+            Borland C++ for OS/2 port.
+            MetaWare High C for OS/2 port. Requires GNU Make.
+            EMX makefile for building a standalone binary not requiring EMX.DLL.
+            -- Andrew Clarke
 
        v3.3.6 -- May 25, 2013
 
