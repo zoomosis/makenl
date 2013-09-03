@@ -1,8 +1,8 @@
-/* $Id: version.h,v 1.22 2013/05/26 01:23:46 ajleary Exp $  */
+/* $Id: version.h,v 1.23 2013/09/03 17:24:15 ajleary Exp $  */
 
 #include "os.h"
 
-#define MAKENL_VERSION      "3.3.6"
+#define MAKENL_VERSION      "3.3.7"
 
 #define MAKENL_LONG_VERSION "MakeNL " MAKENL_VERSION " (" MAKENL_OS ") compiled with " MAKENL_CC " on " __DATE__ " " __TIME__
 
