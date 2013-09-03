@@ -1,9 +1,9 @@
-/* $Id: oswatfnd.c,v 1.3 2013/08/23 14:55:00 ozzmosis Exp $ */
+/* $Id: oswatfnd.c,v 1.4 2013/09/03 11:39:28 ozzmosis Exp $ */
 
 #define HAVE_OS_FIND
 
 #include <direct.h>
-#include "patmat.h"
+#include <fnmatch.h>
 
 char *os_findfirst(struct _filefind *pff, const char *path,
                    const char *mask)
@@ -34,7 +34,7 @@ char *os_findnext(struct _filefind *pff)
         if ((pff->pentry = readdir(pff->dirp)) == NULL)
             return NULL;
 
-        matchresult = patmat(pff->pentry->d_name, pff->mask);
+        matchresult = fnmatch(pff->mask, pff->pentry->d_name, pff->flags);
         if (matchresult == 0)
             return pff->pentry->d_name;
     }
