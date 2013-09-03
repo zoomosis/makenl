@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.16 2013/08/28 16:35:03 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.17 2013/09/03 22:38:38 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -347,11 +347,6 @@ int main(int argc, char *argv[])
 
     mklog(LOG_INFO, "CRC = %05u", OutCRC);
     mklog(LOG_INFO, "MakeNL finished (rc=%d)", ExitCode);
-
-    if (WorkFile != NULL)
-    {
-        free(WorkFile);
-    }
 
     return ExitCode;
 }
