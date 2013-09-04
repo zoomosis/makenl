@@ -1,14 +1,10 @@
-/* $Id: oswatxxx.h,v 1.6 2013/08/23 14:55:00 ozzmosis Exp $ */
+/* $Id: oswatxxx.h,v 1.7 2013/09/04 00:58:31 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <dos.h>
-#include <io.h>
 #include <direct.h>
+#include <io.h>
 #include <process.h>
-
-#ifdef __HIGHC__
-#include <dirent.h>
-#endif
 
 #define STR_DIRSEPARATOR "\\"
 
@@ -51,11 +47,12 @@
 
 struct _filefind
 {
-    char path[MYMAXDIR];
-    char mask[MYMAXFILE];
-    DIR *dirp;
-    struct dirent *pentry;
-    int flags;
+#if defined(__OS2V2__)
+    char path[512];
+#else
+    char path[MYMAXFILE + MYMAXEXT];
+#endif
+    struct find_t fileinfo;
 };
 
 #define filecmp stricmp

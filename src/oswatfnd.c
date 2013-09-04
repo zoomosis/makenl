@@ -1,48 +1,42 @@
-/* $Id: oswatfnd.c,v 1.4 2013/09/03 11:39:28 ozzmosis Exp $ */
+/* $Id: oswatfnd.c,v 1.5 2013/09/04 00:58:31 ozzmosis Exp $ */
 
 #define HAVE_OS_FIND
-
-#include <direct.h>
-#include <fnmatch.h>
+#include <string.h>
+#include "unused.h"
 
 char *os_findfirst(struct _filefind *pff, const char *path,
                    const char *mask)
 {
-    strcpy(pff->path, path);
-    os_remove_slash(pff->path);
-    strcpy(pff->mask, mask);
+    unsigned rc;
+    char tmp[MYMAXPATH];
 
-    if ((pff->dirp = opendir(pff->path)) != NULL)
-    {
-        char *p;
+    strcpy(tmp, path);
+    os_append_slash(tmp);
+    strcat(tmp, mask);
+    rc = _dos_findfirst(tmp,
+                        _A_NORMAL | _A_RDONLY | _A_HIDDEN | _A_SYSTEM |
+                        _A_ARCH, &pff->fileinfo);
+    if (rc == 0)
+        return pff->fileinfo.name;
 
-        if ((p = os_findnext(pff)) != NULL)
-            return p;
-    }
-
-    closedir(pff->dirp);
-    pff->dirp = NULL;
     return NULL;
 }
 
+
 char *os_findnext(struct _filefind *pff)
 {
-    int matchresult;
+    if (_dos_findnext(&pff->fileinfo) == 0)
+        return pff->fileinfo.name;
 
-    for (;;)
-    {
-        if ((pff->pentry = readdir(pff->dirp)) == NULL)
-            return NULL;
-
-        matchresult = fnmatch(pff->mask, pff->pentry->d_name, pff->flags);
-        if (matchresult == 0)
-            return pff->pentry->d_name;
-    }
+    return NULL;
 }
+
 
 void os_findclose(struct _filefind *pff)
 {
-    if (pff->dirp)
-        closedir(pff->dirp);
-    pff->dirp = NULL;
+#if defined(__TURBOC__) && defined(__OS2__)
+    unused(pff);
+#else
+    _dos_findclose(&pff->fileinfo);
+#endif
 }

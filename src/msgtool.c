@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.17 2013/09/03 17:24:15 ajleary Exp $ */
+/* $Id: msgtool.c,v 1.18 2013/09/04 00:58:31 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -72,8 +72,7 @@ static unsigned long GetSequence(void)
 
 
 
-// static 
-int SearchMaxMSG(const char *path)
+static int SearchMaxMSG(const char *path)
 {
     char *filename;
     int maxnum;
@@ -83,16 +82,21 @@ int SearchMaxMSG(const char *path)
 
     maxnum = 0;
     myfnmerge(searchmask, NULL, NULL, "*", "msg");
-    for (filename = os_findfirst(&f, path, searchmask);
-         filename != NULL; filename = os_findnext(&f))
+    filename = os_findfirst(&f, path, searchmask);
+
+    while (filename != NULL)
     {
         getnumber(filename, &aktnum);
         if (aktnum > maxnum)
+        {
             maxnum = aktnum;
+        }
+        filename = os_findnext(&f);
     }
     os_findclose(&f);
 
     mklog(LOG_DEBUG, "SearchMaxMSG: path=%s, result=%d", make_str_safe(path), maxnum);
+
     return maxnum;
 }
 
@@ -135,7 +139,7 @@ int ParseAddress(const char *string, int out[3])
 
 static char *MakeMSGFilename(char *outbuf, int num)
 {
-    char buffer[6];
+    char buffer[MYMAXDIR];
 
     sprintf(buffer, "%u", num);
     myfnmerge(outbuf, NULL, MessageDir, buffer, "msg");
