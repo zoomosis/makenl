@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.13 2013/09/03 17:24:15 ajleary Exp $ */
+/* $Id: lsttool.c,v 1.14 2013/09/04 01:17:16 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -423,7 +423,7 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
                 }
                 extptr++;
             }
-            while (extptr < OldExtensions + 3);
+            while (extptr < OldExtensions + 7);
           out_of_loops:
             unlink(foundfile);
             if (searchwhere == 0)
@@ -445,7 +445,7 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
             goto justthisfile;
         }
     }
-    for (extptr = OldExtensions; extptr < OldExtensions + 3; extptr++)
+    for (extptr = OldExtensions; extptr < OldExtensions + 7; extptr++)
     {
         myfnmerge(foundfile, NULL, NULL, name, *extptr);
         if (os_findfile(&f, path, foundfile) != NULL)

@@ -1,4 +1,4 @@
-/* $Id: merge.c,v 1.6 2012/10/14 14:56:24 ozzmosis Exp $ */
+/* $Id: merge.c,v 1.7 2013/09/04 01:17:16 ajleary Exp $ */
 
 #include <string.h>
 #include <stdio.h>
@@ -40,7 +40,7 @@ FILE *PrepareMerge(void)
         mklog(LOG_INFO, "WARNING - Your Net or Region number is unknown, Merge cancelled");
         return 0;
     }
-    for (extptr = OldExtensions; extptr < OldExtensions + 3; extptr++)
+    for (extptr = OldExtensions; extptr < OldExtensions + 7; extptr++)
     {
         swapext(MergeFilename, MergeFilename, *extptr);
         MergeInFILE = fopen(MergeFilename, "rb");
