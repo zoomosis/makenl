@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.18 2013/09/04 00:58:31 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.19 2013/09/04 02:15:54 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -268,7 +268,23 @@ FILE *OpenMSGFile(int address[3], char *filename)
     }
     fclose(MailFILE);
     mklog(LOG_DEBUG, "OpenMSGFile: closed, seems Ok");
-    return (FILE *) ! NULL;     /* Just say OK - but it *smells* */
+
+    /*
+     *  Fell through. The file is now closed but we still want to return
+     *  "success" using a non-NULL pointer, so we'll use stdout. This
+     *  replaces an awful hack with a slightly less-awful hack.
+     *
+     *  At least now, if the calling function tries to write to the file
+     *  pointed to by the returned value it should just send output to the
+     *  screen, instead of segfaulting.
+     *
+     *  The program may still segfault if the code tries to read input
+     *  from stdout. I'd need to check the C Standard about that...
+     *
+     *  - ozzmosis 2013-09-04
+     */
+
+    return stdout;
 }
 
 
