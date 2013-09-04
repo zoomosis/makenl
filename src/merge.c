@@ -1,4 +1,4 @@
-/* $Id: merge.c,v 1.7 2013/09/04 01:17:16 ajleary Exp $ */
+/* $Id: merge.c,v 1.8 2013/09/04 02:22:32 ajleary Exp $ */
 
 #include <string.h>
 #include <stdio.h>
@@ -66,7 +66,7 @@ FILE *PrepareMerge(void)
     {
         swapext(MergeFilename, MergeFilename, NULL); /* Kill any extension */
 
-        mklog(LOG_INFO, "Unable to find distribution file '%s' less than 3 weeks old.", MergeFilename);
+        mklog(LOG_INFO, "Unable to find distribution file '%s' less than 7 weeks old.", MergeFilename);
         mklog(LOG_INFO, "Processing continues without merging");
         return 0;
     }
