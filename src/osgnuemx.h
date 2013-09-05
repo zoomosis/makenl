@@ -1,4 +1,4 @@
-/* $Id: osgnuemx.h,v 1.4 2012/11/13 20:02:17 ozzmosis Exp $ */
+/* $Id: osgnuemx.h,v 1.5 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -28,8 +28,7 @@
 /* Overrides over defaults */
 #undef OSEXC
 #define OSEXC "osemxexc.c"
-#undef OSGTN
-#define OSGTN "ignore.h"
+
 #define os_file_getname(path) _getname(path)
 
 #define os_getcwd _getcwd2

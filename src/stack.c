@@ -1,4 +1,4 @@
-/* $Id: stack.c,v 1.5 2012/10/16 09:01:54 ozzmosis Exp $ */
+/* $Id: stack.c,v 1.6 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,14 +13,6 @@
 #include "msg.h"
 #include "stack.h"
 #include "mklog.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
 
 static int *NumberStackPtr = NULL;
 static int NStackWritePtr, NStackReadPtr, NumberListValid, NStackNotFull =

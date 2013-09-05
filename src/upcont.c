@@ -1,4 +1,4 @@
-/* $Id: upcont.c,v 1.3 2012/10/16 09:01:54 ozzmosis Exp $ */
+/* $Id: upcont.c,v 1.4 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdio.h>
@@ -6,14 +6,6 @@
 #include "makenl.h"
 #include "upcont.h"
 #include "fts5.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
 
 /* *INDENT-OFF* */
 /* Don't indent this array, keep it this way (you could try what indent

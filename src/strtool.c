@@ -1,17 +1,9 @@
-/* $Id: strtool.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: strtool.c,v 1.2 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "makenl.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "strtool.h"
 
 int getnumber(const char *string, int *output)
 {

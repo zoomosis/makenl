@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.15 2013/09/05 14:00:12 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.16 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,14 +12,7 @@
 #include "msg.h"
 #include "mklog.h"
 #include "proc.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "strtool.h"
 
 long ARCThreshold = 10000;
 long DIFFThreshold = 16666;

@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.20 2013/09/05 14:00:12 ozzmosis Exp $ */
+/* $Id: config.c,v 1.21 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,14 +15,7 @@
 #include "fileutil.h"
 #include "mklog.h"
 #include "version.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "strtool.h"
 
 #define MF_EVERYWHERE(x) ((x) | ((x) << MF_SHIFT_ERRORS) | ((x) << MF_SHIFT_SUBMIT))
 #define MAIL_CRASH MF_EVERYWHERE(MF_CRASH)

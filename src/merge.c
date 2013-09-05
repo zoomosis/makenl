@@ -1,4 +1,4 @@
-/* $Id: merge.c,v 1.8 2013/09/04 02:22:32 ajleary Exp $ */
+/* $Id: merge.c,v 1.9 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdio.h>
@@ -10,14 +10,6 @@
 #include "msg.h"
 #include "fileutil.h"
 #include "mklog.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
 
 static FILE *MergeInFILE, *MergeOutFILE;
 static int MergeListAddr[4];

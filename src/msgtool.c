@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.19 2013/09/04 02:15:54 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.20 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -11,14 +11,7 @@
 #include "fileutil.h"
 #include "mklog.h"
 #include "version.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "strtool.h"
 
 #define MSG_CRASH    0x0002
 #define MSG_PRIVATE  0x0001
@@ -26,8 +19,6 @@
 #define MSG_KILLSENT 0x0080
 #define MSG_LOCAL    0x0100
 #define MSG_HOLD     0x0200
-
-
 
 int UsualMSGFlags;
 int MailerFlags;

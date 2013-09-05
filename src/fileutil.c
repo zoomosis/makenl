@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.9 2013/08/23 15:47:33 ozzmosis Exp $ */
+/* $Id: fileutil.c,v 1.10 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -11,14 +11,7 @@
 #include "config.h"
 #include "fileutil.h"
 #include "mklog.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "strtool.h"
 
 char OldExtensions[8][MYMAXEXT];
 int do_clean;

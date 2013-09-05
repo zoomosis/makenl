@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.8 2013/05/26 01:23:46 ajleary Exp $ */
+/* $Id: fts5.c,v 1.9 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -8,14 +8,7 @@
 #include "fts5.h"
 #include "unused.h"
 #include "mklog.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "strtool.h"
 
 extern int nl_baudrate[];
 

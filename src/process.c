@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.9 2013/09/05 14:00:13 ozzmosis Exp $ */
+/* $Id: process.c,v 1.10 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,14 +15,7 @@
 #include "stack.h"
 #include "config.h"
 #include "mklog.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "strtool.h"
 
 int ShouldProcess = USUAL_PROCESSING;
 int SubmitFile;

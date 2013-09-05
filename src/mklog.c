@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.21 2012/10/17 11:36:54 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.22 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,14 +11,6 @@
 #include "mklog.h"
 #include "fileutil.h"
 #include "os.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
 
 int loglevel = 1;
 

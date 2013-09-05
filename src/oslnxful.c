@@ -1,13 +1,10 @@
-/* $Id: oslnxful.c,v 1.4 2012/10/14 14:49:17 ozzmosis Exp $ */
+/* $Id: oslnxful.c,v 1.5 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #define HAVE_OS_FULLPATH
 #include <unistd.h>
 
+#include "makenl.h"
 #include "mklog.h"
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
 
 int os_fullpath(char *dst, const char *src, size_t bufsize)
 {

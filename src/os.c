@@ -1,6 +1,6 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.2 2013/09/05 14:00:12 ozzmosis Exp $ */
+/* $Id: os.c,v 1.3 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -8,14 +8,6 @@
 #include "makenl.h"
 #include "os.h"
 #include "mklog.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
 
 /* Definitions for:                                               */
 /* __GNUC__     GNU C Compiler under DOS and OS/2 and linux       */
@@ -45,8 +37,7 @@
 #include OSAPS
 /* os_remove_slash */
 #include OSRMS
-/* os_file_getname */
-#include OSGTN
+
 /* os_spawn */
 #include OSEXC
 
@@ -54,7 +45,23 @@
 #include "osgenupr.c"
 #endif
 
-
 #ifdef USE_OWN_FGETS
 #include USE_OWN_FGETS
 #endif
+
+char *os_file_getname(const char *path)
+{
+    const char *p;
+
+    p = path;
+    while (*path != 0)
+        switch (*path++)
+        {
+        case ':':
+        case '/':
+        case '\\':
+            p = path;           /* Note that PATH has been incremented */
+            break;
+        }
+    return (char *)p;
+}

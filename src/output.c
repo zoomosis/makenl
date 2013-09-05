@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.7 2012/12/26 04:21:08 ajleary Exp $ */
+/* $Id: output.c,v 1.8 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,14 +9,7 @@
 #include "crc16.h"
 #include "fileutil.h"
 #include "mklog.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "strtool.h"
 
 char ErrorMessage[linelength];
 

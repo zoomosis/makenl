@@ -1,4 +1,4 @@
-/* $Id: mkdiff.c,v 1.9 2012/11/13 22:38:44 ozzmosis Exp $ */
+/* $Id: mkdiff.c,v 1.10 2013/09/05 15:07:51 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,14 +8,6 @@
 #include "fileutil.h"
 #include "lsttool.h"
 #include "mklog.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
 
 #ifdef __FLAT__
 #define COLLTBLSIZE         ((65536 * 2) / 8)
