@@ -1,7 +1,7 @@
 # MakeNL makefile for Linux
 # Tested with GNU Make 3.81 & GNU C 4.4.3
 #
-# $Id: makefile.linux,v 1.7 2013/09/05 14:46:37 ozzmosis Exp $
+# $Id: makefile.linux,v 1.8 2013/09/05 15:09:53 ozzmosis Exp $
 #
 # Build with:
 #
@@ -22,7 +22,7 @@ endif
 ifdef DEBUG
 CFLAGS+= -g
 else
-CFLAGS+= -s
+LDFLAGS+= -s
 endif
 
 ifdef TESTING
