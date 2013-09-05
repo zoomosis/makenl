@@ -1,12 +1,11 @@
 # MakeNL makefile for Borland C++ for OS/2
 # Tested with Borland C++ 1.5 for OS/2
 #
-# $Id: makefile.bco,v 1.2 2013/08/23 14:55:00 ozzmosis Exp $
+# $Id: makefile.bco,v 1.3 2013/09/05 14:26:31 ozzmosis Exp $
 #
 # Build with:
 #
 # make -f makefile.bco               (release)
-# make -f makefile.bco DEBUG=1       (debug)
 # make -f makefile.bco clean         (remove temp files)
 
 CFLAGS+= 
