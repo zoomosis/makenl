@@ -1,6 +1,6 @@
 # MakeNL makefile for FreeBSD, NetBSD, OpenBSD, Apple Darwin & Minix.
 #
-# $Id: makefile.bsd,v 1.4 2013/09/03 22:35:31 ozzmosis Exp $
+# $Id: makefile.bsd,v 1.5 2013/09/05 14:11:46 ozzmosis Exp $
 #
 # Tested with:
 #
@@ -21,6 +21,10 @@ CFLAGS+= -Wall -W
 CFLAGS+= -g
 .endif
 
+.ifdef TESTING
+CFLAGS+= -DTESTING
+.endif
+
 .ifdef EFENCE
 LDFLAGS+= -lefence -L/usr/local/lib
 .endif
@@ -36,7 +40,7 @@ CFLAGS+= -DMALLOC_DEBUG
 
 OBJS+=config.o crc16.o fileutil.o fts5.o lsttool.o makenl.o merge.o
 OBJS+=mkdiff.o mklog.o msgtool.o output.o process.o stack.o strtool.o
-OBJS+=upcont.o os.o
+OBJS+=upcont.o os.o testing.o
 
 .ifdef RMALLOC
 OBJS+=rmalloc.o

@@ -1,4 +1,4 @@
-/* $Id: makenl.h,v 1.6 2012/10/16 19:57:43 ozzmosis Exp $ */
+/* $Id: makenl.h,v 1.7 2013/09/05 14:11:46 ozzmosis Exp $ */
 
 #include "os.h"
 
@@ -31,6 +31,10 @@ extern int  ArcOpenCnt;
 
 /* the die function from makenl.c */
 void die(int exitcode, const char *format, ...);
+
+/* testing() in testing.c */
+
+void testing(void);
 
 /* the utility functions from strtool.c */
 int getnumber(const char *string, int *output);

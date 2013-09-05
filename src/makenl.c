@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.19 2013/09/05 14:00:12 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.20 2013/09/05 14:11:46 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -172,6 +172,10 @@ int main(int argc, char *argv[])
     unused(argc);
 
     mklog(LOG_INFO, MAKENL_LONG_VERSION);
+
+#ifdef TESTING
+    testing();
+#endif
 
     DoCmdLine(argv, &CfgFile);
     if (!getext(NULL, CfgFile))
