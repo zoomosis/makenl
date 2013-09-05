@@ -1,10 +1,10 @@
-/* $Id: oswatful.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: oswatful.c,v 1.2 2013/09/05 14:00:13 ozzmosis Exp $ */
 
 /* make an absolute path from given relative path */
 int os_fullpath(char *dst, const char *src, size_t bufsiz)
 {
     if (!_fullpath(dst, src, bufsiz))
         return -1;
-    os_filecanonify(dst);
+    os_deslashify(dst);
     return 0;
 }

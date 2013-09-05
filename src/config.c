@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.19 2013/05/26 01:23:46 ajleary Exp $ */
+/* $Id: config.c,v 1.20 2013/09/05 14:00:12 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -836,7 +836,7 @@ int parsecfgfile(FILE * CFG)
         case CFG_OUTPATH:
         case CFG_UPDATE:
         case CFG_UPLOADS:
-            os_filecanonify(args[0]);
+            os_deslashify(args[0]);
             if (GetPath(args[0], switchno) == 0)
             {
                 mklog(LOG_ERROR, "%s -- Invalid Path -- '%s'", cfgline, args[0]);
@@ -857,7 +857,7 @@ int parsecfgfile(FILE * CFG)
         case CFG_PROLOG:
             workptr = PrologFile;
           OutputFile:
-            os_filecanonify(args[0]);
+            os_deslashify(args[0]);
             if (filenodir(args[0]))
                 strcpy(workptr, args[0]);
             else

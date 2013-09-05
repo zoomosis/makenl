@@ -1,4 +1,4 @@
-/* $Id: osmscful.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: osmscful.c,v 1.2 2013/09/05 14:00:13 ozzmosis Exp $ */
 
 #define HAVE_OS_FULLPATH
 
@@ -9,6 +9,6 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
     {
         return -1;
     }
-    os_filecanonify(dst);
+    os_deslashify(dst);
     return 0;
 }

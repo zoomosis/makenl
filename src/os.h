@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.14 2013/08/23 14:50:01 ozzmosis Exp $ */
+/* $Id: os.h,v 1.15 2013/09/05 14:00:12 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -6,7 +6,6 @@
 /* Defaults for overwriteable functions */
 #define OSAPS "osgenaps.c"
 #define OSRMS "osgenrms.c"
-#define OSCAN "osgencan.c"
 #define OSDSL "osgendsl.c"
 #define OSEXC "osgenexc.c"
 #define OSFF "osgenff.c"
@@ -138,7 +137,6 @@ int os_fulldir(char *dst, const char *src, size_t bufsiz);
 char *os_append_slash(char *path);
 char *os_remove_slash(char *path);
 char *os_deslashify(char *name);
-char *os_filecanonify(char *s);
 
 int os_spawn(const char *command, const char *cmdline);
 

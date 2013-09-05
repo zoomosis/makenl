@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.14 2013/09/04 01:17:16 ajleary Exp $ */
+/* $Id: lsttool.c,v 1.15 2013/09/05 14:00:12 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -67,8 +67,8 @@ int makearc(char *filename, int move)
         ext[0] = (move < 1) ? ArcCopyExt[0] : ArcMoveExt[0];
     }
     myfnmerge(fullpath, NULL, OutDir, name, ext);
-    os_filecanonify(fullpath);
-    os_filecanonify(filename);
+    os_deslashify(fullpath);
+    os_deslashify(filename);
     mklog(LOG_INFO, "Creating archive '%s' containing '%s'", fullpath, filename);
     sprintf(cmdlinebuf, "%s %s", fullpath, filename);
     if (os_spawn(arccommand, cmdlinebuf) != 0)
@@ -385,7 +385,7 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
                 {
                     mklog(LOG_ERROR, "Unable to unpack archive '%s'", foundfile);
                     WorkFile = os_file_getname(foundfile);
-                    os_filecanonify(WorkFile);
+                    os_deslashify(WorkFile);
                     *file = OpenMSGFile(NotifyAddress, NULL);
                     if (*file != NULL)
                     {
@@ -430,7 +430,7 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
             {
                 mklog(LOG_INFO, "Unable to apply difference file '%s'", foundfile);
                 WorkFile = os_file_getname(foundfile);
-                os_filecanonify(WorkFile);
+                os_deslashify(WorkFile);
                 *file = OpenMSGFile(NotifyAddress, NULL);
                 if (*file)
                 {
@@ -458,7 +458,7 @@ justthisfile:
             if (!*file)
                 return -1;
             WorkFile = os_file_getname(foundfile);
-            os_filecanonify(WorkFile);
+            os_deslashify(WorkFile);
             return 1;
         }
     }

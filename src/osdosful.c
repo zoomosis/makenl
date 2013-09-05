@@ -1,4 +1,4 @@
-/* $Id: osdosful.c,v 1.4 2012/11/12 17:30:01 ozzmosis Exp $ */
+/* $Id: osdosful.c,v 1.5 2013/09/05 14:00:12 ozzmosis Exp $ */
 
 #define HAVE_OS_FULLPATH
 
@@ -91,7 +91,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
         chdir(curdir);
     }
     setdisk(curdrnum);
-    os_filecanonify(dst);
+    os_deslashify(dst);
     return rc;
 }
 

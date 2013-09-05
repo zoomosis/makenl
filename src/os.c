@@ -1,6 +1,6 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: os.c,v 1.2 2013/09/05 14:00:12 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -49,8 +49,6 @@
 #include OSGTN
 /* os_spawn */
 #include OSEXC
-/* os_file_canonify */
-#include OSCAN
 
 #ifndef HAVE_STRUPR
 #include "osgenupr.c"
