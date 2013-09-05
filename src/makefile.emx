@@ -1,7 +1,7 @@
 # MakeNL makefile for EMX 0.9d
 # Tested with GNU Make 3.79.1 & GNU C 2.8.1
 #
-# $Id: makefile.emx,v 1.4 2013/09/05 14:41:01 ozzmosis Exp $
+# $Id: makefile.emx,v 1.5 2013/09/05 14:46:37 ozzmosis Exp $
 #
 # Build with:
 #
@@ -14,6 +14,8 @@ CFLAGS+= -W -Wall
 
 ifdef DEBUG
 CFLAGS+= -g
+else
+CFLAGS+= -s
 endif
 
 ifdef TESTING

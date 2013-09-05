@@ -1,6 +1,6 @@
 # MakeNL makefile for FreeBSD, NetBSD, OpenBSD, Apple Darwin & Minix.
 #
-# $Id: makefile.bsd,v 1.6 2013/09/05 14:41:01 ozzmosis Exp $
+# $Id: makefile.bsd,v 1.7 2013/09/05 14:46:37 ozzmosis Exp $
 #
 # Tested with:
 #
@@ -19,6 +19,8 @@ CFLAGS+= -Wall -W
 
 .ifdef DEBUG
 CFLAGS+= -g
+.else
+CFLAGS+= -s
 .endif
 
 .ifdef TESTING
