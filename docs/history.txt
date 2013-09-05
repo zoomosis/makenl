@@ -1,7 +1,14 @@
-/*  $Id: history.txt,v 1.23 2013/09/03 17:24:14 ajleary Exp $  */
+/*  $Id: history.txt,v 1.24 2013/09/05 01:40:50 ajleary Exp $  */
 
 
                             MakeNL Revision History
+
+       v3.3.8 -- September 4, 2013
+
+            Fixed the OldExtensions processing again; I missed a couple
+            places...
+            Bump version to 3.3.8; this is a release candidate for 3.4.0.
+            -- Andrew Leary
 
        v3.3.7 -- September 3, 2013
 

@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.17 2013/09/03 22:38:38 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.18 2013/09/05 01:40:50 ajleary Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -277,7 +277,7 @@ int main(int argc, char *argv[])
             if (OutExt[0] == 0) /* If output is generic, we could diff and 
                                    ARC */
             {
-                cleanold(OutDir, OutFile, OldExtensions[2]);
+                cleanold(OutDir, OutFile, OldExtensions[7]);
                 WorkMode = makediff(NewFile);
                 makearc(NewFile, 0);
                 if (WorkMode & CAUSE_OUTDIFF)
