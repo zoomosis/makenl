@@ -1,10 +1,7 @@
-ToDo: makenl for Debian
------------------------
+ToDo: makenl for Ubuntu v12.04
+------------------------------
 
-- Clarify makenl copyrights/licensing in debian/copyright, as part of redoing
-  as per dep5, and because of the followng lintian warning:
-   copyright-refers-to-versionless-license-file usr/share/common-licenses/GPL
-  Which means that debian/copyright needs to be at least updated in any case.
+- Adapt packaging to use the CMake build system.
 
 - The docs Makefile uses asciidoc to create an makenl.html file. Add what
   is necessary to use that in the packaging.
@@ -13,7 +10,4 @@ ToDo: makenl for Debian
   W: makenl: hardening-no-relro usr/bin/makenl
   W: makenl: hardening-no-fortify-functions usr/bin/makenl
 
-- Other Lintian warnings:
-W: makenl: description-synopsis-starts-with-article
-
- -- Robert James Clay <jame@rocasa.us>  Thu, 17 Jan 2013 15:44:37 -0500
+ -- Robert James Clay <jame@rocasa.us>  Fri,  6 Sep 2013 10:41:37 -0500
