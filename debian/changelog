@@ -1,8 +1,15 @@
-makenl (3.3.8-0precise1~1) UNRELEASED; urgency=low
+makenl (3.3.8-0precise1) precise; urgency=low
 
-  * New upstream release: see changelog.gz for changes from v3.3.5 to v3.3.8.
+  * New upstream bugs fix release.
+  * Change how docs/whatsnew.txt is installed.
+  * Update and rewrite the debian/copyright file.
+  * Update the package synopsis in debian/control.
+  * Add 'cmake' to Build-Depends line in debian/control.
+  * Update the patching information in debian/README.source.
+  * Overide dh_auto_install in debian/rules with just 'dh_install'.
+  * Rename files dirs, examples, install, & manpages to include package name.
 
- -- Robert James Clay <jame@rocasa.us>  Fri, 06 Sep 2013 00:38:16 -0400
+ -- Robert James Clay <jame@rocasa.us>  Fri, 06 Sep 2013 11:54:00 -0400
 
 makenl (3.3.5-0precise1) precise; urgency=low
 
