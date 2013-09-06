@@ -1,3 +1,9 @@
+makenl (3.3.8-1~1) UNRELEASED; urgency=low
+
+  * New upstream release: see changelog.gz for changes from v3.3.5 to v3.3.8.
+
+ -- Robert James Clay <jame@rocasa.us>  Fri, 06 Sep 2013 00:24:08 -0400
+
 makenl (3.3.5-0wheezy2) wheezy; urgency=low
 
   * Change how the docs/whatsnew.txt file is installed.
