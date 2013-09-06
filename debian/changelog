@@ -1,3 +1,9 @@
+makenl (3.3.8-0precise1~1) UNRELEASED; urgency=low
+
+  * New upstream release: see changelog.gz for changes from v3.3.5 to v3.3.8.
+
+ -- Robert James Clay <jame@rocasa.us>  Fri, 06 Sep 2013 00:38:16 -0400
+
 makenl (3.3.5-0precise1) precise; urgency=low
 
   * Release of v3.3.5-1 for Ubuntu v12.04 LTS (precise).
