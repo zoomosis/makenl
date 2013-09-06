@@ -1,4 +1,4 @@
-/* $Id: merge.c,v 1.6 2012/10/14 14:56:24 ozzmosis Exp $ */
+/* $Id: merge.c,v 1.8 2013/09/04 02:22:32 ajleary Exp $ */
 
 #include <string.h>
 #include <stdio.h>
@@ -40,7 +40,7 @@ FILE *PrepareMerge(void)
         mklog(LOG_INFO, "WARNING - Your Net or Region number is unknown, Merge cancelled");
         return 0;
     }
-    for (extptr = OldExtensions; extptr < OldExtensions + 3; extptr++)
+    for (extptr = OldExtensions; extptr < OldExtensions + 7; extptr++)
     {
         swapext(MergeFilename, MergeFilename, *extptr);
         MergeInFILE = fopen(MergeFilename, "rb");
@@ -66,7 +66,7 @@ FILE *PrepareMerge(void)
     {
         swapext(MergeFilename, MergeFilename, NULL); /* Kill any extension */
 
-        mklog(LOG_INFO, "Unable to find distribution file '%s' less than 3 weeks old.", MergeFilename);
+        mklog(LOG_INFO, "Unable to find distribution file '%s' less than 7 weeks old.", MergeFilename);
         mklog(LOG_INFO, "Processing continues without merging");
         return 0;
     }

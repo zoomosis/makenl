@@ -1,7 +1,7 @@
 # MakeNL makefile for Linux
 # Tested with GNU Make 3.81 & GNU C 4.4.3
 #
-# $Id: makefile.linux,v 1.3 2012/10/13 00:13:27 ozzmosis Exp $
+# $Id: makefile.linux,v 1.5 2013/09/03 22:43:13 ozzmosis Exp $
 #
 # Build with:
 #
@@ -9,9 +9,15 @@
 # make -f makefile.linux DEBUG=1  (debug)
 # make -f makefile.linux clean    (remove temp files)
 # make -f makefile.linux CC=clang (build with clang)
+# make -f makefile.linux ASAN=1   (debug build with clang using AddressSanitizer)
 
 CC=gcc
 CFLAGS+= -Wall -W
+
+ifdef ASAN
+CC=clang
+CFLAGS+= -g -fsanitize=address -fno-omit-frame-pointer
+endif
 
 ifdef DEBUG
 CFLAGS+= -g
@@ -37,7 +43,7 @@ endif
 	$(CC) $(CFLAGS) -c $<
 
 makenl: $(OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
 
 clean:
 	rm -f $(OBJS) makenl

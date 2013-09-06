@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.8 2012/11/13 22:38:44 ozzmosis Exp $ */
+/* $Id: fileutil.c,v 1.9 2013/08/23 15:47:33 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -20,7 +20,7 @@
 #include "dmalloc.h"
 #endif
 
-char OldExtensions[4][MYMAXEXT];
+char OldExtensions[8][MYMAXEXT];
 int do_clean;
 
 char MakeSourceFile[MYMAXFILE + MYMAXEXT];

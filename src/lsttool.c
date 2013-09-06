@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.12 2012/11/13 22:38:44 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.14 2013/09/04 01:17:16 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -95,7 +95,7 @@ int installlist(char *filename, char *extbfr)
     char tmpline[linelength];
     char oldline[linelength];
 
-    for (extptr = OldExtensions; extptr < OldExtensions + 3; extptr++)
+    for (extptr = OldExtensions; extptr < OldExtensions + 7; extptr++)
     {
         outext = getext(extbfr, OutFile) ? NULL : *extptr;
         myfnmerge(filename, NULL, OutDir, OutFile, outext);
@@ -148,7 +148,7 @@ int installlist(char *filename, char *extbfr)
                 strcpy(filename, tmpname);
             }
             for (extptr = OldExtensions + weeksold + 1;
-                 extptr < OldExtensions + 3; extptr++)
+                 extptr < OldExtensions + 7; extptr++)
             {
                 swapext(tmpname, filename, *extptr);
                 unlink(tmpname);
@@ -423,7 +423,7 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
                 }
                 extptr++;
             }
-            while (extptr < OldExtensions + 3);
+            while (extptr < OldExtensions + 7);
           out_of_loops:
             unlink(foundfile);
             if (searchwhere == 0)
@@ -445,7 +445,7 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
             goto justthisfile;
         }
     }
-    for (extptr = OldExtensions; extptr < OldExtensions + 3; extptr++)
+    for (extptr = OldExtensions; extptr < OldExtensions + 7; extptr++)
     {
         myfnmerge(foundfile, NULL, NULL, name, *extptr);
         if (os_findfile(&f, path, foundfile) != NULL)

@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.7 2012/10/16 18:52:12 ozzmosis Exp $ */
+/* $Id: process.c,v 1.8 2013/09/03 22:51:36 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -134,11 +134,8 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
                                 commFILE, MergeOutFILE, NotifyMsgFILE, crc,
                                 &WorkMode);
 
-        /* Segmentation fault cause is here, Andrew */
+                fclose(listFILE);
 
-                #ifndef __unix__
-                    fclose(listFILE);
-                #endif
                 if (processstatus != 2) /* No fatal error */
                 {
                     if (processstatus > ExitCode)

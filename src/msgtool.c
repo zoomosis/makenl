@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.14 2012/10/23 04:48:29 ajleary Exp $ */
+/* $Id: msgtool.c,v 1.19 2013/09/04 02:15:54 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -37,7 +37,6 @@ int MyAddress[3];
 
 static int MSGnum;
 static FILE *MailFILE;
-int *FixStack;
 static int MSGFlags;
 static unsigned char msgbuf[0xbe];
 
@@ -73,26 +72,31 @@ static unsigned long GetSequence(void)
 
 
 
-// static 
-int SearchMaxMSG(const char *path)
+static int SearchMaxMSG(const char *path)
 {
     char *filename;
-    int maxnum = 0;
+    int maxnum;
     int aktnum;
     struct _filefind f;
     char searchmask[MYMAXDIR];
 
+    maxnum = 0;
     myfnmerge(searchmask, NULL, NULL, "*", "msg");
-    for (filename = os_findfirst(&f, path, searchmask);
-         filename != NULL; filename = os_findnext(&f))
+    filename = os_findfirst(&f, path, searchmask);
+
+    while (filename != NULL)
     {
         getnumber(filename, &aktnum);
         if (aktnum > maxnum)
+        {
             maxnum = aktnum;
+        }
+        filename = os_findnext(&f);
     }
     os_findclose(&f);
 
     mklog(LOG_DEBUG, "SearchMaxMSG: path=%s, result=%d", make_str_safe(path), maxnum);
+
     return maxnum;
 }
 
@@ -135,11 +139,11 @@ int ParseAddress(const char *string, int out[3])
 
 static char *MakeMSGFilename(char *outbuf, int num)
 {
-    char buffer[6];
+    char buffer[MYMAXDIR];
 
     sprintf(buffer, "%u", num);
     myfnmerge(outbuf, NULL, MessageDir, buffer, "msg");
-    mklog(LOG_DEBUG, "MakeMSGFilenam: num=%d MSGnum=%d", num, MSGnum);
+    mklog(LOG_DEBUG, "MakeMSGFilename: num=%d MSGnum=%d", num, MSGnum);
     return outbuf;
 }
 
@@ -157,13 +161,11 @@ FILE *OpenMSGFile(int address[3], char *filename)
     char filenamebuf[MYMAXDIR], subject[72], date[21];
     int intl, temp;
 
-    FixStack = NULL;    /* BUGFIXED 2012-06-28 us filepointer/stack fix */
-
-    mklog(LOG_DEBUG, "OpenMSGFile entered");        // MB
+    mklog(LOG_DEBUG, "OpenMSGFile entered");
     mklog(LOG_DEBUG, "OpenMSGFile: %d:%d/%d filename=%s", address[A_ZONE],
             address[A_NET], address[A_NODE], make_str_safe(filename));
 
-    mklog(LOG_DEBUG, "SearchMaxMSG(%s)", MessageDir); // MB
+    mklog(LOG_DEBUG, "SearchMaxMSG('%s')", MessageDir);
     MSGnum = SearchMaxMSG(MessageDir);
     mklog(LOG_DEBUG, "OpenMSGFile: MSGnum is set to %d", MSGnum);
 
@@ -266,7 +268,23 @@ FILE *OpenMSGFile(int address[3], char *filename)
     }
     fclose(MailFILE);
     mklog(LOG_DEBUG, "OpenMSGFile: closed, seems Ok");
-    return (FILE *) ! NULL;     /* Just say OK - but it *smells* */
+
+    /*
+     *  Fell through. The file is now closed but we still want to return
+     *  "success" using a non-NULL pointer, so we'll use stdout. This
+     *  replaces an awful hack with a slightly less-awful hack.
+     *
+     *  At least now, if the calling function tries to write to the file
+     *  pointed to by the returned value it should just send output to the
+     *  screen, instead of segfaulting.
+     *
+     *  The program may still segfault if the code tries to read input
+     *  from stdout. I'd need to check the C Standard about that...
+     *
+     *  - ozzmosis 2013-09-04
+     */
+
+    return stdout;
 }
 
 

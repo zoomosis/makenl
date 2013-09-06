@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.18 2012/10/16 18:52:12 ozzmosis Exp $ */
+/* $Id: config.c,v 1.19 2013/05/26 01:23:46 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -387,9 +387,10 @@ const struct switchstruct CfgEntries[] = {
     {"UPDATE", 3, CFG_UPDATE},
     {"UPLOADS", 3, CFG_UPLOADS},
     {"ALPHAPHONE", 4, CFG_ALPHAPHONE},
-    {"ALLOWUNPUB", 4, CFG_ALLOWUNPUB},
+    {"ALLOWUNPUB", 6, CFG_ALLOWUNPUB},
     {"LOGFILE", 4, CFG_LOGFILE},
     {"LOGLEVEL", 4, CFG_LOGLEVEL},
+    {"ALLOW8BIT", 6, CFG_ALLOW8BIT},
     {NULL, 0, -1}
 };
 
@@ -472,7 +473,8 @@ struct
   {2, 2},                       /* ALLOwunpub 1 or 0 - default 0 */
   {2, 2},                        /* LOGFile pfile */
   {2, 2},                        /* LOGLevel 1..4 - default 1 */
-  {2, 2}                        /* FORcesubmit 1 or 0 - default 0 */
+  {2, 2},                        /* FORcesubmit 1 or 0 - default 0 */
+  {2, 2}                         /* ALLOW8BIT 1 or 0 - default 0 */
 };
 /* *INDENT-ON* */
 
@@ -742,6 +744,16 @@ int parsecfgfile(FILE * CFG)
             else
             {
                 mklog(LOG_ERROR, "FORCESUBMIT argument '%s' must be 0 or 1",
+                    args[0]);
+                mode = -1;
+            }
+            break;
+        case CFG_ALLOW8BIT:
+            if (args[0][0] >= '0' && args[0][0] < '2' && args[0][1] == 0)
+                Allow8Bit = args[0][0] - '0';
+            else
+            {
+                mklog(LOG_ERROR, "ALLOW8BIT argument '%s' must be 0 or 1",
                     args[0]);
                 mode = -1;
             }
