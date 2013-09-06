@@ -1,4 +1,4 @@
-/* $Id: fileutil.h,v 1.2 2012/11/13 22:38:44 ozzmosis Exp $ */
+/* $Id: fileutil.h,v 1.3 2013/08/23 15:47:33 ozzmosis Exp $ */
 
 #include "os.h"
 
@@ -35,7 +35,7 @@ void myfnsplit(const char *input, char *drive, char *dir, char *name,
                char *ext);
 long os_filesize(const char *filename);
 extern int do_clean;
-extern char OldExtensions[4][MYMAXEXT];
+extern char OldExtensions[8][MYMAXEXT];
 
 void cleanit(void);
 void cleanold(char *path, char *filename, char *ext);

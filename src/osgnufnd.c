@@ -1,4 +1,4 @@
-/* $Id: osgnufnd.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: osgnufnd.c,v 1.2 2013/08/29 06:48:59 ozzmosis Exp $ */
 
 #define _GNU_SOURCE
 #include <dirent.h>
@@ -12,7 +12,7 @@ char *os_findfirst(struct _filefind *pff, const char *path,
     strcpy(pff->mask, mask);
     pff->flags = FNM_NOESCAPE;
 
-#ifdef __EMX__
+#if defined(__EMX__) && defined(_FNM_OS2)
     pff->flags |= (_osmode == OS2_MODE) ? _FNM_OS2 : _FNM_DOS;
     pff->flags |= _FNM_IGNORECASE;
 #endif

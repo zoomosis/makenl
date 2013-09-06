@@ -1,7 +1,83 @@
-/*  $Id: history.txt,v 1.20 2013/02/07 14:56:40 jame Exp $  */
+/*  $Id: history.txt,v 1.25 2013/09/05 03:25:52 jame Exp $  */
 
 
                             MakeNL Revision History
+
+       v3.3.8 -- September 4, 2013
+
+            Fixed the OldExtensions processing again; I missed a couple
+            places...
+            Bump version to 3.3.8; this is a release candidate for 3.4.0.
+            -- Andrew Leary
+
+            Revert my changes that tried to fix Watcom OS/2 version. 
+            Fix code in src/msgtool.c that clang was complaining about. 
+            -- Andrew Clarke 
+
+       v3.3.7 -- September 3, 2013
+
+            Fix OldExtensions processing in src/process.c to properly go
+            back 7 weeks.
+            Bump version to 3.3.7; this hopefully will be the last test
+            version before 3.4.0.
+            -- Andrew Leary 
+
+            Use Watcom's fnmatch() instead of patmat().
+            Add CFLAGS to link stage in the BSD & Linux Makefiles.
+            free(WorkFile) sometimes fails because it's pointing to a (valid)
+            memory location instead of somewhere allocated with strdup() or
+            malloc().
+            Add debug build with clang using AddressSanitizer.
+            Uncomment in src/process.c code suspected of causing a Segmentation.
+            Fault but may be fixed and shouldn't be simply commented out.
+            -- Andrew Clarke 
+
+       -- September 2, 2013
+
+            Reformat src/CMakeLists.txt and add creation of install targets
+            to it.
+            Import docs/CMakeLists.txt and top level CMakeLists.txt from my
+            local development branch.
+            -- Robert James Clay
+
+       -- August 29, 2013
+
+            EMX fix: gcc 3.3 does not support mixed mode executables.
+            Remove the 'add_definitions' line from src/CMakeLists.txt as it
+            breaks the MSVC build.
+            -- Andrew Clarke
+
+       -- August 28, 2013
+
+            Add clean up of the 'WorkFile' to /src/makenl.c
+            Create initial version of CMake build file src/CMakeLists.txt.
+            -- Andrew Clarke
+
+       -- August 23, 2013
+
+            IBM VisualAge C/C++ for OS/2 port.
+            Fix OldExtensions[] array overrun segfault.
+            Correction to how the stack is getting fixed plus cosmetic fixes in
+            the src/msgtool.c file.
+            Possible fix for crash in the Watcom OS/2 version (bug #17), plus
+            patches for the IBM VisualAge C/C++, Borland C & Metaware High C
+            OS/2 versions.
+            -- Andrew Clarke
+
+       -- August 11, 2013
+
+            Borland C++ for OS/2 port.
+            MetaWare High C for OS/2 port. Requires GNU Make.
+            EMX makefile for building a standalone binary not requiring EMX.DLL.
+            -- Andrew Clarke
+
+       v3.3.6 -- May 25, 2013
+
+            Add new configuration option "Allow8Bit" which disables the
+            replacement of characters above 0x7f with question marks.  This
+            option defaults to 0 (off); to enable it add Allow8Bit 1 to your
+            .CTL file.
+            -- Andrew Leary
 
        v3.3.5 -- Feb 07, 2013
 
