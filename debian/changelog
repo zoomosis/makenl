@@ -1,8 +1,10 @@
-makenl (3.3.8-1~1) UNRELEASED; urgency=low
+makenl (3.3.8-0wheezy1) wheezy; urgency=low
 
+  * Add cmake to the Build-Depends setting in debian/control.
+  * Overide dh_auto_install in debian/rules with just 'dh_install'.
   * New upstream release: see changelog.gz for changes from v3.3.5 to v3.3.8.
 
- -- Robert James Clay <jame@rocasa.us>  Fri, 06 Sep 2013 00:24:08 -0400
+ -- Robert James Clay <jame@rocasa.us>  Fri, 06 Sep 2013 06:18:14 -0400
 
 makenl (3.3.5-0wheezy2) wheezy; urgency=low
 
