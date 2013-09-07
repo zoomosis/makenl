@@ -27,5 +27,5 @@ SET(makenl_DOCS
 
 # ######### Installation ##########
 # add install documentation:
-INSTALL(FILES ${makenl_DOCS} DESTINATION doc/makenl)
+INSTALL(FILES ${makenl_DOCS} DESTINATION share/doc/makenl)
 
