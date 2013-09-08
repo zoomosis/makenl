@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.16 2013/09/08 18:32:47 ozzmosis Exp $ */
+/* $Id: os.h,v 1.17 2013/09/08 18:36:21 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -90,7 +90,7 @@
 #define MAKENL_OS "DOS32"
 #elif defined(__EMX__)
 #define MAKENL_OS "EMX"
-#elif defined(__OS2__)
+#elif defined(__OS2__) || defined(_OS2)
 #if defined(__TURBOC__) || defined(__HIGHC__) || defined(__IBMC__) || defined(__386__)
 #define MAKENL_OS "OS/2 32-bit"
 #else
