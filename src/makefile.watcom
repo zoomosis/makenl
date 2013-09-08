@@ -3,7 +3,7 @@
 #
 # Defaults to building OS/2 32-bit target.
 #
-# $Id: makefile.watcom,v 1.9 2013/09/05 14:41:01 ozzmosis Exp $
+# $Id: makefile.watcom,v 1.10 2013/09/08 18:14:39 ozzmosis Exp $
 #
 # Build with:
 #
@@ -33,34 +33,34 @@ OS=OS2
 
 !ifeq OS OS2
 CC=wcl386
-CFLAGS+= -bt=os2v2 -l=os2v2
+CFLAGS+= -bt=os2v2 -l=os2v2 -D__OS2__=1 -D__386__=1
 !endif
 
 !ifeq OS O16
 CC=wcl
-CFLAGS+= -bt=os2 -l=os2
+CFLAGS+= -bt=os2 -l=os2 -D__OS2__=1
 CFLAGS+= -k16384
 !endif
 
 !ifeq OS DOS
 CC=wcl
-CFLAGS+= -bt=dos -l=dos -ml
+CFLAGS+= -bt=dos -l=dos -ml -D__DOS__=1
 CFLAGS+= -k16384
 !endif
 
 !ifeq OS D32
 CC=wcl386
-CFLAGS+= -bt=dos4g -l=dos4g
+CFLAGS+= -bt=dos4g -l=dos4g -D__DOS__=1 -D__386__=1
 !endif
 
 !ifeq OS WIN
 CC=wcl386
-CFLAGS+= -bt=nt -l=nt
+CFLAGS+= -bt=nt -l=nt -D__NT__=1 -D__386__=1
 !endif
 
 !ifeq OS LNX
 CC=wcl386
-CFLAGS+= -bcl=linux
+CFLAGS+= -bcl=linux -D__LINUX__=1 -D__386__=1
 RM=rm -f
 !endif
 
@@ -74,7 +74,11 @@ OBJS+= testing.obj
 !endif
 
 !ifndef RM
+!ifeq OS LNX
+RM=rm
+!else
 RM=del
+!endif
 !endif
 
 OBJS+= config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
