@@ -1,4 +1,4 @@
-/* $Id: oswatxxx.h,v 1.7 2013/09/04 00:58:31 ozzmosis Exp $ */
+/* $Id: oswatxxx.h,v 1.8 2013/09/08 18:32:47 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <dos.h>
@@ -47,11 +47,7 @@
 
 struct _filefind
 {
-#if defined(__OS2V2__)
-    char path[512];
-#else
     char path[MYMAXFILE + MYMAXEXT];
-#endif
     struct find_t fileinfo;
 };
 
