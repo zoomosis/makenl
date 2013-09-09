@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.10 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: fileutil.c,v 1.11 2013/09/09 11:47:44 ajleary Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -301,7 +301,7 @@ void cleanit(void)
         cleanfile(delname);
         extptr++;
     }
-    while (extptr < OldExtensions + 4);
+    while (extptr < OldExtensions + 8);
 }
 
 void CopyOrMove(int copy, char *source, char *destdir, char *destname)
