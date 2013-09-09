@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.10 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: process.c,v 1.11 2013/09/09 12:20:45 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -173,12 +173,12 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
                       OldExtensions[0]);
             if (filecmp(foundfile, linebuf))
                 rename(foundfile, linebuf); /* new extension */
-            cleanold(MasterDir, filename, OldExtensions[2]);
+            cleanold(MasterDir, filename, OldExtensions[7]);
             break;
         case SEARCH_UPDATE + 1:
             if (!ShouldProcess)
                 break;
-            cleanold(MasterDir, filename, OldExtensions[2]);
+            cleanold(MasterDir, filename, OldExtensions[7]);
             CopyOrMove(0, foundfile, MasterDir, filename);
         }
     }
