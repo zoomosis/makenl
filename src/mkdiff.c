@@ -1,4 +1,4 @@
-/* $Id: mkdiff.c,v 1.10 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: mkdiff.c,v 1.11 2013/09/11 20:56:34 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,6 +9,16 @@
 #include "lsttool.h"
 #include "mklog.h"
 
+#ifndef __FLAT__
+#if defined(__MSDOS__) || defined(__OS2__)
+#ifdef __386__
+#define __FLAT__ 1
+#endif
+#else
+#define __FLAT__ 1
+#endif
+#endif
+
 #ifdef __FLAT__
 #define COLLTBLSIZE         ((65536 * 2) / 8)
 #define COLLTBLBYTEPOS(idx) (idx >> 2)
@@ -16,13 +26,13 @@
 #define MAXHASHLISTENTRIES  16200
 #define MINHASHLISTENTRIES  40
 #else
+/* smaller table size for 16-bit DOS & 16-bit OS/2 builds */
 #define COLLTBLSIZE         ((int)((32768L * 2) / 8))
 #define COLLTBLBYTEPOS(idx) (idx >> 3)
 #define COLLTBLBITPOS(idx)  (idx & 6)
 #define MAXHASHLISTENTRIES  2050
 #define MINHASHLISTENTRIES  20
 #endif
-
 
 #define ISHASH(entry)      (entry.hash < 0)
 #define ISLINENO(entry)    (entry.hash >= 0)
@@ -31,11 +41,11 @@
 union _hashentry
 {
     unsigned short hashlow;
-    /* Make sure hash is allways 32 bits */
-#if defined(__DOS16__) || defined(__OS2__)
-    long hash;
-#else
+    /* Make sure hash is always 32 bits */
+#ifdef __FLAT__
     int hash;
+#else
+    long hash;
 #endif
     int lineno;
 };
