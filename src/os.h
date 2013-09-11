@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.18 2013/09/11 20:51:28 ozzmosis Exp $ */
+/* $Id: os.h,v 1.19 2013/09/11 21:04:52 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -88,6 +88,10 @@
 #elif defined(__OS2__) || defined(_OS2)
 #if defined(__TURBOC__) || defined(__HIGHC__) || defined(__IBMC__) || defined(__386__)
 #define MAKENL_OS "OS/2 32-bit"
+#ifndef __386__
+/* mkdiff.c looks for __386__ to determine flat memory model for OS/2 builds */
+#define __386__ 1
+#endif
 #else
 #define MAKENL_OS "OS/2 16-bit"
 #endif
