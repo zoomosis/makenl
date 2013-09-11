@@ -1,4 +1,4 @@
-/* $Id: mkdiff.c,v 1.11 2013/09/11 20:56:34 ozzmosis Exp $ */
+/* $Id: mkdiff.c,v 1.12 2013/09/11 21:11:33 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,6 +41,12 @@
 union _hashentry
 {
     unsigned short hashlow;
+
+    /*
+     *  FIXME: int will be 64-bits on most modern BSD/Linux systems...
+     *  -- ozzmosis 2013-09-12
+     */
+
     /* Make sure hash is always 32 bits */
 #ifdef __FLAT__
     int hash;
