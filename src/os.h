@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.17 2013/09/08 18:36:21 ozzmosis Exp $ */
+/* $Id: os.h,v 1.18 2013/09/11 20:51:28 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -13,11 +13,9 @@
 #define OSGTN "osgengtn.c"
 
 #if defined(__clang__)
-#define __FLAT__
 #define MAKENL_CC "Clang"
 
 #elif defined(__GNUC__)
-#define __FLAT__  /* flat memory model */
 #define MAKENL_CC "GNU C"
 
 #elif defined(__TURBOC__) && defined(__MSDOS__)
@@ -40,13 +38,15 @@
 #define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 #define MAKENL_CC "IBM VisualAge C"
 
-#elif defined(__WATCOMC__) && defined(__LINUX__)
-#define __linux__
-#include "osgnulnx.h"
-#define MAKENL_CC "Watcom C"
-
 #elif defined(__WATCOMC__)
+#ifdef __LINUX__
+#ifndef __linux__
+#define __linux__ 1
+#endif
+#include "osgnulnx.h"
+#else
 #include "oswatxxx.h"
+#endif
 #define MAKENL_CC "Watcom C"
 
 #elif defined(_MSC_VER) && defined(WIN32)
@@ -75,7 +75,6 @@
 #elif defined(__DJGPP__)
 #include "osgnudjg.h"
 #elif defined(__MINGW32__)
-/* use Microsoft Visual C++ headers */
 #include "osmscwin.h"
 #endif
 #endif
@@ -84,11 +83,7 @@
 #error "Unknown compiler detected. MAKENL_CC was not defined."
 #endif
 
-#if defined(__DOS16__)
-#define MAKENL_OS "DOS16"
-#elif defined(__DOS4G__)
-#define MAKENL_OS "DOS32"
-#elif defined(__EMX__)
+#if defined(__EMX__)
 #define MAKENL_OS "EMX"
 #elif defined(__OS2__) || defined(_OS2)
 #if defined(__TURBOC__) || defined(__HIGHC__) || defined(__IBMC__) || defined(__386__)
@@ -98,8 +93,12 @@
 #endif
 #elif defined(WIN32)
 #define MAKENL_OS "Win32"
-#elif defined(__MSDOS__)
-#define MAKENL_OS "MS-DOS"
+#elif defined(__DOS__) || defined(__MSDOS__)
+#ifdef __386__
+#define MAKENL_OS "DOS 32-bit"
+#else
+#define MAKENL_OS "DOS 16-bit"
+#endif
 #elif defined(__linux__)
 #define MAKENL_OS "Linux"
 #elif defined(__FreeBSD__)
@@ -151,24 +150,6 @@ char *os_fgets(char *buf, size_t len, FILE * f);
 
 #ifndef HAVE_STRUPR
 char *strupr(char *string);
-#endif
-
-/* some sanity checks for compiler defines */
-
-#if defined(__FLAT__) && defined(__SMALL__)
-#error "Both __FLAT__ and __SMALL__ defined!"
-#endif
-
-#if defined(__DOS16__) && defined(__FLAT__)
-#error "Both __DOS16__ and __FLAT defined!"
-#endif
-
-#if defined(__DOS16__) && defined(__DOS32__)
-#error "Both __DOS16__ and __DOS32__ defined!"
-#endif
-
-#if defined(__DOS16__) && defined(__DOS4G__)
-#error "Both __DOS16__ and __DOS4G__ defined!"
 #endif
 
 #if defined(__MSDOS__) + defined(__OS2__) + defined(WIN32) > 1
