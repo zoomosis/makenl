@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.21 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: config.c,v 1.22 2013/09/12 10:28:53 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -100,7 +100,7 @@ static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
                     mode = -1;
                 }
                 else if (UploadDir[0] != 0 && MailfileDir[0] != 0
-                         && !filecmp(UpdateDir, MailfileDir))
+                         && !filecmp(UploadDir, MailfileDir))
                 {
                     mklog(LOG_ERROR, "UPLoads and MAIlfiles both specify '%s'", UploadDir);
                     mode = -1;
