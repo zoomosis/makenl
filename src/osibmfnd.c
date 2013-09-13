@@ -1,135 +1,139 @@
-/* $Id: osibmfnd.c,v 1.1 2013/08/23 14:50:01 ozzmosis Exp $ */
+/* $Id: osibmfnd.c,v 1.2 2013/09/13 13:25:44 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 
+#define INCL_BASE
 #define INCL_DOS
 #include <os2.h>
 
-#include "patmat.h"
+#define HAVE_OS_FIND
+#include <string.h>
+#include "unused.h"
 
-#define SEARCH_ATTR (FILE_HIDDEN|FILE_SYSTEM|FILE_DIRECTORY)
+/* file attribute constants for attr field of _dos_findfirst() */
 
-static DIR *opendir(const char *dirname)
+#define _A_NORMAL 0x00    /* normal file, read/write permitted */
+#define _A_RDONLY 0x01    /* read-only file */
+#define _A_HIDDEN 0x02    /* hidden file */
+#define _A_SYSTEM 0x04    /* system file */
+#define _A_VOLID  0x08    /* volume label */
+#define _A_SUBDIR 0x10    /* subdirectory */
+#define _A_ARCH   0x20    /* archive file */
+
+#define BAD_HANDLE         ((HDIR)(~0))
+#define HANDLE_OF(__find)  (*(HDIR *)(&(__find)->reserved[0]))
+
+#define FF_LEVEL   1
+#define FF_BUFFER  FILEFINDBUF3
+
+struct name
 {
-    char *name;
-    int len;
-    DIR *dir;
-    ULONG nfiles;
-    APIRET apiret;
+    char buf[NAME_MAX + 1];
+};
 
-    len = strlen(dirname);
-    if ((name = malloc(len + 5)) == NULL)
-    {
-        errno = ENOMEM;
-        return NULL;
-    }
-    strcpy(name, dirname);
-    if (len-- && name[len] != ':' && name[len] != '\\' && name[len] != '/')
-        strcat(name, "\\*.*");
-    else
-        strcat(name, "*.*");
+static void copydir(struct find_t *buf, FF_BUFFER *dir_buff)
+{
+    buf->attrib = dir_buff->attrFile;
+    buf->wr_time = *(unsigned short *)&dir_buff->ftimeLastWrite;
+    buf->wr_date = *(unsigned short *)&dir_buff->fdateLastWrite;
+    buf->size = dir_buff->cbFile;
 
-    if ((dir = malloc(sizeof(DIR))) == NULL)
-    {
-        errno = ENOMEM;
-        free(name);
-        return NULL;
-    }
-
-    dir->hdir = HDIR_CREATE;
-    nfiles = 256;
-    if ((apiret = DosFindFirst((PSZ) name, &dir->hdir, SEARCH_ATTR,
-                               (PVOID) & dir->buf[0], sizeof(dir->buf),
-                               &nfiles, FIL_STANDARD)) != 0)
-    {
-        free(name);
-        free(dir);
-        return NULL;
-    }
-
-    dir->dirname = name;
-    dir->nfiles = (unsigned)nfiles;
-    dir->bufp = &dir->buf[0];
-    return dir;
+    *(struct name *)buf->name = *(struct name *)dir_buff->achName;
 }
 
-static struct dirent *readdir(DIR * dir)
+static unsigned _dos_findfirst( const char *path, unsigned attr, struct find_t *buf)
 {
-    ULONG nfiles;
-    FILEFINDBUF3 *ff;
+    APIRET rc;
+    FF_BUFFER dir_buff;
+    HDIR handle = BAD_HANDLE;
+    ULONG searchcount;
 
-    if (dir->nfiles == 0)
+    searchcount = 1;        /* only one at a time */
+
+    rc = DosFindFirst((PSZ)path, (PHFILE)&handle, attr, (PVOID)&dir_buff, sizeof dir_buff, &searchcount, FF_LEVEL);
+
+    if (rc != 0 && rc != ERROR_EAS_DIDNT_FIT)
     {
-        nfiles = 256;
-        if (DosFindNext(dir->hdir, (PFILEFINDBUF) & dir->buf[0],
-                        sizeof(dir->buf), &nfiles) != 0)
-            return NULL;
-        dir->nfiles = (unsigned)nfiles;
-        dir->bufp = &dir->buf[0];
+        HANDLE_OF(buf) = BAD_HANDLE;
+        errno = ENOENT;
+        return 1;
     }
 
-    ff = (FILEFINDBUF3 *) (dir->bufp);
-    dir->bufp += (int)ff->oNextEntryOffset;
-    dir->nfiles--;
+    HANDLE_OF(buf) = handle;
+    copydir(buf, &dir_buff);      /* copy in other fields */
 
-    return ((struct dirent *)&ff->achName[0]);
-}
-
-static int closedir(DIR * dir)
-{
-    if (dir == NULL)
-    {
-        errno = EBADF;
-        return -1;
-    }
-
-    DosFindClose(dir->hdir);
-    free(dir->dirname);
-    free(dir);
     return 0;
 }
 
-char *os_findfirst(struct _filefind *pff, const char *path,
-                   const char *mask)
+static unsigned _dos_findnext( struct find_t *buf )
 {
-    strcpy(pff->path, path);
-    os_remove_slash(pff->path);
-    strcpy(pff->mask, mask);
+    APIRET rc;
+    FF_BUFFER dir_buff;
+    ULONG searchcount = 1;
 
-    if ((pff->dirp = opendir(pff->path)) != NULL)
+    rc = DosFindNext(HANDLE_OF(buf), (PVOID)&dir_buff, sizeof dir_buff, &searchcount);
+
+    if (rc != 0)
     {
-        char *p;
-
-        if ((p = os_findnext(pff)) != NULL)
-            return p;
+        errno = ENOENT;
+        return 1;
     }
 
-    closedir(pff->dirp);
-    pff->dirp = NULL;
+    copydir( buf, &dir_buff );
+
+    return 0;
+}
+
+unsigned _dos_findclose( struct find_t *buf )
+{
+    APIRET rc;
+
+    if (HANDLE_OF(buf) != BAD_HANDLE)
+    {
+        rc = DosFindClose(HANDLE_OF(buf));
+
+        if (rc != 0)
+        {
+            errno = ENOENT;
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
+{
+    unsigned rc;
+    char tmp[MYMAXPATH];
+
+    strcpy(tmp, path);
+    os_append_slash(tmp);
+    strcat(tmp, mask);
+
+    rc = _dos_findfirst(tmp, _A_NORMAL | _A_RDONLY | _A_HIDDEN | _A_SYSTEM | _A_ARCH, &pff->fileinfo);
+
+    if (rc == 0)
+    {
+        return pff->fileinfo.name;
+    }
+
     return NULL;
 }
 
-
 char *os_findnext(struct _filefind *pff)
 {
-    int matchresult;
-
-    for (;;)
+    if (_dos_findnext(&pff->fileinfo) == 0)
     {
-        if ((pff->pentry = readdir(pff->dirp)) == NULL)
-            return NULL;
-
-        matchresult = patmat(pff->pentry->d_name, pff->mask);
-        if (matchresult == 0)
-            return pff->pentry->d_name;
+        return pff->fileinfo.name;
     }
+
+    return NULL;
 }
 
 void os_findclose(struct _filefind *pff)
 {
-    if (pff->dirp)
-        closedir(pff->dirp);
-    pff->dirp = NULL;
+    _dos_findclose(&pff->fileinfo);
 }

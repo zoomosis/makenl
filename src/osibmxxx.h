@@ -1,4 +1,4 @@
-/* $Id: osibmxxx.h,v 1.1 2013/08/23 14:50:01 ozzmosis Exp $ */
+/* $Id: osibmxxx.h,v 1.2 2013/09/13 13:25:44 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <direct.h>
@@ -22,28 +22,22 @@
 #define MYMAXEXT   _MAX_EXT
 #define MYMAXDRIVE _MAX_DRIVE
 
-struct dirent
-{
-   char d_name[256];
-};
+#define NAME_MAX 255
 
-typedef struct
+struct find_t
 {
-   unsigned long hdir;
-   char *        dirname;
-   unsigned      nfiles;
-   char *        bufp;
-   char          buf[512];
-}
-DIR;
+    char reserved[21];
+    char attrib;
+    unsigned short wr_time;
+    unsigned short wr_date;
+    unsigned long size;
+    char name[NAME_MAX + 1];
+};
 
 struct _filefind
 {
-    char path[MYMAXDIR];
-    char mask[MYMAXFILE];
-    DIR *dirp;
-    struct dirent *pentry;
-    int flags;
+    char path[MYMAXFILE + MYMAXEXT];
+    struct find_t fileinfo;
 };
 
 #define filecmp stricmp

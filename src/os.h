@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.19 2013/09/11 21:04:52 ozzmosis Exp $ */
+/* $Id: os.h,v 1.20 2013/09/13 13:25:44 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -36,7 +36,7 @@
 #include "osibmxxx.h"
 /* vsnprintf() unavailable in VisualAge C, so use insecure vsprintf() */
 #define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
-#define MAKENL_CC "IBM VisualAge C"
+#define MAKENL_CC "VisualAge C"
 
 #elif defined(__WATCOMC__)
 #ifdef __LINUX__
