@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.20 2013/09/13 13:25:44 ozzmosis Exp $ */
+/* $Id: os.h,v 1.21 2013/09/15 11:33:13 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -95,6 +95,8 @@
 #else
 #define MAKENL_OS "OS/2 16-bit"
 #endif
+#elif defined(_WIN64)
+#define MAKENL_OS "Win64"
 #elif defined(WIN32)
 #define MAKENL_OS "Win32"
 #elif defined(__DOS__) || defined(__MSDOS__)
