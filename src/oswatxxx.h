@@ -1,4 +1,4 @@
-/* $Id: oswatxxx.h,v 1.8 2013/09/08 18:32:47 ozzmosis Exp $ */
+/* $Id: oswatxxx.h,v 1.9 2013/09/18 15:37:17 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <dos.h>
@@ -54,3 +54,8 @@ struct _filefind
 #define filecmp stricmp
 #define filenodir(x) (strpbrk(x,"\\/") == NULL)
 #define strcasecmp stricmp
+
+#if __WATCOMC__ <= 1100
+/* vsnprintf() unavailable in early versions of Watcom C */
+#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
+#endif
