@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.18 2013/09/18 15:08:18 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.19 2013/09/18 15:53:20 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -287,6 +287,8 @@ static int mychdir(char *path)
     char *newpath, *p;
     int rc;
 
+    mklog(LOG_DEBUG, "mychdir path='%s'", path);
+
     if (path == NULL || path[0] == '\0')
     {
         /* null pointer or empty string; do nothing */
@@ -327,6 +329,7 @@ static int mychdir(char *path)
         *p = '\0';
     }
 
+    mklog(LOG_DEBUG, "mychdir newpath='%s'", newpath);
     rc = chdir(newpath);
     free(newpath);
     return rc;
