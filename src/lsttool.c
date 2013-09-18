@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.17 2013/09/18 11:00:43 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.18 2013/09/18 15:08:18 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -276,6 +276,12 @@ static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
 
 #if defined(__MSDOS__) || defined(__OS2__) || defined(WIN32)
 
+static int validdriveletter(int drive)
+{
+    char driveletters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    return strchr(driveletters, toupper(drive)) != NULL;
+}
+
 static int mychdir(char *path)
 {
     char *newpath, *p;
@@ -293,7 +299,7 @@ static int mychdir(char *path)
         return chdir(path);
     }
 
-    if (strlen(path) == 3 && isalpha(path[0]) && path[1] == ':' && path[2] == '\\')
+    if (validdriveletter(path[0]) && path[1] == ':' && path[2] == '\\' && path[3] == '\0')
     {
         /* "x:\" is OK too */
 
