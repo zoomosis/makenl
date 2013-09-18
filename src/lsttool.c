@@ -1,9 +1,10 @@
-/* $Id: lsttool.c,v 1.16 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.17 2013/09/18 11:00:43 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <errno.h>
 
 #include "makenl.h"
 #include "fileutil.h"
@@ -266,6 +267,73 @@ static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
     return 0;
 }
 
+/*
+ *  mychdir()
+ *
+ *  Workaround for systems where chdir() will not accept a trailing \ character unless
+ *  it's the root of the drive.
+ */
+
+#if defined(__MSDOS__) || defined(__OS2__) || defined(WIN32)
+
+static int mychdir(char *path)
+{
+    char *newpath, *p;
+    int rc;
+
+    if (path == NULL || path[0] == '\0')
+    {
+        /* null pointer or empty string; do nothing */
+        return 0;
+    }
+
+    if (path[0] == '\\' && path[1] == '\0')
+    {
+        /* lone '\' path is OK */
+        return chdir(path);
+    }
+
+    if (strlen(path) == 3 && isalpha(path[0]) && path[1] == ':' && path[2] == '\\')
+    {
+        /* "x:\" is OK too */
+
+        return chdir(path);
+    }
+
+    /* copy path and modify it */
+
+    newpath = malloc(strlen(path) + 1);
+
+    if (p == NULL)
+    {
+        /* out of memory */
+        return 1;
+    }
+
+    strcpy(newpath, path);
+
+    p = newpath + strlen(newpath) - 1;
+
+    if (*p == '\\')
+    {
+        /* strip trailing \ */
+
+        *p = '\0';
+    }
+
+    rc = chdir(newpath);
+    free(newpath);
+    return rc;
+}
+
+#else
+
+static int mychdir(char *path)
+{
+    return chdir(path);
+}
+
+#endif
 
 /*
  * Test unpacker, see also makenl.h for ARCUNPMAX
@@ -365,9 +433,9 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
              * We need to chdir to the directory where the archive is found
              * so that the file is hopefully unpacked in the that directory.
              */
-            if (chdir(fnamebuf))
+            if (mychdir(fnamebuf) != 0)
             {
-                mklog(LOG_ERROR, "Can't chdir to '%s'", fnamebuf);
+                mklog(LOG_ERROR, "Can't chdir to '%s': %s", fnamebuf, strerror(errno));
             }
             else
             {
@@ -387,9 +455,16 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
                         CloseMSGFile(1);
                     }
                 }
-                chdir(CurDir);
+                if (mychdir(CurDir) != 0)
+                {
+                    mklog(LOG_ERROR, "Can't chdir to '%s': %s", CurDir, strerror(errno));
+                }
             }
-            unlink(foundfile);
+
+            if (unlink(foundfile) != 0)
+            {
+                mklog(LOG_ERROR, "Can't unlink '%s': %s", foundfile, strerror(errno));
+            }
         }
         else if (ext[0] == 0 && toupper((unsigned char)extbuf[0]) == 'D') /* DIFFed 
                                                                              file 
