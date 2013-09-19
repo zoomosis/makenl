@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.19 2013/09/18 15:53:20 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.20 2013/09/19 04:40:01 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -312,7 +312,7 @@ static int mychdir(char *path)
 
     newpath = malloc(strlen(path) + 1);
 
-    if (p == NULL)
+    if (newpath == NULL)
     {
         /* out of memory */
         return 1;
