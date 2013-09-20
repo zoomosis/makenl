@@ -1,6 +1,6 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.3 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: os.c,v 1.4 2013/09/20 21:07:04 ajleary Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -26,7 +26,8 @@
 #endif
 #include OSFND
 
-
+/* os_chdir */
+#include OSCHD
 /* os_deslashify */
 #include OSDSL
 /* os_fulldir */

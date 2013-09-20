@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.21 2013/09/15 11:33:13 ozzmosis Exp $ */
+/* $Id: os.h,v 1.22 2013/09/20 21:07:04 ajleary Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -11,6 +11,7 @@
 #define OSFF "osgenff.c"
 #define OSFLD "osgenfld.c"
 #define OSGTN "osgengtn.c"
+#define OSCHD "osgenchd.c"
 
 #if defined(__clang__)
 #define MAKENL_CC "Clang"
@@ -137,6 +138,7 @@ char *os_findfile(struct _filefind *pff, const char *path, const char *mask);
 char *os_file_getname(const char *path);
 int os_fullpath(char *dst, const char *src, size_t bufsiz);
 int os_fulldir(char *dst, const char *src, size_t bufsiz);
+int os_chdir(char *path);
 char *os_append_slash(char *path);
 char *os_remove_slash(char *path);
 char *os_deslashify(char *name);

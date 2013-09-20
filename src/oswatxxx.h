@@ -1,4 +1,4 @@
-/* $Id: oswatxxx.h,v 1.9 2013/09/18 15:37:17 ozzmosis Exp $ */
+/* $Id: oswatxxx.h,v 1.10 2013/09/20 21:07:05 ajleary Exp $ */
 
 #include <stdlib.h>
 #include <dos.h>
@@ -11,6 +11,11 @@
 /* Needed definitions */
 #define OSFND "oswatfnd.c"
 #define OSFUL "oswatful.c"
+
+#ifdef OSCHD
+#undef OSCHD
+#define OSCHD "oswatchd.c"
+#endif
 
 #ifdef USE_DO_EXEC
 /* Thomas Wagner's do_exec() isn't working yet... */
