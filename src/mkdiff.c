@@ -1,4 +1,4 @@
-/* $Id: mkdiff.c,v 1.13 2013/09/11 21:29:03 ozzmosis Exp $ */
+/* $Id: mkdiff.c,v 1.14 2013/09/21 11:54:26 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,30 +8,21 @@
 #include "fileutil.h"
 #include "lsttool.h"
 #include "mklog.h"
+#include "os.h"
 
-#ifndef __FLAT__
-#if defined(__MSDOS__) || defined(__OS2__)
-#ifdef __386__
-#define __FLAT__ 1
-#endif
-#else
-#define __FLAT__ 1
-#endif
-#endif
-
-#ifdef __FLAT__
-#define COLLTBLSIZE         ((65536 * 2) / 8)
-#define COLLTBLBYTEPOS(idx) (idx >> 2)
-#define COLLTBLBITPOS(idx)  ((idx & 3) << 1)
-#define MAXHASHLISTENTRIES  16200
-#define MINHASHLISTENTRIES  40
-#else
+#ifdef MEM_SEG
 /* smaller table size for 16-bit DOS & 16-bit OS/2 builds */
 #define COLLTBLSIZE         ((int)((32768L * 2) / 8))
 #define COLLTBLBYTEPOS(idx) (idx >> 3)
 #define COLLTBLBITPOS(idx)  (idx & 6)
 #define MAXHASHLISTENTRIES  2050
 #define MINHASHLISTENTRIES  20
+#else
+#define COLLTBLSIZE         ((65536 * 2) / 8)
+#define COLLTBLBYTEPOS(idx) (idx >> 2)
+#define COLLTBLBITPOS(idx)  ((idx & 3) << 1)
+#define MAXHASHLISTENTRIES  16200
+#define MINHASHLISTENTRIES  40
 #endif
 
 #define ISHASH(entry)      (entry.hash < 0)
@@ -48,11 +39,12 @@ union _hashentry
      */
 
     /* Make sure hash is always 32 bits */
-#ifdef __FLAT__
-    int hash;
-#else
+#ifdef MEM_SEG
     long hash;
+#else
+    int hash;
 #endif
+
     int lineno;
 };
 

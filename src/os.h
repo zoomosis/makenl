@@ -1,9 +1,10 @@
-/* $Id: os.h,v 1.33 2013/09/21 11:16:19 ozzmosis Exp $ */
+/* $Id: os.h,v 1.34 2013/09/21 11:54:26 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
 
 #include <stdio.h>
+#include <stdlib.h>
 
 /*
  *  OS-specific #defines
@@ -33,6 +34,16 @@
 #define OS_WIN 1
 #else
 #define OS_UNIX 1
+#endif
+
+#if defined(OS_DOS) + defined(OS_OS2) + defined(OS_WIN) + defined(OS_UNIX) > 1
+#error "Ambiguous OS specification. More than one OS_xxx definition found."
+#endif
+
+#if defined(OS_DOS) || defined(OS_OS2)
+#ifndef __386__
+#define MEM_SEG 1
+#endif
 #endif
 
 #if defined(__clang__)
@@ -101,7 +112,7 @@
 #define DIRSEP "/"
 #endif
 
-#ifdef OS_UNIX
+#if defined(OS_UNIX)
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -128,6 +139,36 @@ struct _filefind
     int flags;
 };
 
+#elif defined(__WATCOMC__)
+
+#include <dos.h>
+#include <direct.h>
+#include <io.h>
+#include <process.h>
+
+#define MYMAXFILE  _MAX_FNAME
+#define MYMAXDIR   _MAX_DIR
+#define MYMAXPATH  _MAX_PATH
+#define MYMAXEXT   _MAX_EXT
+#define MYMAXDRIVE _MAX_DRIVE
+
+#define HAVE_GETPID 1
+
+struct _filefind
+{
+    char path[MYMAXFILE + MYMAXEXT];
+    struct find_t fileinfo;
+};
+
+#define filecmp stricmp
+#define filenodir(x) (strpbrk(x,"\\/") == NULL)
+#define strcasecmp stricmp
+
+#if __WATCOMC__ <= 1100
+/* vsnprintf() unavailable in early versions of Watcom C */
+#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
+#endif
+
 #endif
 
 char *os_findfirst(struct _filefind *pff, const char *path, const char *mask);
@@ -145,9 +186,5 @@ char *os_dirsep(char *path);
 int os_spawn(const char *command, const char *cmdline);
 char *os_fgets(char *buf, size_t len, FILE *f);
 char *os_getcwd(char *buf, size_t size);
-
-#if defined(OS_DOS) + defined(OS_OS2) + defined(OS_WIN) + defined(OS_UNIX) > 1
-#error "Ambiguous OS specification. More than one OS_xxx definition found."
-#endif
 
 #endif
