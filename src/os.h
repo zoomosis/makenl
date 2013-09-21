@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.47 2013/09/21 15:29:36 ozzmosis Exp $ */
+/* $Id: os.h,v 1.48 2013/09/21 16:38:49 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -64,6 +64,8 @@
 #define CC_NAME "DJGPP"
 #elif defined(__EMX__)
 #define CC_NAME "EMX"
+#elif defined(__MINGW32__)
+#define CC_NAME "MinGW32"
 #elif defined(__GNUC__)
 #define CC_NAME "GNU C"
 #elif defined(__BORLANDC__)
@@ -257,7 +259,7 @@ struct _filefind
 #define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 
 #elif defined(OS_WIN)
-#if defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__) || defined(__LCC__)
+#if defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__) || defined(__LCC__) || defined(__MINGW32__)
 
 #include <io.h>
 #include <direct.h>

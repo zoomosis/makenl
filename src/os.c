@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.30 2013/09/21 16:12:02 ozzmosis Exp $ */
+/* $Id: os.c,v 1.31 2013/09/21 16:38:49 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -712,7 +712,7 @@ void os_findclose(struct _filefind *pff)
     unused(pff);
 }
 
-#elif defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__) || defined(__LCC__)
+#elif defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__) || defined(__LCC__) || defined(__MINGW32__)
 
 char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
 {
