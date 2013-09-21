@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.42 2013/09/21 14:10:19 ozzmosis Exp $ */
+/* $Id: os.h,v 1.43 2013/09/21 14:12:52 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -34,10 +34,6 @@
 #define OS_WIN 1
 #else
 #define OS_UNIX 1
-#endif
-
-#if defined(OS_DOS) + defined(OS_OS2) + defined(OS_WIN) + defined(OS_UNIX) > 1
-#error "Ambiguous OS specification. More than one OS_xxx definition found."
 #endif
 
 #if defined(OS_DOS) || defined(OS_OS2)
