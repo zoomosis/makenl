@@ -1,6 +1,6 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.8 2013/09/21 09:29:03 ozzmosis Exp $ */
+/* $Id: os.c,v 1.9 2013/09/21 09:30:24 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -10,13 +10,6 @@
 #include "makenl.h"
 #include "os.h"
 #include "mklog.h"
-
-/* Definitions for:                                               */
-/* __GNUC__     GNU C Compiler under DOS and OS/2 and linux       */
-/* __unix__     GNU C Compiler under Unix (tested with linux)     */
-/* __EMX__      emx+gcc for DOS/OS2                               */
-/* __WATCOMC__  Watcom C Compiler 10.0b under DOS, OS/2 and Win32 */
-/* __TURBOC__   Turbo C 2.00 and above, Borland C, under DOS      */
 
 #ifndef OSFUL
 #error "No os_fullpath for this compiler/OS, giving up!"
