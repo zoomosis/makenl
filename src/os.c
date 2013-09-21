@@ -1,6 +1,6 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.9 2013/09/21 09:30:24 ozzmosis Exp $ */
+/* $Id: os.c,v 1.10 2013/09/21 09:35:32 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -21,8 +21,6 @@
 #endif
 #include OSFND
 
-/* os_deslashify */
-#include OSDSL
 /* os_fulldir */
 #include OSFLD
 /* os_findfile */
@@ -196,5 +194,35 @@ char *os_remove_slash(char *path)
 	}
     }
     
+    return path;
+}
+
+
+/*
+ * os_deslashify()
+ *
+ * Converts / slashes to \ backslashes for pathnames, for DOS, OS/2 & Windows systems.
+ */
+
+char *os_deslashify(char *path)
+{
+    char *p;
+
+    if (path == NULL)
+    {
+        return NULL;
+    }
+
+    p = path;
+
+    while (*p != 0)
+    {
+        if (*p == '/')
+	{
+            *p = '\\';
+	}
+        p++;
+    }
+
     return path;
 }

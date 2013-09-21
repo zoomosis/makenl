@@ -1,10 +1,9 @@
-/* $Id: os.h,v 1.25 2013/09/21 09:27:03 ozzmosis Exp $ */
+/* $Id: os.h,v 1.26 2013/09/21 09:35:32 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
 
 /* Defaults for overwriteable functions */
-#define OSDSL "osgendsl.c"
 #define OSEXC "osgenexc.c"
 #define OSFF "osgenff.c"
 #define OSFLD "osgenfld.c"
@@ -138,7 +137,7 @@ int os_fulldir(char *dst, const char *src, size_t bufsiz);
 int os_chdir(char *path);
 char *os_append_slash(char *path);
 char *os_remove_slash(char *path);
-char *os_deslashify(char *name);
+char *os_deslashify(char *path);
 
 int os_spawn(const char *command, const char *cmdline);
 
