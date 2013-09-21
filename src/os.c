@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.27 2013/09/21 14:39:47 ozzmosis Exp $ */
+/* $Id: os.c,v 1.28 2013/09/21 15:02:07 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,7 +9,7 @@
 
 #include "os.h"
 
-#if defined(OS_UNIX) || defined(__DJGPP__)
+#if defined(OS_UNIX) || defined(__DJGPP__) || defined(__EMX__)
 #include <dirent.h>
 #ifdef __linux__
 /* _GNU_SOURCE needed for FNM_CASEFOLD */
@@ -32,6 +32,9 @@
 
 char *os_file_getname(const char *path)
 {
+#ifdef __EMX__
+    return _getname(path);
+#else
     const char *p;
 
     p = path;
@@ -49,6 +52,7 @@ char *os_file_getname(const char *path)
     }
     
     return (char *)p;
+#endif
 }
 
 /*
@@ -229,10 +233,70 @@ char *os_dirsep(char *path)
 
 int os_spawn(const char *command, const char *cmdline)
 {
+#ifdef __EMX__
+    char execfn[_MAX_PATH];
+    char tmpfn[_MAX_PATH];
+    char *pext;
+    char *cmd;
+    int rc;
+
+    /* search for command */
+    strcpy(tmpfn, command);
+    pext = strchr(tmpfn, '\0');
+
+    mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
+    rc = _path(execfn, tmpfn);
+
+    if (rc != 0)
+    {
+        strcpy(pext, ".EXE");
+        mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
+        rc = _path(execfn, tmpfn);
+    }
+    else if (rc != 0 && _osmode == OS2_MODE)
+    {
+        strcpy(pext, ".CMD");
+        mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
+        rc = _path(execfn, tmpfn);
+    }
+    else if (rc != 0 && _osmode != OS2_MODE)
+    {
+        strcpy(pext, ".COM");
+        mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
+        rc = _path(execfn, tmpfn);
+    }
+    else if (rc != 0 && _osmode != OS2_MODE)
+    {
+        strcpy(pext, ".BAT");
+        mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
+        rc = _path(execfn, tmpfn);
+    }
+    else if (rc != 0)
+    {
+        mklog(LOG_ERROR, "os_spawn(): program not found");
+        return -1;
+    }
+
+    cmd = malloc(strlen(command) + 1 + strlen(cmdline) + 1);
+
+    if (!cmd)
+    {
+        return -1;
+    }
+
+    sprintf(cmd, "%s %s", command, cmdline);
+    mklog(LOG_DEBUG, "found: executing `%s'", cmd);
+    rc = system(cmd);
+    mklog(LOG_DEBUG, "os_spawn rc=%d", rc);
+
+    free(cmd);
+    return rc;
+#else
     char *cmd;
     int rc;
 
     cmd = malloc(strlen(command) + 1 + strlen(cmdline) + 1);
+
     if (!cmd)
     {
         mklog(LOG_ERROR, "os_spawn(): out of memory for command line buffer");
@@ -246,6 +310,7 @@ int os_spawn(const char *command, const char *cmdline)
 
     free(cmd);
     return rc;
+#endif
 }
 
 char *os_findfile(struct _filefind *pff, const char *path, const char *mask)
@@ -352,7 +417,7 @@ char *os_fgets(char *buffer, size_t len, FILE * f)
 
 #endif
 
-#if defined(OS_UNIX) || defined(__DJGPP__)
+#if defined(OS_UNIX) || defined(__DJGPP__) || defined(__EMX__)
 
 char *os_findfirst(struct _filefind *pff, const char *path,
                    const char *mask)

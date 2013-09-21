@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.45 2013/09/21 14:39:47 ozzmosis Exp $ */
+/* $Id: os.h,v 1.46 2013/09/21 15:02:07 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -28,7 +28,7 @@
 
 #if defined(__MSDOS__) || defined(__DOS__)
 #define OS_DOS 1
-#elif defined(__OS2__) || defined(_OS2)
+#elif defined(__OS2__) || defined(_OS2) || defined(__EMX__)
 #define OS_OS2 1
 #elif defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64)
 #define OS_WIN 1
@@ -36,8 +36,12 @@
 #define OS_UNIX 1
 #endif
 
-#if defined(OS_DOS) || defined(OS_OS2)
-#if !defined(__386__) && !defined(__DJGPP__) && !defined(__BORLANDC__) && !defined(__HIGHC__)
+#if defined(OS_DOS)
+#if !defined(__386__) && !defined(__DJGPP__)
+#define MEM_SEG 1
+#endif
+#elif defined(OS_OS2)
+#if !defined(__386__) && !defined(__BORLANDC__) && !defined(__HIGHC__) && !defined(__EMX__)
 #define MEM_SEG 1
 #endif
 #endif
@@ -46,6 +50,8 @@
 #define CC_NAME "Clang"
 #elif defined(__DJGPP__)
 #define CC_NAME "DJGPP"
+#elif defined(__EMX__)
+#define CC_NAME "EMX"
 #elif defined(__GNUC__)
 #define CC_NAME "GNU C"
 #elif defined(__BORLANDC__)
@@ -232,8 +238,7 @@ struct _filefind
 
 #endif
 
-#elif defined(OS_DOS)
-#if defined(__TURBOC__)
+#elif defined(OS_DOS) && defined(__TURBOC__)
 
 #include <dir.h>
 #include <io.h>
@@ -291,7 +296,34 @@ struct _filefind
 /* vsnprintf() unavailable in DJGPP, so use insecure vsprintf() */
 #define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 
-#endif
+#elif defined(__EMX__)
+
+#include <sys/types.h>
+#include <stdlib.h>
+#include <dirent.h>
+#include <unistd.h>
+
+#define MYMAXFILE  _MAX_FNAME
+#define MYMAXDIR   _MAX_DIR
+#define MYMAXPATH  _MAX_PATH
+#define MYMAXEXT   _MAX_EXT
+#define MYMAXDRIVE _MAX_DRIVE
+
+#define HAVE_GETPID 1
+
+#define filecmp  stricmp
+#define filenodir(x) (strpbrk(x,"\\/") == NULL)
+#define strcasecmp stricmp
+
+struct _filefind
+{
+    char path[MYMAXDIR];
+    char mask[MYMAXFILE];
+    DIR *dirp;
+    struct dirent *pentry;
+    int flags;
+};
+
 #endif
 
 char *os_findfirst(struct _filefind *pff, const char *path, const char *mask);
