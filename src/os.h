@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.22 2013/09/20 21:07:04 ajleary Exp $ */
+/* $Id: os.h,v 1.23 2013/09/21 08:58:55 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -11,7 +11,6 @@
 #define OSFF "osgenff.c"
 #define OSFLD "osgenfld.c"
 #define OSGTN "osgengtn.c"
-#define OSCHD "osgenchd.c"
 
 #if defined(__clang__)
 #define MAKENL_CC "Clang"
