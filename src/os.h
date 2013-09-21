@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.44 2013/09/21 14:31:45 ozzmosis Exp $ */
+/* $Id: os.h,v 1.45 2013/09/21 14:39:47 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -37,7 +37,7 @@
 #endif
 
 #if defined(OS_DOS) || defined(OS_OS2)
-#if !defined(__386__) && !defined(__DJGPP__) && !defined(__BORLANDC__)
+#if !defined(__386__) && !defined(__DJGPP__) && !defined(__BORLANDC__) && !defined(__HIGHC__)
 #define MEM_SEG 1
 #endif
 #endif
@@ -169,7 +169,7 @@ struct _filefind
 /* vsnprintf() unavailable in Borland C */
 #define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 
-#elif defined(__WATCOMC__)
+#elif defined(__WATCOMC__) || defined(__HIGHC__)
 
 #include <dos.h>
 #include <direct.h>
