@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.24 2013/09/21 11:16:19 ozzmosis Exp $ */
+/* $Id: config.c,v 1.25 2013/09/21 12:09:40 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,7 +10,7 @@
 #include "msg.h"
 #include "config.h"
 #include "fts5.h"
-#include "proc.h"
+#include "procfile.h"
 #include "lsttool.h"
 #include "fileutil.h"
 #include "mklog.h"

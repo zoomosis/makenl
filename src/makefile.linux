@@ -1,7 +1,7 @@
 # MakeNL makefile for Linux
 # Tested with GNU Make 3.81 & GNU C 4.4.3
 #
-# $Id: makefile.linux,v 1.8 2013/09/05 15:09:53 ozzmosis Exp $
+# $Id: makefile.linux,v 1.9 2013/09/21 12:09:40 ozzmosis Exp $
 #
 # Build with:
 #
@@ -40,7 +40,7 @@ OBJS+=rmalloc.o
 endif
 
 OBJS+=config.o crc16.o fileutil.o fts5.o lsttool.o makenl.o merge.o
-OBJS+=mkdiff.o mklog.o msgtool.o os.o output.o process.o stack.o
+OBJS+=mkdiff.o mklog.o msgtool.o os.o output.o procfile.o stack.o
 OBJS+=strtool.o upcont.o
 
 .c.o:

@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.22 2013/09/21 11:16:19 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.23 2013/09/21 12:09:40 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +12,7 @@
 #include "lsttool.h"
 #include "msg.h"
 #include "mklog.h"
-#include "proc.h"
+#include "procfile.h"
 #include "strtool.h"
 #include "os.h"
 

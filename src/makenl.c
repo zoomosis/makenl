@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.23 2013/09/21 11:16:19 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.24 2013/09/21 12:09:41 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -13,7 +13,7 @@
 #include "fileutil.h"
 #include "merge.h"
 #include "msg.h"
-#include "proc.h"
+#include "procfile.h"
 #include "crc16.h"
 #include "version.h"
 #include "unused.h"

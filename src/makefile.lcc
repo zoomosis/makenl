@@ -1,7 +1,7 @@
 # MakeNL makefile for lcc-win32 for Windows
 # Tested with lcc 3.8.
 #
-# $Id: makefile.lcc,v 1.1 2012/10/17 11:36:54 ozzmosis Exp $
+# $Id: makefile.lcc,v 1.2 2013/09/21 12:09:40 ozzmosis Exp $
 #
 # Build with:
 #
@@ -12,7 +12,7 @@ CC=lc
 CFLAGS=-DWIN32
 
 OBJS=config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj \
-merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj process.obj \
+merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj procfile.obj \
 stack.obj strtool.obj upcont.obj
 
 .c.obj:
