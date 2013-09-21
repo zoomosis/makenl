@@ -1,6 +1,6 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.11 2013/09/21 09:39:42 ozzmosis Exp $ */
+/* $Id: os.c,v 1.12 2013/09/21 09:42:09 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -23,8 +23,6 @@
 
 /* os_fulldir */
 #include OSFLD
-/* os_findfile */
-#include OSFF
 
 #ifndef HAVE_STRUPR
 #include "osgenupr.c"
@@ -243,4 +241,20 @@ int os_spawn(const char *command, const char *cmdline)
 
     free(cmd);
     return rc;
+}
+
+char *os_findfile(struct _filefind *pff, const char *path, const char *mask)
+{
+    char *p;
+
+    p = os_findfirst(pff, path, mask);
+
+    if (p != NULL)
+    {
+        strcpy(pff->path, p);
+        os_findclose(pff);
+        return pff->path;
+    }
+
+    return NULL;
 }
