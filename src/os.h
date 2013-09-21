@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.41 2013/09/21 13:51:08 ozzmosis Exp $ */
+/* $Id: os.h,v 1.42 2013/09/21 14:10:19 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -41,13 +41,15 @@
 #endif
 
 #if defined(OS_DOS) || defined(OS_OS2)
-#ifndef __386__
+#if !defined(__386__) && !defined(__DJGPP__)
 #define MEM_SEG 1
 #endif
 #endif
 
 #if defined(__clang__)
 #define CC_NAME "Clang"
+#elif defined(__DJGPP__)
+#define CC_NAME "DJGPP"
 #elif defined(__GNUC__)
 #define CC_NAME "GNU C"
 #elif defined(__BORLANDC__)
@@ -229,6 +231,38 @@ struct _filefind
 
 /* vsnprintf() unavailable on very old version of Turbo C, so use insecure vsprintf() */
 #define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
+
+#elif defined(__DJGPP__)
+
+#include <dir.h>
+#include <io.h>
+#include <unistd.h>
+#include <dirent.h>
+
+#define MYMAXFILE  MAXFILE
+#define MYMAXDIR   MAXDIR
+#define MYMAXPATH  MAXPATH
+#define MYMAXEXT   MAXEXT
+#define MYMAXDRIVE MAXDRIVE
+
+struct _filefind
+{
+    char path[MYMAXDIR];
+    char mask[MYMAXFILE];
+    DIR *dirp;
+    struct dirent *pentry;
+    int flags;
+};
+
+#define filecmp stricmp
+#define filenodir(x) (strpbrk((x),"\\/") == NULL)
+#define strcasecmp stricmp
+
+#define HAVE_GETPID 1
+
+/* vsnprintf() unavailable in DJGPP, so use insecure vsprintf() */
+#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
+
 #endif
 #endif
 

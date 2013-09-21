@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.24 2013/09/21 13:51:08 ozzmosis Exp $ */
+/* $Id: os.c,v 1.25 2013/09/21 14:10:19 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,7 +9,7 @@
 
 #include "os.h"
 
-#if defined(OS_UNIX)
+#if defined(OS_UNIX) || defined(__DJGPP__)
 #include <dirent.h>
 #ifdef __linux__
 /* _GNU_SOURCE needed for FNM_CASEFOLD */
@@ -352,7 +352,7 @@ char *os_fgets(char *buffer, size_t len, FILE * f)
 
 #endif
 
-#if defined(OS_UNIX)
+#if defined(OS_UNIX) || defined(__DJGPP__)
 
 char *os_findfirst(struct _filefind *pff, const char *path,
                    const char *mask)
@@ -367,7 +367,7 @@ char *os_findfirst(struct _filefind *pff, const char *path,
     pff->flags |= _FNM_IGNORECASE;
 #endif
 
-#if defined(__unix__) || defined(__MSDOS__)
+#ifdef __DJGPP__
     pff->flags |= FNM_CASEFOLD;
 #endif
 
@@ -587,7 +587,7 @@ void os_findclose(struct _filefind *pff)
  *  Make an absolute path from given relative path.
  */
 
-#if defined(__TURBOC__)
+#if defined(__TURBOC__) || defined(__DJGPP__)
 
 int os_fullpath(char *dst, const char *src, size_t bufsiz)
 {
