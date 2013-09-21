@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.35 2013/09/21 12:19:20 ozzmosis Exp $ */
+/* $Id: os.h,v 1.36 2013/09/21 12:22:06 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -89,7 +89,7 @@
 #else
 #define OS_NAME "OS/2 32-bit"
 #endif
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__LINUX__)
 #define OS_NAME "Linux"
 #elif defined(__FreeBSD__)
 #define OS_NAME "FreeBSD"
