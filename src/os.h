@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.39 2013/09/21 13:12:06 ozzmosis Exp $ */
+/* $Id: os.h,v 1.40 2013/09/21 13:31:01 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -170,7 +170,7 @@ struct _filefind
 #endif
 
 #elif defined(OS_WIN)
-#if defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__)
+#if defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__) || defined(__LCC__)
 
 #include <io.h>
 #include <direct.h>
