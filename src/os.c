@@ -1,6 +1,6 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.10 2013/09/21 09:35:32 ozzmosis Exp $ */
+/* $Id: os.c,v 1.11 2013/09/21 09:39:42 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -25,9 +25,6 @@
 #include OSFLD
 /* os_findfile */
 #include OSFF
-
-/* os_spawn */
-#include OSEXC
 
 #ifndef HAVE_STRUPR
 #include "osgenupr.c"
@@ -225,4 +222,25 @@ char *os_deslashify(char *path)
     }
 
     return path;
+}
+
+int os_spawn(const char *command, const char *cmdline)
+{
+    char *cmd;
+    int rc;
+
+    cmd = malloc(strlen(command) + 1 + strlen(cmdline) + 1);
+    if (!cmd)
+    {
+        mklog(LOG_ERROR, "os_spawn(): out of memory for command line buffer");
+        return -1;
+    }
+
+    sprintf(cmd, "%s %s", command, cmdline);
+    mklog(LOG_DEBUG, "os_spawn: %s", cmd);
+    rc = system(cmd);
+    mklog(LOG_DEBUG, "os_spawn: rc=%d", rc);
+
+    free(cmd);
+    return rc;
 }

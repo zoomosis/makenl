@@ -1,10 +1,9 @@
-/* $Id: os.h,v 1.26 2013/09/21 09:35:32 ozzmosis Exp $ */
+/* $Id: os.h,v 1.27 2013/09/21 09:39:42 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
 
 /* Defaults for overwriteable functions */
-#define OSEXC "osgenexc.c"
 #define OSFF "osgenff.c"
 #define OSFLD "osgenfld.c"
 #define OSGTN "osgengtn.c"
