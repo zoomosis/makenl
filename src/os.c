@@ -1,6 +1,7 @@
-/* $Id: os.c,v 1.16 2013/09/21 11:16:19 ozzmosis Exp $ */
+/* $Id: os.c,v 1.17 2013/09/21 11:20:02 ozzmosis Exp $ */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <sys/types.h>
@@ -10,7 +11,10 @@
 
 #if defined(OS_UNIX)
 #include <dirent.h>
-#include <stdlib.h>
+#ifdef __linux__
+/* _GNU_SOURCE needed for FNM_CASEFOLD */
+#define _GNU_SOURCE
+#endif
 #include <fnmatch.h>
 #endif
 
