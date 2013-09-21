@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.38 2013/09/21 13:03:34 ozzmosis Exp $ */
+/* $Id: os.h,v 1.39 2013/09/21 13:12:06 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -169,7 +169,8 @@ struct _filefind
 #define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 #endif
 
-#elif defined(OS_WIN) && (defined(__BORLANDC__) || defined(_MSC_VER))
+#elif defined(OS_WIN)
+#if defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__)
 
 #include <io.h>
 #include <direct.h>
@@ -199,6 +200,7 @@ struct _filefind
 #define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 #endif
 
+#endif
 #endif
 
 char *os_findfirst(struct _filefind *pff, const char *path, const char *mask);
