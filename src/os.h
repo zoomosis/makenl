@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.40 2013/09/21 13:31:01 ozzmosis Exp $ */
+/* $Id: os.h,v 1.41 2013/09/21 13:51:08 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -200,6 +200,35 @@ struct _filefind
 #define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 #endif
 
+#endif
+
+#elif defined(OS_DOS)
+#if defined(__TURBOC__)
+
+#include <dir.h>
+#include <io.h>
+#include <process.h>
+
+#define MYMAXFILE  MAXFILE
+#define MYMAXDIR   MAXDIR
+#define MYMAXPATH  MAXPATH
+#define MYMAXEXT   MAXEXT
+#define MYMAXDRIVE MAXDRIVE
+
+struct _filefind
+{
+    char path[MYMAXFILE + MYMAXEXT];
+    struct ffblk fileinfo;
+};
+
+#define filecmp  stricmp
+#define filenodir(x) (strpbrk((x),"\\/") == NULL)
+#define strcasecmp stricmp
+
+#define HAVE_GETPID 1
+
+/* vsnprintf() unavailable on very old version of Turbo C, so use insecure vsprintf() */
+#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 #endif
 #endif
 

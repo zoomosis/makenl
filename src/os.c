@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.23 2013/09/21 13:31:01 ozzmosis Exp $ */
+/* $Id: os.c,v 1.24 2013/09/21 13:51:08 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,12 +18,17 @@
 #include <fnmatch.h>
 #endif
 
+#ifdef __TURBOC__
+#include <dos.h>
+#endif
+
 #ifdef __BORLANDC__
 #include <io.h>
 #endif
 
 #include "fileutil.h"
 #include "mklog.h"
+#include "unused.h"
 
 char *os_file_getname(const char *path)
 {
@@ -500,6 +505,42 @@ void os_findclose(struct _filefind *pff)
     _dos_findclose(&pff->fileinfo);
 }
 
+#elif defined(OS_DOS) && defined(__TURBOC__)
+
+char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
+{
+    int rc;
+    char tmp[MAXPATH];
+
+    strcpy(tmp, path);
+    os_append_slash(tmp);
+    strcat(tmp, mask);
+
+    rc = findfirst(tmp, &pff->fileinfo, FA_RDONLY | FA_HIDDEN | FA_SYSTEM | FA_ARCH);
+
+    if (rc == 0)
+	{
+        return pff->fileinfo.ff_name;
+	}
+
+    return NULL;
+}
+
+char *os_findnext(struct _filefind *pff)
+{
+    if (findnext(&pff->fileinfo) == 0)
+	{
+        return pff->fileinfo.ff_name;
+	}
+
+    return NULL;
+}
+
+void os_findclose(struct _filefind *pff)
+{
+    unused(pff);
+}
+
 #elif defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__) || defined(__LCC__)
 
 char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
@@ -538,6 +579,145 @@ void os_findclose(struct _filefind *pff)
 
 #endif
 
+#if defined(OS_DOS)
+
+/*
+ *  os_fullpath()
+ *
+ *  Make an absolute path from given relative path.
+ */
+
+#if defined(__TURBOC__)
+
+int os_fullpath(char *dst, const char *src, size_t bufsiz)
+{
+    int rc = -1;
+    char tmp[MYMAXDIR];
+    char curdir[MYMAXDIR];
+    int curdrnum;
+    int reqdrnum;
+
+    curdrnum = getdisk();
+    mklog(LOG_DEBUG, "os_fullpath(): Old drive number: %d", curdrnum);
+
+    if (!src || !*src)
+    {
+        src = ".";
+    }
+
+    if (src[1] == ':')
+    {
+        /* drive letter specified */
+
+        mklog(LOG_DEBUG, "os_fullpath(): You specified a drive letter");
+        reqdrnum = toupper(src[0]) - 'A';
+
+        if (reqdrnum != curdrnum)
+        {
+            /* requested drive is not current drive */
+            mklog(LOG_DEBUG, "os_fullpath(): Switching to drive %d", reqdrnum);
+
+            /* set current disk */
+            setdisk(reqdrnum);
+
+            if (getdisk() != reqdrnum)
+            {
+                /* Specified drive does not exist */
+                mklog(LOG_DEBUG, "os_fullpath(): This drive does not exist");
+                return -1;
+            }
+        }
+
+        /* Skip drive letter */
+        src += 2;
+    }
+
+    mklog(LOG_DEBUG, "os_fullpath(): Searching for '%s' on current drive", src);
+
+    if (getcwd(curdir, bufsiz) != NULL)
+    {
+        char *fname;
+        char *dir = tmp;
+
+        /*
+         * Requested drive is now current drive, curdrnum is the original drive
+         * reqdrnum is the requested drive curdir is the original directory on
+         * the current drive src is the requested relative path without drive.
+         */
+
+        strcpy(dir, src);
+        fname = strrchr(dir, '\\');
+        if (!fname)
+        {
+            fname = strrchr(dir, '/');
+        }
+
+        if (!fname)
+        {
+            /* no backslash */
+
+            mklog(LOG_DEBUG, "os_fullpath(): You don't have any backslash in the file name.");
+
+            if (!(dir[0] == '.' && (dir[1] == '.' || dir[1] == '\0')))
+            {
+                mklog(LOG_DEBUG, "os_fullpath(): I assume this file is relative to cwd.");
+                fname = dir;
+                dir = ".";
+            }
+            else
+            {
+                mklog(LOG_DEBUG, "os_fullpath(): Looks like relative directory only");
+                fname = "";
+            }
+        }
+        else
+        {
+            *fname++ = '\0';
+        }
+
+        mklog(LOG_DEBUG, "os_fullpath(): Directory is now %s, File name is now %s", dir, fname);
+
+        /* fname = pure file name */
+        /* dir = relative path, only directory */
+
+        /* If dir is empty it means root directory */
+
+        if (chdir((*dir) ? dir : "\\") == 0)
+        {
+            mklog(LOG_DEBUG, "os_fullpath(): chdir() suceeded. The directory exists.");
+
+            if (getcwd(dst, bufsiz) != NULL)
+            {
+                rc = 0;
+
+                if (fname && *fname)
+                {
+                    if (strlen(dst) != 3)
+                    {
+                        /* Does not look like "C:\" */
+                        strcat(dst, "\\");
+                    }
+
+                    strcat(dst, fname);
+                }
+
+                mklog(LOG_DEBUG, "os_fullpath(): Final full name is %s", fname);
+            }
+        }
+
+        chdir(curdir);
+    }
+
+    setdisk(curdrnum);
+    os_dirsep(dst);
+
+    return rc;
+}
+
+#endif
+
+#else
+
 int os_fullpath(char *dst, const char *src, size_t bufsiz)
 {
     if (!_fullpath(dst, src, bufsiz))
@@ -549,5 +729,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
     
 	return 0;
 }
+
+#endif
 
 #endif
