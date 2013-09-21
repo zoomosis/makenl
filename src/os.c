@@ -1,10 +1,12 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.12 2013/09/21 09:42:09 ozzmosis Exp $ */
+/* $Id: os.c,v 1.13 2013/09/21 09:44:25 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include "fileutil.h"
 #include "makenl.h"
@@ -20,9 +22,6 @@
 #error "No os_findfirst/os_findnext/os_findclose for this compiler/OS, giving up!"
 #endif
 #include OSFND
-
-/* os_fulldir */
-#include OSFLD
 
 #ifndef HAVE_STRUPR
 #include "osgenupr.c"
@@ -257,4 +256,53 @@ char *os_findfile(struct _filefind *pff, const char *path, const char *mask)
     }
 
     return NULL;
+}
+
+/*
+ * os_fulldir()
+ *
+ * Make an absolute path from given relative path.
+ * src should specify an existing directory name.
+ */
+
+int os_fulldir(char *dst, const char *src, size_t bufsiz)
+{
+    char tmp[MYMAXPATH];
+    struct stat st;
+    int rc;
+
+    mklog(LOG_DEBUG, __FILE__ ": os_fulldir(): called with src='%s'", src);
+
+    strcpy(tmp, src);
+    os_remove_slash(tmp);
+    mklog(LOG_DEBUG, __FILE__ ": os_fulldir(): after removing slash: '%s'", tmp);
+
+    if (os_fullpath(dst, tmp, bufsiz) != 0)
+    {
+        mklog(LOG_DEBUG, __FILE__ ": os_fulldir(): os_fullpath failed!");
+        return -1;
+    }
+
+    mklog(LOG_DEBUG, __FILE__ ": os_fulldir(): absolute path '%s'", dst);
+
+    rc = stat(dst, &st);
+
+    if (rc != 0)
+    {
+        mklog(LOG_DEBUG, __FILE__ ": os_fulldir(): stat('%s') rc=%d!", dst, rc);
+        return -1;
+    }
+
+    mklog(LOG_DEBUG, __FILE__ ": os_fulldir(): st_mode is now %o", st.st_mode);
+
+#ifdef __TURBOC__
+#ifndef S_ISDIR
+#define S_ISDIR(m)  ((m) & S_IFDIR)
+#endif
+    return S_ISDIR(st.st_mode) ? 0 : -1;
+#elif defined(__IBMC__)
+    return st.st_mode & S_IFDIR ? 0 : -1;
+#else
+    return ((st.st_mode & S_IFMT) == S_IFDIR) ? 0 : -1;
+#endif
 }
