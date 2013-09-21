@@ -1,6 +1,6 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.5 2013/09/21 08:58:55 ozzmosis Exp $ */
+/* $Id: os.c,v 1.6 2013/09/21 09:20:06 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -34,8 +34,6 @@
 #include OSFLD
 /* os_findfile */
 #include OSFF
-/* os_append_slash */
-#include OSAPS
 /* os_remove_slash */
 #include OSRMS
 
@@ -143,3 +141,34 @@ int os_chdir(char *path)
 }
 
 #endif
+
+/*
+ * os_append_slash()
+ *
+ * It is assumed that path has enough room for the slash.
+ */
+
+char *os_append_slash(char *path)
+{
+    char *p;
+
+    if (path == NULL)
+    {
+        return NULL;
+    }
+
+    p = strchr(path, '\0');
+
+    if (p > path)
+    {
+        p--;
+
+        if (*p != '\\' && *p != '/')
+        {
+            *(++p) = CHAR_DIRSEPARATOR;
+            *(++p) = '\0';
+        }
+    }
+
+    return path;
+}
