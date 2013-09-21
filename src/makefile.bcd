@@ -1,0 +1,25 @@
+# MakeNL makefile for Borland C++ 3.1 for DOS
+#
+# $Id: makefile.bcd,v 1.3 2013/09/21 13:56:32 ozzmosis Exp $
+#
+# Build with:
+#
+# make -fmakefile.bcd        (release)
+# make -fmakefile.bcd clean  (remove temp files)
+
+CC=bcc
+CFLAGS=-w -ml
+
+OBJS=config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj 
+OBJS=$(OBJS) merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
+OBJS=$(OBJS) process.obj stack.obj strtool.obj upcont.obj
+
+.c.obj:
+	$(CC) $(CFLAGS) -c $<
+
+makenl.exe: $(OBJS)
+	$(CC) $(CFLAGS) -emakenl.exe *.obj
+
+clean:
+	del *.obj
+	del makenl.exe
