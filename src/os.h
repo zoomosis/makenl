@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.43 2013/09/21 14:12:52 ozzmosis Exp $ */
+/* $Id: os.h,v 1.44 2013/09/21 14:31:45 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -37,7 +37,7 @@
 #endif
 
 #if defined(OS_DOS) || defined(OS_OS2)
-#if !defined(__386__) && !defined(__DJGPP__)
+#if !defined(__386__) && !defined(__DJGPP__) && !defined(__BORLANDC__)
 #define MEM_SEG 1
 #endif
 #endif
@@ -136,6 +136,38 @@ struct _filefind
     struct dirent *pentry;
     int flags;
 };
+
+#elif defined(OS_OS2) && defined(__BORLANDC__)
+
+#include <dos.h>
+#include <direct.h>
+#include <dirent.h>
+#include <io.h>
+#include <process.h>
+
+#define HAVE_OS_FULLPATH
+#define HAVE_OS_FGETS
+#define HAVE_STRUPR
+#define HAVE_GETPID
+
+#define MYMAXFILE  _MAX_FNAME
+#define MYMAXDIR   _MAX_DIR
+#define MYMAXPATH  _MAX_PATH
+#define MYMAXEXT   _MAX_EXT
+#define MYMAXDRIVE _MAX_DRIVE
+
+struct _filefind
+{
+    char path[MYMAXFILE];
+    struct find_t fileinfo;
+};
+
+#define filecmp stricmp
+#define filenodir(x) (strpbrk(x,"\\/") == NULL)
+#define strcasecmp stricmp
+
+/* vsnprintf() unavailable in Borland C */
+#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 
 #elif defined(__WATCOMC__)
 

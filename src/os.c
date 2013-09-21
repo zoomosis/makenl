@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.25 2013/09/21 14:10:19 ozzmosis Exp $ */
+/* $Id: os.c,v 1.26 2013/09/21 14:31:45 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -186,9 +186,9 @@ char *os_remove_slash(char *path)
         p--;
 
         if (p > new_path && (*p == '\\' || *p == '/'))
-	{
+        {
             *p = '\0';
-	}
+        }
     }
     
     return path;
@@ -217,9 +217,9 @@ char *os_dirsep(char *path)
     while (*p != 0)
     {
         if (*p == '/')
-	{
+        {
             *p = '\\';
-	}
+        }
         p++;
     }
 #endif
@@ -379,9 +379,9 @@ char *os_findfirst(struct _filefind *pff, const char *path,
 
         p = os_findnext(pff);
         if (p != NULL)
-	{
+        {
             return p;
-	}
+        }
     }
 
     closedir(pff->dirp);
@@ -398,16 +398,16 @@ char *os_findnext(struct _filefind *pff)
         pff->pentry = readdir(pff->dirp);
 
         if (pff->pentry == NULL)
-	{
+        {
             return NULL;
-	}
+        }
 
         matchresult = fnmatch(pff->mask, pff->pentry->d_name, pff->flags);
 
         if (matchresult == 0)
-	{
+        {
             return pff->pentry->d_name;
-	}
+        }
     }
 }
 
@@ -469,7 +469,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsize)
 
 #if defined(OS_DOS) || defined(OS_OS2) || defined(OS_WIN)
 
-#if defined(__WATCOMC__)
+#if defined(__WATCOMC__) || (defined(OS_OS2) && defined(__BORLANDC__))
 
 char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
 {
@@ -483,9 +483,9 @@ char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
     rc = _dos_findfirst(tmp, _A_NORMAL | _A_RDONLY | _A_HIDDEN | _A_SYSTEM | _A_ARCH, &pff->fileinfo);
 
     if (rc == 0)
-	{
+    {
         return pff->fileinfo.name;
-	}
+    }
 
     return NULL;
 }
@@ -493,16 +493,21 @@ char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
 char *os_findnext(struct _filefind *pff)
 {
     if (_dos_findnext(&pff->fileinfo) == 0)
-	{
+    {
         return pff->fileinfo.name;
-	}
+    }
 
     return NULL;
 }
 
 void os_findclose(struct _filefind *pff)
 {
+#ifdef __BORLANDC__
+    /* Borland C++ for OS/2 doesn't have _dos_findclose */
+    unused(pff);
+#else
     _dos_findclose(&pff->fileinfo);
+#endif
 }
 
 #elif defined(OS_DOS) && defined(__TURBOC__)
@@ -519,9 +524,9 @@ char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
     rc = findfirst(tmp, &pff->fileinfo, FA_RDONLY | FA_HIDDEN | FA_SYSTEM | FA_ARCH);
 
     if (rc == 0)
-	{
+    {
         return pff->fileinfo.ff_name;
-	}
+    }
 
     return NULL;
 }
@@ -529,9 +534,9 @@ char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
 char *os_findnext(struct _filefind *pff)
 {
     if (findnext(&pff->fileinfo) == 0)
-	{
+    {
         return pff->fileinfo.ff_name;
-	}
+    }
 
     return NULL;
 }
@@ -564,9 +569,9 @@ char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
 char *os_findnext(struct _filefind *pff)
 {
     if (_findnext(pff->handle, &pff->fileinfo) == 0)
-	{
+    {
         return pff->fileinfo.name;
-	}
+    }
 
     return NULL;
 }
@@ -721,13 +726,13 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
 int os_fullpath(char *dst, const char *src, size_t bufsiz)
 {
     if (!_fullpath(dst, src, bufsiz))
-	{
+    {
         return -1;
     }
     
-	os_dirsep(dst);
+    os_dirsep(dst);
     
-	return 0;
+    return 0;
 }
 
 #endif
