@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.12 2013/09/21 09:50:50 ozzmosis Exp $ */
+/* $Id: process.c,v 1.13 2013/09/21 11:16:19 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -105,8 +105,8 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
             searchwhere =
                 openlist(&listFILE, filename, foundfile, searchwhere,
                          mustbenew);
-            os_deslashify(filename);
-            os_deslashify(foundfile);
+            os_dirsep(filename);
+            os_dirsep(foundfile);
             if (searchwhere > 0)
             {
                 mklog(LOG_INFO, "Processing %-8s%5d -- file '%s'", *subleveltxt, num, foundfile);

@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.21 2013/09/20 21:07:04 ajleary Exp $ */
+/* $Id: lsttool.c,v 1.22 2013/09/21 11:16:19 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,8 +62,8 @@ int makearc(char *filename, int move)
         ext[0] = (move < 1) ? ArcCopyExt[0] : ArcMoveExt[0];
     }
     myfnmerge(fullpath, NULL, OutDir, name, ext);
-    os_deslashify(fullpath);
-    os_deslashify(filename);
+    os_dirsep(fullpath);
+    os_dirsep(filename);
     mklog(LOG_INFO, "Creating archive '%s' containing '%s'", fullpath, filename);
     sprintf(cmdlinebuf, "%s %s", fullpath, filename);
     if (os_spawn(arccommand, cmdlinebuf) != 0)
@@ -340,7 +340,7 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
         mklog(LOG_DEBUG, "searchlistfile(): found '%s'", findresult);
         getext(extbuf, findresult);
         myfnmerge(foundfile, NULL, path, findresult, NULL);
-        os_deslashify(foundfile);
+        os_dirsep(foundfile);
         if ((unarc = unpacker(foundfile)) != NULL)  /* Compressed file */
         {
             /* Search decompressor */
@@ -362,7 +362,7 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
                 mklog(LOG_INFO, "Attempting to unpack archive '%s'", foundfile);
             }
             myfnmerge(fnamebuf, NULL, path, NULL, NULL);
-            os_deslashify(fnamebuf);
+            os_dirsep(fnamebuf);
             /*
              * We need to chdir to the directory where the archive is found
              * so that the file is hopefully unpacked in the that directory.
@@ -380,7 +380,7 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
                 {
                     mklog(LOG_ERROR, "Unable to unpack archive '%s'", foundfile);
                     WorkFile = os_file_getname(foundfile);
-                    os_deslashify(WorkFile);
+                    os_dirsep(WorkFile);
                     *file = OpenMSGFile(NotifyAddress, NULL);
                     if (*file != NULL)
                     {
@@ -432,7 +432,7 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
             {
                 mklog(LOG_INFO, "Unable to apply difference file '%s'", foundfile);
                 WorkFile = os_file_getname(foundfile);
-                os_deslashify(WorkFile);
+                os_dirsep(WorkFile);
                 *file = OpenMSGFile(NotifyAddress, NULL);
                 if (*file)
                 {
@@ -453,14 +453,14 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
         if (os_findfile(&f, path, foundfile) != NULL)
         {
             myfnmerge(foundfile, NULL, path, name, *extptr);
-            os_deslashify(foundfile);
+            os_dirsep(foundfile);
 justthisfile:
             mklog(LOG_DEBUG, "searchlistfile: justthisfile, foundfile='%s'", foundfile);
             *file = fopen(foundfile, "rb");
             if (!*file)
                 return -1;
             WorkFile = os_file_getname(foundfile);
-            os_deslashify(WorkFile);
+            os_dirsep(WorkFile);
             return 1;
         }
     }

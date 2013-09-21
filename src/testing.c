@@ -83,12 +83,12 @@ static void test_slash(void)
     mklog(LOG_INFO, "  buf == '%s'", buf);
 
     /*
-     *  os_deslashify() converts / to \ in pathnames on DOS/OS2/Win systems,
+     *  os_dirsep() converts / to \ in pathnames on DOS/OS2/Win systems,
      *  otherwise this should be a no-op
      */
 
-    p = os_deslashify(buf);
-    mklog(LOG_INFO, "  os_deslashify(buf): rc == '%s'", p);
+    p = os_dirsep(buf);
+    mklog(LOG_INFO, "  os_dirsep(buf): rc == '%s'", p);
 
     mklog(LOG_INFO, "test_slash() end");
 }

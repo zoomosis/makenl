@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.15 2013/09/21 11:13:15 ozzmosis Exp $ */
+/* $Id: os.c,v 1.16 2013/09/21 11:16:19 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -183,13 +183,13 @@ char *os_remove_slash(char *path)
 
 
 /*
- * os_deslashify()
+ * os_dirsep()
  *
  * On DOS, OS/2 & Windows systems this converts / slashes to \ backslashes
  * in pathnames. On other systems it does nothing.
  */
 
-char *os_deslashify(char *path)
+char *os_dirsep(char *path)
 {
 #if defined(OS_DOS) || defined(OS_OS2) || defined(OS_WIN)
     char *p;

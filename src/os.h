@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.32 2013/09/21 11:13:15 ozzmosis Exp $ */
+/* $Id: os.h,v 1.33 2013/09/21 11:16:19 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -141,7 +141,7 @@ int os_fulldir(char *dst, const char *src, size_t bufsiz);
 int os_chdir(char *path);
 char *os_append_slash(char *path);
 char *os_remove_slash(char *path);
-char *os_deslashify(char *path);
+char *os_dirsep(char *path);
 int os_spawn(const char *command, const char *cmdline);
 char *os_fgets(char *buf, size_t len, FILE *f);
 char *os_getcwd(char *buf, size_t size);

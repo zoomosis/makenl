@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.22 2013/09/21 11:13:15 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.23 2013/09/21 11:16:19 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -178,9 +178,9 @@ int main(int argc, char *argv[])
     CFG_file = fopen(CfgFile, "r");
     check_fp(CFG_file, CfgFile, "r");
     WorkFile = strdup(CfgFile);
-    os_deslashify(WorkFile);
+    os_dirsep(WorkFile);
     os_getcwd(CurDir, MYMAXDIR - 1);
-    os_deslashify(CurDir);
+    os_dirsep(CurDir);
     WorkMode = parsecfgfile(CFG_file);
     mklog(LOG_INFO, "Cmdline: %s", cmdline_to_str(argv));
     mklog(LOG_INFO, "Using '%s' in '%s'", CfgFile, CurDir);
@@ -316,12 +316,12 @@ int main(int argc, char *argv[])
 
                 if (fp)
                 {
-                    fputs(os_deslashify(cmdbuf), fp);
+                    fputs(os_dirsep(cmdbuf), fp);
                     fclose(fp);
                 }
             }
 
-            os_deslashify(NewFile);
+            os_dirsep(NewFile);
             if (MailerFlags & MF_SUBMIT && SubmitFile
                 && OpenMSGFile(SubmitAddress, NewFile))
             {
