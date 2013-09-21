@@ -1,6 +1,6 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.6 2013/09/21 09:20:06 ozzmosis Exp $ */
+/* $Id: os.c,v 1.7 2013/09/21 09:27:03 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -34,8 +34,6 @@
 #include OSFLD
 /* os_findfile */
 #include OSFF
-/* os_remove_slash */
-#include OSRMS
 
 /* os_spawn */
 #include OSEXC
@@ -170,5 +168,46 @@ char *os_append_slash(char *path)
         }
     }
 
+    return path;
+}
+
+
+/*
+ * os_remove_slash()
+ *
+ * Remove slash/backslash from last part of path name, if present.
+ */
+
+char *os_remove_slash(char *path)
+{
+    char *new_path, *p;
+
+    if (path == NULL)
+    {
+        return NULL;
+    }
+
+    new_path = path;
+
+#if defined(__MSDOS__) || defined(__OS2__) || defined(WIN32)
+    if (*new_path && new_path[1] == ':')
+    {
+        /* skip drive letter */
+        new_path += 2;
+    }
+#endif
+
+    p = strchr(new_path, '\0');
+
+    if (p > new_path)
+    {
+        p--;
+
+        if (p > new_path && (*p == '\\' || *p == '/'))
+	{
+            *p = '\0';
+	}
+    }
+    
     return path;
 }
