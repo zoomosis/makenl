@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.29 2013/09/21 15:29:36 ozzmosis Exp $ */
+/* $Id: os.c,v 1.30 2013/09/21 16:12:02 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -885,17 +885,33 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
 
 #endif
 
+#elif defined(__EMX__)
+
+/* EMX's _fullpath() is not like the others... */
+
+int os_fullpath(char *dst, const char *src, size_t bufsiz)
+{
+    int result;
+    result = _fullpath(dst, src, bufsiz);
+    os_dirsep(dst);
+    return result;
+}
+
 #else
 
 int os_fullpath(char *dst, const char *src, size_t bufsiz)
 {
-    if (!_fullpath(dst, src, bufsiz))
+    char *path;
+
+    path = _fullpath(dst, src, bufsiz);
+
+    if (path == NULL)
     {
         return -1;
     }
     
     os_dirsep(dst);
-    
+
     return 0;
 }
 
