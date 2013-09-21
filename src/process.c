@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.11 2013/09/09 12:20:45 ajleary Exp $ */
+/* $Id: process.c,v 1.12 2013/09/21 09:50:50 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,7 +62,7 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
         fieldno =
             sscanf(linebuf, "%7s %d %12s %17s", command, &num, filename,
                    notifyaddr);
-        strupr(command);
+        strupper(command);
         if (fieldno < 3)        /* "Net 2410 NET_2410" is minimum... */
             die(255, "%s\n -- Too few parameters -- Statement ignored\n", linebuf);
         subfile_level = xlate_switch(command, MakeTypes);

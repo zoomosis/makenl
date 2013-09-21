@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.29 2013/09/21 09:44:25 ozzmosis Exp $ */
+/* $Id: os.h,v 1.30 2013/09/21 09:50:50 ozzmosis Exp $ */
 
 #ifndef _OS_H
 #define _OS_H
@@ -147,10 +147,6 @@ int os_spawn(const char *command, const char *cmdline);
 char *os_fgets(char *buf, size_t len, FILE * f);
 #define fgets os_fgets
 
-#endif
-
-#ifndef HAVE_STRUPR
-char *strupr(char *string);
 #endif
 
 #if defined(__MSDOS__) + defined(__OS2__) + defined(WIN32) > 1

@@ -1,4 +1,4 @@
-/* $Id: strtool.c,v 1.2 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: strtool.c,v 1.3 2013/09/21 09:50:50 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <string.h>
@@ -58,4 +58,24 @@ char *cutspaces(char *string)
             break;
     *(p + 1) = 0;
     return string;
+}
+
+char *strupper(char *string)
+{
+    char *orig;
+
+    if (string == NULL)
+    {
+        return NULL;
+    }
+
+    orig = string;
+
+    while (*string != '\0')
+    {
+        *string = toupper((unsigned char) *string);
+        string++;
+    }
+
+    return orig;
 }

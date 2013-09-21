@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.22 2013/09/12 10:28:53 ajleary Exp $ */
+/* $Id: config.c,v 1.23 2013/09/21 09:50:50 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -172,7 +172,7 @@ getswitch(char *argument, const struct switchstruct *swstrings,
         (*value)[0] = 0;        /* Kill the '=' sign */
         (*value)++;             /* Point to the value */
     }
-    return xlate_switch(strupr(argument), swstrings);
+    return xlate_switch(strupper(argument), swstrings);
 }
 
 unsigned int
@@ -513,7 +513,7 @@ int parsecfgfile(FILE * CFG)
         command = strtok(cfgSplit, cfgspacechars); /* Space and Tab */
         if (!command)
             continue;
-        switchno = xlate_switch(strupr(command), CfgEntries);
+        switchno = xlate_switch(strupper(command), CfgEntries);
         if (switchno == -1)
         {
             mklog(LOG_ERROR, "'%s': Unknown keyword '%s'", cfgline, command);
@@ -659,7 +659,7 @@ int parsecfgfile(FILE * CFG)
             sscanf(cfgline, "%*s %15s", namebuf);
             break;
         case CFG_MAKE:
-            MakeType = xlate_switch(strupr(args[0]), MakeTypes);
+            MakeType = xlate_switch(strupper(args[0]), MakeTypes);
             if (MakeType == -1)
             {
                 mklog(LOG_ERROR, "%s -- Don't know how to make '%s'",
@@ -757,7 +757,7 @@ int parsecfgfile(FILE * CFG)
             break;
         case CFG_PROCESS:
             if ((process_day =
-                 xlate_switch(strupr(args[0]), DOWSwitchTab)) == -1)
+                 xlate_switch(strupper(args[0]), DOWSwitchTab)) == -1)
             {
                 mklog(LOG_ERROR, "%s -- Invalid day of week '%s'",
                         cfgline, args[0]);
@@ -770,7 +770,7 @@ int parsecfgfile(FILE * CFG)
                 ShouldProcess &= ~USUAL_PROCESSING;
             break;
         case CFG_PUBLISH:
-            NewExtWDay = xlate_switch(strupr(args[0]), DOWSwitchTab);
+            NewExtWDay = xlate_switch(strupper(args[0]), DOWSwitchTab);
             if (NewExtWDay == -1)
             {
                 mklog(LOG_ERROR, "%s -- Invalid day of week '%s'",
@@ -782,7 +782,7 @@ int parsecfgfile(FILE * CFG)
                                                   filextension day */
             break;
         case CFG_POINTS:
-            PointLevel = xlate_switch(strupr(args[0]), PointDisp);
+            PointLevel = xlate_switch(strupper(args[0]), PointDisp);
             if (PointLevel == -1)
             {
                 mklog(LOG_ERROR, "%s -- Invalid argument '%s'",
@@ -792,7 +792,7 @@ int parsecfgfile(FILE * CFG)
             }
             break;
         case CFG_PRIVATE:
-            PrivateLevel = xlate_switch(strupr(args[0]), PrivateDisp);
+            PrivateLevel = xlate_switch(strupper(args[0]), PrivateDisp);
             if (PrivateLevel == -1)
             {
                 mklog(LOG_ERROR, "%s -- Invalid argument '%s'",
@@ -871,7 +871,7 @@ int parsecfgfile(FILE * CFG)
                 do
                 {
                     notifybits |=
-                        xlate_switch(strupr(*flagptr), MailFlags);
+                        xlate_switch(strupper(*flagptr), MailFlags);
                     if (notifybits == -1)
                         workptr = *flagptr;
                     flagptr++;
@@ -892,7 +892,7 @@ int parsecfgfile(FILE * CFG)
             }
             else
             {
-                switch (xlate_switch(strupr(args[0]), NotifyType))
+                switch (xlate_switch(strupper(args[0]), NotifyType))
                 {
                 case -1:
                     mklog(LOG_ERROR, "%s -- Bad SEND parameter -- '%s'",

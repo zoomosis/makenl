@@ -1,6 +1,6 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.13 2013/09/21 09:44:25 ozzmosis Exp $ */
+/* $Id: os.c,v 1.14 2013/09/21 09:50:50 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -22,10 +22,6 @@
 #error "No os_findfirst/os_findnext/os_findclose for this compiler/OS, giving up!"
 #endif
 #include OSFND
-
-#ifndef HAVE_STRUPR
-#include "osgenupr.c"
-#endif
 
 #ifdef USE_OWN_FGETS
 #include USE_OWN_FGETS

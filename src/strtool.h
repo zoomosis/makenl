@@ -6,6 +6,7 @@
 int getnumber(const char *string, int *output);
 char *skipspaces(char *ptr);
 char *cutspaces(char *string);
+char *strupper(char *string);
 
 /* necessary for some C implementations where printf("%s\n", NULL) would cause a segfault */
 

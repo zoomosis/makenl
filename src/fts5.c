@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.9 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: fts5.c,v 1.10 2013/09/21 09:50:50 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -81,7 +81,7 @@ static int getkeyword(char **instring, int *linelevel, int *linenum)
 {
     unused(linenum);
 
-    if ((*linelevel = xlate_switch(strupr(*instring), FTS5KWords)) == -1)
+    if ((*linelevel = xlate_switch(strupper(*instring), FTS5KWords)) == -1)
     {
         sprintf(ErrorMessage, "Invalid keyword -- '%s'", *instring);
         return 1;
