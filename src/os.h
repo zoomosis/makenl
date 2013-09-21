@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.46 2013/09/21 15:02:07 ozzmosis Exp $ */
+/* $Id: os.h,v 1.47 2013/09/21 15:29:36 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -17,7 +17,8 @@
  *
  *  Memory model defines
  *
- *  MEM_SEG  Segmented memory model (not flat)
+ *  MEM_FLAT  Flat memory model
+ *  MEM_SEG   Segmented memory model (not flat)
  *
  *
  *  Compiler & OS #define strings (informational only)
@@ -37,13 +38,24 @@
 #endif
 
 #if defined(OS_DOS)
-#if !defined(__386__) && !defined(__DJGPP__)
+#if defined(__386__) || defined(__DJGPP__)
+#define MEM_FLAT 1
+#else
 #define MEM_SEG 1
 #endif
-#elif defined(OS_OS2)
-#if !defined(__386__) && !defined(__BORLANDC__) && !defined(__HIGHC__) && !defined(__EMX__)
+#endif
+
+#if defined(OS_OS2)
+#if defined(__386__) || defined(__BORLANDC__) || defined(__HIGHC__) || defined(__EMX__) || defined(__IBMC__)
+#define MEM_FLAT 1
+#else
 #define MEM_SEG 1
 #endif
+#endif
+
+#if !defined(MEM_FLAT) && !defined(MEM_SEG)
+/* default to flat memory model */
+#define MEM_FLAT 1
 #endif
 
 #if defined(__clang__)
@@ -204,6 +216,45 @@ struct _filefind
 /* vsnprintf() unavailable in early versions of Watcom C */
 #define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 #endif
+
+#elif defined(OS_OS2) && defined(__IBMC__)
+
+#include <direct.h>
+#include <io.h>
+#include <process.h>
+
+#define MYMAXFILE  _MAX_FNAME
+#define MYMAXDIR   _MAX_DIR
+#define MYMAXPATH  _MAX_PATH
+#define MYMAXEXT   _MAX_EXT
+#define MYMAXDRIVE _MAX_DRIVE
+
+#define NAME_MAX 255
+
+struct find_t
+{
+    char reserved[21];
+    char attrib;
+    unsigned short wr_time;
+    unsigned short wr_date;
+    unsigned long size;
+    char name[NAME_MAX + 1];
+};
+
+struct _filefind
+{
+    char path[MYMAXFILE + MYMAXEXT];
+    struct find_t fileinfo;
+};
+
+#define filecmp stricmp
+#define filenodir(x) (strpbrk(x,"\\/") == NULL)
+#define strcasecmp stricmp
+
+#define HAVE_GETPID 1
+
+/* vsnprintf() unavailable in VisualAge C, so use insecure vsprintf() */
+#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 
 #elif defined(OS_WIN)
 #if defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__) || defined(__LCC__)

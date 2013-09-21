@@ -1,9 +1,10 @@
-/* $Id: os.c,v 1.28 2013/09/21 15:02:07 ozzmosis Exp $ */
+/* $Id: os.c,v 1.29 2013/09/21 15:29:36 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -534,7 +535,107 @@ int os_fullpath(char *dst, const char *src, size_t bufsize)
 
 #if defined(OS_DOS) || defined(OS_OS2) || defined(OS_WIN)
 
-#if defined(__WATCOMC__) || (defined(OS_OS2) && (defined(__BORLANDC__) || defined(__HIGHC__)))
+#if defined(__WATCOMC__) || (defined(OS_OS2) && (defined(__BORLANDC__) || defined(__HIGHC__) || defined(__IBMC__)))
+
+#if defined(OS_OS2) && defined(__IBMC__)
+
+#define INCL_BASE
+#define INCL_DOS
+#include <os2.h>
+
+/* file attribute constants for attr field of _dos_findfirst() */
+
+#define _A_NORMAL 0x00    /* normal file, read/write permitted */
+#define _A_RDONLY 0x01    /* read-only file */
+#define _A_HIDDEN 0x02    /* hidden file */
+#define _A_SYSTEM 0x04    /* system file */
+#define _A_VOLID  0x08    /* volume label */
+#define _A_SUBDIR 0x10    /* subdirectory */
+#define _A_ARCH   0x20    /* archive file */
+
+#define BAD_HANDLE         ((HDIR)(~0))
+#define HANDLE_OF(__find)  (*(HDIR *)(&(__find)->reserved[0]))
+
+#define FF_LEVEL   1
+#define FF_BUFFER  FILEFINDBUF3
+
+struct name
+{
+    char buf[NAME_MAX + 1];
+};
+
+static void copydir(struct find_t *buf, FF_BUFFER *dir_buff)
+{
+    buf->attrib = dir_buff->attrFile;
+    buf->wr_time = *(unsigned short *)&dir_buff->ftimeLastWrite;
+    buf->wr_date = *(unsigned short *)&dir_buff->fdateLastWrite;
+    buf->size = dir_buff->cbFile;
+
+    *(struct name *)buf->name = *(struct name *)dir_buff->achName;
+}
+
+static unsigned _dos_findfirst( const char *path, unsigned attr, struct find_t *buf)
+{
+    APIRET rc;
+    FF_BUFFER dir_buff;
+    HDIR handle = BAD_HANDLE;
+    ULONG searchcount;
+
+    searchcount = 1;        /* only one at a time */
+
+    rc = DosFindFirst((PSZ)path, (PHFILE)&handle, attr, (PVOID)&dir_buff, sizeof dir_buff, &searchcount, FF_LEVEL);
+
+    if (rc != 0 && rc != ERROR_EAS_DIDNT_FIT)
+    {
+        HANDLE_OF(buf) = BAD_HANDLE;
+        errno = ENOENT;
+        return 1;
+    }
+
+    HANDLE_OF(buf) = handle;
+    copydir(buf, &dir_buff);      /* copy in other fields */
+
+    return 0;
+}
+
+static unsigned _dos_findnext( struct find_t *buf )
+{
+    APIRET rc;
+    FF_BUFFER dir_buff;
+    ULONG searchcount = 1;
+
+    rc = DosFindNext(HANDLE_OF(buf), (PVOID)&dir_buff, sizeof dir_buff, &searchcount);
+
+    if (rc != 0)
+    {
+        errno = ENOENT;
+        return 1;
+    }
+
+    copydir( buf, &dir_buff );
+
+    return 0;
+}
+
+unsigned _dos_findclose( struct find_t *buf )
+{
+    APIRET rc;
+
+    if (HANDLE_OF(buf) != BAD_HANDLE)
+    {
+        rc = DosFindClose(HANDLE_OF(buf));
+
+        if (rc != 0)
+        {
+            errno = ENOENT;
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+#endif
 
 char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
 {
@@ -630,7 +731,6 @@ char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
     return pff->fileinfo.name;
 }
 
-
 char *os_findnext(struct _filefind *pff)
 {
     if (_findnext(pff->handle, &pff->fileinfo) == 0)
@@ -640,7 +740,6 @@ char *os_findnext(struct _filefind *pff)
 
     return NULL;
 }
-
 
 void os_findclose(struct _filefind *pff)
 {
