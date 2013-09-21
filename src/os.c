@@ -1,6 +1,6 @@
 /* os.c -- Operating system dependant functions for makenl */
 
-/* $Id: os.c,v 1.7 2013/09/21 09:27:03 ozzmosis Exp $ */
+/* $Id: os.c,v 1.8 2013/09/21 09:29:03 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -116,14 +116,8 @@ int os_chdir(char *path)
 
     strcpy(newpath, path);
 
-    p = newpath + strlen(newpath) - 1;
-
-    if (*p == '\\')
-    {
-        /* strip trailing \ */
-
-        *p = '\0';
-    }
+    /* strip trailing \ */
+    os_remove_slash(newpath);
 
     mklog(LOG_DEBUG, "os_chdir newpath='%s'", newpath);
     rc = chdir(newpath);
