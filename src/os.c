@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.18 2013/09/21 11:54:26 ozzmosis Exp $ */
+/* $Id: os.c,v 1.19 2013/09/21 12:26:28 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -458,7 +458,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsize)
 
 #endif
 
-#ifdef __WATCOMC__
+#if defined(__WATCOMC__) && !defined(OS_UNIX)
 
 char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
 {
