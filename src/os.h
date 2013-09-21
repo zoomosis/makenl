@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.48 2013/09/21 16:38:49 ozzmosis Exp $ */
+/* $Id: os.h,v 1.49 2013/09/21 17:04:44 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -64,6 +64,8 @@
 #define CC_NAME "DJGPP"
 #elif defined(__EMX__)
 #define CC_NAME "EMX"
+#elif defined(__MINGW64__)
+#define CC_NAME "MinGW64"
 #elif defined(__MINGW32__)
 #define CC_NAME "MinGW32"
 #elif defined(__GNUC__)
@@ -273,7 +275,10 @@ struct _filefind
 
 #define filecmp    stricmp
 #define filenodir(x) (strchr(x,'/') == NULL)
+
+#ifndef __MINGW64__
 #define strcasecmp stricmp
+#endif
 
 #define HAVE_GETPID 1
 
