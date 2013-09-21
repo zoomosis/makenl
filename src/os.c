@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.19 2013/09/21 12:26:28 ozzmosis Exp $ */
+/* $Id: os.c,v 1.20 2013/09/21 12:49:08 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,6 +16,10 @@
 #define _GNU_SOURCE
 #endif
 #include <fnmatch.h>
+#endif
+
+#ifdef __BORLANDC__
+#include <io.h>
 #endif
 
 #include "fileutil.h"
@@ -304,7 +308,7 @@ int os_fulldir(char *dst, const char *src, size_t bufsiz)
 #endif
 }
 
-#ifdef OS_UNIX
+#if defined(OS_UNIX)
 
 char *os_fgets(char *buffer, size_t len, FILE * f)
 {
@@ -458,7 +462,9 @@ int os_fullpath(char *dst, const char *src, size_t bufsize)
 
 #endif
 
-#if defined(__WATCOMC__) && !defined(OS_UNIX)
+#if defined(OS_DOS) || defined(OS_OS2) || defined(OS_WIN)
+
+#if defined(__WATCOMC__)
 
 char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
 {
@@ -493,6 +499,44 @@ void os_findclose(struct _filefind *pff)
 {
     _dos_findclose(&pff->fileinfo);
 }
+
+#elif defined(__BORLANDC__)
+
+char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
+{
+    char tmp[FILENAME_MAX];
+
+    strcpy(tmp, path);
+    os_append_slash(tmp);
+    strcat(tmp, mask);
+    pff->handle = _findfirst(tmp, &pff->fileinfo);
+
+    if (pff->handle == -1)
+    {
+        return NULL;
+    }
+    
+    return pff->fileinfo.name;
+}
+
+
+char *os_findnext(struct _filefind *pff)
+{
+    if (_findnext(pff->handle, &pff->fileinfo) == 0)
+	{
+        return pff->fileinfo.name;
+	}
+
+    return NULL;
+}
+
+
+void os_findclose(struct _filefind *pff)
+{
+    _findclose(pff->handle);
+}
+
+#endif
 
 int os_fullpath(char *dst, const char *src, size_t bufsiz)
 {

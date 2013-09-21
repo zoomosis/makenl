@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.36 2013/09/21 12:22:06 ozzmosis Exp $ */
+/* $Id: os.h,v 1.37 2013/09/21 12:49:08 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -168,6 +168,31 @@ struct _filefind
 /* vsnprintf() unavailable in early versions of Watcom C */
 #define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 #endif
+
+#elif defined(__BORLANDC__) && defined(__WIN32__)
+
+#include <io.h>
+#include <direct.h>
+#include <process.h>
+
+#define MYMAXFILE  FILENAME_MAX
+#define MYMAXDIR   MYMAXFILE
+#define MYMAXPATH  MYMAXFILE
+#define MYMAXEXT   13
+#define MYMAXDRIVE 3
+
+#define filecmp    stricmp
+#define filenodir(x) (strchr(x,'/') == NULL)
+#define strcasecmp stricmp
+
+#define HAVE_GETPID 1
+
+struct _filefind
+{
+    char path[MYMAXDIR];
+    int handle;
+    struct _finddata_t fileinfo;
+};
 
 #endif
 
