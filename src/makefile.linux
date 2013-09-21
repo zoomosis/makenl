@@ -1,7 +1,7 @@
 # MakeNL makefile for Linux
 # Tested with GNU Make 3.81 & GNU C 4.4.3
 #
-# $Id: makefile.linux,v 1.9 2013/09/21 12:09:40 ozzmosis Exp $
+# $Id: makefile.linux,v 1.10 2013/09/21 15:40:07 ozzmosis Exp $
 #
 # Build with:
 #
@@ -47,7 +47,7 @@ OBJS+=strtool.o upcont.o
 	$(CC) $(CFLAGS) -c $<
 
 makenl: $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
 clean:
 	rm -f $(OBJS) makenl
