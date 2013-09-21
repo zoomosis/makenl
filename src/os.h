@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.34 2013/09/21 11:54:26 ozzmosis Exp $ */
+/* $Id: os.h,v 1.35 2013/09/21 12:19:20 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -68,7 +68,7 @@
 #define CC_NAME "DMC"
 #else
 #define CC_NAME "Unknown"
-#warning "CC_NAME not defined. Unknown compiler detected."
+#error "CC_NAME not defined. Unknown compiler detected."
 #endif
 
 #if defined(OS_DOS)
@@ -102,7 +102,7 @@
 #elif defined(__minix)
 #define OS_NAME "Minix"
 #else
-#warning "OS_NAME was not defined. Unknown build target detected."
+#error "OS_NAME was not defined. Unknown build target detected."
 #define OS_NAME "Unknown"
 #endif
 
