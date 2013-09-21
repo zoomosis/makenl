@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.20 2013/09/21 12:49:08 ozzmosis Exp $ */
+/* $Id: os.c,v 1.21 2013/09/21 13:03:35 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -500,7 +500,7 @@ void os_findclose(struct _filefind *pff)
     _dos_findclose(&pff->fileinfo);
 }
 
-#elif defined(__BORLANDC__)
+#elif defined(__BORLANDC__) || defined(_MSC_VER)
 
 char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
 {

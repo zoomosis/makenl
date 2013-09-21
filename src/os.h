@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.37 2013/09/21 12:49:08 ozzmosis Exp $ */
+/* $Id: os.h,v 1.38 2013/09/21 13:03:34 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -169,7 +169,7 @@ struct _filefind
 #define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
 #endif
 
-#elif defined(__BORLANDC__) && defined(__WIN32__)
+#elif defined(OS_WIN) && (defined(__BORLANDC__) || defined(_MSC_VER))
 
 #include <io.h>
 #include <direct.h>
@@ -193,6 +193,11 @@ struct _filefind
     int handle;
     struct _finddata_t fileinfo;
 };
+
+#if _MSC_VER <= 900
+/* vsnprintf() unavailable on very old version of MSVC, so use insecure vsprintf() */
+#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
+#endif
 
 #endif
 
