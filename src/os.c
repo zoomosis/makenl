@@ -1,6 +1,4 @@
-/* os.c -- Operating system dependant functions for makenl */
-
-/* $Id: os.c,v 1.14 2013/09/21 09:50:50 ozzmosis Exp $ */
+/* $Id: os.c,v 1.15 2013/09/21 11:13:15 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -8,31 +6,25 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include "fileutil.h"
-#include "makenl.h"
 #include "os.h"
+
+#if defined(OS_UNIX)
+#include <dirent.h>
+#include <stdlib.h>
+#include <fnmatch.h>
+#endif
+
+#include "fileutil.h"
 #include "mklog.h"
-
-#ifndef OSFUL
-#error "No os_fullpath for this compiler/OS, giving up!"
-#endif
-#include OSFUL
-
-#ifndef OSFND
-#error "No os_findfirst/os_findnext/os_findclose for this compiler/OS, giving up!"
-#endif
-#include OSFND
-
-#ifdef USE_OWN_FGETS
-#include USE_OWN_FGETS
-#endif
 
 char *os_file_getname(const char *path)
 {
     const char *p;
 
     p = path;
+
     while (*path != 0)
+    {
         switch (*path++)
         {
         case ':':
@@ -41,6 +33,8 @@ char *os_file_getname(const char *path)
             p = path;           /* Note that PATH has been incremented */
             break;
         }
+    }
+    
     return (char *)p;
 }
 
@@ -51,7 +45,7 @@ char *os_file_getname(const char *path)
  *  it's the root of the drive.
  */
 
-#if defined(__MSDOS__) || defined(__OS2__) || defined(WIN32)
+#if defined(OS_DOS) || defined(OS_OS2) || defined(OS_WIN)
 
 static int validdriveletter(int drive)
 {
@@ -138,7 +132,7 @@ char *os_append_slash(char *path)
 
         if (*p != '\\' && *p != '/')
         {
-            *(++p) = CHAR_DIRSEPARATOR;
+            *(++p) = DIRSEP[0];
             *(++p) = '\0';
         }
     }
@@ -164,7 +158,7 @@ char *os_remove_slash(char *path)
 
     new_path = path;
 
-#if defined(__MSDOS__) || defined(__OS2__) || defined(WIN32)
+#if defined(OS_DOS) || defined(OS_OS2) || defined(OS_WIN)
     if (*new_path && new_path[1] == ':')
     {
         /* skip drive letter */
@@ -191,11 +185,13 @@ char *os_remove_slash(char *path)
 /*
  * os_deslashify()
  *
- * Converts / slashes to \ backslashes for pathnames, for DOS, OS/2 & Windows systems.
+ * On DOS, OS/2 & Windows systems this converts / slashes to \ backslashes
+ * in pathnames. On other systems it does nothing.
  */
 
 char *os_deslashify(char *path)
 {
+#if defined(OS_DOS) || defined(OS_OS2) || defined(OS_WIN)
     char *p;
 
     if (path == NULL)
@@ -213,6 +209,7 @@ char *os_deslashify(char *path)
 	}
         p++;
     }
+#endif
 
     return path;
 }
@@ -302,3 +299,157 @@ int os_fulldir(char *dst, const char *src, size_t bufsiz)
     return ((st.st_mode & S_IFMT) == S_IFDIR) ? 0 : -1;
 #endif
 }
+
+#ifdef OS_UNIX
+
+char *os_fgets(char *buffer, size_t len, FILE * f)
+{
+    char *result;
+
+    result = fgets(buffer, len, f);
+
+    /*
+     * If we see an EOF at the beinning of a line, then make it look as
+     * if we didn't read anything.
+     */
+
+    if (result != NULL && buffer[0] == ('Z' & 0x1F))
+    {
+        return NULL;
+    }
+    
+    /* 
+     * This should not happen, EOF should always be at the beginning of a line.
+     */
+
+    if (result != NULL && buffer[strlen(buffer) - 1] == ('Z' & 0x1F))
+    {
+        buffer[strlen(buffer) - 1] = 0;
+    }
+    
+    return result;
+}
+
+#else
+
+char *os_fgets(char *buffer, size_t len, FILE * f)
+{
+    return fgets(buffer, len, f);
+}
+
+#endif
+
+#if defined(OS_UNIX)
+
+char *os_findfirst(struct _filefind *pff, const char *path,
+                   const char *mask)
+{
+    strcpy(pff->path, path);
+    os_remove_slash(pff->path);
+    strcpy(pff->mask, mask);
+    pff->flags = FNM_NOESCAPE;
+
+#if defined(__EMX__) && defined(_FNM_OS2)
+    pff->flags |= (_osmode == OS2_MODE) ? _FNM_OS2 : _FNM_DOS;
+    pff->flags |= _FNM_IGNORECASE;
+#endif
+
+#if defined(__unix__) || defined(__MSDOS__)
+    pff->flags |= FNM_CASEFOLD;
+#endif
+
+    pff->dirp = opendir(pff->path);
+
+    if (pff->dirp != NULL)
+    {
+        char *p;
+
+        p = os_findnext(pff);
+        if (p != NULL)
+	{
+            return p;
+	}
+    }
+
+    closedir(pff->dirp);
+    pff->dirp = NULL;
+    return NULL;
+}
+
+char *os_findnext(struct _filefind *pff)
+{
+    int matchresult;
+
+    while (1)
+    {
+        pff->pentry = readdir(pff->dirp);
+
+        if (pff->pentry == NULL)
+	{
+            return NULL;
+	}
+
+        matchresult = fnmatch(pff->mask, pff->pentry->d_name, pff->flags);
+
+        if (matchresult == 0)
+	{
+            return pff->pentry->d_name;
+	}
+    }
+}
+
+void os_findclose(struct _filefind *pff)
+{
+    if (pff->dirp)
+    {
+        closedir(pff->dirp);
+    }
+    
+    pff->dirp = NULL;
+}
+
+#endif
+
+char *os_getcwd(char *buf, size_t size)
+{
+#ifdef __EMX__
+    return _getcwd2(buf, size);
+#else
+    return getcwd(buf, size);
+#endif
+}
+
+#ifdef OS_UNIX
+
+int os_fullpath(char *dst, const char *src, size_t bufsize)
+{
+    char olddir[MYMAXDIR];
+    char dir[MYMAXDIR];
+    char name[MYMAXFILE];
+    char ext[MYMAXEXT];
+
+    myfnsplit(src, NULL, dir, name, ext);
+    mklog(LOG_DEBUG, "os_fullpath(): dir=%s, name=%s, ext=%s", dir, name, ext);
+    getcwd(olddir, sizeof olddir);
+    mklog(LOG_DEBUG, "os_fullpath(): old directory=%s", olddir);
+
+    if (dir[0] && chdir(dir) == -1)
+    {
+        mklog(LOG_ERROR, "os_fullpath(): change directory to '%s' failed!", dir);
+        return -1;
+    }
+
+    if (getcwd(dir, MYMAXDIR) == NULL || strlen(dir) + strlen(name) + strlen(ext) > bufsize)
+    {
+        mklog(LOG_ERROR, "os_fullpath(): Directory name for '%s' too long!", src);
+        chdir(olddir);
+        return -1;
+    }
+
+    myfnmerge(dst, NULL, dir, name, ext);
+    mklog(LOG_DEBUG, "os_fullpath(): complete filename: %s", dst);
+    chdir(olddir);
+    return 0;
+}
+
+#endif

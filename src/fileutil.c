@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.11 2013/09/09 11:47:44 ajleary Exp $ */
+/* $Id: fileutil.c,v 1.12 2013/09/21 11:13:15 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -118,7 +118,7 @@ myfnmerge(char *output, const char *drive, const char *dir,
         }
         if (lenleft && (*(output - 1) != '\\' && *(output - 1) != '/'))
         {
-            *(output++) = CHAR_DIRSEPARATOR;
+            *(output++) = DIRSEP[0];
             lenleft--;
         }
     }

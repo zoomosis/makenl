@@ -16,7 +16,7 @@ static void test_findfirst(void)
     struct _filefind pff;
     char *p;
     mklog(LOG_INFO, "test_findfirst() begin");
-    p = os_findfirst(&pff, STR_DIRSEPARATOR, "*");
+    p = os_findfirst(&pff, DIRSEP, "*");
     while (p != NULL)
     {
         mklog(LOG_INFO, "  p == '%s'", p);

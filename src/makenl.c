@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.21 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.22 2013/09/21 11:13:15 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -267,7 +267,7 @@ int main(int argc, char *argv[])
         {
             char cmdbuf[1024];  /* space for CalledBatchfile */
 
-            sprintf(cmdbuf, "%s %s" STR_DIRSEPARATOR "%s ",
+            sprintf(cmdbuf, "%s %s" DIRSEP "%s ",
                     CalledBatchFile, OutDir, OutFile);
             WorkMode = 0;       /* Why that?! see three lines above! */
             if (OutExt[0] == 0) /* If output is generic, we could diff and 
@@ -279,7 +279,7 @@ int main(int argc, char *argv[])
                 if (WorkMode & CAUSE_OUTDIFF)
                 {
                     sprintf(cmdbuf + strlen(cmdbuf),
-                            "%s" STR_DIRSEPARATOR "%s ", OutDir, OutDiff);
+                            "%s" DIRSEP "%s ", OutDir, OutDiff);
                     myfnmerge(CfgFilenameBuf, NULL, OutDir, OutDiff,
                               OldExtensions[0]);
                     makearc(CfgFilenameBuf, 1);
