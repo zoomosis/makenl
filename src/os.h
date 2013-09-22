@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.49 2013/09/21 17:04:44 ozzmosis Exp $ */
+/* $Id: os.h,v 1.50 2013/09/22 08:13:59 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -114,7 +114,7 @@
 #elif defined(__FreeBSD__)
 #define OS_NAME "FreeBSD"
 #elif defined(__APPLE__)
-#define OS_NAME "Darwin"
+#define OS_NAME "OS X"
 #elif defined(__NetBSD__)
 #define OS_NAME "NetBSD"
 #elif defined(__OpenBSD__)
