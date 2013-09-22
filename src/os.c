@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.33 2013/09/22 22:30:27 ajleary Exp $ */
+/* $Id: os.c,v 1.34 2013/09/22 23:26:21 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -71,6 +71,12 @@ static int validdriveletter(int drive)
     return strchr(driveletters, toupper(drive)) != NULL;
 }
 
+static int drvlet2num(char drvletter)
+{
+    char driveletters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    return (strchr(driveletters, toupper(drvletter)) - driveletters + 1);
+}
+
 int os_chdir(char *path)
 {
     char *newpath;
@@ -99,11 +105,11 @@ int os_chdir(char *path)
     {
         /* "x:\" is OK too, but we need to check if we are changing drives. */
         
-        if ((validdriveletter(path[0]) + 1) != curdrv)
+        if (drvlet2num(path[0]) != curdrv)
         {
             /* Path specified is not on current drive. */
             
-            newdrv = validdriveletter(path[0]) + 1;
+            newdrv = drvlet2num(path[0]);
             mklog(LOG_DEBUG, "os_chdir(): newdrv='%d'", newdrv);
             if (_chdrive(newdrv))
             {
@@ -139,11 +145,11 @@ int os_chdir(char *path)
     {
         /* Drive letter at start of path. */
         
-        if ((validdriveletter(newpath[0]) + 1) != curdrv)
+        if (drvlet2num(newpath[0]) != curdrv)
         {
             /* We are changing drives. */
             
-            newdrv = validdriveletter(newpath[0]) + 1;
+            newdrv = drvlet2num(newpath[0]);
             mklog(LOG_DEBUG, "os_chdir(): newdrv='%d'", newdrv);
             if (_chdrive(newdrv))
             {
