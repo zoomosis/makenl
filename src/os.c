@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.31 2013/09/21 16:38:49 ozzmosis Exp $ */
+/* $Id: os.c,v 1.32 2013/09/22 11:45:43 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -75,25 +75,42 @@ int os_chdir(char *path)
 {
     char *newpath;
     int rc;
-
-    mklog(LOG_DEBUG, "os_chdir path='%s'", path);
+    int curdrv;
+    int newdrv;
+    
+    mklog(LOG_DEBUG, "os_chdir() path='%s'", path);
 
     if (path == NULL || path[0] == '\0')
     {
         /* null pointer or empty string; do nothing */
         return 0;
     }
-
+    
     if (path[0] == '\\' && path[1] == '\0')
     {
         /* lone '\' path is OK */
         return chdir(path);
     }
-
+    /* Get the current drive */
+    curdrv = _getdrive();
+    
     if (validdriveletter(path[0]) && path[1] == ':' && path[2] == '\\' && path[3] == '\0')
     {
-        /* "x:\" is OK too */
-
+        /* "x:\" is OK too, but we need to check if we are changing drives. */
+        
+        if (validdriveletter(path[0]) + 1 != curdrv)
+        {
+            /* Path specified is not on current drive. */
+            
+            newdrv = validdriveletter(path[0]) + 1;
+            if (_chdrive(newdrv))
+            {
+                /* Failed to change drives! */
+                
+                mklog(LOG_DEBUG, "_chdrive('%d') failed!", newdrv);
+                return 1;
+            }
+        }
         return chdir(path);
     }
 
@@ -112,7 +129,28 @@ int os_chdir(char *path)
     /* strip trailing \ */
     os_remove_slash(newpath);
 
-    mklog(LOG_DEBUG, "os_chdir newpath='%s'", newpath);
+    mklog(LOG_DEBUG, "os_chdir() newpath='%s'", newpath);
+    
+    /* Check if we are changing drives. */
+    
+    if (validdriveletter(newpath[0] && newpath[1] == ':'))
+    {
+        /* Drive letter at start of path. */
+        
+        if (validdriveletter(newpath[0]) + 1 != curdrv)
+        {
+            /* We are changing drives. */
+            
+            newdrv = validdriveletter(newpath[0]) + 1;
+            if (_chdrive(newdrv))
+            {
+                /* Failed to change drives! */
+            
+                mklog(LOG_DEBUG, "_chdrive('%d') failed!", newdrv);
+                return 1;
+            }
+        }
+    }    
     rc = chdir(newpath);
     free(newpath);
     return rc;
@@ -245,31 +283,31 @@ int os_spawn(const char *command, const char *cmdline)
     strcpy(tmpfn, command);
     pext = strchr(tmpfn, '\0');
 
-    mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
+    mklog(LOG_DEBUG, "os_spawn(): trying `%s'", tmpfn);
     rc = _path(execfn, tmpfn);
 
     if (rc != 0)
     {
         strcpy(pext, ".EXE");
-        mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
+        mklog(LOG_DEBUG, "os_spawn(): trying `%s'", tmpfn);
         rc = _path(execfn, tmpfn);
     }
     else if (rc != 0 && _osmode == OS2_MODE)
     {
         strcpy(pext, ".CMD");
-        mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
+        mklog(LOG_DEBUG, "os_spawn(): trying `%s'", tmpfn);
         rc = _path(execfn, tmpfn);
     }
     else if (rc != 0 && _osmode != OS2_MODE)
     {
         strcpy(pext, ".COM");
-        mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
+        mklog(LOG_DEBUG, "os_spawn(): trying `%s'", tmpfn);
         rc = _path(execfn, tmpfn);
     }
     else if (rc != 0 && _osmode != OS2_MODE)
     {
         strcpy(pext, ".BAT");
-        mklog(LOG_DEBUG, "os_spawn: trying `%s'", tmpfn);
+        mklog(LOG_DEBUG, "os_spawn(): trying `%s'", tmpfn);
         rc = _path(execfn, tmpfn);
     }
     else if (rc != 0)
@@ -288,7 +326,7 @@ int os_spawn(const char *command, const char *cmdline)
     sprintf(cmd, "%s %s", command, cmdline);
     mklog(LOG_DEBUG, "found: executing `%s'", cmd);
     rc = system(cmd);
-    mklog(LOG_DEBUG, "os_spawn rc=%d", rc);
+    mklog(LOG_DEBUG, "os_spawn() rc=%d", rc);
 
     free(cmd);
     return rc;
@@ -305,9 +343,9 @@ int os_spawn(const char *command, const char *cmdline)
     }
 
     sprintf(cmd, "%s %s", command, cmdline);
-    mklog(LOG_DEBUG, "os_spawn: %s", cmd);
+    mklog(LOG_DEBUG, "os_spawn(): %s", cmd);
     rc = system(cmd);
-    mklog(LOG_DEBUG, "os_spawn: rc=%d", rc);
+    mklog(LOG_DEBUG, "os_spawn(): rc=%d", rc);
 
     free(cmd);
     return rc;
@@ -351,7 +389,7 @@ int os_fulldir(char *dst, const char *src, size_t bufsiz)
 
     if (os_fullpath(dst, tmp, bufsiz) != 0)
     {
-        mklog(LOG_DEBUG, __FILE__ ": os_fulldir(): os_fullpath failed!");
+        mklog(LOG_DEBUG, __FILE__ ": os_fulldir(): os_fullpath() failed!");
         return -1;
     }
 
