@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.32 2013/09/22 11:45:43 ajleary Exp $ */
+/* $Id: os.c,v 1.33 2013/09/22 22:30:27 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -78,7 +78,7 @@ int os_chdir(char *path)
     int curdrv;
     int newdrv;
     
-    mklog(LOG_DEBUG, "os_chdir() path='%s'", path);
+    mklog(LOG_DEBUG, "os_chdir(): path='%s'", path);
 
     if (path == NULL || path[0] == '\0')
     {
@@ -93,21 +93,23 @@ int os_chdir(char *path)
     }
     /* Get the current drive */
     curdrv = _getdrive();
+    mklog(LOG_DEBUG, "os_chdir(): curdrv='%d'", curdrv);
     
     if (validdriveletter(path[0]) && path[1] == ':' && path[2] == '\\' && path[3] == '\0')
     {
         /* "x:\" is OK too, but we need to check if we are changing drives. */
         
-        if (validdriveletter(path[0]) + 1 != curdrv)
+        if ((validdriveletter(path[0]) + 1) != curdrv)
         {
             /* Path specified is not on current drive. */
             
             newdrv = validdriveletter(path[0]) + 1;
+            mklog(LOG_DEBUG, "os_chdir(): newdrv='%d'", newdrv);
             if (_chdrive(newdrv))
             {
                 /* Failed to change drives! */
                 
-                mklog(LOG_DEBUG, "_chdrive('%d') failed!", newdrv);
+                mklog(LOG_DEBUG, "os_chdir(): _chdrive('%d') failed!", newdrv);
                 return 1;
             }
         }
@@ -129,24 +131,25 @@ int os_chdir(char *path)
     /* strip trailing \ */
     os_remove_slash(newpath);
 
-    mklog(LOG_DEBUG, "os_chdir() newpath='%s'", newpath);
+    mklog(LOG_DEBUG, "os_chdir(): newpath='%s'", newpath);
     
     /* Check if we are changing drives. */
     
-    if (validdriveletter(newpath[0] && newpath[1] == ':'))
+    if (validdriveletter(newpath[0]) && newpath[1] == ':')
     {
         /* Drive letter at start of path. */
         
-        if (validdriveletter(newpath[0]) + 1 != curdrv)
+        if ((validdriveletter(newpath[0]) + 1) != curdrv)
         {
             /* We are changing drives. */
             
             newdrv = validdriveletter(newpath[0]) + 1;
+            mklog(LOG_DEBUG, "os_chdir(): newdrv='%d'", newdrv);
             if (_chdrive(newdrv))
             {
                 /* Failed to change drives! */
             
-                mklog(LOG_DEBUG, "_chdrive('%d') failed!", newdrv);
+                mklog(LOG_DEBUG, "os_chdir(): _chdrive('%d') failed!", newdrv);
                 return 1;
             }
         }
