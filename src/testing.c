@@ -93,6 +93,30 @@ static void test_slash(void)
     mklog(LOG_INFO, "test_slash() end");
 }
 
+static void do_chdir(char *path)
+{
+    int rc = os_chdir(path);
+    mklog(LOG_INFO, "  os_chdir('%s'): rc == '%d'", path, rc);
+}
+
+static void test_chdir(void)
+{
+    mklog(LOG_INFO, "test_chdir() begin");
+
+#if defined(OS_DOS) || defined(OS_OS2) || defined(OS_WIN)
+    do_chdir("c:\\");
+    do_chdir("c:\\os2\\");
+    do_chdir("c:\\windows\\");
+    do_chdir("d:\\");
+    do_chdir("z:\\");
+#else
+    do_chdir("/");
+    do_chdir("/bin/");
+#endif
+
+    mklog(LOG_INFO, "test_chdir() end");
+}
+
 void testing(void)
 {
     test_findfirst();
@@ -101,5 +125,6 @@ void testing(void)
     test_fullpath();
     test_fulldir();
     test_slash();
+    test_chdir();
     test_exit(0);
 }
