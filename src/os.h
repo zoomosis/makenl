@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.50 2013/09/22 08:13:59 ozzmosis Exp $ */
+/* $Id: os.h,v 1.51 2013/09/23 17:11:47 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -121,6 +121,8 @@
 #define OS_NAME "OpenBSD"
 #elif defined(__minix)
 #define OS_NAME "Minix"
+#elif defined(__HAIKU__)
+#define OS_NAME "Haiku"
 #else
 #error "OS_NAME was not defined. Unknown build target detected."
 #define OS_NAME "Unknown"
