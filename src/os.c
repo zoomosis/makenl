@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.35 2013/09/23 09:01:35 ozzmosis Exp $ */
+/* $Id: os.c,v 1.36 2013/09/23 10:01:29 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,6 +24,7 @@
 #endif
 
 #ifdef __BORLANDC__
+#include <direct.h>
 #include <io.h>
 #endif
 
