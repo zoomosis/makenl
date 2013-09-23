@@ -5,6 +5,12 @@
 #include "mklog.h"
 #include "os.h"
 
+#if defined(OS_DOS)
+#define OS_WILDCARD "*.*"
+#else
+#define OS_WILDCARD "*"
+#endif
+
 static void test_exit(int rc)
 {
     mklog(LOG_INFO, "test_exit(%d)", rc);
@@ -16,7 +22,7 @@ static void test_findfirst(void)
     struct _filefind pff;
     char *p;
     mklog(LOG_INFO, "test_findfirst() begin");
-    p = os_findfirst(&pff, DIRSEP, "*");
+    p = os_findfirst(&pff, DIRSEP, OS_WILDCARD);
     while (p != NULL)
     {
         mklog(LOG_INFO, "  p == '%s'", p);
@@ -31,7 +37,7 @@ static void test_findfile(void)
     struct _filefind pff;
     char *p;
     mklog(LOG_INFO, "test_findfile() begin");
-    p = os_findfile(&pff, ".", "m*");
+    p = os_findfile(&pff, ".", "m" OS_WILDCARD);
     mklog(LOG_INFO, "  os_findfile(): rc == '%s'", p);
     mklog(LOG_INFO, "test_findfile() end");
 }
@@ -109,6 +115,7 @@ static void test_chdir(void)
     do_chdir("c:\\windows\\");
     do_chdir("d:\\");
     do_chdir("z:\\");
+    do_chdir("c:\\src\\makenl\\src\\");
 #else
     do_chdir("/");
     do_chdir("/bin/");
