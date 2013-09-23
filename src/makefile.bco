@@ -1,17 +1,27 @@
 # MakeNL makefile for Borland C++ for OS/2
-# Tested with Borland C++ 1.5 for OS/2
+# Tested with Borland C++ 2.0 for OS/2
 #
-# $Id: makefile.bco,v 1.5 2013/09/21 12:09:40 ozzmosis Exp $
+# $Id: makefile.bco,v 1.6 2013/09/23 11:03:50 ozzmosis Exp $
 #
 # Build with:
 #
 # make -f makefile.bco               (release)
+# make -f makefile.bco DEBUG=1       (debug)
 # make -f makefile.bco clean         (remove temp files)
 
-CFLAGS+= 
+CFLAGS=-w
 RM=del
 
-OBJS=config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
+!ifdef DEBUG
+CFLAGS=$(CFLAGS) -v
+!endif
+
+!ifdef TESTING
+CFLAGS=$(CFLAGS) -DTESTING
+OBJS=testing.obj
+!endif
+
+OBJS=$(OBJS) config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
 OBJS=$(OBJS) merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
 OBJS=$(OBJS) procfile.obj stack.obj strtool.obj upcont.obj
 
