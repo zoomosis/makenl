@@ -102,7 +102,7 @@ static void test_slash(void)
 static void do_chdir(char *path)
 {
     int rc = os_chdir(path);
-    mklog(LOG_INFO, "  os_chdir('%s'): rc == '%d'", path, rc);
+    mklog(LOG_INFO, "  os_chdir('%s'): rc == %d", path, rc);
 }
 
 static void test_chdir(void)
