@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.34 2013/09/22 23:26:21 ajleary Exp $ */
+/* $Id: os.c,v 1.35 2013/09/23 09:01:35 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -65,15 +65,15 @@ char *os_file_getname(const char *path)
 
 #if defined(OS_DOS) || defined(OS_OS2) || defined(OS_WIN)
 
-static int validdriveletter(int drive)
+static char driveletters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+static int isvaliddriveletter(int drive)
 {
-    char driveletters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     return strchr(driveletters, toupper(drive)) != NULL;
 }
 
 static int drvlet2num(char drvletter)
 {
-    char driveletters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     return (strchr(driveletters, toupper(drvletter)) - driveletters + 1);
 }
 
@@ -101,7 +101,7 @@ int os_chdir(char *path)
     curdrv = _getdrive();
     mklog(LOG_DEBUG, "os_chdir(): curdrv='%d'", curdrv);
     
-    if (validdriveletter(path[0]) && path[1] == ':' && path[2] == '\\' && path[3] == '\0')
+    if (isvaliddriveletter(path[0]) && path[1] == ':' && path[2] == '\\' && path[3] == '\0')
     {
         /* "x:\" is OK too, but we need to check if we are changing drives. */
         
@@ -141,7 +141,7 @@ int os_chdir(char *path)
     
     /* Check if we are changing drives. */
     
-    if (validdriveletter(newpath[0]) && newpath[1] == ':')
+    if (isvaliddriveletter(newpath[0]) && newpath[1] == ':')
     {
         /* Drive letter at start of path. */
         
