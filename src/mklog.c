@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.22 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.23 2013/09/23 17:11:31 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -99,7 +99,7 @@ static void logwrite(int level, char *outstr)
     }
 
 #ifdef HAVE_GETPID
-    fprintf(log_fp, "%c %s makenl[%d] ", logmark[level], date_str(), getpid());
+    fprintf(log_fp, "%c %s makenl[%d] ", logmark[level], date_str(), (int) getpid());
 #else
     fprintf(log_fp, "%c %s makenl: ", logmark[level], date_str());
 #endif
