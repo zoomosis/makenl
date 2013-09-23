@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.37 2013/09/23 12:24:43 ajleary Exp $ */
+/* $Id: os.c,v 1.38 2013/09/23 12:57:47 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -173,7 +173,7 @@ int os_chdir(char *path)
             
             newdrv = drvlet2num(newpath[0]);
             mklog(LOG_DEBUG, "os_chdir(): newdrv='%d' (%c:)", newdrv, driveletters[newdrv - 1]);
-            if (_chdrive(newdrv))
+            if (os_chdrive(newdrv))
             {
                 /* Failed to change drives! */
             
