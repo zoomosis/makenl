@@ -1,4 +1,4 @@
-/* $Id: strtool.c,v 1.5 2013/09/21 13:02:59 ozzmosis Exp $ */
+/* $Id: strtool.c,v 1.6 2013/09/23 08:29:10 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <string.h>
@@ -73,7 +73,7 @@ char *strupper(char *string)
 
     while (*string != '\0')
     {
-        *string = (char) toupper(*string);
+        *string = (char) toupper((int) *string);
         string++;
     }
 
