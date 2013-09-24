@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.39 2013/09/24 11:26:42 ajleary Exp $ */
+/* $Id: os.c,v 1.40 2013/09/24 15:13:21 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -83,8 +83,8 @@ int os_getdrive(void)
     /* Returns the current drive number (A:=1, B:=2, etc.) */
     #if defined (__EMX__)
     return drvlet2num(_getdrive());
-    #elif defined (__DJGPP__)
-    return getdisk() + 1; /* DJGPP getdisk() drive numbers are 0 based. */
+    #elif defined (__DJGPP__) || defined (__TURBOC__)
+    return getdisk() + 1; /* DJGPP/TC getdisk() drive numbers are 0 based. */
     #else
     return _getdrive();
     #endif
@@ -94,11 +94,21 @@ int os_chdrive(int newdrv)
 {
     /* EMX _chdrive() needs drive letter instead of number */
     #if defined (__EMX__)
-    return _chdrive(driveletters[newdrv - 1]);
-    #elif defined (__DJGPP__)
+    char reqdrv;
+    int rc;
+    reqdrv = driveletters[newdrv - 1];
+    rc = _chdrive(reqdrv);
+    return (_getdrive() != reqdrv); /* Check to make sure disk change
+                                       succeeded - return 0 for success
+                                       or 1 for failure. */
+                                                                              
+    #elif defined (__DJGPP__) || defined (__TURBOC__)
     int totdrvs;
-    totdrvs = setdisk(newdrv - 1);
-    return (getdisk() != (newdrv - 1));
+    totdrvs = setdisk(newdrv - 1); 
+    return (getdisk() != (newdrv - 1)); /* Check to make sure disk change
+                                           succeeded - return 0 for success
+                                           or 1 for failure. */
+                                           
     #else
     return _chdrive(newdrv);
     #endif
