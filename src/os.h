@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.51 2013/09/23 17:11:47 ozzmosis Exp $ */
+/* $Id: os.h,v 1.52 2013/09/24 11:06:35 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -86,6 +86,8 @@
 #define CC_NAME "LCC"
 #elif defined(__DMC__)
 #define CC_NAME "DMC"
+#elif defined(__TINYC__)
+#define CC_NAME "TinyCC"
 #else
 #define CC_NAME "Unknown"
 #error "CC_NAME not defined. Unknown compiler detected."
