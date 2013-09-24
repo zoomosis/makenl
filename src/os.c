@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.38 2013/09/23 12:57:47 ajleary Exp $ */
+/* $Id: os.c,v 1.39 2013/09/24 11:26:42 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -81,8 +81,10 @@ static int drvlet2num(char drvletter)
 int os_getdrive(void)
 {
     /* Returns the current drive number (A:=1, B:=2, etc.) */
-    #ifdef __EMX__
+    #if defined (__EMX__)
     return drvlet2num(_getdrive());
+    #elif defined (__DJGPP__)
+    return getdisk() + 1; /* DJGPP getdisk() drive numbers are 0 based. */
     #else
     return _getdrive();
     #endif
@@ -91,8 +93,12 @@ int os_getdrive(void)
 int os_chdrive(int newdrv)
 {
     /* EMX _chdrive() needs drive letter instead of number */
-    #ifdef __EMX__
+    #if defined (__EMX__)
     return _chdrive(driveletters[newdrv - 1]);
+    #elif defined (__DJGPP__)
+    int totdrvs;
+    totdrvs = setdisk(newdrv - 1);
+    return (getdisk() != (newdrv - 1));
     #else
     return _chdrive(newdrv);
     #endif
