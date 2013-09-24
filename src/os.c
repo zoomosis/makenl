@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.41 2013/09/24 17:09:16 ajleary Exp $ */
+/* $Id: os.c,v 1.42 2013/09/24 20:37:42 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -85,6 +85,10 @@ int os_getdrive(void)
     return drvlet2num(_getdrive());
     #elif defined (__DJGPP__) || defined (__TURBOC__)
     return getdisk() + 1; /* DJGPP/TC getdisk() drive numbers are 0 based. */
+    #elif defined (__WATCOMC__)
+    unsigned drive;
+    _dos_getdrive(&drive);
+    return drive;
     #else
     return _getdrive();
     #endif
@@ -109,6 +113,12 @@ int os_chdrive(int newdrv)
                                            succeeded - return 0 for success
                                            or 1 for failure. */
                                            
+    #elif defined (__WATCOMC__)
+    unsigned drive, total;
+    _dos_setdrive(newdrv, &total);
+    _dos_getdrive(&drive);
+    return (drive != newdrv);
+       
     #else
     return _chdrive(newdrv);
     #endif
