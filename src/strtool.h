@@ -1,4 +1,4 @@
-/* $Id */
+/* $Id: strtool.h,v 1.4 2013/09/25 19:46:00 ozzmosis Exp $ */
 
 #ifndef __STRTOOL_H__
 #define __STRTOOL_H__
