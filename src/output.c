@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.8 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: output.c,v 1.9 2013/09/25 19:29:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,6 +10,7 @@
 #include "fileutil.h"
 #include "mklog.h"
 #include "strtool.h"
+#include "snprintf.h"
 
 char ErrorMessage[linelength];
 
@@ -17,6 +18,7 @@ int OutputErrorLine(FILE * file, const char *pre, const char *wrongy,
   const char *post, unsigned short *crc)
 {
     char *linebuf;
+    int bufsize;
     int fputs_result;
 
     if (FTS5Keyword)            /* Do we have an Nodelist line to be
@@ -24,12 +26,11 @@ int OutputErrorLine(FILE * file, const char *pre, const char *wrongy,
         if (OutputFTS5Line(file, pre, post, crc) == EOF)
             return EOF;
 
-    linebuf = malloc(strlen(pre) +
-                     strlen(wrongy) + 4 +
-                     strlen(ErrorMessage) + strlen(post) + 1);
+    bufsize = strlen(pre) + strlen(wrongy) + 4 + strlen(ErrorMessage) + strlen(post) + 1;
+    linebuf = malloc(bufsize);
     if (!linebuf)
         die(253, "No memory left for error message buffer!\n");
-    sprintf(linebuf, "%s%s -- %s%s", pre, wrongy, ErrorMessage, post);
+    snprintf(linebuf, bufsize, "%s%s -- %s%s", pre, wrongy, ErrorMessage, post);
     if (crc)
         *crc = CRC16String(linebuf, *crc);
     fputs_result = fputs(linebuf, file);
@@ -43,18 +44,22 @@ OutputFTS5Line(FILE * file, const char *prefix, const char *postfix,
                unsigned short *crc)
 {
     char *linebuf;
+    int bufsize;
     int fputs_result;
 
-    linebuf = malloc(strlen(prefix) +
-                     strlen(FTS5Keyword) + 1 +
-                     strlen(FTS5Number) + 1 +
-                     strlen(FTS5Nodename) + 1 +
-                     strlen(FTS5Sysopname) + 1 +
-                     strlen(FTS5Location) + 1 +
-                     strlen(FTS5Phone) + 1 +
-                     strlen(FTS5Baud) + 1 +
-                     strlen(FTS5Flags) + strlen(postfix) + 1);
-    sprintf(linebuf, "%s%s,%s,%s,%s,%s,%s,%s,%s%s", prefix,
+    bufsize = strlen(prefix) +
+      strlen(FTS5Keyword) + 1 +
+      strlen(FTS5Number) + 1 +
+      strlen(FTS5Nodename) + 1 +
+      strlen(FTS5Sysopname) + 1 +
+      strlen(FTS5Location) + 1 +
+      strlen(FTS5Phone) + 1 +
+      strlen(FTS5Baud) + 1 +
+      strlen(FTS5Flags) +
+      strlen(postfix) + 1;
+
+    linebuf = malloc(bufsize);
+    snprintf(linebuf, bufsize, "%s%s,%s,%s,%s,%s,%s,%s,%s%s", prefix,
             FTS5Keyword, FTS5Number, FTS5Nodename, FTS5Location,
             FTS5Sysopname, FTS5Phone, FTS5Baud, FTS5Flags, postfix);
     if (crc != NULL)

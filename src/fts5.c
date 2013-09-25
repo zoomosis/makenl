@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.10 2013/09/21 09:50:50 ozzmosis Exp $ */
+/* $Id: fts5.c,v 1.11 2013/09/25 19:29:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -9,6 +9,7 @@
 #include "unused.h"
 #include "mklog.h"
 #include "strtool.h"
+#include "snprintf.h"
 
 extern int nl_baudrate[];
 
@@ -83,7 +84,7 @@ static int getkeyword(char **instring, int *linelevel, int *linenum)
 
     if ((*linelevel = xlate_switch(strupper(*instring), FTS5KWords)) == -1)
     {
-        sprintf(ErrorMessage, "Invalid keyword -- '%s'", *instring);
+        snprintf(ErrorMessage, sizeof ErrorMessage, "Invalid keyword -- '%s'", *instring);
         return 1;
     }
 
@@ -124,7 +125,7 @@ int getnodenum(char **instring, int *linelevel, int *linenum)
             type = LevelsSimple[*linelevel];
         }
     }
-    sprintf(ErrorMessage, "Invalid %s number -- '%s'", type, *instring);
+    snprintf(ErrorMessage, sizeof ErrorMessage, "Invalid %s number -- '%s'", type, *instring);
     return 1;
 }
 
@@ -234,7 +235,7 @@ static int getphone(char **instring, int *linelevel, int *linenum)
                 {
                   BadPhone:
                 default:
-                    sprintf(ErrorMessage, "Invalid phone number -- '%s'",
+                    snprintf(ErrorMessage, sizeof ErrorMessage, "Invalid phone number -- '%s'",
                             phoneno);
                     return 1;
                 case '[':
@@ -258,7 +259,7 @@ static int getphone(char **instring, int *linelevel, int *linenum)
         if (parts < Minphone)
         {
           FewParts:
-            sprintf(ErrorMessage,
+            snprintf(ErrorMessage, sizeof ErrorMessage,
                     "Phone number '%s' has fewer than %d parts", phoneno,
                     Minphone);
             return 1;
@@ -285,7 +286,7 @@ static int getbaud(char **instring, int *linelevel, int *linenum)
     {
         if (!isdigit((unsigned char)baud_no[e_len]))
         {
-            sprintf(ErrorMessage, "Invalid baud rate -- '%s'",
+            snprintf(ErrorMessage, sizeof ErrorMessage, "Invalid baud rate -- '%s'",
                     *instring);
             return 1;
         }
@@ -294,7 +295,7 @@ static int getbaud(char **instring, int *linelevel, int *linenum)
 
     if (e_len == 0)
     {
-        sprintf(ErrorMessage, "Invalid baud rate -- '%s'", *instring);
+        snprintf(ErrorMessage, sizeof ErrorMessage, "Invalid baud rate -- '%s'", *instring);
         return 1;
     }
 
@@ -312,7 +313,7 @@ static int getbaud(char **instring, int *linelevel, int *linenum)
 
     if (good == 0)
     {
-        sprintf(ErrorMessage, "Invalid baud rate -- '%s'", *instring);
+        snprintf(ErrorMessage, sizeof ErrorMessage, "Invalid baud rate -- '%s'", *instring);
         return 1;
     }
 

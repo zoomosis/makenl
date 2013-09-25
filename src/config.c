@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.25 2013/09/21 12:09:40 ozzmosis Exp $ */
+/* $Id: config.c,v 1.26 2013/09/25 19:29:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,6 +16,7 @@
 #include "mklog.h"
 #include "version.h"
 #include "strtool.h"
+#include "snprintf.h"
 
 #define MF_EVERYWHERE(x) ((x) | ((x) << MF_SHIFT_ERRORS) | ((x) << MF_SHIFT_SUBMIT))
 #define MAIL_CRASH MF_EVERYWHERE(MF_CRASH)
@@ -552,21 +553,21 @@ int parsecfgfile(FILE * CFG)
         case CFG_ARCCOPY:
             ArcCopyExt[0] = args[0][0];
             if (argcounter == 6)
-                sprintf(ArcCopyCmd, "%s %s %s %s", args[1], args[2], args[3], args[4]);
+                snprintf(ArcCopyCmd, sizeof ArcCopyCmd, "%s %s %s %s", args[1], args[2], args[3], args[4]);
             else if (argcounter == 5)
-                sprintf(ArcCopyCmd, "%s %s %s", args[1], args[2], args[3]);
+                snprintf(ArcCopyCmd, sizeof ArcCopyCmd, "%s %s %s", args[1], args[2], args[3]);
             else
-                sprintf(ArcCopyCmd, "%s %s", args[1], args[2]);
+                snprintf(ArcCopyCmd, sizeof ArcCopyCmd, "%s %s", args[1], args[2]);
             ArcCopySet = 1;
             break;
         case CFG_ARCMOVE:
             ArcMoveExt[0] = args[0][0];
             if (argcounter == 6)
-                sprintf(ArcMoveCmd, "%s %s %s %s", args[1], args[2], args[3], args[4]);
+                snprintf(ArcMoveCmd, sizeof ArcMoveCmd, "%s %s %s %s", args[1], args[2], args[3], args[4]);
             else if (argcounter == 5)
-                sprintf(ArcMoveCmd, "%s %s %s", args[1], args[2], args[3]);
+                snprintf(ArcMoveCmd, sizeof ArcMoveCmd, "%s %s %s", args[1], args[2], args[3]);
             else
-                sprintf(ArcMoveCmd, "%s %s", args[1], args[2]);
+                snprintf(ArcMoveCmd, sizeof ArcMoveCmd, "%s %s", args[1], args[2]);
             ArcMoveSet = 1;
             break;
         case CFG_ARCOPEN:
@@ -579,11 +580,11 @@ int parsecfgfile(FILE * CFG)
             }
             ArcOpenExt[ArcOpenSet][0] = args[0][0];
             if (argcounter == 6)
-                sprintf(ArcOpenCmd[ArcOpenSet], "%s %s %s %s", args[1], args[2], args[3], args[4]);
+                snprintf(ArcOpenCmd[ArcOpenSet], sizeof ArcOpenCmd[ArcOpenSet], "%s %s %s %s", args[1], args[2], args[3], args[4]);
             else if (argcounter == 5)
-                sprintf(ArcOpenCmd[ArcOpenSet], "%s %s %s", args[1], args[2], args[3]);
+                snprintf(ArcOpenCmd[ArcOpenSet], sizeof ArcOpenCmd[ArcOpenSet], "%s %s %s", args[1], args[2], args[3]);
             else
-                sprintf(ArcOpenCmd[ArcOpenSet], "%s %s", args[1], args[2]);
+                snprintf(ArcOpenCmd[ArcOpenSet], sizeof ArcOpenCmd[ArcOpenSet], "%s %s", args[1], args[2]);
             ArcOpenSet++;
             break;
         case CFG_BATCHFILE:
@@ -932,18 +933,18 @@ int parsecfgfile(FILE * CFG)
      */
     if (ArcCopySet == 0)
     {
-        sprintf(ArcCopyExt, "a");
-        sprintf(ArcCopyCmd, "arc a");
+        snprintf(ArcCopyExt, sizeof ArcCopyExt, "a");
+        snprintf(ArcCopyCmd, sizeof ArcCopyCmd, "arc a");
     }
     if (ArcMoveSet == 0)
     {
-        sprintf(ArcMoveExt, "a");
-        sprintf(ArcMoveCmd, "arc m");
+        snprintf(ArcMoveExt, sizeof ArcMoveExt, "a");
+        snprintf(ArcMoveCmd, sizeof ArcMoveCmd, "arc m");
     }
     if (ArcOpenSet == 0)
     {
-        sprintf(ArcOpenExt[0], "a");
-        sprintf(ArcOpenCmd[0], "arc ew");
+        snprintf(ArcOpenExt[0], sizeof ArcOpenExt[0], "a");
+        snprintf(ArcOpenCmd[0], sizeof ArcOpenCmd[0], "arc ew");
         ArcOpenSet = 1;
     }
     ArcOpenCnt = ArcOpenSet;

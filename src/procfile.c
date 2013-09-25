@@ -1,4 +1,4 @@
-/* $Id: procfile.c,v 1.1 2013/09/21 12:09:41 ozzmosis Exp $ */
+/* $Id: procfile.c,v 1.2 2013/09/25 19:29:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,6 +15,7 @@
 #include "config.h"
 #include "mklog.h"
 #include "strtool.h"
+#include "snprintf.h"
 #include "procfile.h"
 
 int ShouldProcess = USUAL_PROCESSING;
@@ -312,7 +313,7 @@ processfile(int myMakeType, int myMakeNum, FILE * InputFILE,
     if (totalerror == 2)        /* 2 means fatal */
     {
         unmarkstack();          /* Throw away any numbers of this file */
-        sprintf(InputLine,
+        snprintf(InputLine, sizeof InputLine,
                 "Fatal error(s) caused file '%s' to be rejected\r\n",
                 WorkFile);
         fputs(InputLine, stdout);

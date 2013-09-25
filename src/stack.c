@@ -1,4 +1,4 @@
-/* $Id: stack.c,v 1.6 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: stack.c,v 1.7 2013/09/25 19:29:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,6 +12,7 @@
 #include "fts5.h"
 #include "msg.h"
 #include "stack.h"
+#include "snprintf.h"
 #include "mklog.h"
 
 static int *NumberStackPtr = NULL;
@@ -70,7 +71,7 @@ int addnumber(int maketype, int makenum, int markpos)
         {
             if (*numberptr == makenum)
             {
-                sprintf(ErrorMessage, "Duplicate %s number -- '%d'",
+                snprintf(ErrorMessage, sizeof ErrorMessage, "Duplicate %s number -- '%d'",
                         Describe4D[NumberListValid], makenum);
                 if (NumberListValid >= A_NODE)
                     status = 1;

@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.20 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.21 2013/09/25 19:29:56 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -12,6 +12,7 @@
 #include "mklog.h"
 #include "version.h"
 #include "strtool.h"
+#include "snprintf.h"
 
 #define MSG_CRASH    0x0002
 #define MSG_PRIVATE  0x0001
@@ -39,7 +40,7 @@ static unsigned long GetSequence(void)
     unsigned long   seq;
     char            seqfile[MYMAXDIR];
     FILE            *fp;
-    sprintf(seqfile, "%s/sequence.dat", MasterDir);
+    snprintf(seqfile, sizeof seqfile, "%s/sequence.dat", MasterDir);
 
     if ((fp = fopen(seqfile, "r+")) == NULL) {
         seq = (unsigned long)time(NULL);
@@ -132,7 +133,7 @@ static char *MakeMSGFilename(char *outbuf, int num)
 {
     char buffer[MYMAXDIR];
 
-    sprintf(buffer, "%u", num);
+    snprintf(buffer, sizeof buffer, "%u", num);
     myfnmerge(outbuf, NULL, MessageDir, buffer, "msg");
     mklog(LOG_DEBUG, "MakeMSGFilename: num=%d MSGnum=%d", num, MSGnum);
     return outbuf;
@@ -169,7 +170,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
 
     if (filename)
     {
-        sprintf(subject, "%s", filename);
+        snprintf(subject, sizeof subject, "%s", filename);
         MSGFlags = (MailerFlags & MF_SUBMIT) >> MF_SHIFT_SUBMIT;
         temp = (MSGFlags & MF_CRASH ? MSG_CRASH : 0) |
             (MSGFlags & MF_HOLD ? MSG_HOLD : 0) |
@@ -178,7 +179,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
     else
     {
         temp = MSG_PRIVATE | MSG_KILLSENT | MSG_LOCAL;
-        sprintf(subject, "%s received", WorkFile);
+        snprintf(subject, sizeof subject, "%s received", WorkFile);
         MSGFlags = UsualMSGFlags;
     }
     memcpy(&msgbuf[0x48], subject, strlen(subject));
@@ -187,7 +188,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
     the_time = localtime(&akt_time);
     /* BUG FIXED: Y2K-bug changed tm_year to tm_year % 100 and its format
      *        to %02d */
-    sprintf(date, "%02d %s %02d  %02d:%02d:%02d",
+    snprintf(date, sizeof date, "%02d %s %02d  %02d:%02d:%02d",
             the_time->tm_mday, MonthNames[the_time->tm_mon],
             the_time->tm_year % 100, the_time->tm_hour, the_time->tm_min, 
             the_time->tm_sec); /* Switch to FTS-1 date/time vs. SEAdog */
@@ -238,7 +239,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
               address[A_ZONE], address[A_NET], address[A_NODE]);
             return (MailFILE = NULL);
         }
-        sprintf(intlline, "\x01INTL %d:%d/%d %d:%d/%d\r\n", address[A_ZONE],
+        snprintf(intlline, sizeof intlline, "\x01INTL %d:%d/%d %d:%d/%d\r\n", address[A_ZONE],
                 address[A_NET], address[A_NODE], MyAddress[A_ZONE],
                 MyAddress[A_NET], MyAddress[A_NODE]);
     }

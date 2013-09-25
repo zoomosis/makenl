@@ -1,4 +1,4 @@
-/* $Id: lsttool.c,v 1.23 2013/09/21 12:09:40 ozzmosis Exp $ */
+/* $Id: lsttool.c,v 1.24 2013/09/25 19:29:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,6 +14,7 @@
 #include "mklog.h"
 #include "procfile.h"
 #include "strtool.h"
+#include "snprintf.h"
 #include "os.h"
 
 long ARCThreshold = 10000;
@@ -65,7 +66,7 @@ int makearc(char *filename, int move)
     os_dirsep(fullpath);
     os_dirsep(filename);
     mklog(LOG_INFO, "Creating archive '%s' containing '%s'", fullpath, filename);
-    sprintf(cmdlinebuf, "%s %s", fullpath, filename);
+    snprintf(cmdlinebuf, sizeof cmdlinebuf, "%s %s", fullpath, filename);
     if (os_spawn(arccommand, cmdlinebuf) != 0)
         die(253, "Unable to create archive '%s'", fullpath);
     strcpy(filename, fullpath);
@@ -374,8 +375,8 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
             else
             {
                 /* Some archivers don't work well when the filename is given */
-                /* sprintf(cmdlinebuf, "%s %s.%s", foundfile, name, ext); */
-                sprintf(cmdlinebuf, "%s", foundfile);
+                /* snprintf(cmdlinebuf, sizeof cmdlinebuf, "%s %s.%s", foundfile, name, ext); */
+                snprintf(cmdlinebuf, sizeof cmdlinebuf, "%s", foundfile);
                 if ((ArcOpen[0] == '\0') || (os_spawn(ArcOpen, cmdlinebuf) != 0))
                 {
                     mklog(LOG_ERROR, "Unable to unpack archive '%s'", foundfile);

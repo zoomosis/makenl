@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.44 2013/09/25 18:24:11 ozzmosis Exp $ */
+/* $Id: os.c,v 1.45 2013/09/25 19:29:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,6 +29,7 @@
 #endif
 
 #include "fileutil.h"
+#include "snprintf.h"
 #include "mklog.h"
 #include "unused.h"
 
@@ -333,6 +334,7 @@ int os_spawn(const char *command, const char *cmdline)
     char tmpfn[_MAX_PATH];
     char *pext;
     char *cmd;
+    int bufsize;
     int rc;
 
     /* search for command */
@@ -372,14 +374,15 @@ int os_spawn(const char *command, const char *cmdline)
         return -1;
     }
 
-    cmd = malloc(strlen(command) + 1 + strlen(cmdline) + 1);
+    bufsize = strlen(command) + 1 + strlen(cmdline) + 1;
+    cmd = malloc(bufsize);
 
     if (!cmd)
     {
         return -1;
     }
 
-    sprintf(cmd, "%s %s", command, cmdline);
+    snprintf(cmd, bufsize, "%s %s", command, cmdline);
     mklog(LOG_DEBUG, "found: executing `%s'", cmd);
     rc = system(cmd);
     mklog(LOG_DEBUG, "os_spawn() rc=%d", rc);
@@ -389,8 +392,10 @@ int os_spawn(const char *command, const char *cmdline)
 #else
     char *cmd;
     int rc;
+    int bufsize;
 
-    cmd = malloc(strlen(command) + 1 + strlen(cmdline) + 1);
+    bufsize = strlen(command) + 1 + strlen(cmdline) + 1;
+    cmd = malloc(bufsize);
 
     if (!cmd)
     {
@@ -398,7 +403,7 @@ int os_spawn(const char *command, const char *cmdline)
         return -1;
     }
 
-    sprintf(cmd, "%s %s", command, cmdline);
+    snprintf(cmd, bufsize, "%s %s", command, cmdline);
     mklog(LOG_DEBUG, "os_spawn(): %s", cmd);
     rc = system(cmd);
     mklog(LOG_DEBUG, "os_spawn(): rc=%d", rc);

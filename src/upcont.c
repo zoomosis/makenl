@@ -1,11 +1,12 @@
-/* $Id: upcont.c,v 1.4 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: upcont.c,v 1.5 2013/09/25 19:29:56 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdio.h>
 
 #include "makenl.h"
-#include "upcont.h"
 #include "fts5.h"
+#include "snprintf.h"
+#include "upcont.h"
 
 /* *INDENT-OFF* */
 /* Don't indent this array, keep it this way (you could try what indent
@@ -54,19 +55,19 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
             makeleveltxt = Node;
         else
             makeleveltxt = Levels[maketype];
-        sprintf(ErrorMessage, "Expected '%s %d', got '%s %d'",
+        snprintf(ErrorMessage, sizeof ErrorMessage, "Expected '%s %d', got '%s %d'",
                 makeleveltxt, makenum, leveltxt, num);
         return 2;
     }
     if (maketype > level)
     {
-        sprintf(ErrorMessage, "Unexpected '%s' statement in %s file",
+        snprintf(ErrorMessage, sizeof ErrorMessage, "Unexpected '%s' statement in %s file",
                 Levels[level], LevelsSimple[maketype]);
         return 2;
     }
     if (level == maketype && maketype != LEVEL_NODE)
     {
-        sprintf(ErrorMessage, "Multiple '%s' statememts",
+        snprintf(ErrorMessage, sizeof ErrorMessage, "Multiple '%s' statememts",
                 (maketype > LEVEL_HUB) ? "Node" : Levels[maketype]);
         return 2;
     }
@@ -76,7 +77,7 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
         if (*ctxlevel > LEVEL_NODE) /* Catch private, hold and down nodes
                                        with points */
         {
-            sprintf(ErrorMessage, "%s nodes may not have points\n",
+            snprintf(ErrorMessage, sizeof ErrorMessage, "%s nodes may not have points\n",
                     Levels[*ctxlevel]);
             return 1;
         }
@@ -136,7 +137,7 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
       check_level:
         if (OnTop[level] > *ctxlevel)
         {
-            sprintf(ErrorMessage, "'%s' not allowed in a %s",
+            snprintf(ErrorMessage, sizeof ErrorMessage, "'%s' not allowed in a %s",
                     Levels[level], LevelsSimple[*ctxlevel]);
             if (level > LEVEL_HOST)
                 return 1;

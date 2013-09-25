@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.24 2013/09/21 12:09:41 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.25 2013/09/25 19:29:56 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -18,6 +18,7 @@
 #include "version.h"
 #include "unused.h"
 #include "mklog.h"
+#include "snprintf.h"
 
 #if defined(__MSDOS__) && defined(__TURBOC__)
 extern unsigned _stklen = 16384;
@@ -110,7 +111,7 @@ void die(int exitcode, const char *format, ...)
     va_list arg;
     
     va_start(arg, format);
-    vsprintf(buf, format, arg);
+    vsnprintf(buf, sizeof buf, format, arg);
     va_end(arg);
 
     mklog(LOG_ERROR, "%s", buf);
@@ -188,11 +189,11 @@ int main(int argc, char *argv[])
     for (OldWeeks = 7; OldWeeks >= 0; OldWeeks--)
     {
         searchdow(NewExtWDay, -7 * OldWeeks + 6, &SplitTimePtr);
-        sprintf(OldExtensions[OldWeeks], "%03d",
+        snprintf(OldExtensions[OldWeeks], sizeof OldExtensions[OldWeeks], "%03d",
                 SplitTimePtr->tm_yday + 1);
     }
-    sprintf(YearBuf, "%d", 1900 + SplitTimePtr->tm_year);
-    sprintf(HeaderLine,
+    snprintf(YearBuf, sizeof YearBuf, "%d", 1900 + SplitTimePtr->tm_year);
+    snprintf(HeaderLine, sizeof HeaderLine,
             ";A %s Nodelist for %s, %s %d, %s -- Day number %s : ",
             Levels[MakeType], DOWLongnames[SplitTimePtr->tm_wday],
             MonthLongnames[SplitTimePtr->tm_mon], SplitTimePtr->tm_mday,
@@ -267,7 +268,7 @@ int main(int argc, char *argv[])
         {
             char cmdbuf[1024];  /* space for CalledBatchfile */
 
-            sprintf(cmdbuf, "%s %s" DIRSEP "%s ",
+            snprintf(cmdbuf, sizeof cmdbuf, "%s %s" DIRSEP "%s ",
                     CalledBatchFile, OutDir, OutFile);
             WorkMode = 0;       /* Why that?! see three lines above! */
             if (OutExt[0] == 0) /* If output is generic, we could diff and 
@@ -278,7 +279,7 @@ int main(int argc, char *argv[])
                 makearc(NewFile, 0);
                 if (WorkMode & CAUSE_OUTDIFF)
                 {
-                    sprintf(cmdbuf + strlen(cmdbuf),
+                    snprintf(cmdbuf + strlen(cmdbuf), (sizeof cmdbuf) - strlen(cmdbuf),
                             "%s" DIRSEP "%s ", OutDir, OutDiff);
                     myfnmerge(CfgFilenameBuf, NULL, OutDir, OutDiff,
                               OldExtensions[0]);
@@ -306,7 +307,8 @@ int main(int argc, char *argv[])
                 mklog(LOG_DEBUG, "main(): NewFile == '%s'", NewFile);
             }
 
-            sprintf(cmdbuf + strlen(cmdbuf), "%c %c %c %c %c %c\n",
+            snprintf(cmdbuf + strlen(cmdbuf), (sizeof cmdbuf) - strlen(cmdbuf),
+                    "%c %c %c %c %c %c\n",
                     OldExtensions[0][0], OldExtensions[0][1],
                     OldExtensions[0][2], OldExtensions[1][0],
                     OldExtensions[1][1], OldExtensions[1][2]);
@@ -326,10 +328,10 @@ int main(int argc, char *argv[])
                 && OpenMSGFile(SubmitAddress, NewFile))
             {
                 if (MyAddress[A_ZONE] == SubmitAddress[A_ZONE])
-                    sprintf(SubAddrText, "%d/%d", SubmitAddress[A_NET],
+                    snprintf(SubAddrText, sizeof SubAddrText, "%d/%d", SubmitAddress[A_NET],
                             SubmitAddress[A_NODE]);
                 else
-                    sprintf(SubAddrText, "%d:%d/%d", SubmitAddress[A_ZONE],
+                    snprintf(SubAddrText, sizeof SubAddrText, "%d:%d/%d", SubmitAddress[A_ZONE],
                             SubmitAddress[A_NET], SubmitAddress[A_NODE]);
                 mklog(LOG_INFO, "Sending '%s' to %s", NewFile, SubAddrText);
             }
