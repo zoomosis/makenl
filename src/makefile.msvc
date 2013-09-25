@@ -1,7 +1,7 @@
 # MakeNL makefile for Microsoft Visual C/C++ for Windows
 # Tested with Visual C++ 2.0 (cl.exe 9.0)
 #
-# $Id: makefile.msvc,v 1.4 2013/09/21 12:09:40 ozzmosis Exp $
+# $Id: makefile.msvc,v 1.5 2013/09/25 18:03:29 ozzmosis Exp $
 #
 # Build with:
 #
@@ -9,7 +9,7 @@
 # nmake -f makefile.msvc clean         (remove temp files)
 
 CC=cl
-CFLAGS= -nologo -W3 -DWIN32
+CFLAGS= -nologo -W3
 
 !ifdef DEBUG
 CFLAGS= $(CFLAGS) -Zd
