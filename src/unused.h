@@ -1,4 +1,4 @@
-/* $Id: unused.h,v 1.2 2012/10/17 11:36:54 ozzmosis Exp $ */
+/* $Id: unused.h,v 1.3 2013/09/25 20:42:16 ozzmosis Exp $ */
 
 /*
  *  Suppress warning about unused parameter. Written by Paul Edwards and
@@ -6,11 +6,11 @@
  */
 
 #ifndef unused
-#if defined(PACIFIC) || defined(_MSC_VER) || defined(__LCC__)
+
+#if defined(PACIFIC) || defined(_MSC_VER) || defined(__LCC__) || defined(__HIGHC__)
 #define unused(x)
-#elif defined(__HIGHC__)
-#define unused(x) ((x) = (x))
 #else
 #define unused(x) ((void)(x))
 #endif
+
 #endif
