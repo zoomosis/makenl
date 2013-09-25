@@ -8,6 +8,9 @@ char *skipspaces(char *ptr);
 char *cutspaces(char *string);
 char *strupper(char *string);
 
+size_t strlcpy(char *d, const char *s, size_t bufsize);
+size_t strlcat(char *d, const char *s, size_t bufsize);
+
 /* necessary for some C implementations where printf("%s\n", NULL) would cause a segfault */
 
 #define make_str_safe(x) (x)?(x):"(null)"
