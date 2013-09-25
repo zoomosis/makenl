@@ -1,6 +1,8 @@
 #ifndef _PORTABLE_SNPRINTF_H_
 #define _PORTABLE_SNPRINTF_H_
 
+#include <stdarg.h>
+
 #include "os.h"
 
 #define PORTABLE_SNPRINTF_VERSION_MAJOR 2
