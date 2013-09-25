@@ -2,7 +2,7 @@
 # Tested with MetaWare High C R3.2
 # Requires GNU Make
 #
-# $Id: makefile.hcos2,v 1.7 2013/09/21 15:40:07 ozzmosis Exp $
+# $Id: makefile.hcos2,v 1.8 2013/09/25 18:24:10 ozzmosis Exp $
 #
 # Build with:
 #
@@ -26,7 +26,7 @@ endif
 
 OBJS+= config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
 OBJS+= merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
-OBJS+= procfile.obj stack.obj strtool.obj upcont.obj
+OBJS+= procfile.obj stack.obj strtool.obj upcont.obj snprintf.obj
 
 .c.obj:
 	$(CC) $(CFLAGS) -c $<

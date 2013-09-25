@@ -1,6 +1,6 @@
 # MakeNL makefile for Borland Turbo C++ 1.0 for DOS
 #
-# $Id: makefile.tcd,v 1.3 2013/09/21 12:09:41 ozzmosis Exp $
+# $Id: makefile.tcd,v 1.4 2013/09/25 18:24:10 ozzmosis Exp $
 #
 # Build with:
 #
@@ -12,7 +12,7 @@ CFLAGS=-w -ml
 
 OBJS=config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj 
 OBJS=$(OBJS) merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
-OBJS=$(OBJS) procfile.obj stack.obj strtool.obj upcont.obj
+OBJS=$(OBJS) procfile.obj stack.obj strtool.obj upcont.obj snprintf.obj
 
 .c.obj:
 	$(CC) $(CFLAGS) -c $<

@@ -1,7 +1,7 @@
 # MakeNL makefile for DJGPP 2.03
 # Tested with GNU Make 3.79 & GCC 2.95
 #
-# $Id: makefile.djgpp,v 1.6 2013/09/23 09:45:28 ozzmosis Exp $
+# $Id: makefile.djgpp,v 1.7 2013/09/25 18:24:10 ozzmosis Exp $
 #
 # Build with:
 #
@@ -25,7 +25,7 @@ endif
 
 OBJS+=config.o crc16.o fileutil.o fts5.o lsttool.o makenl.o merge.o
 OBJS+=mkdiff.o mklog.o msgtool.o os.o output.o procfile.o stack.o
-OBJS+=strtool.o upcont.o
+OBJS+=strtool.o upcont.o snprintf.o
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<

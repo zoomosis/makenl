@@ -3,7 +3,7 @@
 #
 # Defaults to building OS/2 32-bit target.
 #
-# $Id: makefile.watcom,v 1.13 2013/09/21 12:09:41 ozzmosis Exp $
+# $Id: makefile.watcom,v 1.14 2013/09/25 18:24:10 ozzmosis Exp $
 #
 # Build with:
 #
@@ -83,7 +83,7 @@ RM=del
 
 OBJS+= config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
 OBJS+= merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
-OBJS+= procfile.obj stack.obj strtool.obj upcont.obj
+OBJS+= procfile.obj stack.obj strtool.obj upcont.obj snprintf.obj
 
 .c.obj:
 	$(CC) $(CFLAGS) -fo=$@ -c $<

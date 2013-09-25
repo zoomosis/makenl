@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.23 2013/09/23 17:11:31 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.24 2013/09/25 18:24:10 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,6 +11,7 @@
 #include "mklog.h"
 #include "fileutil.h"
 #include "os.h"
+#include "snprintf.h"
 
 int loglevel = 1;
 

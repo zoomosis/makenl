@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.52 2013/09/24 11:06:35 ozzmosis Exp $ */
+/* $Id: os.h,v 1.53 2013/09/25 18:24:11 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -192,8 +192,7 @@ struct _filefind
 #define filenodir(x) (strpbrk(x,"\\/") == NULL)
 #define strcasecmp stricmp
 
-/* vsnprintf() unavailable in Borland C */
-#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
+#define NEED_SNPRINTF 1
 
 #elif defined(__WATCOMC__) || defined(__HIGHC__)
 
@@ -210,6 +209,10 @@ struct _filefind
 
 #define HAVE_GETPID 1
 
+#if __WATCOMC__ <= 1100
+#define NEED_SNPRINTF 1
+#endif
+
 struct _filefind
 {
     char path[MYMAXFILE + MYMAXEXT];
@@ -219,11 +222,6 @@ struct _filefind
 #define filecmp stricmp
 #define filenodir(x) (strpbrk(x,"\\/") == NULL)
 #define strcasecmp stricmp
-
-#if __WATCOMC__ <= 1100
-/* vsnprintf() unavailable in early versions of Watcom C */
-#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
-#endif
 
 #elif defined(OS_OS2) && defined(__IBMC__)
 
@@ -260,9 +258,7 @@ struct _filefind
 #define strcasecmp stricmp
 
 #define HAVE_GETPID 1
-
-/* vsnprintf() unavailable in VisualAge C, so use insecure vsprintf() */
-#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
+#define NEED_SNPRINTF 1
 
 #elif defined(OS_WIN)
 #if defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__) || defined(__LCC__) || defined(__MINGW32__)
@@ -294,8 +290,7 @@ struct _filefind
 };
 
 #if _MSC_VER <= 900
-/* vsnprintf() unavailable on very old version of MSVC, so use insecure vsprintf() */
-#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
+#define NEED_SNPRINTF 1
 #endif
 
 #endif
@@ -323,9 +318,7 @@ struct _filefind
 #define strcasecmp stricmp
 
 #define HAVE_GETPID 1
-
-/* vsnprintf() unavailable on very old version of Turbo C, so use insecure vsprintf() */
-#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
+#define NEED_SNPRINTF 1
 
 #elif defined(__DJGPP__)
 
@@ -354,9 +347,7 @@ struct _filefind
 #define strcasecmp stricmp
 
 #define HAVE_GETPID 1
-
-/* vsnprintf() unavailable in DJGPP, so use insecure vsprintf() */
-#define vsnprintf(str, n, fmt, ap) vsprintf(str, fmt, ap)
+#define NEED_SNPRINTF 1
 
 #elif defined(__EMX__)
 
@@ -386,6 +377,10 @@ struct _filefind
     int flags;
 };
 
+#endif
+
+#ifndef NEED_SNPRINTF
+#define HAVE_SNPRINTF 1
 #endif
 
 char *os_findfirst(struct _filefind *pff, const char *path, const char *mask);
