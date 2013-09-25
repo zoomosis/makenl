@@ -1,18 +1,24 @@
 # MakeNL makefile for Microsoft Visual C/C++ for Windows
 # Tested with Visual C++ 2.0 (cl.exe 9.0)
 #
-# $Id: makefile.msvc,v 1.6 2013/09/25 18:24:10 ozzmosis Exp $
+# $Id: makefile.msvc,v 1.7 2013/09/25 20:13:37 ozzmosis Exp $
 #
 # Build with:
 #
-# nmake -f makefile.msvc
-# nmake -f makefile.msvc clean         (remove temp files)
+# nmake -f makefile.msvc           (release version)
+# nmake -f makefile.msvc MSVCRT=1  (link with MSVC runtime DLL for smaller .exe)
+# nmake -f makefile.msvc DEBUG=1   (debug version)
+# nmake -f makefile.msvc clean     (remove temp files)
 
 CC=cl
 CFLAGS= -nologo -W3
 
 !ifdef DEBUG
 CFLAGS= $(CFLAGS) -Zd
+!endif
+
+!ifdef MSVCRT
+CFLAGS= $(CFLAGS) -MD
 !endif
 
 !ifdef TESTING
