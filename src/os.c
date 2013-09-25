@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.42 2013/09/24 20:37:42 ajleary Exp $ */
+/* $Id: os.c,v 1.43 2013/09/25 18:11:55 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -107,8 +107,7 @@ int os_chdrive(int newdrv)
                                        or 1 for failure. */
                                                                               
     #elif defined (__DJGPP__) || (defined (__TURBOC__) && !defined (__BORLANDC__))
-    int totdrvs;
-    totdrvs = setdisk(newdrv - 1); 
+    setdisk(newdrv - 1); 
     return (getdisk() != (newdrv - 1)); /* Check to make sure disk change
                                            succeeded - return 0 for success
                                            or 1 for failure. */
