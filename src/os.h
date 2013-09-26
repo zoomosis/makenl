@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.54 2013/09/25 20:23:57 ozzmosis Exp $ */
+/* $Id: os.h,v 1.55 2013/09/26 09:41:39 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -31,7 +31,7 @@
 #define OS_DOS 1
 #elif defined(__OS2__) || defined(_OS2) || defined(__EMX__)
 #define OS_OS2 1
-#elif defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64)
+#elif defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(__NT__)
 #define OS_WIN 1
 #else
 #define OS_UNIX 1
