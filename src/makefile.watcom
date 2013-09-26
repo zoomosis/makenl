@@ -3,7 +3,7 @@
 #
 # Defaults to building OS/2 32-bit target.
 #
-# $Id: makefile.watcom,v 1.14 2013/09/25 18:24:10 ozzmosis Exp $
+# $Id: makefile.watcom,v 1.15 2013/09/26 09:40:24 ozzmosis Exp $
 #
 # Build with:
 #
@@ -51,6 +51,7 @@ CFLAGS+= -k16384
 !ifeq OS D32
 CC=wcl386
 CFLAGS+= -bt=dos -l=dos4g
+CFLAGS+= -k32768
 !endif
 
 !ifeq OS WIN
