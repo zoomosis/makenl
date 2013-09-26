@@ -1,4 +1,4 @@
-/* $Id: upcont.c,v 1.6 2013/09/26 19:52:03 ozzmosis Exp $ */
+/* $Id: upcont.c,v 1.7 2013/09/26 19:53:47 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdio.h>
@@ -6,6 +6,7 @@
 #include "makenl.h"
 #include "fts5.h"
 #include "snprintf.h"
+#include "strtool.h"
 #include "upcont.h"
 
 /* *INDENT-OFF* */
