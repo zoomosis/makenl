@@ -1,13 +1,14 @@
 # MakeNL makefile for Linux
 # Tested with GNU Make 3.81 & GNU C 4.4.3
 #
-# $Id: makefile.linux,v 1.11 2013/09/26 20:25:42 ozzmosis Exp $
+# $Id: makefile.linux,v 1.12 2013/09/26 21:06:40 ozzmosis Exp $
 #
 # Build with:
 #
 # make -f makefile.linux          (release) or
 # make -f makefile.linux DEBUG=1  (debug)
 # make -f makefile.linux STATIC=1 (build statically-linked binary)
+# make -f makefile.linux I386=1   (build 32-bit binary on 64-bit Linux)
 # make -f makefile.linux clean    (remove temp files)
 # make -f makefile.linux CC=clang (build with clang)
 # make -f makefile.linux ASAN=1   (debug build with clang using AddressSanitizer)
@@ -28,6 +29,10 @@ endif
 
 ifdef STATIC
 LDFLAGS+= -static
+endif
+
+ifdef I386
+CFLAGS+= -m32
 endif
 
 ifdef TESTING
