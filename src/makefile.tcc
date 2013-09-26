@@ -1,17 +1,36 @@
-# MakeNL makefile for Linux
+# MakeNL makefile for TinyCC on Linux
 # Tested with GNU Make 3.81 & TinyCC 0.9.26
 #
-# $Id: makefile.tcc,v 1.1 2013/09/26 18:40:17 ozzmosis Exp $
+# $Id: makefile.tcc,v 1.2 2013/09/26 20:43:45 ozzmosis Exp $
 #
 # Build with:
 #
 # make -f makefile.tcc          (release) or
 # make -f makefile.tcc DEBUG=1  (debug)
 # make -f makefile.tcc clean    (remove temp files)
+# make -f makefile.tcc I386=1   (32-bit build)
+# make -f makefile.tcc WIN32=1  (cross-compile to Win32)
+# make -f makefile.tcc WIN64=1  (cross-compile to Win64)
 
 TCCROOT=/opt/tcc
 CC=$(TCCROOT)/bin/tcc
-CFLAGS+= -Wall -W -B$(TCCROOT)/lib/tcc -O2
+INTLIB=$(TCCROOT)/lib/tcc
+
+ifdef I386
+CC=$(TCCROOT)/bin/i386-tcc
+endif
+
+ifdef WIN32
+CC=$(TCCROOT)/bin/i386-win32-tcc
+INTLIB=$(TCCROOT)/lib/tcc/win32
+endif
+
+ifdef WIN64
+CC=$(TCCROOT)/bin/x86_64-win32-tcc
+INTLIB=$(TCCROOT)/lib/tcc/win32
+endif
+
+CFLAGS+= -Wall -W -B$(INTLIB) -O2
 
 ifdef DEBUG
 CFLAGS+= -g
