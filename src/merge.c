@@ -1,4 +1,4 @@
-/* $Id: merge.c,v 1.9 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: merge.c,v 1.10 2013/09/26 19:52:03 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdio.h>
@@ -10,6 +10,7 @@
 #include "msg.h"
 #include "fileutil.h"
 #include "mklog.h"
+#include "strtool.h"
 
 static FILE *MergeInFILE, *MergeOutFILE;
 static int MergeListAddr[4];
@@ -80,7 +81,7 @@ FILE *PrepareMerge(void)
             MergeInFILE = NULL;
             return MergeOutFILE;
         }
-        strcpy(MergeLine, linebuf);
+        strlcpy(MergeLine, linebuf, sizeof MergeLine);
         ParseFTS5(linebuf, &linelevel, &linenum);
         if (Level4DPos[linelevel] <= matchparts)
             return MergeOutFILE;
@@ -120,7 +121,7 @@ FILE *PrepareMerge(void)
                     return MergeOutFILE;
                 while (fgets(linebuf, linelength, MergeInFILE) != NULL)
                 {
-                    strcpy(MergeLine, linebuf);
+                    strlcpy(MergeLine, linebuf, sizeof MergeLine);
                     ParseFTS5(linebuf, &linelevel, &linenum);
                     if (linelevel <= MakeType)
                         return MergeOutFILE;

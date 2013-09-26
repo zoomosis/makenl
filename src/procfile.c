@@ -1,4 +1,4 @@
-/* $Id: procfile.c,v 1.2 2013/09/25 19:29:56 ozzmosis Exp $ */
+/* $Id: procfile.c,v 1.3 2013/09/26 19:52:03 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -304,7 +304,7 @@ processfile(int myMakeType, int myMakeNum, FILE * InputFILE,
             if (InputLine[1] == 'E' && OutFILE) /* Pass through only
                                                    errors */
             {
-                strcat(InputLine, "\r\n");
+                strlcat(InputLine, "\r\n", sizeof InputLine);
                 *OutCRC = CRC16String(InputLine, *OutCRC);
                 fputs(InputLine, OutFILE);
             }

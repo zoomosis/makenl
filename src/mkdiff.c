@@ -1,4 +1,4 @@
-/* $Id: mkdiff.c,v 1.14 2013/09/21 11:54:26 ozzmosis Exp $ */
+/* $Id: mkdiff.c,v 1.15 2013/09/26 19:52:03 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,6 +9,7 @@
 #include "lsttool.h"
 #include "mklog.h"
 #include "os.h"
+#include "strtool.h"
 
 #ifdef MEM_SEG
 /* smaller table size for 16-bit DOS & 16-bit OS/2 builds */
@@ -394,7 +395,7 @@ int makediff(char *filename)
     if (os_filesize(filename) > DIFFThreshold  && DIFFThreshold != -1)
     {
         cause = CAUSE_THRESHOLD;
-        strcpy(newext, OldExtensions[0]);
+        strlcpy(newext, OldExtensions[0], sizeof newext);
         newext[0] = 'd';        /* foo.206 --> foo.d06 */
         myfnmerge(diffname, NULL, OutDir, OutFile, newext);
     }
@@ -694,7 +695,7 @@ int makediff(char *filename)
 
     if (cause == CAUSE_THRESHOLD)
     {
-        strcpy(filename, diffname);
+        strlcpy(filename, diffname, MYMAXPATH);
 
         if (OutDiff[0] != 0)
         {

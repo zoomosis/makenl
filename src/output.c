@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.9 2013/09/25 19:29:56 ozzmosis Exp $ */
+/* $Id: output.c,v 1.10 2013/09/26 19:52:03 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -90,7 +90,7 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
     if (!Copyfile)
         return lineno;
     myfnmerge(fullname, NULL, MasterDir, Copyfile, NULL);
-    strcpy(linebuf, ";S");
+    strlcpy(linebuf, ";S", sizeof linebuf);
     CopyFILE = fopen(fullname, "r");
     if (!CopyFILE)
     {

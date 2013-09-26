@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.12 2013/09/21 11:13:15 ozzmosis Exp $ */
+/* $Id: fileutil.c,v 1.13 2013/09/26 19:52:03 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -281,7 +281,7 @@ void cleanit(void)
     extptr = OldExtensions + 1;
     do
     {
-        strcpy(ext, *extptr);
+        strlcpy(ext, *extptr, sizeof ext);
         if (OutDiff[0] != 0)
         {
             myfnmerge(delname, NULL, OutDir, OutDiff, ext);

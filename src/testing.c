@@ -54,7 +54,7 @@ static void test_file_getname(void)
 static void test_fullpath(void)
 {
     int rc;
-    char buf[MYMAXDIR];
+    char buf[MYMAXPATH];
     mklog(LOG_INFO, "test_fullpath() begin");
     rc = os_fullpath(buf, "./makenl", sizeof buf);
     mklog(LOG_INFO, "  os_fullpath(): rc == %d, buf == '%s'", rc, buf);
@@ -64,7 +64,7 @@ static void test_fullpath(void)
 static void test_fulldir(void)
 {
     int rc;
-    char buf[MYMAXDIR];
+    char buf[MYMAXPATH];
     mklog(LOG_INFO, "test_fulldir() begin");
     rc = os_fulldir(buf, "./makenl", sizeof buf);
     mklog(LOG_INFO, "  os_fulldir(): rc == %d, buf == '%s'", rc, buf);
@@ -73,10 +73,10 @@ static void test_fulldir(void)
 
 static void test_slash(void)
 {
-    char *p, buf[MYMAXDIR];
+    char *p, buf[MYMAXPATH];
     mklog(LOG_INFO, "test_slash() begin");
 
-    strcpy(buf, "makenl");
+    strlcpy(buf, "makenl", sizeof buf);
     mklog(LOG_INFO, "  buf == '%s'", buf);
 
     p = os_append_slash(buf);
@@ -85,7 +85,7 @@ static void test_slash(void)
     p = os_remove_slash(p);
     mklog(LOG_INFO, "  os_remove_slash(p): rc == '%s'", p);
 
-    strcpy(buf, "makenl/");
+    strlcpy(buf, "makenl/", sizeof buf);
     mklog(LOG_INFO, "  buf == '%s'", buf);
 
     /*
