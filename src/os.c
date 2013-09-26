@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.45 2013/09/25 19:29:56 ozzmosis Exp $ */
+/* $Id: os.c,v 1.46 2013/09/26 08:14:50 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -982,6 +982,137 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
     return rc;
 }
 
+#endif
+
+#if defined (__WATCOMC__)
+
+int os_fullpath(char *dst, const char *src, size_t bufsiz)
+{
+    int rc = -1;
+    char tmp[MYMAXDIR];
+    char curdir[MYMAXDIR];
+    unsigned curdrnum;
+    unsigned reqdrnum;
+    unsigned total;
+    unsigned temp;
+
+    _dos_getdrive(&curdrnum);
+    mklog(LOG_DEBUG, "os_fullpath(): Old drive number: %d", curdrnum);
+
+    if (!src || !*src)
+    {
+        src = ".";
+    }
+
+    if (src[1] == ':')
+    {
+        /* drive letter specified */
+
+        mklog(LOG_DEBUG, "os_fullpath(): You specified a drive letter");
+        reqdrnum = toupper(src[0]) - 'A' + 1;
+
+        if (reqdrnum != curdrnum)
+        {
+            /* requested drive is not current drive */
+            mklog(LOG_DEBUG, "os_fullpath(): Switching to drive %d", reqdrnum);
+
+            /* set current disk */
+            _dos_setdrive(reqdrnum, &total);
+            _dos_getdrive(&temp);
+
+            if (temp != reqdrnum)
+            {
+                /* Specified drive does not exist */
+                mklog(LOG_DEBUG, "os_fullpath(): This drive does not exist");
+                return -1;
+            }
+        }
+
+        /* Skip drive letter */
+        src += 2;
+    }
+
+    mklog(LOG_DEBUG, "os_fullpath(): Searching for '%s' on current drive", src);
+
+    if (getcwd(curdir, bufsiz) != NULL)
+    {
+        char *fname;
+        char *dir = tmp;
+
+        /*
+         * Requested drive is now current drive, curdrnum is the original drive
+         * reqdrnum is the requested drive curdir is the original directory on
+         * the current drive src is the requested relative path without drive.
+         */
+
+        strcpy(dir, src);
+        fname = strrchr(dir, '\\');
+        if (!fname)
+        {
+            fname = strrchr(dir, '/');
+        }
+
+        if (!fname)
+        {
+            /* no backslash */
+
+            mklog(LOG_DEBUG, "os_fullpath(): You don't have any backslash in the file name.");
+
+            if (!(dir[0] == '.' && (dir[1] == '.' || dir[1] == '\0')))
+            {
+                mklog(LOG_DEBUG, "os_fullpath(): I assume this file is relative to cwd.");
+                fname = dir;
+                dir = ".";
+            }
+            else
+            {
+                mklog(LOG_DEBUG, "os_fullpath(): Looks like relative directory only");
+                fname = "";
+            }
+        }
+        else
+        {
+            *fname++ = '\0';
+        }
+
+        mklog(LOG_DEBUG, "os_fullpath(): Directory is now %s, File name is now %s", dir, fname);
+
+        /* fname = pure file name */
+        /* dir = relative path, only directory */
+
+        /* If dir is empty it means root directory */
+
+        if (chdir((*dir) ? dir : "\\") == 0)
+        {
+            mklog(LOG_DEBUG, "os_fullpath(): chdir() suceeded. The directory exists.");
+
+            if (getcwd(dst, bufsiz) != NULL)
+            {
+                rc = 0;
+
+                if (fname && *fname)
+                {
+                    if (strlen(dst) != 3)
+                    {
+                        /* Does not look like "C:\" */
+                        strcat(dst, "\\");
+                    }
+
+                    strcat(dst, fname);
+                }
+
+                mklog(LOG_DEBUG, "os_fullpath(): Final full name is %s", fname);
+            }
+        }
+
+        chdir(curdir);
+    }
+
+    _dos_setdrive(curdrnum, &total);
+    os_dirsep(dst);
+
+    return rc;
+}
 #endif
 
 #elif defined(__EMX__)
