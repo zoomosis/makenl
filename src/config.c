@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.26 2013/09/25 19:29:56 ozzmosis Exp $ */
+/* $Id: config.c,v 1.27 2013/09/26 19:29:20 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -63,13 +63,13 @@ static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
                 {
                     mklog(LOG_ERROR, "No directory for master files specified -- using '%s'",
                             CurDir);
-                    strcpy(MasterDir, CurDir);
+                    strlcpy(MasterDir, CurDir, sizeof MasterDir);
                 }
                 if (OutDir[0] == 0)
                 {
                     mklog(LOG_ERROR, "No directory for output file specified -- using '%s'",
                             MasterDir);
-                    strcpy(OutDir, MasterDir);
+                    strlcpy(OutDir, MasterDir, sizeof OutDir);
                 }
                 if (UploadDir[0] != 0 && !strcmp(UploadDir, MasterDir))
                 {
@@ -277,7 +277,7 @@ void DoCmdLine(char **argv, char **cfgfilename)
             {
                 tmpptr = "nodelist";
             }
-            strcpy(MergeFilename, tmpptr);
+            strlcpy(MergeFilename, tmpptr, sizeof MergeFilename);
             break;
 
         case 'N':
@@ -510,7 +510,7 @@ int parsecfgfile(FILE * CFG)
         if (workptr)
             *workptr = 0;
         cutspaces(cfgline);
-        strcpy(cfgSplit, cfgline);
+        strlcpy(cfgSplit, cfgline, sizeof cfgSplit);
         command = strtok(cfgSplit, cfgspacechars); /* Space and Tab */
         if (!command)
             continue;
@@ -588,7 +588,7 @@ int parsecfgfile(FILE * CFG)
             ArcOpenSet++;
             break;
         case CFG_BATCHFILE:
-            strcpy(BatchFile, args[0]);
+            strlcpy(BatchFile, args[0], sizeof BatchFile);
             break;
         case CFG_BAUDRATE:
             /* Parse comma separated list of baudrates, maximum twelve */
@@ -624,7 +624,7 @@ int parsecfgfile(FILE * CFG)
             }
             break;
         case CFG_LOGFILE:
-            strcpy(LogFile, args[0]);
+            strlcpy(LogFile, args[0], sizeof LogFile);
             /* Now we know the logfile, start logging immediately */
             mklog(LOG_LOGONLY, MAKENL_LONG_VERSION);
             mklog(LOG_INFO, "MakeNL started");
@@ -642,13 +642,13 @@ int parsecfgfile(FILE * CFG)
             }
             break;
         case CFG_CALLEDBATCHFILE:
-            strcpy(CalledBatchFile, args[0]);
+            strlcpy(CalledBatchFile, args[0], sizeof CalledBatchFile);
             break;
         case CFG_CLEANUP:
             do_clean = 1;
             break;
         case CFG_COMMENTS:
-            strcpy(CommentsFile, args[0]);
+            strlcpy(CommentsFile, args[0], sizeof CommentsFile);
             break;
         case CFG_COPYRIGHT:
             workptr = CopyrightFile;
@@ -681,7 +681,9 @@ int parsecfgfile(FILE * CFG)
                 if (argcounter == 4) /* Source file given */
                 {
                     if (filenodir(args[2]))
-                        strcpy(MakeSourceFile, args[2]);
+		    {
+                        strlcpy(MakeSourceFile, args[2], sizeof MakeSourceFile);
+		    }
                     else
                     {
                         mklog(LOG_ERROR, "%s -- Invalid file name -- '%s'",
@@ -698,9 +700,13 @@ int parsecfgfile(FILE * CFG)
             break;
         case CFG_MERGE:
             if (argcounter == 2)
-                strcpy(MergeFilename, args[0]);
+	    {
+                strlcpy(MergeFilename, args[0], sizeof MergeFilename);
+	    }
             else
-                strcpy(MergeFilename, "NODELIST");
+	    {
+                strlcpy(MergeFilename, "NODELIST", sizeof MergeFilename);
+	    }
             break;
         case CFG_MINPHONE:
             if (args[0][0] >= '1' && args[0][0] <= '9' && args[0][1] == 0)
@@ -853,7 +859,9 @@ int parsecfgfile(FILE * CFG)
           OutputFile:
             os_dirsep(args[0]);
             if (filenodir(args[0]))
-                strcpy(workptr, args[0]);
+	    {
+                strlcpy(workptr, args[0], MYMAXFILE + MYMAXEXT);
+	    }
             else
             {
                 mklog(LOG_ERROR, "%s -- Invalid file name -- '%s'",
