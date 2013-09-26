@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.46 2013/09/26 08:14:50 ajleary Exp $ */
+/* $Id: os.c,v 1.47 2013/09/26 19:43:19 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,6 +30,7 @@
 
 #include "fileutil.h"
 #include "snprintf.h"
+#include "strtool.h"
 #include "mklog.h"
 #include "unused.h"
 
@@ -180,7 +181,7 @@ int os_chdir(char *path)
         return 1;
     }
 
-    strcpy(newpath, path);
+    strlcpy(newpath, path, strlen(path) + 1);
 
     /* strip trailing \ */
     os_remove_slash(newpath);
@@ -338,7 +339,7 @@ int os_spawn(const char *command, const char *cmdline)
     int rc;
 
     /* search for command */
-    strcpy(tmpfn, command);
+    strlcpy(tmpfn, command, sizeof tmpfn);
     pext = strchr(tmpfn, '\0');
 
     mklog(LOG_DEBUG, "os_spawn(): trying `%s'", tmpfn);
@@ -444,7 +445,7 @@ int os_fulldir(char *dst, const char *src, size_t bufsiz)
 
     mklog(LOG_DEBUG, __FILE__ ": os_fulldir(): called with src='%s'", src);
 
-    strcpy(tmp, src);
+    strlcpy(tmp, src, sizeof tmp);
     os_remove_slash(tmp);
     mklog(LOG_DEBUG, __FILE__ ": os_fulldir(): after removing slash: '%s'", tmp);
 
@@ -741,9 +742,9 @@ char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
     unsigned rc;
     char tmp[MYMAXPATH];
 
-    strcpy(tmp, path);
+    strlcpy(tmp, path, sizeof tmp);
     os_append_slash(tmp);
-    strcat(tmp, mask);
+    strlcat(tmp, mask, sizeof tmp);
 
     rc = _dos_findfirst(tmp, _A_NORMAL | _A_RDONLY | _A_HIDDEN | _A_SYSTEM | _A_ARCH, &pff->fileinfo);
 
@@ -782,9 +783,9 @@ char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
     int rc;
     char tmp[MAXPATH];
 
-    strcpy(tmp, path);
+    strlcpy(tmp, path, sizeof tmp);
     os_append_slash(tmp);
-    strcat(tmp, mask);
+    strlcat(tmp, mask, sizeof tmp);
 
     rc = findfirst(tmp, &pff->fileinfo, FA_RDONLY | FA_HIDDEN | FA_SYSTEM | FA_ARCH);
 
@@ -817,9 +818,9 @@ char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
 {
     char tmp[FILENAME_MAX];
 
-    strcpy(tmp, path);
+    strlcpy(tmp, path, sizeof tmp);
     os_append_slash(tmp);
-    strcat(tmp, mask);
+    strlcat(tmp, mask, sizeof tmp);
     pff->handle = _findfirst(tmp, &pff->fileinfo);
 
     if (pff->handle == -1)
