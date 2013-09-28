@@ -3,7 +3,7 @@
 #
 # Defaults to building OS/2 32-bit target.
 #
-# $Id: makefile.watcom,v 1.15 2013/09/26 09:40:24 ozzmosis Exp $
+# $Id: makefile.watcom,v 1.16 2013/09/28 11:52:58 ozzmosis Exp $
 #
 # Build with:
 #
@@ -74,12 +74,10 @@ CFLAGS+= -DTESTING
 OBJS+= testing.obj
 !endif
 
-!ifndef RM
-!ifeq OS LNX
+!ifdef __UNIX__
 RM=rm
 !else
 RM=del
-!endif
 !endif
 
 OBJS+= config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
