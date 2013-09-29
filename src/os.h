@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.55 2013/09/26 09:41:39 ozzmosis Exp $ */
+/* $Id: os.h,v 1.56 2013/09/29 15:53:50 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -27,7 +27,7 @@
  *  OS_NAME  Operating system name
  */
 
-#if defined(__MSDOS__) || defined(__DOS__)
+#if defined(MSDOS) || defined(__MSDOS__) || defined(__DOS__)
 #define OS_DOS 1
 #elif defined(__OS2__) || defined(_OS2) || defined(__EMX__)
 #define OS_OS2 1
@@ -81,7 +81,11 @@
 #elif defined(__IBMC__)
 #define CC_NAME "VisualAge C"
 #elif defined(_MSC_VER)
+#if _MSC_VER <= 900
+#define CC_NAME "MSC"
+#else
 #define CC_NAME "MSVC"
+#endif
 #elif defined(__LCC__)
 #define CC_NAME "LCC"
 #elif defined(__DMC__)
@@ -191,6 +195,34 @@ struct _filefind
 #define filecmp stricmp
 #define filenodir(x) (strpbrk(x,"\\/") == NULL)
 #define strcasecmp stricmp
+
+#define NEED_SNPRINTF 1
+
+#elif defined(OS_DOS) && defined(_MSC_VER)
+
+#include <dos.h>
+#include <io.h>
+#include <direct.h>
+#include <process.h>
+
+#define MYMAXFILE  _MAX_FNAME
+#define MYMAXDIR   _MAX_DIR
+#define MYMAXPATH  _MAX_PATH
+#define MYMAXEXT   _MAX_EXT
+#define MYMAXDRIVE _MAX_DRIVE
+
+#define filecmp    stricmp
+#define filenodir(x) (strchr(x,'/') == NULL)
+
+#define strcasecmp stricmp
+
+#define HAVE_GETPID 1
+
+struct _filefind
+{
+    char path[MYMAXFILE];
+    struct find_t fileinfo;
+};
 
 #define NEED_SNPRINTF 1
 

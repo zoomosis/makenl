@@ -1,4 +1,4 @@
-/* $Id: os.c,v 1.47 2013/09/26 19:43:19 ozzmosis Exp $ */
+/* $Id: os.c,v 1.48 2013/09/29 15:53:50 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -812,6 +812,42 @@ void os_findclose(struct _filefind *pff)
     unused(pff);
 }
 
+#elif defined(_MSC_VER) && defined(OS_DOS)
+
+char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
+{
+    unsigned rc;
+    char tmp[MYMAXPATH];
+
+    strlcpy(tmp, path, sizeof tmp);
+    os_append_slash(tmp);
+    strlcat(tmp, mask, sizeof tmp);
+
+    rc = _dos_findfirst(tmp, _A_NORMAL | _A_RDONLY | _A_HIDDEN | _A_SYSTEM | _A_ARCH, &pff->fileinfo);
+
+    if (rc == 0)
+    {
+        return pff->fileinfo.name;
+    }
+
+    return NULL;
+}
+
+char *os_findnext(struct _filefind *pff)
+{
+    if (_dos_findnext(&pff->fileinfo) == 0)
+    {
+        return pff->fileinfo.name;
+    }
+
+    return NULL;
+}
+
+void os_findclose(struct _filefind *pff)
+{
+    unused(pff);
+}
+
 #elif defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__) || defined(__LCC__) || defined(__MINGW32__)
 
 char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
@@ -985,7 +1021,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
 
 #endif
 
-#if defined (__WATCOMC__)
+#if defined (__WATCOMC__) || defined(_MSC_VER)
 
 int os_fullpath(char *dst, const char *src, size_t bufsiz)
 {
