@@ -4,6 +4,7 @@
 #include "makenl.h"
 #include "mklog.h"
 #include "os.h"
+#include "strtool.h"
 
 #if defined(OS_DOS)
 #define OS_WILDCARD "*.*"
