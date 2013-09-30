@@ -1,3 +1,11 @@
+makenl (3.3.10-0wheezy1~1) UNRELEASED; urgency=low
+
+  Todo:
+    - Start development work for packaging v3.3.10.
+  * New upstream release: see changelog.gz for changes from v3.3.8 to v3.3.10.
+
+ -- Robert James Clay <jame@rocasa.us>  Mon, 30 Sep 2013 14:10:18 -0400
+
 makenl (3.3.8-0wheezy1) wheezy; urgency=low
 
   * Add cmake to the Build-Depends setting in debian/control.
