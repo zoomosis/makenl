@@ -1,7 +1,38 @@
-/*  $Id: history.txt,v 1.25 2013/09/05 03:25:52 jame Exp $  */
+/*  $Id: history.txt,v 1.26 2013/09/30 02:37:26 ajleary Exp $  */
 
 
                             MakeNL Revision History
+
+       v3.3.10 -- September 29, 2013
+
+            Updated history.txt with a very brief synopsis of the changes
+            made since the last release.
+            -- Andrew Leary
+
+            Added Microsoft C 6.0 for DOS port.
+            -- Andrew Clarke
+            
+            Switched to strlcpy() and strlcat() whereever possible, to
+            prevent crashes/segfaults related to buffer overflows.
+            -- Andrew Clarke
+
+            Added missing os_fullpath() function to allow the Watcom DOS
+            16-bit and DOS 32-bit versions to sucessfully build again.
+            -- Andrew Leary
+
+            Switched to using portable snprintf(), Copyright 1999 by Mark
+            Martinec.  
+            -- Andrew Clarke
+
+       v3.3.9 -- September 21, 2013
+
+            Moved all of the operating system specific code to src/os.c. 
+            Added port to TinyCC.
+            -- Andrew Clarke
+
+            Added support for changing drives when needed to the DOS, OS/2,
+            and Windows versions.
+            -- Andrew Leary
 
        v3.3.8 -- September 4, 2013
 
