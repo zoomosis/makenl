@@ -13,7 +13,7 @@ ADD_EXECUTABLE (makenl
     mklog.c
     msgtool.c
     output.c
-    process.c
+    procfile.c
     stack.c
     strtool.c
     upcont.c

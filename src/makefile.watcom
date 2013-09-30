@@ -1,7 +1,9 @@
 # MakeNL makefile for Watcom C/C++
 # Tested with OpenWatcom 1.9
 #
-# $Id: makefile.watcom,v 1.8 2013/09/03 11:39:27 ozzmosis Exp $
+# Defaults to building OS/2 32-bit target.
+#
+# $Id: makefile.watcom,v 1.16 2013/09/28 11:52:58 ozzmosis Exp $
 #
 # Build with:
 #
@@ -31,7 +33,7 @@ OS=OS2
 
 !ifeq OS OS2
 CC=wcl386
-CFLAGS+= -bt=os2v2 -l=os2v2
+CFLAGS+= -bt=os2 -l=os2v2
 !endif
 
 !ifeq OS O16
@@ -48,7 +50,8 @@ CFLAGS+= -k16384
 
 !ifeq OS D32
 CC=wcl386
-CFLAGS+= -bt=dos4g -l=dos4g
+CFLAGS+= -bt=dos -l=dos4g
+CFLAGS+= -k32768
 !endif
 
 !ifeq OS WIN
@@ -58,7 +61,7 @@ CFLAGS+= -bt=nt -l=nt
 
 !ifeq OS LNX
 CC=wcl386
-CFLAGS+= -bcl=linux
+CFLAGS+= -bt=linux -l=linux
 RM=rm -f
 !endif
 
@@ -66,13 +69,20 @@ RM=rm -f
 CFLAGS+= -d2 -hw
 !endif
 
-!ifndef RM
+!ifdef TESTING
+CFLAGS+= -DTESTING
+OBJS+= testing.obj
+!endif
+
+!ifdef __UNIX__
+RM=rm
+!else
 RM=del
 !endif
 
 OBJS+= config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
 OBJS+= merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
-OBJS+= process.obj stack.obj strtool.obj upcont.obj
+OBJS+= procfile.obj stack.obj strtool.obj upcont.obj snprintf.obj
 
 .c.obj:
 	$(CC) $(CFLAGS) -fo=$@ -c $<
