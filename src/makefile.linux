@@ -1,12 +1,14 @@
 # MakeNL makefile for Linux
 # Tested with GNU Make 3.81 & GNU C 4.4.3
 #
-# $Id: makefile.linux,v 1.5 2013/09/03 22:43:13 ozzmosis Exp $
+# $Id: makefile.linux,v 1.12 2013/09/26 21:06:40 ozzmosis Exp $
 #
 # Build with:
 #
 # make -f makefile.linux          (release) or
 # make -f makefile.linux DEBUG=1  (debug)
+# make -f makefile.linux STATIC=1 (build statically-linked binary)
+# make -f makefile.linux I386=1   (build 32-bit binary on 64-bit Linux)
 # make -f makefile.linux clean    (remove temp files)
 # make -f makefile.linux CC=clang (build with clang)
 # make -f makefile.linux ASAN=1   (debug build with clang using AddressSanitizer)
@@ -21,6 +23,21 @@ endif
 
 ifdef DEBUG
 CFLAGS+= -g
+else
+LDFLAGS+= -s
+endif
+
+ifdef STATIC
+LDFLAGS+= -static
+endif
+
+ifdef I386
+CFLAGS+= -m32
+endif
+
+ifdef TESTING
+CFLAGS+= -DTESTING
+OBJS+=testing.o
 endif
 
 ifdef EFENCE
@@ -29,21 +46,18 @@ endif
 
 ifdef RMALLOC
 CFLAGS+= -DMALLOC_DEBUG
+OBJS+=rmalloc.o
 endif
 
 OBJS+=config.o crc16.o fileutil.o fts5.o lsttool.o makenl.o merge.o
-OBJS+=mkdiff.o mklog.o msgtool.o os.o output.o process.o stack.o
+OBJS+=mkdiff.o mklog.o msgtool.o os.o output.o procfile.o stack.o
 OBJS+=strtool.o upcont.o
-
-ifdef RMALLOC
-OBJS+= rmalloc.o
-endif
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<
 
 makenl: $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
 clean:
 	rm -f $(OBJS) makenl

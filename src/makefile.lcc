@@ -1,7 +1,7 @@
 # MakeNL makefile for lcc-win32 for Windows
 # Tested with lcc 3.8.
 #
-# $Id: makefile.lcc,v 1.1 2012/10/17 11:36:54 ozzmosis Exp $
+# $Id: makefile.lcc,v 1.4 2013/09/23 09:45:28 ozzmosis Exp $
 #
 # Build with:
 #
@@ -9,17 +9,18 @@
 # make -f makefile.lcc clean         (remove temp files)
 
 CC=lc
-CFLAGS=-DWIN32
+CFLAGS=
+LFLAGS=-s
 
 OBJS=config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj \
-merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj process.obj \
+merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj procfile.obj \
 stack.obj strtool.obj upcont.obj
 
 .c.obj:
 	$(CC) $(CFLAGS) -c $<
 
 makenl.exe: $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@
+	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LFLAGS)
 
 clean:
 	del $(OBJS)

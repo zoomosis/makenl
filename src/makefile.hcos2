@@ -2,7 +2,7 @@
 # Tested with MetaWare High C R3.2
 # Requires GNU Make
 #
-# $Id: makefile.hcos2,v 1.2 2013/08/23 14:55:00 ozzmosis Exp $
+# $Id: makefile.hcos2,v 1.8 2013/09/25 18:24:10 ozzmosis Exp $
 #
 # Build with:
 #
@@ -11,24 +11,28 @@
 # make -f makefile.hcos2 clean   (remove temp files)
 
 CC=hc
+RM=del
 
 ifdef DEBUG
 CFLAGS+=-g
 else
-CFLAGS+=-s
+LDFLAGS+=-s
 endif
 
-RM=del
+ifdef TESTING
+CFLAGS+= -DTESTING
+OBJS+= testing.obj
+endif
 
 OBJS+= config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
 OBJS+= merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
-OBJS+= process.obj stack.obj strtool.obj upcont.obj patmat.obj
+OBJS+= procfile.obj stack.obj strtool.obj upcont.obj snprintf.obj
 
 .c.obj:
 	$(CC) $(CFLAGS) -c $<
 
 makenl.exe: $(OBJS)
-	$(CC) $(CFLAGS) -o makenl.exe $(OBJS)
+	$(CC) $(CFLAGS) -o makenl.exe $(OBJS) $(LDFLAGS)
 
 clean:
 	$(RM) $(OBJS)

@@ -1,17 +1,9 @@
-/* $Id: strtool.c,v 1.1 2009/01/08 20:07:47 mbroek Exp $ */
+/* $Id: strtool.c,v 1.7 2013/09/25 19:39:07 ozzmosis Exp $ */
 
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "makenl.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "strtool.h"
 
 int getnumber(const char *string, int *output)
 {
@@ -66,4 +58,89 @@ char *cutspaces(char *string)
             break;
     *(p + 1) = 0;
     return string;
+}
+
+char *strupper(char *string)
+{
+    char *orig;
+
+    if (string == NULL)
+    {
+        return NULL;
+    }
+
+    orig = string;
+
+    while (*string != '\0')
+    {
+        *string = (char) toupper((int) *string);
+        string++;
+    }
+
+    return orig;
+}
+
+
+/*
+ *  strlcpy() and strlcat()
+ *
+ *  From http://www.di-mgt.com.au/cprog.html#strlcpy
+ *
+ *  It is not wise to use the ANSI standard strcpy and strcat functions
+ *  because of the possibility of unchecked buffer overflows. The strncpy
+ *  function has the problem that it may not properly terminate the string.
+ *  The following strlcpy and strlcat functions are simple implementations
+ *  that overcome the problems of their original ANSI ancestors
+ *  (last updated 2011-12-11).
+ *
+ *  These functions are guaranteed not to cause a buffer overflow and the
+ *  result is always null-terminated. If there is not enough room in the
+ *  destination buffer, then it truncates the output. The return value is
+ *  the number of bytes it should have copied, so you have a roundabout
+ *  way of checking. The value of bufsize is the actual allocated size of
+ *  the buffer, so you can use sizeof(buf) (providing buf is not a pointer).
+ *
+ *  For more on the background to these functions see strlcpy and strlcat -
+ *  consistent, safe, string copy and concatenation by Todd C. Miller and
+ *  Theo de Raadt.
+ *
+ *  The above solutions do have the disadvantage that they always do at
+ *  least a double pass along the strings, and so are only half as
+ *  efficient as the originals which don't. This is really only a problem
+ *  for very long strings.
+ */
+
+size_t strlcpy(char *d, const char *s, size_t bufsize)
+{
+    size_t len;
+    size_t ret;
+
+    if (!d || !s || (int)bufsize <= 0) return 0;
+    len = strlen(s);
+    ret = len;
+    if (len >= bufsize) len = bufsize-1;
+    memcpy(d, s, len);
+    d[len] = 0;
+
+    return ret;
+}
+
+size_t strlcat(char *d, const char *s, size_t bufsize)
+{
+    size_t len1;
+    size_t len2;
+    size_t ret;
+
+    if (!d || !s || (int)bufsize <= 0) return 0;
+    len1 = strlen(d);
+    len2 = strlen(s);
+    ret = len1 + len2;
+    if (len1+len2 >= bufsize) 
+        len2 = bufsize - (len1 + 1);
+    if (len2 > 0) 
+    {
+        memcpy(d+len1, s, len2);
+        d[len1+len2] = 0;
+    }
+    return ret;
 }
