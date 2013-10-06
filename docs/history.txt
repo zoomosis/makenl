@@ -1,7 +1,15 @@
-/*  $Id: history.txt,v 1.27 2013/10/02 08:58:03 ozzmosis Exp $  */
+/*  $Id: history.txt,v 1.28 2013/10/06 19:44:49 ajleary Exp $  */
 
 
                             MakeNL Revision History
+
+       v3.4.0 -- October 6, 2013
+
+            Release version of v3.3.10 for wide distribution.  Also fixed
+            the Slackware Slackbuild script for generating a Slackware
+            installation package.  Added information on the new Allow8Bit
+            control file option to the whatsnew.txt.
+            -- Andrew Leary
 
        v3.3.10 -- September 29, 2013
 
