@@ -1,10 +1,10 @@
-makenl (3.3.10-0wheezy1~1) UNRELEASED; urgency=low
+makenl (3.4-0wheezy1~1) UNRELEASED; urgency=low
 
   Todo:
-    - Start development work for packaging v3.3.10.
-  * New upstream release: see changelog.gz for changes from v3.3.8 to v3.3.10.
+    - Start development work for packaging v3.4.
+  * New upstream release: see changelog.gz for changes from v3.3.8 to v3.4.0.
 
- -- Robert James Clay <jame@rocasa.us>  Mon, 30 Sep 2013 14:10:18 -0400
+ -- Robert James Clay <jame@rocasa.us>  Mon,  7 Oct 2013 10:29:10 -0400
 
 makenl (3.3.8-0wheezy1) wheezy; urgency=low
 
