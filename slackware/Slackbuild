@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-#  $Id: Slackbuild,v 1.1 2009/01/08 20:07:46 mbroek Exp $
+#  $Id: Slackbuild,v 1.2 2013/10/03 16:19:51 ajleary Exp $
 #
 #  Build script for Slackware makenl package.
 #
@@ -15,7 +15,7 @@ if [ ! -f ../src/version.h ]; then
     exit 1
 fi
 
-VERSION=`grep MAKENL_VERSION ../src/version.h | awk '{ print $3 }' | tr -d '"'`
+VERSION=`grep -m 1 MAKENL_VERSION ../src/version.h | awk '{ print $3 }' | tr -d '"\r\n'`
 CWD=`pwd`
 if [ "$TMP" = "" ]; then
     TMP=/tmp
