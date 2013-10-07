@@ -1,4 +1,4 @@
-$Id: whatsnew.txt,v 1.4 2013/02/07 14:40:17 jame Exp $
+$Id: whatsnew.txt,v 1.5 2013/10/06 19:44:49 ajleary Exp $
 
 Support:
 ========
@@ -96,13 +96,21 @@ ARC:
     Zoo:      ARCOpen o zoo eq:0
     Ha:       ARCOpen h ha ey
 
-ALLOwunpub:
+ALLOW8bit:
+----------
+   ALLOW8bit is a new keyword that will cause MakeNL to allow char-
+   acters above 0x7F in nodelist entries.  Normally, such characters
+   are replaced with question marks (?) when the file is processed.
+   This keyword is disabled by default.  To enable it, add ALLOW8bit 1
+   to your MAKENL.CTL file.
+
+ALLOWUnpub:
 -----------
-   ALLOwunpub is a new keyword that will cause MakeNL to allow the
+   ALLOWUnpub is a new keyword that will cause MakeNL to allow the
    -Unpublished- string to be present in the sixth (phone number)
    field of node listings, without requiring the Pvt keyword to be
    present in the listing. This keyword is disabled by default. To
-   enable it, add ALLOwunpub 1 to your MAKENL.CTL file.
+   enable it, add ALLOWUnpub 1 to your MAKENL.CTL file.
 
 ALPHAphone:
 -----------

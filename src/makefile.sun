@@ -1,0 +1,26 @@
+# MakeNL makefile for Solaris
+# Tested with OpenSolaris 2009.06
+#
+# $Id: makefile.sun,v 1.1 2013/10/02 08:58:03 ozzmosis Exp $
+#
+# Build with:
+#
+# make -f makefile.sun          (release) or
+# make -f makefile.sun clean    (remove temp files)
+
+CC=gcc
+CFLAGS=-Wall -W
+LDFLAGS=-s
+
+OBJS=config.o crc16.o fileutil.o fts5.o lsttool.o makenl.o merge.o \
+ mkdiff.o mklog.o msgtool.o os.o output.o procfile.o stack.o \
+ strtool.o upcont.o
+
+.c.o:
+	$(CC) $(CFLAGS) -c $<
+
+makenl: $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDFLAGS)
+
+clean:
+	rm -f $(OBJS) makenl
