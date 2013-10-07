@@ -1,4 +1,4 @@
-/* $Id: process.c,v 1.7 2012/10/16 18:52:12 ozzmosis Exp $ */
+/* $Id: procfile.c,v 1.3 2013/09/26 19:52:03 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,7 +6,6 @@
 
 #include "makenl.h"
 #include "crc16.h"
-#include "proc.h"
 #include "msg.h"
 #include "fts5.h"
 #include "lsttool.h"
@@ -15,14 +14,9 @@
 #include "stack.h"
 #include "config.h"
 #include "mklog.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "strtool.h"
+#include "snprintf.h"
+#include "procfile.h"
 
 int ShouldProcess = USUAL_PROCESSING;
 int SubmitFile;
@@ -69,7 +63,7 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
         fieldno =
             sscanf(linebuf, "%7s %d %12s %17s", command, &num, filename,
                    notifyaddr);
-        strupr(command);
+        strupper(command);
         if (fieldno < 3)        /* "Net 2410 NET_2410" is minimum... */
             die(255, "%s\n -- Too few parameters -- Statement ignored\n", linebuf);
         subfile_level = xlate_switch(command, MakeTypes);
@@ -112,8 +106,8 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
             searchwhere =
                 openlist(&listFILE, filename, foundfile, searchwhere,
                          mustbenew);
-            os_filecanonify(filename);
-            os_filecanonify(foundfile);
+            os_dirsep(filename);
+            os_dirsep(foundfile);
             if (searchwhere > 0)
             {
                 mklog(LOG_INFO, "Processing %-8s%5d -- file '%s'", *subleveltxt, num, foundfile);
@@ -134,11 +128,8 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
                                 commFILE, MergeOutFILE, NotifyMsgFILE, crc,
                                 &WorkMode);
 
-        /* Segmentation fault cause is here, Andrew */
+                fclose(listFILE);
 
-                #ifndef __unix__
-                    fclose(listFILE);
-                #endif
                 if (processstatus != 2) /* No fatal error */
                 {
                     if (processstatus > ExitCode)
@@ -183,12 +174,12 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
                       OldExtensions[0]);
             if (filecmp(foundfile, linebuf))
                 rename(foundfile, linebuf); /* new extension */
-            cleanold(MasterDir, filename, OldExtensions[2]);
+            cleanold(MasterDir, filename, OldExtensions[7]);
             break;
         case SEARCH_UPDATE + 1:
             if (!ShouldProcess)
                 break;
-            cleanold(MasterDir, filename, OldExtensions[2]);
+            cleanold(MasterDir, filename, OldExtensions[7]);
             CopyOrMove(0, foundfile, MasterDir, filename);
         }
     }
@@ -313,7 +304,7 @@ processfile(int myMakeType, int myMakeNum, FILE * InputFILE,
             if (InputLine[1] == 'E' && OutFILE) /* Pass through only
                                                    errors */
             {
-                strcat(InputLine, "\r\n");
+                strlcat(InputLine, "\r\n", sizeof InputLine);
                 *OutCRC = CRC16String(InputLine, *OutCRC);
                 fputs(InputLine, OutFILE);
             }
@@ -322,7 +313,7 @@ processfile(int myMakeType, int myMakeNum, FILE * InputFILE,
     if (totalerror == 2)        /* 2 means fatal */
     {
         unmarkstack();          /* Throw away any numbers of this file */
-        sprintf(InputLine,
+        snprintf(InputLine, sizeof InputLine,
                 "Fatal error(s) caused file '%s' to be rejected\r\n",
                 WorkFile);
         fputs(InputLine, stdout);

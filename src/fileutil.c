@@ -1,4 +1,4 @@
-/* $Id: fileutil.c,v 1.8 2012/11/13 22:38:44 ozzmosis Exp $ */
+/* $Id: fileutil.c,v 1.13 2013/09/26 19:52:03 ozzmosis Exp $ */
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -11,16 +11,9 @@
 #include "config.h"
 #include "fileutil.h"
 #include "mklog.h"
+#include "strtool.h"
 
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
-
-char OldExtensions[4][MYMAXEXT];
+char OldExtensions[8][MYMAXEXT];
 int do_clean;
 
 char MakeSourceFile[MYMAXFILE + MYMAXEXT];
@@ -125,7 +118,7 @@ myfnmerge(char *output, const char *drive, const char *dir,
         }
         if (lenleft && (*(output - 1) != '\\' && *(output - 1) != '/'))
         {
-            *(output++) = CHAR_DIRSEPARATOR;
+            *(output++) = DIRSEP[0];
             lenleft--;
         }
     }
@@ -288,7 +281,7 @@ void cleanit(void)
     extptr = OldExtensions + 1;
     do
     {
-        strcpy(ext, *extptr);
+        strlcpy(ext, *extptr, sizeof ext);
         if (OutDiff[0] != 0)
         {
             myfnmerge(delname, NULL, OutDir, OutDiff, ext);
@@ -308,7 +301,7 @@ void cleanit(void)
         cleanfile(delname);
         extptr++;
     }
-    while (extptr < OldExtensions + 4);
+    while (extptr < OldExtensions + 8);
 }
 
 void CopyOrMove(int copy, char *source, char *destdir, char *destname)

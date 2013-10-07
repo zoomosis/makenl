@@ -1,19 +1,13 @@
-/* $Id: upcont.c,v 1.3 2012/10/16 09:01:54 ozzmosis Exp $ */
+/* $Id: upcont.c,v 1.7 2013/09/26 19:53:47 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdio.h>
 
 #include "makenl.h"
-#include "upcont.h"
 #include "fts5.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "snprintf.h"
+#include "strtool.h"
+#include "upcont.h"
 
 /* *INDENT-OFF* */
 /* Don't indent this array, keep it this way (you could try what indent
@@ -62,19 +56,19 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
             makeleveltxt = Node;
         else
             makeleveltxt = Levels[maketype];
-        sprintf(ErrorMessage, "Expected '%s %d', got '%s %d'",
+        snprintf(ErrorMessage, sizeof ErrorMessage, "Expected '%s %d', got '%s %d'",
                 makeleveltxt, makenum, leveltxt, num);
         return 2;
     }
     if (maketype > level)
     {
-        sprintf(ErrorMessage, "Unexpected '%s' statement in %s file",
+        snprintf(ErrorMessage, sizeof ErrorMessage, "Unexpected '%s' statement in %s file",
                 Levels[level], LevelsSimple[maketype]);
         return 2;
     }
     if (level == maketype && maketype != LEVEL_NODE)
     {
-        sprintf(ErrorMessage, "Multiple '%s' statememts",
+        snprintf(ErrorMessage, sizeof ErrorMessage, "Multiple '%s' statememts",
                 (maketype > LEVEL_HUB) ? "Node" : Levels[maketype]);
         return 2;
     }
@@ -84,7 +78,7 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
         if (*ctxlevel > LEVEL_NODE) /* Catch private, hold and down nodes
                                        with points */
         {
-            sprintf(ErrorMessage, "%s nodes may not have points\n",
+            snprintf(ErrorMessage, sizeof ErrorMessage, "%s nodes may not have points\n",
                     Levels[*ctxlevel]);
             return 1;
         }
@@ -93,7 +87,7 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
         case 0:                /* OK */
             break;
         case -2:               /* NONE */
-            strcpy(ErrorMessage, "Points not allowed in this list");
+            strlcpy(ErrorMessage, "Points not allowed in this list", sizeof ErrorMessage);
             return 1;
         case -3:               /* HIDE */
             FTS5Phone = "-Unpublished-";
@@ -102,8 +96,7 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
                                    possible */
             if (PointPhoneNoHolder[0] == 0)
             {
-                strcpy(ErrorMessage,
-                       "No phone number translation available");
+                strlcpy(ErrorMessage, "No phone number translation available", sizeof ErrorMessage);
                 return 1;
             }
             if (!strcmp(FTS5Phone, "-Unpublished-"))
@@ -116,21 +109,26 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
         case 0:                /* OK */
             break;
         case -2:               /* NONE */
-            strcpy(ErrorMessage,
-                   "Private nodes not allowed in this network");
+            strlcpy(ErrorMessage, "Private nodes not allowed in this network", sizeof ErrorMessage);
             return 1;
         default:
             if (PhoneNoHolder[0] == 0)
             {
-                strcpy(ErrorMessage,
-                       "No phone number translation available");
+                strlcpy(ErrorMessage, "No phone number translation available", sizeof ErrorMessage);
                 return 1;
             }
+
             FTS5Phone = PhoneNoHolder;
+
             if (FTS5Flags[0] != 0)
+	    {
                 strcat(FTS5Flags, PVT);
+	    }
             else
+	    {
                 FTS5Flags = PVT + 1;
+	    }
+	    
             return 0;
         }
         /* FALLTHROUGH */
@@ -144,7 +142,7 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
       check_level:
         if (OnTop[level] > *ctxlevel)
         {
-            sprintf(ErrorMessage, "'%s' not allowed in a %s",
+            snprintf(ErrorMessage, sizeof ErrorMessage, "'%s' not allowed in a %s",
                     Levels[level], LevelsSimple[*ctxlevel]);
             if (level > LEVEL_HOST)
                 return 1;
@@ -153,9 +151,15 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
         }
       out:
         if (level <= PrivateLevel)
-            strcpy(PhoneNoHolder, FTS5Phone);
+	{
+            strlcpy(PhoneNoHolder, FTS5Phone, sizeof PhoneNoHolder);
+	}
+	
         if (level <= PointLevel)
-            strcpy(PointPhoneNoHolder, FTS5Phone);
+	{
+            strlcpy(PointPhoneNoHolder, FTS5Phone, sizeof PointPhoneNoHolder);
+	}
+	
         if (level < LEVEL_POINT) /* Points don't start a context... */
         {
             *ctxnum = num;

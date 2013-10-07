@@ -1,4 +1,4 @@
-/* $Id: mklog.c,v 1.21 2012/10/17 11:36:54 ozzmosis Exp $ */
+/* $Id: mklog.c,v 1.24 2013/09/25 18:24:10 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,14 +11,7 @@
 #include "mklog.h"
 #include "fileutil.h"
 #include "os.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "snprintf.h"
 
 int loglevel = 1;
 
@@ -107,7 +100,7 @@ static void logwrite(int level, char *outstr)
     }
 
 #ifdef HAVE_GETPID
-    fprintf(log_fp, "%c %s makenl[%d] ", logmark[level], date_str(), getpid());
+    fprintf(log_fp, "%c %s makenl[%d] ", logmark[level], date_str(), (int) getpid());
 #else
     fprintf(log_fp, "%c %s makenl: ", logmark[level], date_str());
 #endif

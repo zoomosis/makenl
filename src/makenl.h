@@ -1,4 +1,7 @@
-/* $Id: makenl.h,v 1.6 2012/10/16 19:57:43 ozzmosis Exp $ */
+/* $Id: makenl.h,v 1.8 2013/09/05 15:07:51 ozzmosis Exp $ */
+
+#ifndef __MAKENL_H__
+#define __MAKENL_H__
 
 #include "os.h"
 
@@ -32,14 +35,9 @@ extern int  ArcOpenCnt;
 /* the die function from makenl.c */
 void die(int exitcode, const char *format, ...);
 
-/* the utility functions from strtool.c */
-int getnumber(const char *string, int *output);
-char *skipspaces(char *ptr);
-char *cutspaces(char *string);
+/* testing() in testing.c */
 
-/* necessary for some C implementations where printf("%s\n", NULL) would cause a segfault */
-
-#define make_str_safe(x) (x)?(x):"(null)"
+void testing(void);
 
 #ifndef max
 #define max(a,b)  (((a) > (b)) ? (a) : (b))
@@ -47,4 +45,14 @@ char *cutspaces(char *string);
 
 #ifndef min
 #define min(a,b)  (((a) < (b)) ? (a) : (b))
+#endif
+
+#ifdef MALLOC_DEBUG
+#include "rmalloc.h"
+#endif
+
+#ifdef DMALLOC
+#include "dmalloc.h"
+#endif
+
 #endif

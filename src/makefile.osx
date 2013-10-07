@@ -1,0 +1,53 @@
+# MakeNL makefile for OS X (Darwin)
+# Tested with GNU Make 3.81 & GNU C 4.2.1
+#
+# $Id: makefile.osx,v 1.3 2013/09/22 08:13:59 ozzmosis Exp $
+#
+# Build with:
+#
+# make -f makefile.osx          (release) or
+# make -f makefile.osx DEBUG=1  (debug)
+# make -f makefile.osx clean    (remove temp files)
+# make -f makefile.osx CC=clang (build with clang)
+# make -f makefile.osx ASAN=1   (debug build with clang using AddressSanitizer)
+
+CC=gcc
+CFLAGS+= -Wall -W
+
+ifdef ASAN
+CC=clang
+CFLAGS+= -g -fsanitize=address -fno-omit-frame-pointer
+endif
+
+ifdef DEBUG
+CFLAGS+= -g
+else
+LDFLAGS+= -s
+endif
+
+ifdef TESTING
+CFLAGS+= -DTESTING
+OBJS+=testing.o
+endif
+
+ifdef EFENCE
+LDFLAGS+= -lefence
+endif
+
+ifdef RMALLOC
+CFLAGS+= -DMALLOC_DEBUG
+OBJS+=rmalloc.o
+endif
+
+OBJS+=config.o crc16.o fileutil.o fts5.o lsttool.o makenl.o merge.o
+OBJS+=mkdiff.o mklog.o msgtool.o os.o output.o procfile.o stack.o
+OBJS+=strtool.o upcont.o
+
+.c.o:
+	$(CC) $(CFLAGS) -c $<
+
+makenl: $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDFLAGS)
+
+clean:
+	rm -f $(OBJS) makenl

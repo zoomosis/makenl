@@ -1,4 +1,4 @@
-/* $Id: makenl.c,v 1.14 2012/10/14 15:24:21 ozzmosis Exp $ */
+/* $Id: makenl.c,v 1.26 2013/09/25 19:46:00 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <time.h>
@@ -13,19 +13,13 @@
 #include "fileutil.h"
 #include "merge.h"
 #include "msg.h"
-#include "proc.h"
+#include "procfile.h"
 #include "crc16.h"
 #include "version.h"
 #include "unused.h"
 #include "mklog.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "strtool.h"
+#include "snprintf.h"
 
 #if defined(__MSDOS__) && defined(__TURBOC__)
 extern unsigned _stklen = 16384;
@@ -118,7 +112,7 @@ void die(int exitcode, const char *format, ...)
     va_list arg;
     
     va_start(arg, format);
-    vsprintf(buf, format, arg);
+    vsnprintf(buf, sizeof buf, format, arg);
     va_end(arg);
 
     mklog(LOG_ERROR, "%s", buf);
@@ -137,13 +131,13 @@ static char *cmdline_to_str(char *argv[])
     if (argv[0] == NULL)
     {
         /* empty command-line and no program name (unlikely but possible) */
-        strcat(tmp, "(null)");
+        strlcat(tmp, "(null)", sizeof tmp);
         return tmp;
     }
     
     /* argv[0] is a special case, no quotes around it */
     
-    strcat(tmp, argv[0]);
+    strlcat(tmp, argv[0], sizeof tmp);
 
     /* now loop over each argument */
     
@@ -154,13 +148,13 @@ static char *cmdline_to_str(char *argv[])
         if (strlen(tmp) + strlen(*p) + 3 > sizeof tmp)
         {
             /* command-line too long, avoid segfault */
-            strcat(tmp, " ...");
+            strlcat(tmp, " ...", sizeof tmp);
             return tmp;
         }
         
-        strcat(tmp, " \"");
-        strcat(tmp, *p);
-        strcat(tmp, "\"");
+        strlcat(tmp, " \"", sizeof tmp);
+        strlcat(tmp, *p, sizeof tmp);
+        strlcat(tmp, "\"", sizeof tmp);
         p++;
     }
 
@@ -173,6 +167,10 @@ int main(int argc, char *argv[])
 
     mklog(LOG_INFO, MAKENL_LONG_VERSION);
 
+#ifdef TESTING
+    testing();
+#endif
+
     DoCmdLine(argv, &CfgFile);
     if (!getext(NULL, CfgFile))
     {
@@ -182,21 +180,21 @@ int main(int argc, char *argv[])
     CFG_file = fopen(CfgFile, "r");
     check_fp(CFG_file, CfgFile, "r");
     WorkFile = strdup(CfgFile);
-    os_filecanonify(WorkFile);
+    os_dirsep(WorkFile);
     os_getcwd(CurDir, MYMAXDIR - 1);
-    os_filecanonify(CurDir);
+    os_dirsep(CurDir);
     WorkMode = parsecfgfile(CFG_file);
     mklog(LOG_INFO, "Cmdline: %s", cmdline_to_str(argv));
     mklog(LOG_INFO, "Using '%s' in '%s'", CfgFile, CurDir);
 
-    for (OldWeeks = 3; OldWeeks >= 0; OldWeeks--)
+    for (OldWeeks = 7; OldWeeks >= 0; OldWeeks--)
     {
         searchdow(NewExtWDay, -7 * OldWeeks + 6, &SplitTimePtr);
-        sprintf(OldExtensions[OldWeeks], "%03d",
+        snprintf(OldExtensions[OldWeeks], sizeof OldExtensions[OldWeeks], "%03d",
                 SplitTimePtr->tm_yday + 1);
     }
-    sprintf(YearBuf, "%d", 1900 + SplitTimePtr->tm_year);
-    sprintf(HeaderLine,
+    snprintf(YearBuf, sizeof YearBuf, "%d", 1900 + SplitTimePtr->tm_year);
+    snprintf(HeaderLine, sizeof HeaderLine,
             ";A %s Nodelist for %s, %s %d, %s -- Day number %s : ",
             Levels[MakeType], DOWLongnames[SplitTimePtr->tm_wday],
             MonthLongnames[SplitTimePtr->tm_mon], SplitTimePtr->tm_mday,
@@ -271,19 +269,19 @@ int main(int argc, char *argv[])
         {
             char cmdbuf[1024];  /* space for CalledBatchfile */
 
-            sprintf(cmdbuf, "%s %s" STR_DIRSEPARATOR "%s ",
+            snprintf(cmdbuf, sizeof cmdbuf, "%s %s" DIRSEP "%s ",
                     CalledBatchFile, OutDir, OutFile);
             WorkMode = 0;       /* Why that?! see three lines above! */
             if (OutExt[0] == 0) /* If output is generic, we could diff and 
                                    ARC */
             {
-                cleanold(OutDir, OutFile, OldExtensions[2]);
+                cleanold(OutDir, OutFile, OldExtensions[7]);
                 WorkMode = makediff(NewFile);
                 makearc(NewFile, 0);
                 if (WorkMode & CAUSE_OUTDIFF)
                 {
-                    sprintf(cmdbuf + strlen(cmdbuf),
-                            "%s" STR_DIRSEPARATOR "%s ", OutDir, OutDiff);
+                    snprintf(cmdbuf + strlen(cmdbuf), (sizeof cmdbuf) - strlen(cmdbuf),
+                            "%s" DIRSEP "%s ", OutDir, OutDiff);
                     myfnmerge(CfgFilenameBuf, NULL, OutDir, OutDiff,
                               OldExtensions[0]);
                     makearc(CfgFilenameBuf, 1);
@@ -295,22 +293,25 @@ int main(int argc, char *argv[])
                     }
                 }
                 else
-                    strcat(cmdbuf, "no-diff ");
+		{
+                    strlcat(cmdbuf, "no-diff ", sizeof cmdbuf);
+		}
             }
             else
             {
-                strcat(cmdbuf, "no-diff ");
+                strlcat(cmdbuf, "no-diff ", sizeof cmdbuf);
                 /*
                  * New feature: compress hub and host segments.
                  * Added in 2004 when file size doesn't matter anymore.
                  */
                 myfnmerge(CfgFilenameBuf, NULL, OutDir, OutFile, NULL);
                 makearc(CfgFilenameBuf, 1);
-                strcpy(NewFile, CfgFilenameBuf);
+                strlcpy(NewFile, CfgFilenameBuf, sizeof NewFile);
                 mklog(LOG_DEBUG, "main(): NewFile == '%s'", NewFile);
             }
 
-            sprintf(cmdbuf + strlen(cmdbuf), "%c %c %c %c %c %c\n",
+            snprintf(cmdbuf + strlen(cmdbuf), (sizeof cmdbuf) - strlen(cmdbuf),
+                    "%c %c %c %c %c %c\n",
                     OldExtensions[0][0], OldExtensions[0][1],
                     OldExtensions[0][2], OldExtensions[1][0],
                     OldExtensions[1][1], OldExtensions[1][2]);
@@ -320,20 +321,20 @@ int main(int argc, char *argv[])
 
                 if (fp)
                 {
-                    fputs(os_deslashify(cmdbuf), fp);
+                    fputs(os_dirsep(cmdbuf), fp);
                     fclose(fp);
                 }
             }
 
-            os_filecanonify(NewFile);
+            os_dirsep(NewFile);
             if (MailerFlags & MF_SUBMIT && SubmitFile
                 && OpenMSGFile(SubmitAddress, NewFile))
             {
                 if (MyAddress[A_ZONE] == SubmitAddress[A_ZONE])
-                    sprintf(SubAddrText, "%d/%d", SubmitAddress[A_NET],
+                    snprintf(SubAddrText, sizeof SubAddrText, "%d/%d", SubmitAddress[A_NET],
                             SubmitAddress[A_NODE]);
                 else
-                    sprintf(SubAddrText, "%d:%d/%d", SubmitAddress[A_ZONE],
+                    snprintf(SubAddrText, sizeof SubAddrText, "%d:%d/%d", SubmitAddress[A_ZONE],
                             SubmitAddress[A_NET], SubmitAddress[A_NODE]);
                 mklog(LOG_INFO, "Sending '%s' to %s", NewFile, SubAddrText);
             }
