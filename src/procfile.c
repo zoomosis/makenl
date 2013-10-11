@@ -1,4 +1,4 @@
-/* $Id: procfile.c,v 1.3 2013/09/26 19:52:03 ozzmosis Exp $ */
+/* $Id: procfile.c,v 1.4 2013/10/11 13:16:53 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -218,7 +218,7 @@ processfile(int myMakeType, int myMakeNum, FILE * InputFILE,
     if (FooFILE)
         fprintf(FooFILE, "\nComments from %s:\n\n", WorkFile);
     while ((fgets(InputLine, linelength, InputFILE) != NULL)
-           && (InputLine[0] != '\032'))
+           && (InputLine[0] != '\x1a'))
     {
         error = ParseFTS5(InputLine, &level, &num);
         if (level >= LEVEL_COMMENT)
@@ -251,7 +251,7 @@ processfile(int myMakeType, int myMakeNum, FILE * InputFILE,
         }
     }
     while ((fgets(InputLine, linelength, InputFILE) != NULL)
-            && (InputLine[0] != '\032'))
+            && (InputLine[0] != '\x1a'))
     {
         error = ParseFTS5(InputLine, &level, &num);
         if (error && *WorkMode == CFG_DATA
