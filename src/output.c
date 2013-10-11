@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.10 2013/09/26 19:52:03 ozzmosis Exp $ */
+/* $Id: output.c,v 1.11 2013/10/11 13:16:53 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -104,6 +104,10 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
     while ((linebegin =
             fgets(linebuf + 3, linelength - 3, CopyFILE)) != NULL)
     {
+        if (linebegin[0] == '\x1a') /* CTRL-Z at beginning of line. */
+        {
+            return lineno;
+        }
         if (linebegin[0] != ';')
         {
             linebegin = linebuf;

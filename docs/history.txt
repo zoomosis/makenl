@@ -1,7 +1,21 @@
-/*  $Id: history.txt,v 1.26 2013/09/30 02:37:26 ajleary Exp $  */
+/*  $Id: history.txt,v 1.29 2013/10/11 13:16:52 ajleary Exp $  */
 
 
                             MakeNL Revision History
+       
+       v3.4.1 -- October 11, 2013
+
+            Ignore CTRL-Z lines in COPyright, PROlog, and EPIlog files.
+            They were causing CRC errors in the Linux version.
+            -- Andrew Leary       
+
+       v3.4.0 -- October 6, 2013
+
+            Release version of v3.3.10 for wide distribution.  Also fixed
+            the Slackware Slackbuild script for generating a Slackware
+            installation package.  Added information on the new Allow8Bit
+            control file option to the whatsnew.txt.
+            -- Andrew Leary
 
        v3.3.10 -- September 29, 2013
 
@@ -22,6 +36,9 @@
 
             Switched to using portable snprintf(), Copyright 1999 by Mark
             Martinec.  
+            -- Andrew Clarke
+
+            Added Solaris port.
             -- Andrew Clarke
 
        v3.3.9 -- September 21, 2013

@@ -1,7 +1,7 @@
 # MakeNL makefile for Linux
 # Tested with GNU Make 3.81 & GNU C 4.4.3
 #
-# $Id: makefile.linux,v 1.12 2013/09/26 21:06:40 ozzmosis Exp $
+# $Id: makefile.linux,v 1.13 2013/10/03 18:01:38 ozzmosis Exp $
 #
 # Build with:
 #
@@ -24,7 +24,9 @@ endif
 ifdef DEBUG
 CFLAGS+= -g
 else
+ifndef STATIC
 LDFLAGS+= -s
+endif
 endif
 
 ifdef STATIC

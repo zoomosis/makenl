@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.56 2013/09/29 15:53:50 ozzmosis Exp $ */
+/* $Id: os.h,v 1.57 2013/10/02 08:58:03 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -125,6 +125,8 @@
 #define OS_NAME "NetBSD"
 #elif defined(__OpenBSD__)
 #define OS_NAME "OpenBSD"
+#elif defined(__sun)
+#define OS_NAME "Solaris"
 #elif defined(__minix)
 #define OS_NAME "Minix"
 #elif defined(__HAIKU__)
