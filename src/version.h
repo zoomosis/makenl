@@ -1,10 +1,26 @@
-/* $Id: version.h,v 1.30 2013/10/11 13:16:53 ajleary Exp $  */
+/* $Id: version.h,v 1.31 2013/10/17 18:27:12 ozzmosis Exp $  */
 
 #include "os.h"
 
 #define MAKENL_VERSION      "3.4.1"
 
 #define MAKENL_LONG_VERSION "MakeNL " MAKENL_VERSION " (" OS_NAME ") compiled with " CC_NAME " on " __DATE__ " " __TIME__
+
+#define MAKENL_LICENSE \
+  "This program is free software; you can redistribute it and/or modify" "\n" \
+  "it under the terms of the GNU General Public License as published by" "\n" \
+  "the Free Software Foundation; either version 2 of the License, or" "\n" \
+  "(at your option) any later version." "\n" \
+  "\n" \
+  "This program is distributed in the hope that it will be useful," "\n" \
+  "but WITHOUT ANY WARRANTY; without even the implied warranty of" "\n" \
+  "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" "\n" \
+  "GNU General Public License for more details." "\n" \
+  "\n" \
+  "You should have received a copy of the GNU General Public License along" "\n" \
+  "with this program; if not, write to the Free Software Foundation, Inc.," "\n" \
+  "51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA." "\n" \
+  "\n"
 
 #define MAKENL_CREDITS \
   "\n" \
@@ -13,4 +29,5 @@
   "Michiel Broek, Malcolm Miles, Johan Billing, Andrew Leary & others." "\n" \
   "\n" \
   "Dedicated to Ben Baker - The author of the original MakeNL.\n" \
-  "\n"
+  "\n" \
+  MAKENL_LICENSE
