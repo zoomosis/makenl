@@ -1,10 +1,10 @@
-makenl (3.4-0precise1~1) UNRELEASED; urgency=low
+makenl (3.4.1-0precise1~1) UNRELEASED; urgency=low
 
   Todo:
-    - Start development work for packaging v3.4.
-  * New upstream release: see changelog.gz for changes from v3.3.8 to v3.4.0.
+    - Start development work for packaging v3.4.1
+  * New upstream release: see changelog.gz for changes from v3.3.8 to v3.4.1.
 
- -- Robert James Clay <jame@rocasa.us>  Mon,  7 Oct 2013 10:25:14 -0400
+ -- Robert James Clay <jame@rocasa.us>  Fri, 18 Oct 2013 10:36:25 -0400
 
 makenl (3.3.8-0precise1) precise; urgency=low
 
