@@ -1,14 +1,19 @@
-/*  $Id: history.txt,v 1.29 2013/10/11 13:16:52 ajleary Exp $  */
+/*  $Id: history.txt,v 1.30 2013/10/19 14:44:10 ajleary Exp $  */
 
 
                             MakeNL Revision History
        
-       v3.4.1 -- October 11, 2013
+       v3.4.1 -- October 19, 2013
+
+            Include GNU General Public License Version 2 as the license
+            that applies to all MakeNL code.  See license.txt.  Add
+            licensing information to the MakeNL credits screen.
+            -- Andrew Clarke
 
             Ignore CTRL-Z lines in COPyright, PROlog, and EPIlog files.
             They were causing CRC errors in the Linux version.
-            -- Andrew Leary       
-
+            -- Andrew Leary
+     
        v3.4.0 -- October 6, 2013
 
             Release version of v3.3.10 for wide distribution.  Also fixed
