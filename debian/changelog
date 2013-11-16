@@ -1,3 +1,10 @@
+makenl (3.4.1-0squeeze1~1) UNRELEASED; urgency=low
+
+  * Start development for 3.4.1-1 (squeeze).
+  * New upstream release: see changelog.gz for changes from v3.3.5 to v3.4.1.
+
+ -- Robert James Clay <jame@rocasa.us>  Sat, 16 Nov 2013 11:52:03 -0500
+
 makenl (3.3.5-0squeeze1) squeeze; urgency=low
 
   * Backport MakeNL v3.3.5 to Debian v6 (squeeze).
