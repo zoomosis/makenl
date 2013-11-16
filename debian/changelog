@@ -1,10 +1,8 @@
-makenl (3.4.1-0lucid1~1) UNRELEASED; urgency=low
+makenl (3.4.1-0lucid1) lucid; urgency=low
 
-  Todo:
-    - Start development work on packaging v3.4.1 for Ubuntu v10.04.
   * New upstream release: see changelog.gz for changes from v3.3.3 to v3.4.1.
 
- -- Robert James Clay <jame@rocasa.us>  Fri, 18 Oct 2013 10:41:05 -0400
+ -- Robert James Clay <jame@rocasa.us>  Sat, 16 Nov 2013 11:10:13 -0500
 
 makenl (3.3.3-0lucid1) lucid; urgency=low
 
