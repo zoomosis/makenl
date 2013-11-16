@@ -1,7 +1,12 @@
-ToDo: makenl for Debian
------------------------
+ToDo: makenl for Ubuntu Lucid package
+-------------------------------------
 
-- Change debian/rules to use dh() style.
-- Clarify makenl copyrights/licensing in debian/copyright?
+- The docs Makefile uses asciidoc to create an makenl.html file. Add what
+  is necessary to use that in the packaging.
 
- -- Robert James Clay <jame@rocasa.us>  Tue,  8 Jan 2013 12:07:11 -0500
++++ lintian output +++
+W: makenl source: ancient-standards-version 3.8.0 (current is 3.8.4)
+I: makenl: debian-news-entry-without-blank-line line 11
+I: makenl: hyphen-used-as-minus-sign usr/share/man/man1/makenl.1.gz:48
+
+ -- Robert James Clay <jame@rocasa.us>  Sat, 16 Nov 2013 10:53:14 -0400
