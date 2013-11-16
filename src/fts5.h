@@ -1,4 +1,4 @@
-/* $Id: fts5.h,v 1.2 2012/10/16 09:07:34 ozzmosis Exp $ */
+/* $Id: fts5.h,v 1.3 2013/05/26 01:23:46 ajleary Exp $ */
 
 /* Indices for 3D-Addresses */
 #define A_ZONE 0
@@ -35,6 +35,9 @@ extern int Alphaphone;
 
 /* Allow -Unpublished w/o Pvt */
 extern int Allowunpub;
+
+/* Allow 8-bit characters */
+extern int Allow8Bit;
 
 extern char namebuf[16];
 extern const char *const LevelsSimple[];

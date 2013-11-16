@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.14 2012/10/23 04:48:29 ajleary Exp $ */
+/* $Id: msgtool.c,v 1.21 2013/09/25 19:29:56 ozzmosis Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -11,14 +11,8 @@
 #include "fileutil.h"
 #include "mklog.h"
 #include "version.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "strtool.h"
+#include "snprintf.h"
 
 #define MSG_CRASH    0x0002
 #define MSG_PRIVATE  0x0001
@@ -26,8 +20,6 @@
 #define MSG_KILLSENT 0x0080
 #define MSG_LOCAL    0x0100
 #define MSG_HOLD     0x0200
-
-
 
 int UsualMSGFlags;
 int MailerFlags;
@@ -37,7 +29,6 @@ int MyAddress[3];
 
 static int MSGnum;
 static FILE *MailFILE;
-int *FixStack;
 static int MSGFlags;
 static unsigned char msgbuf[0xbe];
 
@@ -49,7 +40,7 @@ static unsigned long GetSequence(void)
     unsigned long   seq;
     char            seqfile[MYMAXDIR];
     FILE            *fp;
-    sprintf(seqfile, "%s/sequence.dat", MasterDir);
+    snprintf(seqfile, sizeof seqfile, "%s/sequence.dat", MasterDir);
 
     if ((fp = fopen(seqfile, "r+")) == NULL) {
         seq = (unsigned long)time(NULL);
@@ -73,26 +64,31 @@ static unsigned long GetSequence(void)
 
 
 
-// static 
-int SearchMaxMSG(const char *path)
+static int SearchMaxMSG(const char *path)
 {
     char *filename;
-    int maxnum = 0;
+    int maxnum;
     int aktnum;
     struct _filefind f;
     char searchmask[MYMAXDIR];
 
+    maxnum = 0;
     myfnmerge(searchmask, NULL, NULL, "*", "msg");
-    for (filename = os_findfirst(&f, path, searchmask);
-         filename != NULL; filename = os_findnext(&f))
+    filename = os_findfirst(&f, path, searchmask);
+
+    while (filename != NULL)
     {
         getnumber(filename, &aktnum);
         if (aktnum > maxnum)
+        {
             maxnum = aktnum;
+        }
+        filename = os_findnext(&f);
     }
     os_findclose(&f);
 
     mklog(LOG_DEBUG, "SearchMaxMSG: path=%s, result=%d", make_str_safe(path), maxnum);
+
     return maxnum;
 }
 
@@ -135,11 +131,11 @@ int ParseAddress(const char *string, int out[3])
 
 static char *MakeMSGFilename(char *outbuf, int num)
 {
-    char buffer[6];
+    char buffer[MYMAXDIR];
 
-    sprintf(buffer, "%u", num);
+    snprintf(buffer, sizeof buffer, "%u", num);
     myfnmerge(outbuf, NULL, MessageDir, buffer, "msg");
-    mklog(LOG_DEBUG, "MakeMSGFilenam: num=%d MSGnum=%d", num, MSGnum);
+    mklog(LOG_DEBUG, "MakeMSGFilename: num=%d MSGnum=%d", num, MSGnum);
     return outbuf;
 }
 
@@ -157,13 +153,11 @@ FILE *OpenMSGFile(int address[3], char *filename)
     char filenamebuf[MYMAXDIR], subject[72], date[21];
     int intl, temp;
 
-    FixStack = NULL;    /* BUGFIXED 2012-06-28 us filepointer/stack fix */
-
-    mklog(LOG_DEBUG, "OpenMSGFile entered");        // MB
+    mklog(LOG_DEBUG, "OpenMSGFile entered");
     mklog(LOG_DEBUG, "OpenMSGFile: %d:%d/%d filename=%s", address[A_ZONE],
             address[A_NET], address[A_NODE], make_str_safe(filename));
 
-    mklog(LOG_DEBUG, "SearchMaxMSG(%s)", MessageDir); // MB
+    mklog(LOG_DEBUG, "SearchMaxMSG('%s')", MessageDir);
     MSGnum = SearchMaxMSG(MessageDir);
     mklog(LOG_DEBUG, "OpenMSGFile: MSGnum is set to %d", MSGnum);
 
@@ -176,7 +170,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
 
     if (filename)
     {
-        sprintf(subject, "%s", filename);
+        snprintf(subject, sizeof subject, "%s", filename);
         MSGFlags = (MailerFlags & MF_SUBMIT) >> MF_SHIFT_SUBMIT;
         temp = (MSGFlags & MF_CRASH ? MSG_CRASH : 0) |
             (MSGFlags & MF_HOLD ? MSG_HOLD : 0) |
@@ -185,7 +179,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
     else
     {
         temp = MSG_PRIVATE | MSG_KILLSENT | MSG_LOCAL;
-        sprintf(subject, "%s received", WorkFile);
+        snprintf(subject, sizeof subject, "%s received", WorkFile);
         MSGFlags = UsualMSGFlags;
     }
     memcpy(&msgbuf[0x48], subject, strlen(subject));
@@ -194,7 +188,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
     the_time = localtime(&akt_time);
     /* BUG FIXED: Y2K-bug changed tm_year to tm_year % 100 and its format
      *        to %02d */
-    sprintf(date, "%02d %s %02d  %02d:%02d:%02d",
+    snprintf(date, sizeof date, "%02d %s %02d  %02d:%02d:%02d",
             the_time->tm_mday, MonthNames[the_time->tm_mon],
             the_time->tm_year % 100, the_time->tm_hour, the_time->tm_min, 
             the_time->tm_sec); /* Switch to FTS-1 date/time vs. SEAdog */
@@ -245,7 +239,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
               address[A_ZONE], address[A_NET], address[A_NODE]);
             return (MailFILE = NULL);
         }
-        sprintf(intlline, "\x01INTL %d:%d/%d %d:%d/%d\r\n", address[A_ZONE],
+        snprintf(intlline, sizeof intlline, "\x01INTL %d:%d/%d %d:%d/%d\r\n", address[A_ZONE],
                 address[A_NET], address[A_NODE], MyAddress[A_ZONE],
                 MyAddress[A_NET], MyAddress[A_NODE]);
     }
@@ -266,7 +260,23 @@ FILE *OpenMSGFile(int address[3], char *filename)
     }
     fclose(MailFILE);
     mklog(LOG_DEBUG, "OpenMSGFile: closed, seems Ok");
-    return (FILE *) ! NULL;     /* Just say OK - but it *smells* */
+
+    /*
+     *  Fell through. The file is now closed but we still want to return
+     *  "success" using a non-NULL pointer, so we'll use stdout. This
+     *  replaces an awful hack with a slightly less-awful hack.
+     *
+     *  At least now, if the calling function tries to write to the file
+     *  pointed to by the returned value it should just send output to the
+     *  screen, instead of segfaulting.
+     *
+     *  The program may still segfault if the code tries to read input
+     *  from stdout. I'd need to check the C Standard about that...
+     *
+     *  - ozzmosis 2013-09-04
+     */
+
+    return stdout;
 }
 
 

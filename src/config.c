@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.18 2012/10/16 18:52:12 ozzmosis Exp $ */
+/* $Id: config.c,v 1.27 2013/09/26 19:29:20 ozzmosis Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,19 +10,13 @@
 #include "msg.h"
 #include "config.h"
 #include "fts5.h"
-#include "proc.h"
+#include "procfile.h"
 #include "lsttool.h"
 #include "fileutil.h"
 #include "mklog.h"
 #include "version.h"
-
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
+#include "strtool.h"
+#include "snprintf.h"
 
 #define MF_EVERYWHERE(x) ((x) | ((x) << MF_SHIFT_ERRORS) | ((x) << MF_SHIFT_SUBMIT))
 #define MAIL_CRASH MF_EVERYWHERE(MF_CRASH)
@@ -69,13 +63,13 @@ static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
                 {
                     mklog(LOG_ERROR, "No directory for master files specified -- using '%s'",
                             CurDir);
-                    strcpy(MasterDir, CurDir);
+                    strlcpy(MasterDir, CurDir, sizeof MasterDir);
                 }
                 if (OutDir[0] == 0)
                 {
                     mklog(LOG_ERROR, "No directory for output file specified -- using '%s'",
                             MasterDir);
-                    strcpy(OutDir, MasterDir);
+                    strlcpy(OutDir, MasterDir, sizeof OutDir);
                 }
                 if (UploadDir[0] != 0 && !strcmp(UploadDir, MasterDir))
                 {
@@ -107,7 +101,7 @@ static int CheckErrors(int mode) /* mode is -1 or 0 or CFG_DATA or
                     mode = -1;
                 }
                 else if (UploadDir[0] != 0 && MailfileDir[0] != 0
-                         && !filecmp(UpdateDir, MailfileDir))
+                         && !filecmp(UploadDir, MailfileDir))
                 {
                     mklog(LOG_ERROR, "UPLoads and MAIlfiles both specify '%s'", UploadDir);
                     mode = -1;
@@ -179,7 +173,7 @@ getswitch(char *argument, const struct switchstruct *swstrings,
         (*value)[0] = 0;        /* Kill the '=' sign */
         (*value)++;             /* Point to the value */
     }
-    return xlate_switch(strupr(argument), swstrings);
+    return xlate_switch(strupper(argument), swstrings);
 }
 
 unsigned int
@@ -283,7 +277,7 @@ void DoCmdLine(char **argv, char **cfgfilename)
             {
                 tmpptr = "nodelist";
             }
-            strcpy(MergeFilename, tmpptr);
+            strlcpy(MergeFilename, tmpptr, sizeof MergeFilename);
             break;
 
         case 'N':
@@ -387,9 +381,10 @@ const struct switchstruct CfgEntries[] = {
     {"UPDATE", 3, CFG_UPDATE},
     {"UPLOADS", 3, CFG_UPLOADS},
     {"ALPHAPHONE", 4, CFG_ALPHAPHONE},
-    {"ALLOWUNPUB", 4, CFG_ALLOWUNPUB},
+    {"ALLOWUNPUB", 6, CFG_ALLOWUNPUB},
     {"LOGFILE", 4, CFG_LOGFILE},
     {"LOGLEVEL", 4, CFG_LOGLEVEL},
+    {"ALLOW8BIT", 6, CFG_ALLOW8BIT},
     {NULL, 0, -1}
 };
 
@@ -472,7 +467,8 @@ struct
   {2, 2},                       /* ALLOwunpub 1 or 0 - default 0 */
   {2, 2},                        /* LOGFile pfile */
   {2, 2},                        /* LOGLevel 1..4 - default 1 */
-  {2, 2}                        /* FORcesubmit 1 or 0 - default 0 */
+  {2, 2},                        /* FORcesubmit 1 or 0 - default 0 */
+  {2, 2}                         /* ALLOW8BIT 1 or 0 - default 0 */
 };
 /* *INDENT-ON* */
 
@@ -514,11 +510,11 @@ int parsecfgfile(FILE * CFG)
         if (workptr)
             *workptr = 0;
         cutspaces(cfgline);
-        strcpy(cfgSplit, cfgline);
+        strlcpy(cfgSplit, cfgline, sizeof cfgSplit);
         command = strtok(cfgSplit, cfgspacechars); /* Space and Tab */
         if (!command)
             continue;
-        switchno = xlate_switch(strupr(command), CfgEntries);
+        switchno = xlate_switch(strupper(command), CfgEntries);
         if (switchno == -1)
         {
             mklog(LOG_ERROR, "'%s': Unknown keyword '%s'", cfgline, command);
@@ -557,21 +553,21 @@ int parsecfgfile(FILE * CFG)
         case CFG_ARCCOPY:
             ArcCopyExt[0] = args[0][0];
             if (argcounter == 6)
-                sprintf(ArcCopyCmd, "%s %s %s %s", args[1], args[2], args[3], args[4]);
+                snprintf(ArcCopyCmd, sizeof ArcCopyCmd, "%s %s %s %s", args[1], args[2], args[3], args[4]);
             else if (argcounter == 5)
-                sprintf(ArcCopyCmd, "%s %s %s", args[1], args[2], args[3]);
+                snprintf(ArcCopyCmd, sizeof ArcCopyCmd, "%s %s %s", args[1], args[2], args[3]);
             else
-                sprintf(ArcCopyCmd, "%s %s", args[1], args[2]);
+                snprintf(ArcCopyCmd, sizeof ArcCopyCmd, "%s %s", args[1], args[2]);
             ArcCopySet = 1;
             break;
         case CFG_ARCMOVE:
             ArcMoveExt[0] = args[0][0];
             if (argcounter == 6)
-                sprintf(ArcMoveCmd, "%s %s %s %s", args[1], args[2], args[3], args[4]);
+                snprintf(ArcMoveCmd, sizeof ArcMoveCmd, "%s %s %s %s", args[1], args[2], args[3], args[4]);
             else if (argcounter == 5)
-                sprintf(ArcMoveCmd, "%s %s %s", args[1], args[2], args[3]);
+                snprintf(ArcMoveCmd, sizeof ArcMoveCmd, "%s %s %s", args[1], args[2], args[3]);
             else
-                sprintf(ArcMoveCmd, "%s %s", args[1], args[2]);
+                snprintf(ArcMoveCmd, sizeof ArcMoveCmd, "%s %s", args[1], args[2]);
             ArcMoveSet = 1;
             break;
         case CFG_ARCOPEN:
@@ -584,15 +580,15 @@ int parsecfgfile(FILE * CFG)
             }
             ArcOpenExt[ArcOpenSet][0] = args[0][0];
             if (argcounter == 6)
-                sprintf(ArcOpenCmd[ArcOpenSet], "%s %s %s %s", args[1], args[2], args[3], args[4]);
+                snprintf(ArcOpenCmd[ArcOpenSet], sizeof ArcOpenCmd[ArcOpenSet], "%s %s %s %s", args[1], args[2], args[3], args[4]);
             else if (argcounter == 5)
-                sprintf(ArcOpenCmd[ArcOpenSet], "%s %s %s", args[1], args[2], args[3]);
+                snprintf(ArcOpenCmd[ArcOpenSet], sizeof ArcOpenCmd[ArcOpenSet], "%s %s %s", args[1], args[2], args[3]);
             else
-                sprintf(ArcOpenCmd[ArcOpenSet], "%s %s", args[1], args[2]);
+                snprintf(ArcOpenCmd[ArcOpenSet], sizeof ArcOpenCmd[ArcOpenSet], "%s %s", args[1], args[2]);
             ArcOpenSet++;
             break;
         case CFG_BATCHFILE:
-            strcpy(BatchFile, args[0]);
+            strlcpy(BatchFile, args[0], sizeof BatchFile);
             break;
         case CFG_BAUDRATE:
             /* Parse comma separated list of baudrates, maximum twelve */
@@ -628,7 +624,7 @@ int parsecfgfile(FILE * CFG)
             }
             break;
         case CFG_LOGFILE:
-            strcpy(LogFile, args[0]);
+            strlcpy(LogFile, args[0], sizeof LogFile);
             /* Now we know the logfile, start logging immediately */
             mklog(LOG_LOGONLY, MAKENL_LONG_VERSION);
             mklog(LOG_INFO, "MakeNL started");
@@ -646,13 +642,13 @@ int parsecfgfile(FILE * CFG)
             }
             break;
         case CFG_CALLEDBATCHFILE:
-            strcpy(CalledBatchFile, args[0]);
+            strlcpy(CalledBatchFile, args[0], sizeof CalledBatchFile);
             break;
         case CFG_CLEANUP:
             do_clean = 1;
             break;
         case CFG_COMMENTS:
-            strcpy(CommentsFile, args[0]);
+            strlcpy(CommentsFile, args[0], sizeof CommentsFile);
             break;
         case CFG_COPYRIGHT:
             workptr = CopyrightFile;
@@ -664,7 +660,7 @@ int parsecfgfile(FILE * CFG)
             sscanf(cfgline, "%*s %15s", namebuf);
             break;
         case CFG_MAKE:
-            MakeType = xlate_switch(strupr(args[0]), MakeTypes);
+            MakeType = xlate_switch(strupper(args[0]), MakeTypes);
             if (MakeType == -1)
             {
                 mklog(LOG_ERROR, "%s -- Don't know how to make '%s'",
@@ -685,7 +681,9 @@ int parsecfgfile(FILE * CFG)
                 if (argcounter == 4) /* Source file given */
                 {
                     if (filenodir(args[2]))
-                        strcpy(MakeSourceFile, args[2]);
+		    {
+                        strlcpy(MakeSourceFile, args[2], sizeof MakeSourceFile);
+		    }
                     else
                     {
                         mklog(LOG_ERROR, "%s -- Invalid file name -- '%s'",
@@ -702,9 +700,13 @@ int parsecfgfile(FILE * CFG)
             break;
         case CFG_MERGE:
             if (argcounter == 2)
-                strcpy(MergeFilename, args[0]);
+	    {
+                strlcpy(MergeFilename, args[0], sizeof MergeFilename);
+	    }
             else
-                strcpy(MergeFilename, "NODELIST");
+	    {
+                strlcpy(MergeFilename, "NODELIST", sizeof MergeFilename);
+	    }
             break;
         case CFG_MINPHONE:
             if (args[0][0] >= '1' && args[0][0] <= '9' && args[0][1] == 0)
@@ -746,13 +748,23 @@ int parsecfgfile(FILE * CFG)
                 mode = -1;
             }
             break;
+        case CFG_ALLOW8BIT:
+            if (args[0][0] >= '0' && args[0][0] < '2' && args[0][1] == 0)
+                Allow8Bit = args[0][0] - '0';
+            else
+            {
+                mklog(LOG_ERROR, "ALLOW8BIT argument '%s' must be 0 or 1",
+                    args[0]);
+                mode = -1;
+            }
+            break;
         case CFG_NETADDRESS:
             if (ParseAddress(args[0], MyAddress) != 0)
                 goto BadAddress;
             break;
         case CFG_PROCESS:
             if ((process_day =
-                 xlate_switch(strupr(args[0]), DOWSwitchTab)) == -1)
+                 xlate_switch(strupper(args[0]), DOWSwitchTab)) == -1)
             {
                 mklog(LOG_ERROR, "%s -- Invalid day of week '%s'",
                         cfgline, args[0]);
@@ -765,7 +777,7 @@ int parsecfgfile(FILE * CFG)
                 ShouldProcess &= ~USUAL_PROCESSING;
             break;
         case CFG_PUBLISH:
-            NewExtWDay = xlate_switch(strupr(args[0]), DOWSwitchTab);
+            NewExtWDay = xlate_switch(strupper(args[0]), DOWSwitchTab);
             if (NewExtWDay == -1)
             {
                 mklog(LOG_ERROR, "%s -- Invalid day of week '%s'",
@@ -777,7 +789,7 @@ int parsecfgfile(FILE * CFG)
                                                   filextension day */
             break;
         case CFG_POINTS:
-            PointLevel = xlate_switch(strupr(args[0]), PointDisp);
+            PointLevel = xlate_switch(strupper(args[0]), PointDisp);
             if (PointLevel == -1)
             {
                 mklog(LOG_ERROR, "%s -- Invalid argument '%s'",
@@ -787,7 +799,7 @@ int parsecfgfile(FILE * CFG)
             }
             break;
         case CFG_PRIVATE:
-            PrivateLevel = xlate_switch(strupr(args[0]), PrivateDisp);
+            PrivateLevel = xlate_switch(strupper(args[0]), PrivateDisp);
             if (PrivateLevel == -1)
             {
                 mklog(LOG_ERROR, "%s -- Invalid argument '%s'",
@@ -824,7 +836,7 @@ int parsecfgfile(FILE * CFG)
         case CFG_OUTPATH:
         case CFG_UPDATE:
         case CFG_UPLOADS:
-            os_filecanonify(args[0]);
+            os_dirsep(args[0]);
             if (GetPath(args[0], switchno) == 0)
             {
                 mklog(LOG_ERROR, "%s -- Invalid Path -- '%s'", cfgline, args[0]);
@@ -845,9 +857,11 @@ int parsecfgfile(FILE * CFG)
         case CFG_PROLOG:
             workptr = PrologFile;
           OutputFile:
-            os_filecanonify(args[0]);
+            os_dirsep(args[0]);
             if (filenodir(args[0]))
-                strcpy(workptr, args[0]);
+	    {
+                strlcpy(workptr, args[0], MYMAXFILE + MYMAXEXT);
+	    }
             else
             {
                 mklog(LOG_ERROR, "%s -- Invalid file name -- '%s'",
@@ -866,7 +880,7 @@ int parsecfgfile(FILE * CFG)
                 do
                 {
                     notifybits |=
-                        xlate_switch(strupr(*flagptr), MailFlags);
+                        xlate_switch(strupper(*flagptr), MailFlags);
                     if (notifybits == -1)
                         workptr = *flagptr;
                     flagptr++;
@@ -887,7 +901,7 @@ int parsecfgfile(FILE * CFG)
             }
             else
             {
-                switch (xlate_switch(strupr(args[0]), NotifyType))
+                switch (xlate_switch(strupper(args[0]), NotifyType))
                 {
                 case -1:
                     mklog(LOG_ERROR, "%s -- Bad SEND parameter -- '%s'",
@@ -927,18 +941,18 @@ int parsecfgfile(FILE * CFG)
      */
     if (ArcCopySet == 0)
     {
-        sprintf(ArcCopyExt, "a");
-        sprintf(ArcCopyCmd, "arc a");
+        snprintf(ArcCopyExt, sizeof ArcCopyExt, "a");
+        snprintf(ArcCopyCmd, sizeof ArcCopyCmd, "arc a");
     }
     if (ArcMoveSet == 0)
     {
-        sprintf(ArcMoveExt, "a");
-        sprintf(ArcMoveCmd, "arc m");
+        snprintf(ArcMoveExt, sizeof ArcMoveExt, "a");
+        snprintf(ArcMoveCmd, sizeof ArcMoveCmd, "arc m");
     }
     if (ArcOpenSet == 0)
     {
-        sprintf(ArcOpenExt[0], "a");
-        sprintf(ArcOpenCmd[0], "arc ew");
+        snprintf(ArcOpenExt[0], sizeof ArcOpenExt[0], "a");
+        snprintf(ArcOpenCmd[0], sizeof ArcOpenCmd[0], "arc ew");
         ArcOpenSet = 1;
     }
     ArcOpenCnt = ArcOpenSet;
