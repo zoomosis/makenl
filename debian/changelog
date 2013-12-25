@@ -1,9 +1,11 @@
-makenl (3.4.1-0squeeze1~1) UNRELEASED; urgency=low
+makenl (3.4.1-0squeeze1) squeeze; urgency=low
 
-  * Start development for 3.4.1-1 (squeeze).
+  * Backport MakeNL v3.4.1 to Debian v6 (squeeze).
+  * Add cmake to the Build-Depends setting in debian/control.
+  * Remove explicit but unversioned dpkg-dev Build-Depends in debian/control.
   * New upstream release: see changelog.gz for changes from v3.3.5 to v3.4.1.
 
- -- Robert James Clay <jame@rocasa.us>  Sat, 16 Nov 2013 11:52:03 -0500
+ -- Robert James Clay <jame@rocasa.us>  Wed, 25 Dec 2013 12:43:27 +0000
 
 makenl (3.3.5-0squeeze1) squeeze; urgency=low
 
