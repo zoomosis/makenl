@@ -1,8 +1,15 @@
-/*  $Id: history.txt,v 1.30 2013/10/19 14:44:10 ajleary Exp $  */
+/*  $Id: history.txt,v 1.31 2013/12/30 06:36:54 ajleary Exp $  */
 
 
                             MakeNL Revision History
-       
+
+       v3.4.2 -- December 30, 2013
+            
+            Fix incorrect .MSG header when SUBmitting segments to an
+            inter-zone destination.  The INTL line was correct, but the .MSG
+            header was not.
+            -- Andrew Leary
+
        v3.4.1 -- October 19, 2013
 
             Include GNU General Public License Version 2 as the license
