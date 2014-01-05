@@ -1,4 +1,4 @@
-src/makenl          usr/bin
+debian/tmp/usr/bin/makenl          usr/bin
 docs/felten.txt     usr/share/doc/makenl/history
 docs/karcher.*      usr/share/doc/makenl/history
 docs/read.me        usr/share/doc/makenl/history
