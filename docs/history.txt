@@ -1,7 +1,14 @@
-/*  $Id: history.txt,v 1.31 2013/12/30 06:36:54 ajleary Exp $  */
+/*  $Id: history.txt,v 1.32 2014/03/28 19:47:44 ajleary Exp $  */
 
 
                             MakeNL Revision History
+
+       v3.4.3 -- March 28, 2014
+
+            Increased the maximum archiver command line to 256 bytes. 
+            Thanks to Wilfred van Velzen (2:280/464) for the report and
+            patches.
+            -- Andrew Leary
 
        v3.4.2 -- December 30, 2013
             
