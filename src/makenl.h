@@ -1,4 +1,4 @@
-/* $Id: makenl.h,v 1.8 2013/09/05 15:07:51 ozzmosis Exp $ */
+/* $Id: makenl.h,v 1.9 2014/03/28 19:47:45 ajleary Exp $ */
 
 #ifndef __MAKENL_H__
 #define __MAKENL_H__
@@ -18,7 +18,7 @@ extern int JustTest;
 extern int debug_mode;
 
 #define linelength 512
-#define ARCCMDMAX 20
+#define ARCCMDMAX 256
 #define ARCEXTMAX 4
 #define ARCUNPMAX 10
 

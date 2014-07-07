@@ -1,0 +1,38 @@
+# MakeNL makefile for Clang for Windows.
+#
+# Tested with LLVM 3.4.
+# Requires MingW installed to c:\mingw\.
+#
+# $Id: makefile.clangwin,v 1.1 2014/03/09 15:41:57 ozzmosis Exp $
+#
+# Build with:
+#
+# mingw32-make -f makefile.clangwin           (release version)
+# mingw32-make -f makefile.clangwin DEBUG=1   (debug version)
+# mingw32-make -f makefile.clangwin clean     (remove temp files)
+
+CC=clang
+CFLAGS+=-Wall -W
+
+ifdef DEBUG
+CFLAGS= $(CFLAGS) -g
+endif
+
+ifdef TESTING
+CFLAGS+=-DTESTING
+OBJS+=testing.o
+endif
+
+OBJS+=config.o crc16.o fileutil.o fts5.o lsttool.o makenl.o
+OBJS+=merge.o mkdiff.o mklog.o msgtool.o os.o output.o
+OBJS+=procfile.o stack.o strtool.o upcont.o snprintf.o
+
+.c.o:
+	$(CC) $(CFLAGS) -c $<
+
+makenl.exe: $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS)
+
+clean:
+	del $(OBJS)
+	del makenl.exe

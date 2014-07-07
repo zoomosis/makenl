@@ -2,6 +2,16 @@
 #include "unused.h"
 
 /*
+ *  "This program is free software; it is dual licensed, the terms of
+ *  the "Frontier Artistic License" or the "GNU General Public
+ *  License" can be chosen at your discretion. The chosen license then
+ *  applies solely and in its entirety."
+ *
+ *  - Mark Martinec, http://www.ijs.si/software/snprintf/
+ *    (Last updated: 2003-07-22)
+ */
+
+/*
  * snprintf.c - a portable implementation of snprintf
  *
  * AUTHOR

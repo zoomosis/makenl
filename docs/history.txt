@@ -1,14 +1,40 @@
-/*  $Id: history.txt,v 1.29 2013/10/11 13:16:52 ajleary Exp $  */
+/*  $Id: history.txt,v 1.33 2014/07/06 23:26:01 ajleary Exp $  */
 
 
                             MakeNL Revision History
-       
-       v3.4.1 -- October 11, 2013
+
+       v3.4.4 -- July 6, 2014
+
+            MakeNL will no longer add a trailing comma to nodelist entries
+            which have no flags.  FTS-5000 allows the comma, but does not
+            require it.
+            -- Andrew Leary
+
+       v3.4.3 -- March 28, 2014
+
+            Increased the maximum archiver command line to 256 bytes. 
+            Thanks to Wilfred van Velzen (2:280/464) for the report and
+            patches.
+            -- Andrew Leary
+
+       v3.4.2 -- December 30, 2013
+            
+            Fix incorrect .MSG header when SUBmitting segments to an
+            inter-zone destination.  The INTL line was correct, but the .MSG
+            header was not.
+            -- Andrew Leary
+
+       v3.4.1 -- October 19, 2013
+
+            Include GNU General Public License Version 2 as the license
+            that applies to all MakeNL code.  See license.txt.  Add
+            licensing information to the MakeNL credits screen.
+            -- Andrew Clarke
 
             Ignore CTRL-Z lines in COPyright, PROlog, and EPIlog files.
             They were causing CRC errors in the Linux version.
-            -- Andrew Leary       
-
+            -- Andrew Leary
+     
        v3.4.0 -- October 6, 2013
 
             Release version of v3.3.10 for wide distribution.  Also fixed
