@@ -1,5 +1,7 @@
 # ########## MakeNL Source Directory ##########
 
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
 # ########## MakeNL Executable ##########
 ADD_EXECUTABLE (makenl
     config.c

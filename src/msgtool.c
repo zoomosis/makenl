@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.21 2013/09/25 19:29:56 ozzmosis Exp $ */
+/* $Id: msgtool.c,v 1.22 2013/12/30 06:36:54 ajleary Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -198,32 +198,27 @@ FILE *OpenMSGFile(int address[3], char *filename)
 
     if (!MSGFlags)
         return (MailFILE = NULL);
-    if (!address[A_ZONE])
+    if (!address[A_ZONE]) /* If dest. zone is 0, assume it's the same as ours. */
         address[A_ZONE] = MyAddress[A_ZONE];
-    if (MyAddress[A_ZONE] == address[A_ZONE])
+    intlline[0] = 0; /* Initialize INTL line. */
+    /* Build message destination address. */
+    msgbuf[0xae] = (unsigned char)(address[A_NET] & 0x00ff);        /* destNet        */
+    msgbuf[0xaf] = (unsigned char)((address[A_NET] & 0xff00) >> 8);
+    msgbuf[0xa6] = (unsigned char)(address[A_NODE] & 0x00ff);        /* destNode        */
+    msgbuf[0xa7] = (unsigned char)((address[A_NODE] & 0xff00) >> 8);
+    msgbuf[0xb0] = (unsigned char)(address[A_ZONE] & 0x00ff);        /* destZone        */
+    msgbuf[0xb1] = (unsigned char)((address[A_ZONE] & 0xff00) >> 8);  
+    if (MyAddress[A_ZONE] == address[A_ZONE]) /* Intra-zone message. */
     {
-        intlline[0] = 0;
-        msgbuf[0xae] = (unsigned char)(address[A_NET] & 0x00ff);        /* destNet        */
-        msgbuf[0xaf] = (unsigned char)((address[A_NET] & 0xff00) >> 8);
-        msgbuf[0xa6] = (unsigned char)(address[A_NODE] & 0x00ff);        /* destNode        */
-        msgbuf[0xa7] = (unsigned char)((address[A_NODE] & 0xff00) >> 8);
-        msgbuf[0xb0] = (unsigned char)(address[A_ZONE] & 0x00ff);        /* destZone        */
-        msgbuf[0xb1] = (unsigned char)((address[A_ZONE] & 0xff00) >> 8);
         intl = MailerFlags & (MF_INTL |
                               (MF_INTL << MF_SHIFT_ERRORS) |
                               (MF_INTL << MF_SHIFT_SUBMIT));
     }
     else
     {
-        msgbuf[0xae] = (unsigned char)(MyAddress[A_ZONE] & 0x00ff);        /* destNet        */
-        msgbuf[0xaf] = (unsigned char)((MyAddress[A_ZONE] & 0xff00) >> 8);
-        msgbuf[0xa6] = (unsigned char)(address[A_ZONE] & 0x00ff);        /* destNode        */
-        msgbuf[0xa7] = (unsigned char)((address[A_ZONE] & 0xff00) >> 8);
-        msgbuf[0xb0] = (unsigned char)(MyAddress[A_ZONE] & 0x00ff);        /* destZone        */
-        msgbuf[0xb1] = (unsigned char)((MyAddress[A_ZONE] & 0xff00) >> 8);
         intl = 1;
     }
-
+    /* Build message origin address. */
     msgbuf[0xa8] = (unsigned char)(MyAddress[A_NODE] & 0x00ff);        /* origNode        */
     msgbuf[0xa9] = (unsigned char)((MyAddress[A_NODE] & 0xff00) >> 8);
     msgbuf[0xac] = (unsigned char)(MyAddress[A_NET] & 0x00ff);                /* origNet        */

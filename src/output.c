@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.11 2013/10/11 13:16:53 ajleary Exp $ */
+/* $Id: output.c,v 1.12 2014/07/06 23:26:01 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,9 +59,18 @@ OutputFTS5Line(FILE * file, const char *prefix, const char *postfix,
       strlen(postfix) + 1;
 
     linebuf = malloc(bufsize);
-    snprintf(linebuf, bufsize, "%s%s,%s,%s,%s,%s,%s,%s,%s%s", prefix,
+    if (strlen(FTS5Flags)) /* Entry has flags */
+      {
+        snprintf(linebuf, bufsize, "%s%s,%s,%s,%s,%s,%s,%s,%s%s", prefix,
             FTS5Keyword, FTS5Number, FTS5Nodename, FTS5Location,
             FTS5Sysopname, FTS5Phone, FTS5Baud, FTS5Flags, postfix);
+      }
+    else
+      {
+        snprintf(linebuf, bufsize, "%s%s,%s,%s,%s,%s,%s,%s%s", prefix,
+            FTS5Keyword, FTS5Number, FTS5Nodename, FTS5Location,
+            FTS5Sysopname, FTS5Phone, FTS5Baud, postfix);
+      }
     if (crc != NULL)
         *crc = CRC16String(linebuf, *crc);
     fputs_result = fputs(linebuf, file);
