@@ -1,4 +1,4 @@
-/* $Id: procfile.c,v 1.4 2013/10/11 13:16:53 ajleary Exp $ */
+/* $Id: procfile.c,v 1.5 2014/11/13 23:29:54 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -70,7 +70,7 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
         if (MakeType >= subfile_level)
             die(255, "%s\n -- '%s' is invalid list type -- Statement ignored\n",
                 linebuf, command);
-        if (subfile_level < LEVEL_HOST)
+        if (subfile_level <= LEVEL_HOST)
         {
             NotifyAddress[A_NET] = num;
             NotifyAddress[A_NODE] = 0;
