@@ -3,11 +3,10 @@ FTSC                             FIDONET TECHNICAL STANDARDS COMMITTEE
 **********************************************************************
 
 Publication:  FTS-5000
-Revision:     4
+Revision:     5
 Title:        The Distribution Nodelist
 Author(s):    FTSC Members, Administrator and Honoured Guests
-
-Issue Date:   17 December 2012
+Date:         2014-01-23
 ======================================================================
 
 Status of this document
@@ -58,12 +57,12 @@ Contents
   both technical and management purposes.
 
   For direct communication, it is necessary that the originating node
-  know in advance the exact method and capabilities of the destination
-  node in order to determine if, when, and how a direct Fidonet mail
-  session can be established.  For routing and management, the stated
-  hierarchy must also be known.
+  knows in advance the exact method and capabilities of the destina-
+  tion node in order to determine if, when, and how a direct Fidonet
+  mail session can be established.  For routing and management, the
+  stated hierarchy must also be known.
 
-  All this information is collected into a file called the "nodelist."
+  All this information is collected into a file called the "nodelist".
 
   While nodelists of various flavours and completeness are in use, the
   "Distribution Nodelist" is the official record of all Fidonet nodes,
@@ -144,7 +143,7 @@ Contents
   has the exact binary format described above.
 
   For compatibility with certain broken segment processors, nodelist
-  maintainers must limit all lines to at most 157 characters (plus
+  maintainers should limit all lines to at most 157 characters (plus
   terminator).  It is very likely this limitation will be removed in
   the future, therefore future software implementations should be able
   to process lines of up to 1024 characters, and individual fields of
@@ -248,7 +247,7 @@ Contents
 
     It is recommended that future implementations allow for keywords
     of up to 32 characters, and gracefully handle entries using
-    unrecognised keywords.
+    unrecognized keywords.
 
     Full/Member Nodes -- these are the system numbers of individual
     Fidonet members.  See [Policy] for details on Fidonet membership.
@@ -257,14 +256,14 @@ Contents
         Defines a normal node entry.
 
       Pvt
-        In the past, this keyword merely defined a Private node (see
-        Policy v4.07, Section 2.1.9) - i.e. a node that is
-        operational, but not publically available for direct contact.
+        This keyword defines a Private node (see Policy v4.07,
+        Section 2.1.9) - i.e. a node that is operational, but
+        not publicly available for direct contact. When this keyword
+        is used, field six should contain the string "-Unpublished-". 
 
-        Due to software limitations over Field 6, this keyword has
-        been "borrowed" to allow listing of systems that do not have a
-        PSTN/ISDN line available, but instead utilise some other form
-        of communication detailed elsewhere in the entry.
+        In case the coordinator's nodelist processing software does
+        not allow the use of "-Unpublished-" without the Pvt keyword,
+        this keyword may also be used to list an internet only node.   
 
         In either case, if the originating node cannot contact the
         destination node, mail may instead be routed via its Hub or
@@ -397,10 +396,9 @@ Contents
      (area code), exchange 555, and number 0100.
                                
      Alternatively, this field may contain the string "-Unpublished-"
-     if the node has no conventional phone number, and uses the "Pvt",
-     "Hold" or "Down" keyword. It is recommended that software be
-     able to recognise this string as an indicator to never attempt
-     to dial this node by PSTN/ISDN, no matter what the keyword.
+     if the node has no conventional phone number. Software must
+     recognize this string as an indicator to never attempt to dial
+     this node by PSTN/ISDN.
                                
      This field may also contain the static IPv4 address of an IP-only
      node in decimal format with periods replaced with dashes, and
@@ -542,46 +540,55 @@ A. References
   [FTS-0005] "The distribution nodelist", Ben Baker, Rick Moore.
   February 1989. Obsoleted by this document.
 
+  [FTA-1006] "Keywords to indicate requirement levels"
+  FTSC, 2000-01-17.
+
   [Policy] "FidoNet Policy Document" v4.07 - June 9, 1989.
 
 
 B. History
 ----------
 
-   Rev.1, 19990627: Initial Release. Principal Author David Hallford
-   Rev.2, 20000424: Re-draft by Gino Lucrezi, with input from others,
-                    especially Andreas Klein. Major changes:
-                    - notes on parsing line 1
-                    - baud rate
-                    - different use of fields for IP nodes
-                    - notes to developers and maintainers
-                    - notes on pointlists
-                    - notes on line and field limits
-                    - revised definition of "Hold" nodes.
-                    - clarification on hub node numbers
-                    - clarification on point phone numbers
-                    - clarification on the former "speed" field
-   Rev.2, 20040817: Re-re-draft by FTSC.
-                    - Added Introduction and Segments sections.
-                    - More allowances for IP listings.
-                    - Reorganised/reindexed Content section.
-                    - Added length limits to fields where they could
+   Rev.1, 1999-06-27: Initial Release. Principal Author David Hallford
+   Rev.2, 2000-04-24: Re-draft by Gino Lucrezi, with input from others
+                      especially Andreas Klein. Major changes:
+                      Notes on parsing line 1.
+                      Baud rate.
+                      Different use of fields for IP nodes.
+                      Notes to developers and maintainers.
+                      Notes on pointlists.
+                      Notes on line and field limits.
+                      Revised definition of "Hold" nodes.
+                      Clarification on hub node numbers.
+                      Clarification on point phone numbers.
+                      Clarification on the former "speed" field.
+   Rev.2, 2004-08-17: Re-re-draft by FTSC.
+                      Added Introduction and Segments sections.
+                      More allowances for IP listings.
+                      Reorganised/reindexed Content section.
+                      Added length limits to fields where they could
                       be determined.
-                    - clarification on usage of Keywords.
-                    - clarification on special node numbers.
-                    - ZCs authorise that ZIP is now the default
-                      archival/compression tool for distributed files.
-   Rev.3 20121112   - There is no version 3. The above version 20040817
-                      should have been labelled version 3, but due to
-                      a clerical error it was also labelled version 2.
-                      So there are two version 2's. Rather than attempting
-                      to correct the error, which would probably not have
-                      succeeded as it is next to impossible te recall a
-                      file that was hatched many years ago, it was decided
-                      to leave thing as they are. skip version 3 and carry
-                      on with version 4.
-   Rev.4, 20121217  - Allow -Unpublished- with Down (par 5.3, field 6)
-                    - Various small rewordings, clairifications and
+                      Clarification on usage of Keywords.
+                      Clarification on special node numbers.
+                      ZCs authorise that ZIP is now the default
+                      Archival/compression tool for distributed files.
+   Rev.3, 2012-11-12: There is no version 3. The above version
+                      2004-08-17 should have been labelled version 3,
+                      but due to a clerical error it was also labelled
+                      version 2. So there are two version 2's. Rather
+                      than attempting to correct the error, which
+                      would probably not have succeeded as it is next
+                      to impossible to recall a file that was hatched
+                      many years ago, it was decided to leave things
+                      as they are, skip version 3 and carry on with
+                      version 4.
+   Rev.4, 2012-12-17: Allow -Unpublished- with Down (par 5.3, field 6)
+                      Various small rewordings, clairifications and
                       corrections of spelling errors.
+   Rev.5, 2014-01-23  Allow -Unpublished- with any or no keyword.
+                      "must" replaced by "should" on 157 char limit.
+                      Added reference to FTA-1006.
+                      Corrected a few spelling errors. 
+                      Reformatted for compliance with FTA-1002.003
 
 **********************************************************************
