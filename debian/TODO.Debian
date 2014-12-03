@@ -5,9 +5,11 @@ ToDo: MakeNL Debian packaging
   but the copyright information (specifically authors and years) still needs
   to be up verified and updated as necessary.
 
-- Lintian warnings during a package build for Debian packages.
-  Ref: http://wiki.debian.org/Hardening
-W: makenl: hardening-no-fortify-functions usr/bin/makenl
+- Package build is defaulting to using CMake but while building an 'makenl.html'
+  file from the 'makenl.txt' is present in the existing docs/Makefile, that
+  functionality has not yet been added to docs/CMakeList.txt. So until the
+  https://sourceforge.net/p/makenl/bugs/22/ has been resolved, remove the
+  installation of a 'makenl.html' file from the package build.
 
 
- -- Robert James Clay <jame@rocasa.us>  Thu, 23 May 2013 16:46:36 -0400
+ -- Robert James Clay <jame@rocasa.us>  Wed,  3 Dec 2014 07:18:46 -0500
