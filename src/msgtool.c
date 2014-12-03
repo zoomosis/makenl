@@ -1,4 +1,4 @@
-/* $Id: msgtool.c,v 1.22 2013/12/30 06:36:54 ajleary Exp $ */
+/* $Id: msgtool.c,v 1.23 2014/11/14 01:58:37 ajleary Exp $ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -153,6 +153,9 @@ FILE *OpenMSGFile(int address[3], char *filename)
     char filenamebuf[MYMAXDIR], subject[72], date[21];
     int intl, temp;
 
+    if (!address[A_ZONE]) /* If dest. zone is 0, assume it's the same as ours. */
+        address[A_ZONE] = MyAddress[A_ZONE];
+
     mklog(LOG_DEBUG, "OpenMSGFile entered");
     mklog(LOG_DEBUG, "OpenMSGFile: %d:%d/%d filename=%s", address[A_ZONE],
             address[A_NET], address[A_NODE], make_str_safe(filename));
@@ -198,8 +201,6 @@ FILE *OpenMSGFile(int address[3], char *filename)
 
     if (!MSGFlags)
         return (MailFILE = NULL);
-    if (!address[A_ZONE]) /* If dest. zone is 0, assume it's the same as ours. */
-        address[A_ZONE] = MyAddress[A_ZONE];
     intlline[0] = 0; /* Initialize INTL line. */
     /* Build message destination address. */
     msgbuf[0xae] = (unsigned char)(address[A_NET] & 0x00ff);        /* destNet        */
