@@ -1,8 +1,12 @@
-makenl (3.4.5-1~1) UNRELEASED; urgency=low
+makenl (3.4.5-1) stable; urgency=low
 
   * New upstream release: see changelog.gz for changes from v3.4.1 to v3.4.5.
+  * Set Standards-Version to 3.9.5 in debian/control.
+  * Add branch information to the Vcs-Git entry in debian/control.
+  * Remove the installation of 'makenl.html' file from the package build until
+    after https://sourceforge.net/p/makenl/bugs/22/ is resolved.
 
- -- Robert James Clay <jame@rocasa.us>  Wed, 03 Dec 2014 03:19:47 -0500
+ -- Robert James Clay <jame@rocasa.us>  Wed, 03 Dec 2014 12:56:15 -0500
 
 makenl (3.4.1-0squeeze1) squeeze; urgency=low
 
