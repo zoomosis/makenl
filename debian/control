@@ -4,7 +4,7 @@ Priority: extra
 Maintainer: Robert James Clay <jame@rocasa.us>
 Build-Depends: debhelper (>= 8.0.0), cmake
 Standards-Version: 3.9.3
-Vcs-Git: git://git.code.sf.net/p/makenl/code
+Vcs-Git: git://git.code.sf.net/p/makenl/code -b debian
 Vcs-Browser: http://http://sourceforge.net/p/makenl/code
 Homepage: http://makenl.sourceforge.net
 
