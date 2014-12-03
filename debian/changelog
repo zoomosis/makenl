@@ -1,28 +1,18 @@
-makenl (3.4.1-0wheezy1~1) UNRELEASED; urgency=low
+makenl (3.4.1-0squeeze1) squeeze; urgency=low
 
-  Todo:
-    - Start development work for packaging v3.4.1
-  * New upstream release: see changelog.gz for changes from v3.3.8 to v3.4.1.
-
- -- Robert James Clay <jame@rocasa.us>  Fri, 18 Oct 2013 10:33:29 -0400
-
-makenl (3.3.8-0wheezy1) wheezy; urgency=low
-
+  * Backport MakeNL v3.4.1 to Debian v6 (squeeze).
   * Add cmake to the Build-Depends setting in debian/control.
-  * Overide dh_auto_install in debian/rules with just 'dh_install'.
-  * New upstream release: see changelog.gz for changes from v3.3.5 to v3.3.8.
+  * Remove explicit but unversioned dpkg-dev Build-Depends in debian/control.
+  * New upstream release: see changelog.gz for changes from v3.3.5 to v3.4.1.
 
- -- Robert James Clay <jame@rocasa.us>  Fri, 06 Sep 2013 06:18:14 -0400
+ -- Robert James Clay <jame@rocasa.us>  Wed, 25 Dec 2013 12:43:27 +0000
 
-makenl (3.3.5-0wheezy2) wheezy; urgency=low
+makenl (3.3.5-0squeeze1) squeeze; urgency=low
 
-  * Change how the docs/whatsnew.txt file is installed.
-  * Update the patching information in debian/README.source.
-  * Enable use of asciidoc to create makenl.html from makenl.txt.
-  * Rename the files debian/dirs, debian/docs, debian/examples, debian/install,
-    and debian/manpages to include the 'makenl' package name.
+  * Backport MakeNL v3.3.5 to Debian v6 (squeeze).
+  * Remove versioned requirement for dpkg-dev Build-Depends in debian/control.
 
- -- Robert James Clay <jame@rocasa.us>  Thu, 23 May 2013 17:24:05 -0400
+ -- Robert James Clay <jame@rocasa.us>  Thu, 16 May 2013 11:49:13 -0400
 
 makenl (3.3.5-0wheezy1) wheezy; urgency=low
 

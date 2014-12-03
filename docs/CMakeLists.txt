@@ -1,5 +1,7 @@
 # ########## MakeNL Documentation directory ##########
 
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
 # ########## MakeNL documentation ##########
 # doc files:
 SET(makenl_DOCS
