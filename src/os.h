@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.57 2013/10/02 08:58:03 ozzmosis Exp $ */
+/* $Id: os.h,v 1.58 2014/12/06 05:14:56 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -323,7 +323,7 @@ struct _filefind
     struct _finddata_t fileinfo;
 };
 
-#if _MSC_VER <= 900
+#if _MSC_VER <= 1500
 #define NEED_SNPRINTF 1
 #endif
 
