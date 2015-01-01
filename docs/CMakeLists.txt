@@ -5,29 +5,37 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 # ########## MakeNL documentation ##########
 # doc files:
 SET(makenl_DOCS
+    hist31x.txt
+    history.txt
+    makenl.txt
+    read.me
+    whatsnew.txt
+)
+# doc files:
+SET(makenl_EXAMPLES
     cpyright.txt
     distrib.ctl
     epilog.txt
-    felten.txt
-    fts-5000.txt
-    hist31x.txt
-    history.txt
     hub.ctl
-    karcher.eng
-    karcher.txt
-    makenl.prn
-    makenl.txt
     net-l.ctl
     net-s.ctl
     node.ctl
     prolog.txt
-    read.me
     regional.ctl
-    whatsnew.txt
     zone.ctl
+)
+# historical doc files:
+SET(makenl_HISTORY
+    felten.txt
+    fts-5000.txt
+    karcher.eng
+    karcher.txt
+    makenl.prn
 )
 
 # ######### Installation ##########
 # add install documentation:
 INSTALL(FILES ${makenl_DOCS} DESTINATION share/doc/makenl)
+INSTALL(FILES ${makenl_EXAMPLES} DESTINATION share/doc/makenl/examples)
+INSTALL(FILES ${makenl_HISTORY} DESTINATION share/doc/makenl/history)
 
