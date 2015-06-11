@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.58 2014/12/06 05:14:56 ozzmosis Exp $ */
+/* $Id: os.h,v 1.59 2015/06/11 02:27:24 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -68,6 +68,8 @@
 #define CC_NAME "MinGW64"
 #elif defined(__MINGW32__)
 #define CC_NAME "MinGW32"
+#elif defined(__ICC)
+#define CC_NAME "Intel C"
 #elif defined(__GNUC__)
 #define CC_NAME "GNU C"
 #elif defined(__BORLANDC__)
