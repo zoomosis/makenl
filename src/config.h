@@ -1,4 +1,4 @@
-/* $Id: config.h,v 1.4 2013/05/26 01:23:46 ajleary Exp $ */
+/* $Id: config.h,v 1.5 2016/10/29 06:58:12 ajleary Exp $ */
 
 /* Numbers of configuration options */
 #define CFG_ARCCOPY 0
@@ -61,7 +61,8 @@
 /* Valid baudrates */
 #define MAX_BAUDRATES 12
 
-
+/* Remove UTF-8 Byte Order Marks (BOM) */
+#define CFG_REMOVEBOM 40
 
 struct switchstruct
 {

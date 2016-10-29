@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.11 2013/09/25 19:29:56 ozzmosis Exp $ */
+/* $Id: fts5.c,v 1.12 2016/10/29 06:58:12 ajleary Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -67,6 +67,7 @@ int Minphone = 1;
 int Alphaphone = 0;
 int Allowunpub = 0;
 int Allow8Bit = 0;
+int RemoveBOM = 0;
 int PrivateLevel;
 int PointLevel = -2;            /* don't allow points */
 char *FTS5Line[8];
@@ -330,6 +331,8 @@ int ParseFTS5(char *line, int *a, int *b)
 {
     int fieldno;
     int hiterror;
+    char *templine;
+    char *templn2;
     char **ElementPPtr = &FTS5Keyword;
     handlefunc *y = HandleFields;
 
@@ -337,6 +340,21 @@ int ParseFTS5(char *line, int *a, int *b)
     {
         *a = LEVEL_EMPTY;
         return 0;
+    }
+    if (RemoveBOM)
+    {
+        templine = line;
+        templine = strstr(line, "\xef\xbb\xbf");
+        if (templine != NULL) /* BOM found on line */
+        {
+            if (templine == line) /* BOM at start of line */
+                line += 3; /* Skip the BOM */
+            if (templine > line) /* BOM in middle of line */
+            {
+                templn2 = templine + 3; /* Move rest of line over BOM */
+                strcpy(templine, templn2);
+            }
+        }        
     }
     if (line[0] == ';')
     {
