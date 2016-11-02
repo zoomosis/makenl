@@ -1,4 +1,4 @@
-/* $Id: fts5.h,v 1.3 2013/05/26 01:23:46 ajleary Exp $ */
+/* $Id: fts5.h,v 1.4 2016/10/29 06:58:12 ajleary Exp $ */
 
 /* Indices for 3D-Addresses */
 #define A_ZONE 0
@@ -38,6 +38,9 @@ extern int Allowunpub;
 
 /* Allow 8-bit characters */
 extern int Allow8Bit;
+
+/* Remove UTF-8 Byte Order Marks (BOM) */
+extern int RemoveBOM;
 
 extern char namebuf[16];
 extern const char *const LevelsSimple[];
