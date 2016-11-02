@@ -1,4 +1,4 @@
-$Id: whatsnew.txt,v 1.5 2013/10/06 19:44:49 ajleary Exp $
+$Id: whatsnew.txt,v 1.6 2016/10/29 06:58:12 ajleary Exp $
 
 Support:
 ========
@@ -142,3 +142,10 @@ FORcesubmit:
    This keyword will only work if MakeNL is started with -P on the
    commandline. This keyword is disabled by default. 
    To enable it add FORcesubmit 1 to your MAKENL.CTL file.
+
+REMoveBOM:
+----------
+   REMoveBOM is a new keyword that will cause MakeNL to remove any UTF-8
+   Byte Order Marks (BOMs) found in incoming nodelist segments.  This
+   keyword is disabled by default.  To enable it add REMoveBOM 1 to your
+   MAKENL.CTL file.
