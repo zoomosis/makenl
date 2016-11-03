@@ -1,4 +1,4 @@
-/* $Id: config.c,v 1.27 2013/09/26 19:29:20 ozzmosis Exp $ */
+/* $Id: config.c,v 1.28 2016/10/29 06:58:12 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -385,6 +385,7 @@ const struct switchstruct CfgEntries[] = {
     {"LOGFILE", 4, CFG_LOGFILE},
     {"LOGLEVEL", 4, CFG_LOGLEVEL},
     {"ALLOW8BIT", 6, CFG_ALLOW8BIT},
+    {"REMOVEBOM", 3, CFG_REMOVEBOM},
     {NULL, 0, -1}
 };
 
@@ -468,7 +469,8 @@ struct
   {2, 2},                        /* LOGFile pfile */
   {2, 2},                        /* LOGLevel 1..4 - default 1 */
   {2, 2},                        /* FORcesubmit 1 or 0 - default 0 */
-  {2, 2}                         /* ALLOW8BIT 1 or 0 - default 0 */
+  {2, 2},                        /* ALLOW8BIT 1 or 0 - default 0 */
+  {2, 2}			 /* REMOVEBOM 1 or 0 - default 0 */
 };
 /* *INDENT-ON* */
 
@@ -754,6 +756,16 @@ int parsecfgfile(FILE * CFG)
             else
             {
                 mklog(LOG_ERROR, "ALLOW8BIT argument '%s' must be 0 or 1",
+                    args[0]);
+                mode = -1;
+            }
+            break;
+        case CFG_REMOVEBOM:
+            if (args[0][0] >= '0' && args[0][0] < '2' && args[0][1] == 0)
+                RemoveBOM = args[0][0] - '0';
+            else
+            {
+                mklog(LOG_ERROR, "REMOVEBOM argument '%s' must be 0 or 1",
                     args[0]);
                 mode = -1;
             }

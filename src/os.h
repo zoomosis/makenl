@@ -1,4 +1,4 @@
-/* $Id: os.h,v 1.57 2013/10/02 08:58:03 ozzmosis Exp $ */
+/* $Id: os.h,v 1.59 2015/06/11 02:27:24 ozzmosis Exp $ */
 
 #ifndef __OS_H__
 #define __OS_H__
@@ -68,6 +68,8 @@
 #define CC_NAME "MinGW64"
 #elif defined(__MINGW32__)
 #define CC_NAME "MinGW32"
+#elif defined(__ICC)
+#define CC_NAME "Intel C"
 #elif defined(__GNUC__)
 #define CC_NAME "GNU C"
 #elif defined(__BORLANDC__)
@@ -323,7 +325,7 @@ struct _filefind
     struct _finddata_t fileinfo;
 };
 
-#if _MSC_VER <= 900
+#if _MSC_VER <= 1500
 #define NEED_SNPRINTF 1
 #endif
 

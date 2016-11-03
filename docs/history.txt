@@ -1,7 +1,20 @@
-/*  $Id: history.txt,v 1.34 2014/11/13 23:29:53 ajleary Exp $  */
+/*  $Id: history.txt,v 1.36 2016/10/29 06:58:12 ajleary Exp $  */
 
 
                             MakeNL Revision History
+
+       v3.4.6 -- October 29, 2016
+
+	    Add the RemoveBOM option requested by Michiel van der Vlist.
+	    When enabled (RemoveBOM 1 in makenl.ctl), UTF-8 Byte Order Marks
+	    will be stripped from incoming segments.
+	    -- Andrew Leary
+
+       -- January 1, 2015
+
+            Reorganize the install of the documentation history and examples
+            into separate sub-directories when using CMake.
+            -- Robert James Clay
 
        v3.4.5 -- November 13, 2014
 
