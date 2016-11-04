@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.12 2014/07/06 23:26:01 ajleary Exp $ */
+/* $Id: output.c,v 1.13 2016/11/04 22:24:32 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -87,6 +87,7 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
     char *yearwrite;
     char yearcharbuf;
     char *linebegin;
+    char *templine, *templn2;
     int lineno = 0;
     FILE *CopyFILE;
     char fullname[MYMAXDIR];
@@ -116,6 +117,21 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
         if (linebegin[0] == '\x1a') /* CTRL-Z at beginning of line. */
         {
             return lineno;
+        }
+        if (RemoveBOM)
+        {
+            templine = linebegin;
+            templine = strstr(linebegin, "\xef\xbb\xbf");
+            if (templine != NULL) /* BOM found on line */
+            {
+                if (templine == linebegin) /* BOM at start of line */
+                    linebegin += 3; /* Skip the BOM */
+                if (templine > linebegin) /* BOM in middle of line */
+                {
+                    templn2 = templine + 3; /* Move rest of line over BOM */
+                    strcpy(templine, templn2);
+                }
+            }
         }
         if (linebegin[0] != ';')
         {
