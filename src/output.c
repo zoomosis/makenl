@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.13 2016/11/04 22:24:32 ajleary Exp $ */
+/* $Id: output.c,v 1.14 2016/11/05 06:28:27 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -124,13 +124,8 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
             templine = strstr(linebegin, "\xef\xbb\xbf");
             if (templine != NULL) /* BOM found on line */
             {
-                if (templine == linebegin) /* BOM at start of line */
-                    linebegin += 3; /* Skip the BOM */
-                if (templine > linebegin) /* BOM in middle of line */
-                {
-                    templn2 = templine + 3; /* Move rest of line over BOM */
-                    strcpy(templine, templn2);
-                }
+                templn2 = templine + 3; /* Move rest of line over BOM */
+                strcpy(templine, templn2);
             }
         }
         if (linebegin[0] != ';')
