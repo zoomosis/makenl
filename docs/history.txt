@@ -1,13 +1,13 @@
-/*  $Id: history.txt,v 1.36 2016/10/29 06:58:12 ajleary Exp $  */
+/*  $Id: history.txt,v 1.37 2016/11/27 23:24:16 ajleary Exp $  */
 
 
                             MakeNL Revision History
 
-       v3.4.6 -- October 29, 2016
+       v3.4.6 -- November 27, 2016
 
 	    Add the RemoveBOM option requested by Michiel van der Vlist.
 	    When enabled (RemoveBOM 1 in makenl.ctl), UTF-8 Byte Order Marks
-	    will be stripped from incoming segments.
+	    will be stripped from incoming segments and comment files.
 	    -- Andrew Leary
 
        -- January 1, 2015
