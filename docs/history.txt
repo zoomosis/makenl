@@ -1,7 +1,12 @@
-/*  $Id: history.txt,v 1.37 2016/11/27 23:24:16 ajleary Exp $  */
-
+/*  $Id: history.txt,v 1.38 2016/12/02 22:20:06 ajleary Exp $  */
 
                             MakeNL Revision History
+
+       v3.4.7 -- December 2, 2016
+
+	    Fix a possible data corruption issue with the RemoveBOM option.
+            Thanks to Wilfred van Velzen for the report.
+	    -- Andrew Leary
 
        v3.4.6 -- November 27, 2016
 

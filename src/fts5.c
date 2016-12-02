@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.13 2016/11/04 22:24:32 ajleary Exp $ */
+/* $Id: fts5.c,v 1.14 2016/12/02 22:20:06 ajleary Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -347,7 +347,7 @@ int ParseFTS5(char *line, int *a, int *b)
             if (templine > line) /* BOM in middle of line */
             {
                 templn2 = templine + 3; /* Move rest of line over BOM */
-                strcpy(templine, templn2);
+                memmove(templine, templn2, strlen(templn2)+1);
             }
         }        
     }

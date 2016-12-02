@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.14 2016/11/05 06:28:27 ajleary Exp $ */
+/* $Id: output.c,v 1.15 2016/12/02 22:20:06 ajleary Exp $ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -125,7 +125,7 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
             if (templine != NULL) /* BOM found on line */
             {
                 templn2 = templine + 3; /* Move rest of line over BOM */
-                strcpy(templine, templn2);
+                memmove(templine, templn2, strlen(templn2)+1);
             }
         }
         if (linebegin[0] != ';')
