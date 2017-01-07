@@ -4,7 +4,7 @@ Upstream-Contact: Robert James Clay <jame@rocasa.us>
 Source: http://sourceforge.net/p/makenl
 
 Files: *
-Copyright: 2004-2013, MakeNL_NG Team
+Copyright: 2004-2016, MakeNL_NG Team
 Comment: This is makenl, an open-sourced version of MakeNL, the FTN/Fidonet
  nodelist processing program. MakeNL 3.x was reverse engineered from the
  original MakeNL by Michael Karcher with further modifications by Björn Felton,
@@ -14,7 +14,7 @@ License: GPL-2+
 
 Files: debian/*
 Comment: Copyright and License for the debian directory files.
-Copyright: 2010-2014, Robert James Clay <jame@rocasa.us>
+Copyright: 2010-2017, Robert James Clay <jame@rocasa.us>
            2007-2009, Robert James Clay <jame@rocasa.org>
 License: GPL-2+
 
