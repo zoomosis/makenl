@@ -1,8 +1,8 @@
-makenl (3.4.6-0~1) UNRELEASED; urgency=medium
+makenl (3.4.7-0~1) UNRELEASED; urgency=medium
 
-  * New upstream release. 
+  * New upstream release.
 
- -- Robert James Clay <jame@rocasa.us>  Thu, 03 Nov 2016 06:30:31 -0400
+ -- Robert James Clay <jame@rocasa.us>  Sat, 07 Jan 2017 11:05:30 -0400
 
 makenl (3.4.5-1) stable; urgency=low
 
