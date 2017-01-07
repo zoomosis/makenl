@@ -1,4 +1,4 @@
-/* $Id: fts5.c,v 1.12 2016/10/29 06:58:12 ajleary Exp $ */
+/* $Id: fts5.c,v 1.14 2016/12/02 22:20:06 ajleary Exp $ */
 
 #include <stdio.h>
 #include <string.h>
@@ -336,11 +336,6 @@ int ParseFTS5(char *line, int *a, int *b)
     char **ElementPPtr = &FTS5Keyword;
     handlefunc *y = HandleFields;
 
-    if (strlen(cutspaces(line)) == 0)
-    {
-        *a = LEVEL_EMPTY;
-        return 0;
-    }
     if (RemoveBOM)
     {
         templine = line;
@@ -352,9 +347,14 @@ int ParseFTS5(char *line, int *a, int *b)
             if (templine > line) /* BOM in middle of line */
             {
                 templn2 = templine + 3; /* Move rest of line over BOM */
-                strcpy(templine, templn2);
+                memmove(templine, templn2, strlen(templn2)+1);
             }
         }        
+    }
+    if (strlen(cutspaces(line)) == 0)
+    {
+        *a = LEVEL_EMPTY;
+        return 0;
     }
     if (line[0] == ';')
     {
