@@ -81,7 +81,7 @@
 #elif defined(__HIGHC__)
 #define CC_NAME "MetaWare High C"
 #elif defined(__IBMC__)
-#define CC_NAME "VisualAge C"
+#define CC_NAME "IBM C"
 #elif defined(_MSC_VER)
 #if _MSC_VER <= 900
 #define CC_NAME "MSC"
