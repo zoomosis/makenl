@@ -2,6 +2,13 @@
 
                             MakeNL Revision History
 
+       v3.4.8 -- December 3, 2017
+
+            Add support for TODAY and TOMORROW as valid nodelist publishing
+            days.  Thanks to Kees van Eeten for the patch.
+            -- Andrew Leary
+
+
        v3.4.7 -- December 2, 2016
 
 	    Fix a possible data corruption issue with the RemoveBOM option.
