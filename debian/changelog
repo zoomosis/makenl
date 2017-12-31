@@ -1,10 +1,13 @@
-makenl (3.4.8-1~1) UNRELEASED; urgency=medium
+makenl (3.4.8-1) stable; urgency=medium
 
   * New upstream release.
+  * Rewrite comment lines in the debian/watch file.
   * Change the debhelper version being used from '8' to '9'.
+  * Set 'Priority' from 'extra' to 'optional' in debian/control.
+  * Update URLs for Vcs-Git & Vcs-Browser to HTTPS in debian/control.
   * Bump Standards-Version in debian/control from '3.9.5' to '3.9.8'.
 
- -- Robert James Clay <jame@rocasa.us>  Sun, 30 Dec 2017 14:19:11 -0400
+ -- Robert James Clay <jame@rocasa.us>  Sun, 31 Dec 2017 16:11:46 -0500
 
 makenl (3.4.5-1) stable; urgency=low
 
