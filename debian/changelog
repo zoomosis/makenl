@@ -1,8 +1,10 @@
-makenl (3.4.7-0~1) UNRELEASED; urgency=medium
+makenl (3.4.8-1~1) UNRELEASED; urgency=medium
 
   * New upstream release.
+  * Change the debhelper version being used from '8' to '9'.
+  * Bump Standards-Version in debian/control from '3.9.5' to '3.9.8'.
 
- -- Robert James Clay <jame@rocasa.us>  Sat, 07 Jan 2017 11:05:30 -0400
+ -- Robert James Clay <jame@rocasa.us>  Sun, 30 Dec 2017 14:19:11 -0400
 
 makenl (3.4.5-1) stable; urgency=low
 
