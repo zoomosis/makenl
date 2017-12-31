@@ -1,6 +1,6 @@
 Source: makenl
 Section: admin
-Priority: extra
+Priority: optional
 Maintainer: Robert James Clay <jame@rocasa.us>
 Build-Depends: debhelper (>= 9.0.0), cmake
 Standards-Version: 3.9.8
