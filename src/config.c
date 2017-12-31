@@ -397,6 +397,8 @@ static const struct switchstruct DOWSwitchTab[] = {
     {"THURSDAY", 3, 4},
     {"FRIDAY", 3, 5},
     {"SATURDAY", 3, 6},
+    {"TODAY", 3, 7},
+    {"TOMORROW", 3, 8},
     {NULL, 0, -1}
 };
 
@@ -797,6 +799,12 @@ int parsecfgfile(FILE * CFG)
                 mode = -1;
                 break;
             }
+            time(&thetime);
+            mytime = localtime(&thetime);
+            if (NewExtWDay == 7)
+                NewExtWDay = mytime->tm_wday;
+            if (NewExtWDay == 8)
+                NewExtWDay = mytime->tm_wday + 1;
             NewExtWDay = (NewExtWDay + 1) % 7; /* publishing day->new
                                                   filextension day */
             break;

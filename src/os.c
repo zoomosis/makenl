@@ -1170,7 +1170,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
 {
     char *path;
 
-    path = _fullpath(dst, src, bufsiz);
+    path = _fullpath(dst, (char *) src, bufsiz);
 
     if (path == NULL)
     {
