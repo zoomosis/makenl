@@ -184,10 +184,10 @@ struct _filefind
 #include <io.h>
 #include <process.h>
 
-#define HAVE_OS_FULLPATH
-#define HAVE_OS_FGETS
-#define HAVE_STRUPR
-#define HAVE_GETPID
+#define HAVE_OS_FULLPATH  1
+#define HAVE_OS_FGETS     1
+#define HAVE_STRUPR       1
+#define HAVE_GETPID       1
 
 #define MYMAXFILE  _MAX_FNAME
 #define MYMAXDIR   _MAX_DIR
