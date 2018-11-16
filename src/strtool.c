@@ -110,6 +110,8 @@ char *strupper(char *string)
  *  for very long strings.
  */
 
+#ifndef HAVE_STRLCPY
+
 size_t strlcpy(char *d, const char *s, size_t bufsize)
 {
     size_t len;
@@ -124,6 +126,10 @@ size_t strlcpy(char *d, const char *s, size_t bufsize)
 
     return ret;
 }
+
+#endif
+
+#ifndef HAVE_STRLCAT
 
 size_t strlcat(char *d, const char *s, size_t bufsize)
 {
@@ -144,3 +150,5 @@ size_t strlcat(char *d, const char *s, size_t bufsize)
     }
     return ret;
 }
+
+#endif

@@ -162,6 +162,11 @@
 
 #define HAVE_GETPID 1
 
+#if defined(__FreeBSD__) || defined(__APPLE__)
+#define HAVE_STRLCPY 1
+#define HAVE_STRLCAT 1
+#endif
+
 struct _filefind
 {
     char path[MYMAXDIR];
