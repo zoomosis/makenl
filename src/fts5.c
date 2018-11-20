@@ -338,7 +338,6 @@ int ParseFTS5(char *line, int *a, int *b)
 
     if (RemoveBOM)
     {
-        templine = line;
         templine = strstr(line, "\xef\xbb\xbf");
         if (templine != NULL) /* BOM found on line */
         {

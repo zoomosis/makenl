@@ -120,7 +120,6 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
         }
         if (RemoveBOM)
         {
-            templine = linebegin;
             templine = strstr(linebegin, "\xef\xbb\xbf");
             if (templine != NULL) /* BOM found on line */
             {
