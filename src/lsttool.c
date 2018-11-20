@@ -273,7 +273,7 @@ static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
 /*
  * Test unpacker, see also makenl.h for ARCUNPMAX
  */
-char *unpacker(char *fn)
+static char *unpacker(char *fn)
 {
     FILE            *fp;
     unsigned char   buf[8];
