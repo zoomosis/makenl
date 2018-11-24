@@ -31,8 +31,8 @@ static char *date_str(void)
 
 static void logwrite(int level, char *outstr)
 {
+    int saved_errno = errno;
     static int logopened = 0;
-
     FILE *log_fp;
     FILE *std_fp;
     int need_strerror;
@@ -59,7 +59,7 @@ static void logwrite(int level, char *outstr)
 
         if (need_strerror)
         {
-            fprintf(std_fp, ": %s\n", xstrerror(errno));
+            fprintf(std_fp, ": %s\n", xstrerror(saved_errno));
         }
         else
         {
@@ -109,7 +109,7 @@ static void logwrite(int level, char *outstr)
 
     if (need_strerror)
     {
-        fprintf(log_fp, ": %s\n", xstrerror(errno));
+        fprintf(log_fp, ": %s\n", xstrerror(saved_errno));
     }
     else
     {
