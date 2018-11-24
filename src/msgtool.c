@@ -66,7 +66,7 @@ static unsigned long NewMSGID(void)
         
         if (fp == NULL)
         {
-            mklog(LOG_ERROR, "Can't create '%s' for writing: %s", filename, xstrerror(errno));
+            mklog(LOG_ERROR, "$Can't create '%s' for writing", filename);
             return seq;
         }
 
@@ -78,7 +78,7 @@ static unsigned long NewMSGID(void)
             
         if (rc != 0)
         {
-            mklog(LOG_DEBUG, "fclose() failed for '%s': %s", filename, xstrerror(errno));
+            mklog(LOG_DEBUG, "$fclose() failed for '%s'", filename);
         }
             
         return seq;
@@ -94,7 +94,7 @@ static unsigned long NewMSGID(void)
     
     if (rc != 0)
     {
-        mklog(LOG_DEBUG, "fseek failed for '%s': %s", filename, xstrerror(errno));
+        mklog(LOG_DEBUG, "$fseek failed for '%s'", filename);
     }
 
     rc = fwrite(&seq, 1, sizeof seq, fp);
@@ -104,7 +104,7 @@ static unsigned long NewMSGID(void)
 
     if (rc != 0)
     {
-        mklog(LOG_DEBUG, "fclose() failed for '%s': %s", filename, xstrerror(errno));
+        mklog(LOG_DEBUG, "$fclose() failed for '%s'", filename);
     }
             
     return seq;

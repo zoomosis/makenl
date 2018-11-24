@@ -369,7 +369,7 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
              */
             if (os_chdir(fnamebuf) != 0)
             {
-                mklog(LOG_ERROR, "Can't chdir to '%s': %s", fnamebuf, xstrerror(errno));
+                mklog(LOG_ERROR, "$Can't chdir to '%s'", fnamebuf);
             }
             else
             {
@@ -391,13 +391,13 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
                 }
                 if (os_chdir(CurDir) != 0)
                 {
-                    mklog(LOG_ERROR, "Can't chdir to '%s': %s", CurDir, xstrerror(errno));
+                    mklog(LOG_ERROR, "$Can't chdir to '%s'", CurDir);
                 }
             }
 
             if (unlink(foundfile) != 0)
             {
-                mklog(LOG_ERROR, "Can't unlink '%s': %s", foundfile, xstrerror(errno));
+                mklog(LOG_ERROR, "$Can't unlink '%s'", foundfile);
             }
         }
         else if (ext[0] == 0 && toupper((unsigned char)extbuf[0]) == 'D') /* DIFFed 
