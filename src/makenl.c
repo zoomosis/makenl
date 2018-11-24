@@ -76,7 +76,7 @@ static void check_fp(FILE *fp, char *fn, char *mode)
         return;
     }
     
-    die(254, "Unable to open '%s' for %s: %s", fn, *mode == 'r' ? "input" : "output", strerror(errno));
+    die(254, "Unable to open '%s' for %s: %s", fn, *mode == 'r' ? "input" : "output", xstrerror(errno));
 }
 
 /* Looks for the last day with (dow == weekday) before now.

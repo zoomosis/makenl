@@ -41,5 +41,6 @@ void cleanit(void);
 void cleanold(char *path, char *filename, char *ext);
 void CopyOrMove(int copy, char *source, char *destdir, char *destname);
 
-/* Now in OS.H as a #define 
-int filecmp (const char *a, const char *b);*/
+/* wrapper for strerror() */
+
+char *xstrerror(int errnum);

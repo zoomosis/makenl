@@ -148,7 +148,7 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
         strcat(linebegin, "\r\n");
         *crc = CRC16String(linebegin, *crc);
         if (fputs(linebegin, output) == EOF)
-            die(254, "Error writing to '%s': %s", OutFile, strerror(errno));
+            die(254, "Error writing to '%s': %s", OutFile, xstrerror(errno));
         lineno++;
     }
     fclose(CopyFILE);

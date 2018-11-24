@@ -214,7 +214,7 @@ int os_chdir(char *path)
 
     if (rc != 0)
     {
-        mklog(LOG_ERROR, "Can't chdir to '%s': %s", newpath, strerror(errno));
+        mklog(LOG_ERROR, "Can't chdir to '%s': %s", newpath, xstrerror(errno));
     }
 
     free(newpath);
@@ -232,7 +232,7 @@ int os_chdir(char *path)
     
     if (rc != 0)
     {
-        mklog(LOG_ERROR, "Can't chdir to '%s': %s", path, strerror(errno));
+        mklog(LOG_ERROR, "Can't chdir to '%s': %s", path, xstrerror(errno));
     }
 
     return rc;

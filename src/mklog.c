@@ -59,7 +59,7 @@ static void logwrite(int level, char *outstr)
 
         if (need_strerror)
         {
-            fprintf(std_fp, ": %s\n", strerror(errno));
+            fprintf(std_fp, ": %s\n", xstrerror(errno));
         }
         else
         {
@@ -109,7 +109,7 @@ static void logwrite(int level, char *outstr)
 
     if (need_strerror)
     {
-        fprintf(log_fp, ": %s\n", strerror(errno));
+        fprintf(log_fp, ": %s\n", xstrerror(errno));
     }
     else
     {

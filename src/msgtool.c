@@ -66,7 +66,7 @@ static unsigned long NewMSGID(void)
         
         if (fp == NULL)
         {
-            mklog(LOG_ERROR, "Can't create '%s' for writing: %s", filename, strerror(errno));
+            mklog(LOG_ERROR, "Can't create '%s' for writing: %s", filename, xstrerror(errno));
             return seq;
         }
 
@@ -78,7 +78,7 @@ static unsigned long NewMSGID(void)
             
         if (rc != 0)
         {
-            mklog(LOG_DEBUG, "fclose() failed for '%s': %s", filename, strerror(errno));
+            mklog(LOG_DEBUG, "fclose() failed for '%s': %s", filename, xstrerror(errno));
         }
             
         return seq;
@@ -94,7 +94,7 @@ static unsigned long NewMSGID(void)
     
     if (rc != 0)
     {
-        mklog(LOG_DEBUG, "fseek failed for '%s': %s", filename, strerror(errno));
+        mklog(LOG_DEBUG, "fseek failed for '%s': %s", filename, xstrerror(errno));
     }
 
     rc = fwrite(&seq, 1, sizeof seq, fp);
@@ -104,7 +104,7 @@ static unsigned long NewMSGID(void)
 
     if (rc != 0)
     {
-        mklog(LOG_DEBUG, "fclose() failed for '%s': %s", filename, strerror(errno));
+        mklog(LOG_DEBUG, "fclose() failed for '%s': %s", filename, xstrerror(errno));
     }
             
     return seq;
@@ -287,7 +287,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
     }
     MailFILE = fopen(MakeMSGFilename(filenamebuf, MSGnum + 1), "wb");
     if (MailFILE == NULL)
-        die(254, "Cannot create '%s': %s", filenamebuf, strerror(errno));
+        die(254, "Cannot create '%s': %s", filenamebuf, xstrerror(errno));
     MSGnum++;
     mklog(LOG_DEBUG, "OpenMSGFile: opened '%s', MSGnum %d", filenamebuf, MSGnum);
     

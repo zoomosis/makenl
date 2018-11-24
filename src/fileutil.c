@@ -326,14 +326,52 @@ void CopyOrMove(int copy, char *source, char *destdir, char *destname)
         return;
     destFILE = fopen(dest, "w");
     if (!destFILE)
-        die(254, "Unable to open '%s' for output: %s", dest, strerror(errno));
+        die(254, "Unable to open '%s' for output: %s", dest, xstrerror(errno));
     sourceFILE = fopen(source, "r");
     if (!sourceFILE)
-        die(254, "Unable to open '%s' for input: %s", source, strerror(errno));
+        die(254, "Unable to open '%s' for input: %s", source, xstrerror(errno));
     while ((copychar = getc(sourceFILE)) != EOF)
         fputc(copychar, destFILE);
     fclose(sourceFILE);
     fclose(destFILE);
     if (!copy)
         unlink(source);
+}
+
+/*
+ *  Some implementations of C's strerror() include an unwanted trailing newline.
+ *  Others return NULL on unknown error.
+ *  So we need to write a wrapper.
+ *
+ *  -- ozzmosis 2018-11-25
+ */
+
+char *xstrerror(int errnum)
+{
+    static char buf[1024];
+    char *p;
+
+    p = strerror(errnum);
+
+    if (p == NULL)
+    {
+        return "Unknown error!";
+    }
+
+    /* We can't modify the string returned by strerror() so we need to copy it */
+
+    strlcpy(buf, p, sizeof buf);
+
+    /* remove newline from our copy */
+
+    p = strchr(buf, '\n');
+
+    if (p != NULL)
+    {
+        *p = '\0';
+    }
+
+    /* return our copy */
+
+    return buf;
 }
