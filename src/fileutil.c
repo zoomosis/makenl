@@ -326,10 +326,10 @@ void CopyOrMove(int copy, char *source, char *destdir, char *destname)
         return;
     destFILE = fopen(dest, "w");
     if (!destFILE)
-        die(254, "Unable to open '%s' for output: %s", dest, xstrerror(errno));
+        die(254, "$Unable to open '%s' for output", dest);
     sourceFILE = fopen(source, "r");
     if (!sourceFILE)
-        die(254, "Unable to open '%s' for input: %s", source, xstrerror(errno));
+        die(254, "$Unable to open '%s' for input", source);
     while ((copychar = getc(sourceFILE)) != EOF)
         fputc(copychar, destFILE);
     fclose(sourceFILE);

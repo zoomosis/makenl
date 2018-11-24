@@ -423,14 +423,14 @@ int makediff(char *filename)
 
     if (NowFile.theFILE == NULL)
     {
-        die(254, "Unable to open new nodelist '%s': %s", filename, xstrerror(errno));
+        die(254, "$Unable to open new nodelist '%s'", filename);
     }
 
     DiffFILE = fopen(diffname, "wb");
 
     if (DiffFILE == NULL)
     {
-        die(254, "Unable to create difference file: '%s': %s", diffname, xstrerror(errno));
+        die(254, "$Unable to create difference file '%s'", diffname);
     }
 
     /* skip first line of new file */

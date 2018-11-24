@@ -287,7 +287,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
     }
     MailFILE = fopen(MakeMSGFilename(filenamebuf, MSGnum + 1), "wb");
     if (MailFILE == NULL)
-        die(254, "Cannot create '%s': %s", filenamebuf, xstrerror(errno));
+        die(254, "$Cannot create file '%s'", filenamebuf);
     MSGnum++;
     mklog(LOG_DEBUG, "OpenMSGFile: opened '%s', MSGnum %d", filenamebuf, MSGnum);
     

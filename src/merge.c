@@ -46,10 +46,10 @@ FILE *PrepareMerge(void)
         swapext(MergeFilename, MergeFilename, "999");
         MergeOutFILE = fopen(MergeFilename, "wb");
         if (!MergeOutFILE)
-            die(254, "Unable to create '%s': %s", MergeFilename, xstrerror(errno));
+            die(254, "$Unable to create '%s'", MergeFilename);
         if (fgets(linebuf, linelength, MergeInFILE) == NULL)
         {
-            die(254, "fgets(linebuf, linelength, MergeInFILE) failed: %s", xstrerror(errno));
+            die(254, "$fgets(linebuf, linelength, MergeInFILE) failed");
         }
         time(&utime);
         tmptr = localtime(&utime);
@@ -120,7 +120,7 @@ FILE *PrepareMerge(void)
                 {
                     if (fgets(MergeLine, linelength, MergeInFILE) == NULL)
                     {
-                        die(254, "fgets(MergeLine, linelength, MergeInFILE) failed: %s", xstrerror(errno));
+                        die(254, "$fgets(MergeLine, linelength, MergeInFILE) failed");
                     }
                     return MergeOutFILE;
                 }

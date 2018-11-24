@@ -105,7 +105,7 @@ int installlist(char *filename, char *extbfr)
     {
         tmpFILE = fopen(tmpname, "r");
         if (!tmpFILE)
-            die(254, "Unable to open new list '%s' for input: %s", tmpname, xstrerror(errno));
+            die(254, "$Unable to open new list '%s' for input", tmpname);
         if (fgets(tmpline, linelength, tmpFILE)
             && fgets(oldline, linelength, oldFILE)
             && (tmpstart = strrchr(tmpline, ' ')) != NULL
@@ -224,10 +224,10 @@ static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
 
     diffFILE = fopen(diffname, "r");
     if (!diffFILE)
-        die(254, "Unable to open '%s' for input: %s: %s", diffname, xstrerror(errno));
+        die(254, "$Unable to open '%s' for input: %ss", diffname);
     outFILE = fopen(outname, "wb");
     if (!outFILE)
-        die(254, "Unable to create '%s': %s", outname, xstrerror(errno));
+        die(254, "$Unable to create '%s'", outname);
     firststatus = dodiffline(1, oldFILE, diffFILE);
     if (firststatus == 0)       /* diff fits */
     {

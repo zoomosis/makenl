@@ -40,6 +40,8 @@ static void logwrite(int level, char *outstr)
     std_fp = stderr;
     need_strerror = 0;
 
+    /* if our error message begins with $, also log the error message from strerror() */
+
     if (*outstr == '$')
     {
         need_strerror = 1;

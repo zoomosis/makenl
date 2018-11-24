@@ -76,7 +76,7 @@ static void check_fp(FILE *fp, char *fn, char *mode)
         return;
     }
     
-    die(254, "Unable to open '%s' for %s: %s", fn, *mode == 'r' ? "input" : "output", xstrerror(errno));
+    die(254, "$Unable to open '%s' for %s", fn, *mode == 'r' ? "input" : "output");
 }
 
 /* Looks for the last day with (dow == weekday) before now.
@@ -109,14 +109,25 @@ static time_t searchdow(int weekday, int offset, struct tm **timebuf)
 
 void die(int exitcode, const char *format, ...)
 {
+    int save_errno = errno;
     char buf[1024];
     va_list arg;
-    
+
     va_start(arg, format);
     vsnprintf(buf, sizeof buf, format, arg);
     va_end(arg);
 
-    mklog(LOG_ERROR, "%s", buf);
+    /* if our error message begins with $, also log the error message from strerror() */
+
+    if (*buf == '$')
+    {
+        mklog(LOG_ERROR, "%s: %s", buf + 1, xstrerror(save_errno));
+    }
+    else
+    {
+        mklog(LOG_ERROR, "%s", buf);
+    }
+
     mklog(LOG_ERROR, "MakeNL finished (rc=%d)", exitcode);
 
     exit(exitcode);
