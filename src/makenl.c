@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <errno.h>
 
 #include "makenl.h"
 #include "config.h"
@@ -75,7 +76,7 @@ static void check_fp(FILE *fp, char *fn, char *mode)
         return;
     }
     
-    die(254, "Unable to open '%s' for %s", fn, *mode == 'r' ? "input" : "output");
+    die(254, "Unable to open '%s' for %s: %s", fn, *mode == 'r' ? "input" : "output", strerror(errno));
 }
 
 /* Looks for the last day with (dow == weekday) before now.

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <errno.h>
 
 #include "makenl.h"
 #include "fts5.h"
@@ -32,37 +33,82 @@ static FILE *MailFILE;
 static int MSGFlags;
 static unsigned char msgbuf[0xbe];
 
-/*
- * Get unique sequence number
- */
-static unsigned long GetSequence(void)
-{
-    unsigned long   seq;
-    char            seqfile[MYMAXDIR];
-    FILE            *fp;
-    snprintf(seqfile, sizeof seqfile, "%s/sequence.dat", MasterDir);
+/* Get unique sequence number for MSGID */
 
-    if ((fp = fopen(seqfile, "r+")) == NULL) {
-        seq = (unsigned long)time(NULL);
-        if ((fp = fopen(seqfile, "w+")) == NULL) {
-            mklog(LOG_ERROR, "Can't create %s", seqfile);
-            return seq;
-        } else {
-            fwrite(&seq, 1, sizeof(seq), fp);
-            fclose(fp);
+/*
+ *  TODO: Write sequence.dat as a text file instead of binary,
+ *  to avoid data width and endianness problems.
+ *
+ *  TODO: Also stop using time() as it's not necessarily 32-bit.
+ *  - ozzmosis 2018-11-25
+ */
+
+static unsigned long NewMSGID(void)
+{
+    unsigned long seq;
+    char filename[MYMAXDIR];
+    FILE *fp;
+    int rc;
+
+    snprintf(filename, sizeof filename, "%s" DIRSEP "sequence.dat", MasterDir);
+
+    mklog(LOG_DEBUG, "MSGID sequence filename is '%s'", filename);
+    
+    fp = fopen(filename, "r+");
+    
+    if (fp == NULL)
+    {
+        seq = (unsigned long) time(NULL);
+        
+        mklog(LOG_DEBUG, "Newly-created MSGID sequence is %08lx", seq);
+
+        fp = fopen(filename, "w+");
+        
+        if (fp == NULL)
+        {
+            mklog(LOG_ERROR, "Can't create '%s' for writing: %s", filename, strerror(errno));
             return seq;
         }
-    } else {
-        fread(&seq, 1, sizeof(seq), fp);
-        seq++;
-        fseek(fp, 0, SEEK_SET);
-        fwrite(&seq, 1, sizeof(seq), fp);
-        fclose(fp);
+
+        rc = fwrite(&seq, 1, sizeof seq, fp);
+            
+        mklog(LOG_DEBUG, "fwrite(&seq, 1, sizeof seq, fp) returned %d", rc);
+            
+        rc = fclose(fp);
+            
+        if (rc != 0)
+        {
+            mklog(LOG_DEBUG, "fclose() failed for '%s': %s", filename, strerror(errno));
+        }
+            
+        return seq;
     }
+
+    rc = fread(&seq, 1, sizeof seq, fp);
+        
+    seq++;
+
+    mklog(LOG_DEBUG, "Incremented MSGID sequence is %08lx", seq);
+
+    rc = fseek(fp, 0L, SEEK_SET);
+    
+    if (rc != 0)
+    {
+        mklog(LOG_DEBUG, "fseek failed for '%s': %s", filename, strerror(errno));
+    }
+
+    rc = fwrite(&seq, 1, sizeof seq, fp);
+    mklog(LOG_DEBUG, "fwrite(&seq, 1, sizeof seq, fp) returned %d", rc);
+
+    rc = fclose(fp);
+
+    if (rc != 0)
+    {
+        mklog(LOG_DEBUG, "fclose() failed for '%s': %s", filename, strerror(errno));
+    }
+            
     return seq;
 }
-
-
 
 static int SearchMaxMSG(const char *path)
 {
@@ -87,7 +133,7 @@ static int SearchMaxMSG(const char *path)
     }
     os_findclose(&f);
 
-    mklog(LOG_DEBUG, "SearchMaxMSG: path=%s, result=%d", make_str_safe(path), maxnum);
+    mklog(LOG_DEBUG, "SearchMaxMSG: path='%s', result=%d", make_str_safe(path), maxnum);
 
     return maxnum;
 }
@@ -157,7 +203,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
         address[A_ZONE] = MyAddress[A_ZONE];
 
     mklog(LOG_DEBUG, "OpenMSGFile entered");
-    mklog(LOG_DEBUG, "OpenMSGFile: %d:%d/%d filename=%s", address[A_ZONE],
+    mklog(LOG_DEBUG, "OpenMSGFile: %d:%d/%d filename='%s'", address[A_ZONE],
             address[A_NET], address[A_NODE], make_str_safe(filename));
 
     mklog(LOG_DEBUG, "SearchMaxMSG('%s')", MessageDir);
@@ -240,15 +286,15 @@ FILE *OpenMSGFile(int address[3], char *filename)
                 MyAddress[A_NET], MyAddress[A_NODE]);
     }
     MailFILE = fopen(MakeMSGFilename(filenamebuf, MSGnum + 1), "wb");
-    if (!MailFILE)
-        die(254, "Cannot create %s", filenamebuf);
+    if (MailFILE == NULL)
+        die(254, "Cannot create '%s': %s", filenamebuf, strerror(errno));
     MSGnum++;
-    mklog(LOG_DEBUG, "OpenMSGFile: opened %s, MSGnum %d", filenamebuf, MSGnum);
+    mklog(LOG_DEBUG, "OpenMSGFile: opened '%s', MSGnum %d", filenamebuf, MSGnum);
     
     fwrite(&msgbuf, sizeof(msgbuf), 1, MailFILE);
     fputs(intlline, MailFILE);
     fprintf(MailFILE, "\x01MSGID: %d:%d/%d %08lx\r\n", MyAddress[A_ZONE], 
-            MyAddress[A_NET], MyAddress[A_NODE], GetSequence());
+            MyAddress[A_NET], MyAddress[A_NODE], NewMSGID());
     if (!filename)
     {
         mklog(LOG_DEBUG, "OpenMSGFile: return with open MailFILE");

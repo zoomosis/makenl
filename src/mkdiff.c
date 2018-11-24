@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #include "makenl.h"
 #include "fileutil.h"
@@ -420,16 +421,16 @@ int makediff(char *filename)
 
     NowFile.theFILE = fopen(filename, "rb");
 
-    if (!NowFile.theFILE)
+    if (NowFile.theFILE == NULL)
     {
-        die(254, "Unable to open new node list -- '%s'\n", filename);
+        die(254, "Unable to open new nodelist '%s': %s", filename, strerror(errno));
     }
 
     DiffFILE = fopen(diffname, "wb");
 
-    if (!DiffFILE)
+    if (DiffFILE == NULL)
     {
-        die(254, "Unable to create difference file -- '%s'\n", diffname);
+        die(254, "Unable to create difference file: '%s': %s", diffname, strerror(errno));
     }
 
     /* skip first line of new file */

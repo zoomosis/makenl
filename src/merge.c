@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+#include <errno.h>
 
 #include "makenl.h"
 #include "merge.h"
@@ -45,8 +46,11 @@ FILE *PrepareMerge(void)
         swapext(MergeFilename, MergeFilename, "999");
         MergeOutFILE = fopen(MergeFilename, "wb");
         if (!MergeOutFILE)
-            die(254, "Unable to create '%s'", MergeFilename);
-        fgets(linebuf, linelength, MergeInFILE);
+            die(254, "Unable to create '%s': %s", MergeFilename, strerror(errno));
+        if (fgets(linebuf, linelength, MergeInFILE) == NULL)
+        {
+            die(254, "fgets(linebuf, linelength, MergeInFILE) failed: %s", strerror(errno));
+        }
         time(&utime);
         tmptr = localtime(&utime);
         fprintf(MergeOutFILE,
@@ -114,7 +118,10 @@ FILE *PrepareMerge(void)
                 /* Found the part to replace... */
                 if (MakeType == LEVEL_NODE)
                 {
-                    fgets(MergeLine, linelength, MergeInFILE);
+                    if (fgets(MergeLine, linelength, MergeInFILE) == NULL)
+                    {
+                        die(254, "fgets(MergeLine, linelength, MergeInFILE) failed: %s", strerror(errno));
+                    }
                     return MergeOutFILE;
                 }
                 if (++linelevel <= MakeType)

@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <errno.h>
 
 #include "makenl.h"
 #include "config.h"
@@ -325,10 +326,10 @@ void CopyOrMove(int copy, char *source, char *destdir, char *destname)
         return;
     destFILE = fopen(dest, "w");
     if (!destFILE)
-        die(254, "Unable to open '%s' for output", dest);
+        die(254, "Unable to open '%s' for output: %s", dest, strerror(errno));
     sourceFILE = fopen(source, "r");
     if (!sourceFILE)
-        die(254, "Unable to open '%s' for input", source);
+        die(254, "Unable to open '%s' for input: %s", source, strerror(errno));
     while ((copychar = getc(sourceFILE)) != EOF)
         fputc(copychar, destFILE);
     fclose(sourceFILE);
