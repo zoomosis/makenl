@@ -77,7 +77,7 @@ static int isvaliddriveletter(int drive)
 
 static int drvlet2num(char drvletter)
 {
-    return (strchr(driveletters, toupper(drvletter)) - driveletters + 1);
+    return (int) (strchr(driveletters, toupper(drvletter)) - driveletters + 1);
 }
 
 int os_getdrive(void)
