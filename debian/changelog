@@ -1,3 +1,11 @@
+makenl (3.4.9-1~1) UNRELEASED; urgency=medium
+
+  TODO:
+    * Update package as necessary.
+  * New upstream release.
+
+ -- Robert James Clay <jame@rocasa.us>  Fri, 11 Jan 2019 21:24:44 -0500
+
 makenl (3.4.8-1) stable; urgency=medium
 
   * New upstream release.
