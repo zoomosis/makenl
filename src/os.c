@@ -77,7 +77,7 @@ static int isvaliddriveletter(int drive)
 
 static int drvlet2num(char drvletter)
 {
-    return (strchr(driveletters, toupper(drvletter)) - driveletters + 1);
+    return (int) (strchr(driveletters, toupper(drvletter)) - driveletters + 1);
 }
 
 int os_getdrive(void)
@@ -209,8 +209,16 @@ int os_chdir(char *path)
             }
         }
     }    
+
     rc = chdir(newpath);
+
+    if (rc != 0)
+    {
+        mklog(LOG_ERROR, "$Can't chdir to '%s'", newpath);
+    }
+
     free(newpath);
+
     return rc;
 }
 
@@ -218,7 +226,16 @@ int os_chdir(char *path)
 
 int os_chdir(char *path)
 {
-    return chdir(path);
+    int rc;
+    
+    rc = chdir(path);
+    
+    if (rc != 0)
+    {
+        mklog(LOG_ERROR, "$Can't chdir to '%s'", path);
+    }
+
+    return rc;
 }
 
 #endif
@@ -342,31 +359,31 @@ int os_spawn(const char *command, const char *cmdline)
     strlcpy(tmpfn, command, sizeof tmpfn);
     pext = strchr(tmpfn, '\0');
 
-    mklog(LOG_DEBUG, "os_spawn(): trying `%s'", tmpfn);
+    mklog(LOG_DEBUG, "os_spawn(): trying '%s'", tmpfn);
     rc = _path(execfn, tmpfn);
 
     if (rc != 0)
     {
         strcpy(pext, ".EXE");
-        mklog(LOG_DEBUG, "os_spawn(): trying `%s'", tmpfn);
+        mklog(LOG_DEBUG, "os_spawn(): trying '%s'", tmpfn);
         rc = _path(execfn, tmpfn);
     }
     else if (rc != 0 && _osmode == OS2_MODE)
     {
         strcpy(pext, ".CMD");
-        mklog(LOG_DEBUG, "os_spawn(): trying `%s'", tmpfn);
+        mklog(LOG_DEBUG, "os_spawn(): trying '%s'", tmpfn);
         rc = _path(execfn, tmpfn);
     }
     else if (rc != 0 && _osmode != OS2_MODE)
     {
         strcpy(pext, ".COM");
-        mklog(LOG_DEBUG, "os_spawn(): trying `%s'", tmpfn);
+        mklog(LOG_DEBUG, "os_spawn(): trying '%s'", tmpfn);
         rc = _path(execfn, tmpfn);
     }
     else if (rc != 0 && _osmode != OS2_MODE)
     {
         strcpy(pext, ".BAT");
-        mklog(LOG_DEBUG, "os_spawn(): trying `%s'", tmpfn);
+        mklog(LOG_DEBUG, "os_spawn(): trying '%s'", tmpfn);
         rc = _path(execfn, tmpfn);
     }
     else if (rc != 0)
@@ -384,7 +401,7 @@ int os_spawn(const char *command, const char *cmdline)
     }
 
     snprintf(cmd, bufsize, "%s %s", command, cmdline);
-    mklog(LOG_DEBUG, "found: executing `%s'", cmd);
+    mklog(LOG_DEBUG, "found: executing '%s'", cmd);
     rc = system(cmd);
     mklog(LOG_DEBUG, "os_spawn() rc=%d", rc);
 
@@ -405,9 +422,9 @@ int os_spawn(const char *command, const char *cmdline)
     }
 
     snprintf(cmd, bufsize, "%s %s", command, cmdline);
-    mklog(LOG_DEBUG, "os_spawn(): %s", cmd);
+    mklog(LOG_DEBUG, "os_spawn(): '%s'", cmd);
     rc = system(cmd);
-    mklog(LOG_DEBUG, "os_spawn(): rc=%d", rc);
+    mklog(LOG_DEBUG, "os_spawn(): system() rc=%d", rc);
 
     free(cmd);
     return rc;
@@ -606,28 +623,50 @@ int os_fullpath(char *dst, const char *src, size_t bufsize)
     char dir[MYMAXDIR];
     char name[MYMAXFILE];
     char ext[MYMAXEXT];
+    int rc;
 
     myfnsplit(src, NULL, dir, name, ext);
-    mklog(LOG_DEBUG, "os_fullpath(): dir=%s, name=%s, ext=%s", dir, name, ext);
-    getcwd(olddir, sizeof olddir);
-    mklog(LOG_DEBUG, "os_fullpath(): old directory=%s", olddir);
+    mklog(LOG_DEBUG, "os_fullpath(): dir='%s', name='%s', ext='%s'", dir, name, ext);
 
-    if (dir[0] && chdir(dir) == -1)
+    if (getcwd(olddir, sizeof olddir) == NULL)
     {
-        mklog(LOG_ERROR, "os_fullpath(): change directory to '%s' failed!", dir);
+        mklog(LOG_ERROR, "os_fullpath(): getcwd() failed!");
+        return -1;
+    }
+
+    mklog(LOG_DEBUG, "os_fullpath(): old directory='%s'", olddir);
+
+    if (dir[0] && os_chdir(dir) != 0)
+    {
+        mklog(LOG_ERROR, "os_fullpath(): chdir() to '%s' failed!", dir);
         return -1;
     }
 
     if (getcwd(dir, MYMAXDIR) == NULL || strlen(dir) + strlen(name) + strlen(ext) > bufsize)
     {
         mklog(LOG_ERROR, "os_fullpath(): Directory name for '%s' too long!", src);
-        chdir(olddir);
+
+        rc = os_chdir(olddir);
+        
+        if (rc != 0)
+        {
+            mklog(LOG_ERROR, "os_fullpath(): chdir() to '%s' failed!", olddir);
+        }
+
         return -1;
     }
 
     myfnmerge(dst, NULL, dir, name, ext);
-    mklog(LOG_DEBUG, "os_fullpath(): complete filename: %s", dst);
-    chdir(olddir);
+    mklog(LOG_DEBUG, "os_fullpath(): complete filename: '%s'", dst);
+
+    rc = os_chdir(olddir);
+
+    if (rc != 0)
+    {
+        mklog(LOG_ERROR, "os_fullpath(): chdir() to '%s' failed!", olddir);
+        return -1;
+    }
+    
     return 0;
 }
 
@@ -927,8 +966,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
 
             if (getdisk() != reqdrnum)
             {
-                /* Specified drive does not exist */
-                mklog(LOG_DEBUG, "os_fullpath(): This drive does not exist");
+                mklog(LOG_DEBUG, "os_fullpath(): setdisk(%d) failed.", reqdrnum);
                 return -1;
             }
         }
@@ -943,6 +981,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
     {
         char *fname;
         char *dir = tmp;
+        int chdir_rc;
 
         /*
          * Requested drive is now current drive, curdrnum is the original drive
@@ -980,7 +1019,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
             *fname++ = '\0';
         }
 
-        mklog(LOG_DEBUG, "os_fullpath(): Directory is now %s, File name is now %s", dir, fname);
+        mklog(LOG_DEBUG, "os_fullpath(): Directory is now '%s', File name is now '%s'", dir, fname);
 
         /* fname = pure file name */
         /* dir = relative path, only directory */
@@ -989,9 +1028,13 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
 
         if (chdir((*dir) ? dir : "\\") == 0)
         {
-            mklog(LOG_DEBUG, "os_fullpath(): chdir() suceeded. The directory exists.");
+            mklog(LOG_DEBUG, "os_fullpath(): chdir() succeeded. The directory exists.");
 
-            if (getcwd(dst, bufsiz) != NULL)
+            if (getcwd(dst, bufsiz) == NULL)
+            {
+                mklog(LOG_DEBUG, "os_fullpath(): getcwd() failed.");
+            }
+            else
             {
                 rc = 0;
 
@@ -1006,14 +1049,26 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
                     strcat(dst, fname);
                 }
 
-                mklog(LOG_DEBUG, "os_fullpath(): Final full name is %s", fname);
+                mklog(LOG_DEBUG, "os_fullpath(): Final full name is '%s'", fname);
             }
         }
 
-        chdir(curdir);
+        chdir_rc = chdir(curdir);
+        
+        if (chdir_rc != 0)
+        {
+            mklog(LOG_DEBUG, "os_fullpath(): chdir() to '%s' failed!", curdir);
+        }
     }
 
     setdisk(curdrnum);
+
+    if (getdisk() != curdrnum)
+    {
+        mklog(LOG_DEBUG, "os_fullpath(): setdisk(%d) failed.", curdrnum);
+        return -1;
+    }
+
     os_dirsep(dst);
 
     return rc;
@@ -1059,8 +1114,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
 
             if (temp != reqdrnum)
             {
-                /* Specified drive does not exist */
-                mklog(LOG_DEBUG, "os_fullpath(): This drive does not exist");
+                mklog(LOG_DEBUG, "os_fullpath(): _dos_setdrive(%d, &total) failed.", reqdrnum);
                 return -1;
             }
         }
@@ -1112,7 +1166,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
             *fname++ = '\0';
         }
 
-        mklog(LOG_DEBUG, "os_fullpath(): Directory is now %s, File name is now %s", dir, fname);
+        mklog(LOG_DEBUG, "os_fullpath(): Directory is now '%s', File name is now '%s'", dir, fname);
 
         /* fname = pure file name */
         /* dir = relative path, only directory */
@@ -1121,7 +1175,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
 
         if (chdir((*dir) ? dir : "\\") == 0)
         {
-            mklog(LOG_DEBUG, "os_fullpath(): chdir() suceeded. The directory exists.");
+            mklog(LOG_DEBUG, "os_fullpath(): chdir() succeeded. The directory exists.");
 
             if (getcwd(dst, bufsiz) != NULL)
             {
@@ -1138,14 +1192,24 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
                     strcat(dst, fname);
                 }
 
-                mklog(LOG_DEBUG, "os_fullpath(): Final full name is %s", fname);
+                mklog(LOG_DEBUG, "os_fullpath(): Final full name is '%s'", fname);
             }
         }
 
-        chdir(curdir);
+        if (chdir(curdir) != 0)
+        {
+            mklog(LOG_DEBUG, "os_fullpath(): chdir('%s') failed", curdir);
+        }
     }
 
     _dos_setdrive(curdrnum, &total);
+    _dos_getdrive(&temp);
+
+    if (temp != curdrnum)
+    {
+        mklog(LOG_DEBUG, "os_fullpath(): _dos_setdrive(%d, &total) failed.", curdrnum);
+    }
+
     os_dirsep(dst);
 
     return rc;
@@ -1160,6 +1224,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
 {
     int result;
     result = _fullpath(dst, src, bufsiz);
+    /* TODO: check correct return values of EMX's _fullpath() */
     os_dirsep(dst);
     return result;
 }
@@ -1174,6 +1239,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
 
     if (path == NULL)
     {
+        mklog(LOG_DEBUG, "os_fullpath(): _fullpath() failed.");
         return -1;
     }
     

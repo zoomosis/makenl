@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #include "makenl.h"
 #include "fts5.h"
@@ -29,7 +30,7 @@ int OutputErrorLine(FILE * file, const char *pre, const char *wrongy,
     bufsize = strlen(pre) + strlen(wrongy) + 4 + strlen(ErrorMessage) + strlen(post) + 1;
     linebuf = malloc(bufsize);
     if (!linebuf)
-        die(253, "No memory left for error message buffer!\n");
+        die(253, "No memory left for error message buffer!");
     snprintf(linebuf, bufsize, "%s%s -- %s%s", pre, wrongy, ErrorMessage, post);
     if (crc)
         *crc = CRC16String(linebuf, *crc);
@@ -120,7 +121,6 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
         }
         if (RemoveBOM)
         {
-            templine = linebegin;
             templine = strstr(linebegin, "\xef\xbb\xbf");
             if (templine != NULL) /* BOM found on line */
             {
@@ -148,7 +148,7 @@ CopyComment(FILE * output, char *Copyfile, const char *year,
         strcat(linebegin, "\r\n");
         *crc = CRC16String(linebegin, *crc);
         if (fputs(linebegin, output) == EOF)
-            die(254, "Write error on '%s'", OutFile);
+            die(254, "$Error writing to file '%s'", OutFile);
         lineno++;
     }
     fclose(CopyFILE);

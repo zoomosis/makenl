@@ -105,8 +105,7 @@ int installlist(char *filename, char *extbfr)
     {
         tmpFILE = fopen(tmpname, "r");
         if (!tmpFILE)
-            die(254, "Unable to open new list '%s' for input\n",
-                tmpname);
+            die(254, "$Unable to open new list '%s' for input", tmpname);
         if (fgets(tmpline, linelength, tmpFILE)
             && fgets(oldline, linelength, oldFILE)
             && (tmpstart = strrchr(tmpline, ' ')) != NULL
@@ -225,10 +224,10 @@ static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
 
     diffFILE = fopen(diffname, "r");
     if (!diffFILE)
-        die(254, "Unable to open %s for input", diffname);
+        die(254, "$Unable to open '%s' for input: %ss", diffname);
     outFILE = fopen(outname, "wb");
     if (!outFILE)
-        die(254, "Unable to create %s", outname);
+        die(254, "$Unable to create '%s'", outname);
     firststatus = dodiffline(1, oldFILE, diffFILE);
     if (firststatus == 0)       /* diff fits */
     {
@@ -273,7 +272,7 @@ static int ApplyDiff(FILE * oldFILE, char *diffname, char *outname)
 /*
  * Test unpacker, see also makenl.h for ARCUNPMAX
  */
-char *unpacker(char *fn)
+static char *unpacker(char *fn)
 {
     FILE            *fp;
     unsigned char   buf[8];
@@ -370,7 +369,7 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
              */
             if (os_chdir(fnamebuf) != 0)
             {
-                mklog(LOG_ERROR, "Can't chdir to '%s': %s", fnamebuf, strerror(errno));
+                mklog(LOG_ERROR, "$Can't chdir to '%s'", fnamebuf);
             }
             else
             {
@@ -392,13 +391,13 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
                 }
                 if (os_chdir(CurDir) != 0)
                 {
-                    mklog(LOG_ERROR, "Can't chdir to '%s': %s", CurDir, strerror(errno));
+                    mklog(LOG_ERROR, "$Can't chdir to '%s'", CurDir);
                 }
             }
 
             if (unlink(foundfile) != 0)
             {
-                mklog(LOG_ERROR, "Can't unlink '%s': %s", foundfile, strerror(errno));
+                mklog(LOG_ERROR, "$Can't unlink '%s'", foundfile);
             }
         }
         else if (ext[0] == 0 && toupper((unsigned char)extbuf[0]) == 'D') /* DIFFed 
