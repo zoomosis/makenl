@@ -1,26 +1,55 @@
-/*  $Id: history.txt,v 1.38 2016/12/02 22:20:06 ajleary Exp $  */
 
                             MakeNL Revision History
+
+       v3.4.9 -- January 11, 2019
+
+            Release version 3.4.9 for wide distribution.
+            Remove old and unneeded cvs ID comment line from src/history.txt.
+            -- Robert James Clay
+
+       -- November 25, 2018
+
+            Bug fix: mklog() would clobber errno.
+            Fix warning from the src/os.c file.
+            Add xstrerror(), a wrapper for strerror().
+            Use $ prefix with mklog() and let it call xstrerror().
+            Correct mode of src/makefile.dmc from '100755' to '100644'.
+            Improve error checking in the src/fileutil.c, src/lsttool.c,
+            src/makenl.c, src/merge.c, src/mkdiff.c, src/msgtool.c,
+            src/output.c, and src/os.c files.
+            -- Andrew Clarke
+
+       -- November 21, 2018
+
+            Remove redundant code in src/fts5.c and src/output.c.
+            Updated declaration of unpacker() as it is an internal function.
+            -- Andrew Clarke
+
+       -- November 17, 2018
+
+            Fix a couple of our HAVE_ #defines to equal 1, so we can use
+            either #ifdef or #if to discover them.
+            Fix OS X build: Our strlcpy() was conflicting with the one
+            supplied by the OS.
+            -- Andrew Clarke
 
        v3.4.8 -- December 3, 2017
 
             Add support for TODAY and TOMORROW as valid nodelist publishing
             days.  Thanks to Kees van Eeten for the patch.
-            -- Andrew Leary
-
 
        v3.4.7 -- December 2, 2016
 
-	    Fix a possible data corruption issue with the RemoveBOM option.
+            Fix a possible data corruption issue with the RemoveBOM option.
             Thanks to Wilfred van Velzen for the report.
-	    -- Andrew Leary
+            -- Andrew Leary
 
        v3.4.6 -- November 27, 2016
 
-	    Add the RemoveBOM option requested by Michiel van der Vlist.
-	    When enabled (RemoveBOM 1 in makenl.ctl), UTF-8 Byte Order Marks
-	    will be stripped from incoming segments and comment files.
-	    -- Andrew Leary
+            Add the RemoveBOM option requested by Michiel van der Vlist.
+            When enabled (RemoveBOM 1 in makenl.ctl), UTF-8 Byte Order Marks
+            will be stripped from incoming segments and comment files.
+            -- Andrew Leary
 
        -- January 1, 2015
 
@@ -64,7 +93,7 @@
             Ignore CTRL-Z lines in COPyright, PROlog, and EPIlog files.
             They were causing CRC errors in the Linux version.
             -- Andrew Leary
-     
+
        v3.4.0 -- October 6, 2013
 
             Release version of v3.3.10 for wide distribution.  Also fixed
