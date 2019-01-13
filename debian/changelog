@@ -1,10 +1,12 @@
-makenl (3.4.9-1~1) UNRELEASED; urgency=medium
+makenl (3.4.9-1) stable; urgency=medium
 
-  TODO:
-    * Update package as necessary.
   * New upstream release.
+  * Rename 'debian/TODO.Debian' as 'debian/TODO'.
+  * Update copyright years in the debian/copyright file.
+  * Remove 'debian/TODO.Debian' from the debian/makenl.docs file.
+  * Resolve 'file-contains-trailing-whitespace' issues in debian/changelog.
 
- -- Robert James Clay <jame@rocasa.us>  Fri, 11 Jan 2019 21:24:44 -0500
+ -- Robert James Clay <jame@rocasa.us>  Sun, 13 Jan 2019 15:33:32 -0500
 
 makenl (3.4.8-1) stable; urgency=medium
 
@@ -104,11 +106,11 @@ makenl (3.2.9-1) unstable; urgency=low
   * Change maintainer email address to jame@rocasa.us.
   * Update debhelper version to v7.
   * Correct debian/watch file to look for makenl-* files.
-  * Updated debian/NEWS.Debian. 
+  * Updated debian/NEWS.Debian.
   * Make debian packaging copyright explicit in deban/copyright.
   * Correct section to Text in debian/makenl.doc-base.
   * debian/control: Add Vcs-Git entry. Correct Vcs-Cvs & Vcs-Browser entries.
-  
+
  -- Robert James Clay <jame@rocasa.us>  Sun, 31 Jan 2010 15:37:58 -0500
 
 makenl (3.2.7e-1) unstable; urgency=low
@@ -121,7 +123,7 @@ makenl (3.2.7e-1) unstable; urgency=low
 
 makenl (3.2.7d-1) unstable; urgency=low
 
-  * debian/makenl.doc-base:  Added author.  Rewrote abstract. 
+  * debian/makenl.doc-base:  Added author.  Rewrote abstract.
   * See changelog.gz for changes from v3.2.7c to v3.2.7d
 
  -- Robert James Clay <jame@rocasa.org>  Mon,  9 Jun 2007 13:26:31 -0400
