@@ -4,6 +4,7 @@ ToDo: MakeNL Debian packaging
 - The debian/copyright file has been updated to a new machine readable format,
   but the copyright information (specifically authors and years) still needs
   to be up verified and updated as necessary.
+    src/exec.h  - noted as being public domain    
 
 - Package build is defaulting to using CMake but while building an 'makenl.html'
   file from the 'makenl.txt' is present in the existing docs/Makefile, that
@@ -11,5 +12,23 @@ ToDo: MakeNL Debian packaging
   https://sourceforge.net/p/makenl/bugs/22/ has been resolved, remove the
   installation of a 'makenl.html' file from the package build.
 
+- Investigate if having a separate makenl-doc might be usefuil. (Recommended
+  with Debian Policy v3.9.7)
 
- -- Robert James Clay <jame@rocasa.us>  Wed,  3 Dec 2014 07:18:46 -0500
+
+    - Lintian results of a full build under 'buster':
+I: makenl source: out-of-date-standards-version 3.9.8 (current is 4.3.0)
+I: makenl source: testsuite-autopkgtest-missing
+
+- I: makenl source: debian-control-has-obsolete-dbg-package makenl-dbg
+  - https://lintian.debian.org/tags/debian-control-has-obsolete-dbg-package.html
+  - The needed version of debhelper needed for the new 'dbgsym' pkg is not 
+  available for, for intance, jessie or trusty so for now not changing it.
+
+- I: makenl: hardening-no-bindnow usr/bin/makenl
+  - https://lintian.debian.org/tags/hardening-no-bindnow.html
+  - What I've tried so far has made no difference so for now this is pending
+  further investigation.
+
+
+ -- Robert James Clay <jame@rocasa.us>  Sun, 13 Jan 2019 14:07:53 -0500
