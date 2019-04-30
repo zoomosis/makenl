@@ -2,14 +2,14 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
-LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
+LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 INCLUDE(pandocology)
 
 add_document(
-    TARGET makenl
+    TARGET html
     SOURCES makenl.md
     OUTPUT_FILE makenl.html
-    PANDOC_DIRECTIVES --self-contained --metadata pagetitle="MakeNL NODELIST Generator Program by Ben Baker"
+    PANDOC_DIRECTIVES --self-contained --metadata pagetitle='MakeNL NODELIST Generator Program by Ben Baker'
     NO_EXPORT_PRODUCT
 )
 
