@@ -9,7 +9,7 @@ add_document(
     TARGET makenl
     SOURCES makenl.md
     OUTPUT_FILE makenl.html
-    PANDOC_DIRECTIVES --self-contained
+    PANDOC_DIRECTIVES --self-contained --metadata pagetitle="MakeNL NODELIST Generator Program by Ben Baker"
     NO_EXPORT_PRODUCT
 )
 
