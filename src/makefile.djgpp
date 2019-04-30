@@ -1,8 +1,6 @@
 # MakeNL makefile for DJGPP 2.03
 # Tested with GNU Make 3.79 & GCC 2.95
 #
-# $Id: makefile.djgpp,v 1.7 2013/09/25 18:24:10 ozzmosis Exp $
-#
 # Build with:
 #
 # make -f makefile.djgpp          (release) or

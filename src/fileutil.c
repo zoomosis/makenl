@@ -1,5 +1,3 @@
-/* $Id: fileutil.c,v 1.13 2013/09/26 19:52:03 ozzmosis Exp $ */
-
 #include <sys/types.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -100,7 +98,7 @@ myfnmerge(char *output, const char *drive, const char *dir,
 {
     int lenleft;
 
-    mklog(LOG_DEBUG, "myfnmerge: drive='%s' dir='%s' name='%s' ext='%s'", 
+    mklog(LOG_DEBUG, "myfnmerge: drive='%s' dir='%s' name='%s' ext='%s'",
       make_str_safe(drive), make_str_safe(dir), make_str_safe(name), make_str_safe(ext));
 
     lenleft = MYMAXDIR - 1;
@@ -179,7 +177,7 @@ myfnsplit(const char *input, char *drive, char *dir, char *name, char *ext)
              lenleft--)
             *(dir++) = *(input++);
 
-        if (lenleft < MYMAXDIR - 2) /* the single '\' may *not* be deleted 
+        if (lenleft < MYMAXDIR - 2) /* the single '\' may *not* be deleted
                                      */
             dir--;              /* delete trailing '\' */
 
@@ -308,7 +306,7 @@ void cleanit(void)
 void CopyOrMove(int copy, char *source, char *destdir, char *destname)
 {
     char dest[MYMAXDIR];
-    int copychar;               /* Yes *int* and *char* are intentionally! 
+    int copychar;               /* Yes *int* and *char* are intentionally!
                                  */
     FILE *destFILE;             /* 0x04 */
     FILE *sourceFILE;           /* 0x06 */

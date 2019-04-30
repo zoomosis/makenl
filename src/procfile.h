@@ -1,5 +1,3 @@
-/* $Id: procfile.h,v 1.1 2013/09/21 12:09:41 ozzmosis Exp $ */
-
 #ifndef __PROCFILE_H__
 #define __PROCFILE_H__
 

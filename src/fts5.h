@@ -1,5 +1,3 @@
-/* $Id: fts5.h,v 1.4 2016/10/29 06:58:12 ajleary Exp $ */
-
 /* Indices for 3D-Addresses */
 #define A_ZONE 0
 #define A_NET 1

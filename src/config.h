@@ -1,5 +1,3 @@
-/* $Id: config.h,v 1.5 2016/10/29 06:58:12 ajleary Exp $ */
-
 /* Numbers of configuration options */
 #define CFG_ARCCOPY 0
 #define CFG_ARCMOVE 32

@@ -1,8 +1,6 @@
 # MakeNL makefile for Digital Mars C for Windows
 # Tested with Digital Mars C 8.42n
 #
-# $Id: makefile.dmc,v 1.3 2013/09/25 20:23:57 ozzmosis Exp $
-#
 # Build with:
 #
 # make -f makefile.dmc

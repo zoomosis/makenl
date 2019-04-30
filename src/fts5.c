@@ -1,5 +1,3 @@
-/* $Id: fts5.c,v 1.14 2016/12/02 22:20:06 ajleary Exp $ */
-
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -186,7 +184,7 @@ static int getphone(char **instring, int *linelevel, int *linenum)
              return 0;
         break;
     case LEVEL_DOWN:
-        /* 
+        /*
          * Allow -Unpublished- when the node is Down.
          * All other things are allowed and not checked.
          */
@@ -216,7 +214,7 @@ static int getphone(char **instring, int *linelevel, int *linenum)
                 phonewalk++;
                 if (isalpha((unsigned char)phonechar))
                     return 0;
-            } 
+            }
             while (phonechar);
         }
         phoneno = *instring;
@@ -348,7 +346,7 @@ int ParseFTS5(char *line, int *a, int *b)
                 templn2 = templine + 3; /* Move rest of line over BOM */
                 memmove(templine, templn2, strlen(templn2)+1);
             }
-        }        
+        }
     }
     if (strlen(cutspaces(line)) == 0)
     {

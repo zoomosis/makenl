@@ -1,8 +1,6 @@
 # MakeNL makefile for lcc-win32 for Windows
 # Tested with lcc 3.8.
 #
-# $Id: makefile.lcc,v 1.4 2013/09/23 09:45:28 ozzmosis Exp $
-#
 # Build with:
 #
 # make -f makefile.lcc

@@ -1,5 +1,3 @@
-/* $Id: msgtool.c,v 1.23 2014/11/14 01:58:37 ajleary Exp $ */
-
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -53,17 +51,17 @@ static unsigned long NewMSGID(void)
     snprintf(filename, sizeof filename, "%s" DIRSEP "sequence.dat", MasterDir);
 
     mklog(LOG_DEBUG, "MSGID sequence filename is '%s'", filename);
-    
+
     fp = fopen(filename, "r+");
-    
+
     if (fp == NULL)
     {
         seq = (unsigned long) time(NULL);
-        
+
         mklog(LOG_DEBUG, "Newly-created MSGID sequence is %08lx", seq);
 
         fp = fopen(filename, "w+");
-        
+
         if (fp == NULL)
         {
             mklog(LOG_ERROR, "$Can't create '%s' for writing", filename);
@@ -71,27 +69,27 @@ static unsigned long NewMSGID(void)
         }
 
         rc = fwrite(&seq, 1, sizeof seq, fp);
-            
+
         mklog(LOG_DEBUG, "fwrite(&seq, 1, sizeof seq, fp) returned %d", rc);
-            
+
         rc = fclose(fp);
-            
+
         if (rc != 0)
         {
             mklog(LOG_DEBUG, "$fclose() failed for '%s'", filename);
         }
-            
+
         return seq;
     }
 
     rc = fread(&seq, 1, sizeof seq, fp);
-        
+
     seq++;
 
     mklog(LOG_DEBUG, "Incremented MSGID sequence is %08lx", seq);
 
     rc = fseek(fp, 0L, SEEK_SET);
-    
+
     if (rc != 0)
     {
         mklog(LOG_DEBUG, "$fseek failed for '%s'", filename);
@@ -106,7 +104,7 @@ static unsigned long NewMSGID(void)
     {
         mklog(LOG_DEBUG, "$fclose() failed for '%s'", filename);
     }
-            
+
     return seq;
 }
 
@@ -191,7 +189,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
             { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" }; */
     /* Unused - now using FTS-1 date/time field vs. SEAdog format */
     static char *MonthNames[12] =
-            { "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+            { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
     time_t akt_time;
     struct tm *the_time;
@@ -239,7 +237,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
      *        to %02d */
     snprintf(date, sizeof date, "%02d %s %02d  %02d:%02d:%02d",
             the_time->tm_mday, MonthNames[the_time->tm_mon],
-            the_time->tm_year % 100, the_time->tm_hour, the_time->tm_min, 
+            the_time->tm_year % 100, the_time->tm_hour, the_time->tm_min,
             the_time->tm_sec); /* Switch to FTS-1 date/time vs. SEAdog */
     memcpy(&msgbuf[0x90], date, 20);
     msgbuf[0xba] = (unsigned char)(temp & 0x00ff);     /* Attribute */
@@ -254,7 +252,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
     msgbuf[0xa6] = (unsigned char)(address[A_NODE] & 0x00ff);        /* destNode        */
     msgbuf[0xa7] = (unsigned char)((address[A_NODE] & 0xff00) >> 8);
     msgbuf[0xb0] = (unsigned char)(address[A_ZONE] & 0x00ff);        /* destZone        */
-    msgbuf[0xb1] = (unsigned char)((address[A_ZONE] & 0xff00) >> 8);  
+    msgbuf[0xb1] = (unsigned char)((address[A_ZONE] & 0xff00) >> 8);
     if (MyAddress[A_ZONE] == address[A_ZONE]) /* Intra-zone message. */
     {
         intl = MailerFlags & (MF_INTL |
@@ -272,7 +270,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
     msgbuf[0xad] = (unsigned char)((MyAddress[A_NET] & 0xff00) >> 8);
     msgbuf[0xb2] = (unsigned char)(MyAddress[A_ZONE] & 0x00ff);        /* origZone        */
     msgbuf[0xb3] = (unsigned char)((MyAddress[A_ZONE] & 0xff00) >> 8);
-    
+
     if (intl)
     {
         if (MyAddress[A_ZONE] == 0)
@@ -290,10 +288,10 @@ FILE *OpenMSGFile(int address[3], char *filename)
         die(254, "$Cannot create file '%s'", filenamebuf);
     MSGnum++;
     mklog(LOG_DEBUG, "OpenMSGFile: opened '%s', MSGnum %d", filenamebuf, MSGnum);
-    
+
     fwrite(&msgbuf, sizeof(msgbuf), 1, MailFILE);
     fputs(intlline, MailFILE);
-    fprintf(MailFILE, "\x01MSGID: %d:%d/%d %08lx\r\n", MyAddress[A_ZONE], 
+    fprintf(MailFILE, "\x01MSGID: %d:%d/%d %08lx\r\n", MyAddress[A_ZONE],
             MyAddress[A_NET], MyAddress[A_NODE], NewMSGID());
     if (!filename)
     {
@@ -357,7 +355,7 @@ FILE *CloseMSGFile(int status)
                 putc(0, MailFILE);
                 fseek(MailFILE, 0L, SEEK_SET);
                 temp = (msgbuf[0xbb] << 8) + msgbuf[0xba]; /* Get current
-                                                              .MSG flags */ 
+                                                              .MSG flags */
                 temp |=
                     (MSGFlags & MF_CRASH ? MSG_CRASH : 0) | (MSGFlags &
                                                              MF_HOLD ?

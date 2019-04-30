@@ -1,5 +1,3 @@
-/* $Id: fileutil.h,v 1.3 2013/08/23 15:47:33 ozzmosis Exp $ */
-
 #include "os.h"
 
 extern char MakeSourceFile[MYMAXFILE + MYMAXEXT];

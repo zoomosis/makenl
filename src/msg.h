@@ -1,5 +1,3 @@
-/* $Id: msg.h,v 1.2 2012/10/16 09:07:34 ozzmosis Exp $ */
-
 #define MF_SHIFT_ERRORS 4
 #define MF_SHIFT_SUBMIT 8
 

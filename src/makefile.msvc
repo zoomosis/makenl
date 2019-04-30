@@ -1,8 +1,6 @@
 # MakeNL makefile for Microsoft Visual C/C++ for Windows
 # Tested with Visual C++ 2.0 (cl.exe 9.0)
 #
-# $Id: makefile.msvc,v 1.7 2013/09/25 20:13:37 ozzmosis Exp $
-#
 # Build with:
 #
 # nmake -f makefile.msvc           (release version)

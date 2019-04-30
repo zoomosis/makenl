@@ -1,5 +1,3 @@
-/* $Id: mkdiff.c,v 1.15 2013/09/26 19:52:03 ozzmosis Exp $ */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -110,13 +108,13 @@ static int lineread(char *linebuf, int currentline, struct DiffingInfo *f)
         {
             return 0;
 	}
-	
+
         if (linebuf[0] == '\032')
         {
             /* Ignore EOF line */
             return 0;
 	}
-	
+
         f->lineno++;
     }
     while (f->lineno <= currentline);
@@ -136,7 +134,7 @@ static long hashstr(const char *linebuf)
 	{
             hashval |= 1;
 	}
-	
+
         hashval ^= *linebuf;
         linebuf++;
     }
@@ -299,7 +297,7 @@ static void WriteDiffPart(char *linebuf)
 
         /*
          *  There seems to be a change in the order of the lines... Look
-         *  which number is larger a) the numbers of line in the input till 
+         *  which number is larger a) the numbers of line in the input till
          *  the expected line comes OR b) the numbers of lines in the
          *  output, till the next input line appears
          */
@@ -406,7 +404,7 @@ int makediff(char *filename)
 	{
             return 0;
 	}
-	
+
         cause = CAUSE_OUTDIFF;
         myfnmerge(diffname, NULL, OutDir, OutDiff, OldExtensions[0]);
     }
@@ -478,7 +476,7 @@ int makediff(char *filename)
             /* no memory; shorten hash table by 100 entries */
             maxhashes -= 100;
 	}
-	
+
     }
 
     if (!OldFile.CollTbl)
@@ -672,7 +670,7 @@ int makediff(char *filename)
 	    {
                 /* do nothing */
 	    }
-	    
+
             OldFile.hashentries++;
 
             while (!ISCONNECTED(NowFile.HashList[--NowFile.hashentries]))

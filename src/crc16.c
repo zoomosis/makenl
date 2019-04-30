@@ -1,5 +1,3 @@
-/* $Id: crc16.c,v 1.2 2012/10/16 18:52:12 ozzmosis Exp $ */
-
 #include "crc16.h"
 
 static unsigned int CRC16Tab[] =

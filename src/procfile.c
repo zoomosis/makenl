@@ -1,5 +1,3 @@
-/* $Id: procfile.c,v 1.5 2014/11/13 23:29:54 ajleary Exp $ */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -111,7 +109,7 @@ ProcessFILES(int WorkMode, FILE * CfgFILE, FILE * OutFILE,
             if (searchwhere > 0)
             {
                 mklog(LOG_INFO, "Processing %-8s%5d -- file '%s'", *subleveltxt, num, foundfile);
-                if (UsualMSGFlags != 0 && searchwhere < SEARCH_UPDATE + 1) 
+                if (UsualMSGFlags != 0 && searchwhere < SEARCH_UPDATE + 1)
                 {
                     /* newly received file */
                     NotifyMsgFILE = OpenMSGFile(NotifyAddress, NULL);
