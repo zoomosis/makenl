@@ -663,13 +663,15 @@ represented here as "htu" where "h" is the hundreds digit, "t" is the
 tens digit and "u" is the units digit of day-of-year. MakeNL recognizes
 and/or creates the following file types for files with generic names:
 
-.htu - Master files, uncompressed submittal and distribution files, distribution difference files
+    .htu - Master files, uncompressed submittal and distribution
+           files, distribution difference files
 
-.Atu - Archived submittal and distribution files, archived distribution difference files
+    .Atu - Archived submittal and distribution files, archived
+           distribution difference files
 
-.Dtu - Submittal difference files
+    .Dtu - Submittal difference files
 
-.ADu - Archived submittal difference files
+    .ADu - Archived submittal difference files
 
 ### 3.3 Explicit File Name
 
@@ -755,7 +757,7 @@ publication day. (See section 6.1.3 on page 22.)
 MakeNL is invoked with the following command line:
 
      MakeNL [<control_file_name>] [/PROCESS | /TEST]
-          [/MERGE[=<list_name>] [/NAME=<composite_name>]
+            [/MERGE[=<list_name>] [/NAME=<composite_name>]
 
 The switch names may be spelled out (/TEST), or abbreviated to as few as
 one letter (/T).
@@ -1785,18 +1787,18 @@ needs some temporary working space while executing.
 
 The MakeNL distribution package consists of the following files:
 
-   MAKENL.EXE   The MakeNL program
-   MAKENL.PRN   This documentation file
-   HUB.CTL      Sample control file for Hub Coordinators
-   NET-S.CTL    Sample control file for Network Coordinators
-   NET-L.CTL    Sample control file for Network Coordinators
-   REGION.CTL   Sample control file for Regional Coordinators
-   ZONE.CTL     Sample control file for Zone Coordinators
-   DISTRIB.CTL  Sample control file for Distribution Lists
-   CPYRIGHT.TXT Sample copyright notice
-   PROLOG.TXT   Sample prologue file
-   EPILOG.TXT   Sample epilogue file
-   FTS-0005.TXT Nodelist Format Specifications
+     MAKENL.EXE    The MakeNL program
+     MAKENL.PRN    This documentation file
+     HUB.CTL       Sample control file for Hub Coordinators
+     NET-S.CTL     Sample control file for Network Coordinators
+     NET-L.CTL     Sample control file for Network Coordinators
+     REGION.CTL    Sample control file for Regional Coordinators
+     ZONE.CTL      Sample control file for Zone Coordinators
+     DISTRIB.CTL   Sample control file for Distribution Lists
+     CPYRIGHT.TXT  Sample copyright notice
+     PROLOG.TXT    Sample prologue file
+     EPILOG.TXT    Sample epilogue file
+     FTS-0005.TXT  Nodelist Format Specifications
 
 ## 9. MakeNL License Information
 
