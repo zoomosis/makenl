@@ -1,3 +1,11 @@
+makenl (3.5-1~1) UNRELEASED; urgency=low
+
+  TODO:
+    * Update debian packaging for new v3.5.0 upstream version.
+  * New upstream release version 3.5.0.
+
+ -- Robert James Clay <jame@rocasa.us>  Fri, 03 May 2019 22:25:48 -0400
+
 makenl (3.4.9-1) stable; urgency=medium
 
   * New upstream release.
