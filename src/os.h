@@ -81,7 +81,7 @@
 #elif defined(__IBMC__)
 #define CC_NAME "IBM C"
 #elif defined(_MSC_VER)
-#if _MSC_VER <= 900
+#if _MSC_VER < 800
 #define CC_NAME "MSC"
 #else
 #define CC_NAME "MSVC"
@@ -328,9 +328,7 @@ struct _filefind
     struct _finddata_t fileinfo;
 };
 
-#if _MSC_VER <= 1500
 #define NEED_SNPRINTF 1
-#endif
 
 #ifdef __DMC__
 #define NEED_SNPRINTF 1
