@@ -2,13 +2,13 @@
 
 ## Support
 
-* Web:      http://makenl.sourceforge.net/
+* Web:      <http://makenl.sourceforge.net/>
 * FidoNet:  The echomail area MAKENL_NG, available to most systems
 * Trackers: Besides discussions in the echo, Bugs and Feature Requests
 can be registered and tracked at:
 
-  * http://sourceforge.net/p/makenl/bugs/
-  * http://sourceforge.net/p/makenl/feature-requests/
+  * <https://sourceforge.net/p/makenl/bugs/>
+  * <https://sourceforge.net/p/makenl/feature-requests/>
 
 
 ## Important Changes since MakeNL 2.5x:
