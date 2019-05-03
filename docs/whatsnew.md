@@ -1,9 +1,29 @@
 ## MakeNL Revision History
 
-### v3.5.0 -- May 2019
+### v3.5.0 --  May 03, 2019
 
-* FIXME
+* Release as version 3.5.0 for wide distribution.
 
+-- Robert James Clay
+
+### May 03, 2019
+
+* Always require snprintf() for MSVC build.
+* Reduce warnings in src/makefie.msvc from '-W3' to '-W2'.
+* Update src/os.h that Microsoft C/C++ 8.0 (1993) and above is MSVC.
+* Convert the WHATSNEW and README files to Markdown format.
+* Use Pandoc in the makefiles to convert Markdown files to HTML.
+* Move the example 'CTL' files from 'docs' to their own 'examples' directory.
+
+-- Andrew Clarke
+
+### May 01, 2019
+
+* Convert the MakeNL 2.51 manual to Markdown format.
+* Add using Pandoc in the CMake files to convert Markdown files to HTML.
+* Remove obsolete $Id tags that don't work with Git.
+
+-- Andrew Clarke
 
 ### v3.4.9 -- January 11, 2019
 
