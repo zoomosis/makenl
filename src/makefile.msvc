@@ -9,7 +9,7 @@
 # nmake -f makefile.msvc clean     (remove temp files)
 
 CC=cl
-CFLAGS= -nologo -W3
+CFLAGS= -nologo -W2
 
 !ifdef DEBUG
 CFLAGS= $(CFLAGS) -Zd
