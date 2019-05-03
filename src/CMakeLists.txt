@@ -1,8 +1,5 @@
-# ########## MakeNL Source Directory ##########
-
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
-# ########## MakeNL Executable ##########
 ADD_EXECUTABLE (makenl
     config.c
     crc16.c
@@ -22,7 +19,6 @@ ADD_EXECUTABLE (makenl
     os.c
 )
 
-# add install target for executable:
 INSTALL(TARGETS makenl DESTINATION bin)
-# add install target for man page:
+
 INSTALL(FILES makenl.1 DESTINATION share/man/man1)
