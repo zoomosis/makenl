@@ -1,0 +1,20 @@
+;A Copyright ####, Baker's Acre, All rights reserved.
+;A
+
+This file, if it exists in the MASTER directory, is copied to your
+output file immediately following the header line.
+
+MakeNL treats this file in special ways.  When it is copied into your
+output file, the first string of four pound-signs (#) it finds will
+be replaced with the current year.  Also, to insure that the
+difference file contains a copyright notice, the entire contents of
+this file will appear as an "add" field in a difference file, WHETHER
+OR NOT IT HAS CHANGED! (So keep it short!)
+
+The ";A" interest flag above is not required, but will override the
+default ";S" flag.  The former is interpreted by most nodelist
+processors to mean "copy this comment to all output files," while the
+latter usually means "Sysop comment, don't copy to ourput lists, only
+to comments file."  That's not usually the intent of a copyright
+notice.
+

@@ -1,0 +1,8 @@
+This file, if it exists in the MASTER directory, is copied to your
+output file after all data has been processed in a fashion identical
+to PROLOG.TXT.
+
+
+It may contain any commentary you wish appended to the end of your
+list.
+
