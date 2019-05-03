@@ -1,5 +1,7 @@
-MakeNL -- Version 2.51
-======================
+MakeNL
+======
+
+Version 2.51
 
 NODELIST Generator Program
 
@@ -7,13 +9,13 @@ by Ben Baker
 
 Copyright 1987-1992 -- All Rights Reserved
 
-1. Introduction
----------------
 
-FidoNet, a trade mark of Tom Jennings, was the name of the first amateur
+## 1. Introduction
+
+*FidoNet, a trade mark of Tom Jennings, was the name of the first amateur
 electronic mail program. There are now several mail server programs that
 support FidoNet protocols. Many amateur networks, large and small, are
-using one or more of these mail servers to communicate regularly.
+using one or more of these mail servers to communicate regularly.*
 
 The glue that holds an amateur network together is its nodelist, a
 document that describes the nodes in the network, and the relationship
@@ -50,8 +52,7 @@ is also adaptable. Features you don't need you may safely ignore, and
 MakeNL will not complain.
 
 
-1.1 How to use this manual
---------------------------
+### 1.1 How to use this manual
 
 Section 2 is a tutorial on setting up and operating MakeNL. It starts
 with the simplest case -- the lowest level of nodelist maintenance --
@@ -127,11 +128,9 @@ difficult.
                 Figure 1.  Data Flow - Test Mode vs. Process Mode
 
 
-2. MakeNL Operation
--------------------
+## 2. MakeNL Operation
 
-2.1 Operational overview
-------------------------
+### 2.1 Operational overview
 
 MakeNL operates in two distinct modes, test mode and process mode. The
 mode of operation is controlled by the "PROcess" statement in your
@@ -170,8 +169,7 @@ complexity disappears.
 The following paragraphs give recommended set-up and operating
 procedures for various types of coordinators.
 
-2.2 Operation at a Hub or simple Network
-----------------------------------------
+### 2.2 Operation at a Hub or simple Network
 
 Here is where the nodelist update process begins. You have a small
 nodelist segment that you maintain. You do not receive any update files
@@ -291,8 +289,7 @@ create a submittal message to send it to your coordinator.
 That's all there is to it! MakeNL will take care of getting your
 nodelist changes in on time if and when they occur.
 
-2.3 Operation at a large Network
---------------------------------
+### 2.3 Operation at a large Network
 
 Your life is a little more complicated than above. You assemble your
 submittal segment from your own file plus files received from your Hubs.
@@ -471,8 +468,7 @@ Given a chance, MakeNL will do the right things at the right times. You
 worry about other things, like "Why can't Hub 999 send me a file without
 errors? I gotta get him to use MakeNL!"
 
-2.4 Operation by a Regional Coordinator
----------------------------------------
+### 2.4 Operation by a Regional Coordinator
 
 For the most part, section 2.3 applies to you too, but there are some
 differences.
@@ -497,8 +493,7 @@ Other than that, substitute Network for Hub, Region for Network and Zone
 for Region, and follow the procedures in 2.3 using the file REGION.CTL
 from your distribution package.
 
-2.5 Operation by a Zone Coordinator
------------------------------------
+### 2.5 Operation by a Zone Coordinator
 
 Life gets still more complicated, but is still manageable.
 
@@ -612,8 +607,7 @@ may be placed first in the list, a significant convenience to the
 nodes in your zone. There will probably be quicker and better NODELIST
 availability.
 
-2.6 Putting together a Distribution Nodelist Segment
-----------------------------------------------------
+### 2.6 Putting together a Distribution Nodelist Segment
 
 Distribution lists (see section 3.7 on page 15) may be prepared at any
 level except Hub, though it is not recommended below Region. In theory,
@@ -645,21 +639,18 @@ process day, so the batch file simply restarts your mail server after
 testing any received files. On process day you will "drop through" and
 create distribution files.
 
-3. Definitions
---------------
+## 3. Definitions
 
 Before we proceed further, we need to define some terms in use
 throughout this document.
 
-3.1 Composite Nodelist
-----------------------
+### 3.1 Composite Nodelist
 
 The composite nodelist is defined, for our purposes, as the complete
 list of all nodes in the network. It includes all Zones, all Regions and
 all local nets.
 
-3.2 Generic File Name
----------------------
+### 3.2 Generic File Name
 
 To MakeNL, a generic file name is one which does not have a file type
 (or file extension). For example, NODELIST and FILES\ZONE1 are generic
@@ -672,16 +663,17 @@ represented here as "htu" where "h" is the hundreds digit, "t" is the
 tens digit and "u" is the units digit of day-of-year. MakeNL recognizes
 and/or creates the following file types for files with generic names:
 
-.htu - Master files, uncompressed submittal and distribution files, distribution difference files
+    .htu - Master files, uncompressed submittal and distribution
+           files, distribution difference files
 
-.Atu - Archived submittal and distribution files, archived distribution difference files
+    .Atu - Archived submittal and distribution files, archived
+           distribution difference files
 
-.Dtu - Submittal difference files
+    .Dtu - Submittal difference files
 
-.ADu - Archived submittal difference files
+    .ADu - Archived submittal difference files
 
-3.3 Explicit File Name
-----------------------
+### 3.3 Explicit File Name
 
 An explicit file name, on the other hand, has a specified file type.
 PROLOG.TXT is an example. When data files are specified this way, MakeNL
@@ -689,8 +681,7 @@ does only limited processing on them, specifically checking them for
 errors and copying them from directory to directory. It makes no attempt
 to deal with archives or difference files.
 
-3.4 Archive File
-----------------
+### 3.4 Archive File
 
 An archive file is a compressed file created by the ARC program from
 System Enhancement Associates. You must have a copy of this program in
@@ -702,8 +693,7 @@ compatible with earlier versions of ARC. MakeNL provides a
 configuration verb to permit the use of this capability. (See section
 6.3.4 on page 30)
 
-3.5 Difference File
--------------------
+### 3.5 Difference File
 
 A difference file is a file which defines the differences between an
 older version of a file and a newly created one. In fact, the difference
@@ -712,8 +702,7 @@ convention) contains a simple editing language. With a copy of the old
 file and the difference file, MakeNL can accurately recreate the new
 version of file.
 
-3.6 Submittal File
-------------------
+### 3.6 Submittal File
 
 A submittal file is one which you will send forward up the ladder to be
 merged with other files from your level. A Hub sends his submittal file
@@ -722,8 +711,7 @@ coordinator, etc.. MakeNL will create your submittal file for you each
 week, and can even create the "file attach" message to send the file
 over the network.
 
-3.7 Distribution File
----------------------
+### 3.7 Distribution File
 
 Distribution files, on the other hand go the other way. They are meant
 for distribution down the ladder. NODELIST.htu and NODEDIFF.htu are well
@@ -734,16 +722,14 @@ to use a nodelist which only contains your region. MakeNL can create
 such files. They differ from submittal files only in the naming
 conventions they observe.
 
-3.8 Absolute Directory Path
----------------------------
+### 3.8 Absolute Directory Path
 
 An absolute path name is one specified from the disk's root directory.
 It will always begin with a back-slant (\) or a drive specifier followed
 by a back-slant (C:\) C:\BBS and \MASTER are examples of absolute path
 names.
 
-3.9 Relative Directory Path
----------------------------
+### 3.9 Relative Directory Path
 
 A relative path name is one specified as a subdirectory from the current
 working directory, without specifying what that is. It never begins with
@@ -753,8 +739,7 @@ of the D drive.
 
 See your DOS manual for additional information on path names.
 
-3.10 Publication Date
----------------------
+### 3.10 Publication Date
 
 The "publication date" is the date of the next publication of the
 composite nodelist. It is always the same day of the week. It is usually
@@ -767,19 +752,17 @@ NOTE: Most FidoNet compatible networks publish their nodelist on Friday,
 but a few publish on other days. A special verb is provided to control
 publication day. (See section 6.1.3 on page 22.)
 
-4. MakeNL Command Line
-----------------------
+## 4. MakeNL Command Line
 
 MakeNL is invoked with the following command line:
 
      MakeNL [<control_file_name>] [/PROCESS | /TEST]
-          [/MERGE[=<list_name>] [/NAME=<composite_name>]
+            [/MERGE[=<list_name>] [/NAME=<composite_name>]
 
 The switch names may be spelled out (/TEST), or abbreviated to as few as
 one letter (/T).
 
-4.1 Control file name
----------------------
+### 4.1 Control file name
 
 By default, MakeNL expects to find a control file named MAKENL.CTL in
 the current directory. This can be overridden by placing the name
@@ -811,34 +794,30 @@ In the first case, the log file is recreated fresh each time MakeNL is
 executed. In the second case, MakeNL appends the results of each
 execution to the end of the log file.
 
-4.2 /TEST switch
-----------------
+### 4.2 /TEST switch
 
 The optional "/TEST" switch, if given, will force MakeNL to operate in
 test mode, even on the normal process day.
 
-4.3 /PROCESS switch
--------------------
+### 4.3 /PROCESS switch
 
 The optional "/PROCESS" switch, if given, will force MakeNL to operate
 in process mode, overriding the effect of a PROcess statement in the
 control file.
 
-4.4 /MERGE switch
------------------
+### 4.4 /MERGE switch
 
 The optional "/MERGE" switch, if given, will cause MakeNL to merge your
 updated nodelist segment with an existing distribution nodelist to
 produce a temporary nodelist containing your updates.
 
-If <list_name> is given, it must have the form:
+If &lt;list_name> is given, it must have the form:
 
      /M=[path\]<generic_name>
 
 See discussion of MERge control file verb on page 24 for more details.
 
-4.5 /NAME=<network_name>
-------------------------
+### 4.5 /NAME=&lt;network_name>
 
 The optional /NAME switch is a specialized cosmetic switch. When you
 MAKe a composite list (see section 6.1.1 on page 21), the generated list
@@ -866,58 +845,51 @@ COMPOSITE" the /NAME switch will have no effect.
 
 See also the NAMe verb in section (?), page (?).
 
-4.6 Error return codes
-----------------------
+### 4.6 Error return codes
 
 MakeNL terminates with ERRORLEVEL (see your DOS manual) set to one of
 the following values:
 
-     0  = Process mode - no errors encountered
-     1  = Process mode - no fatal errors encountered
-     2  = Process mode - one or more fatal errors encountered
-     3  = Test mode - no errors encountered
-     4  = Test mode - no fatal errors encountered
-     5  = Test mode - one or more fatal errors encountered
-   254  = MakeNL aborted - I/O error
-   255  = MakeNL aborted - Control file error
+      0  = Process mode - no errors encountered
+      1  = Process mode - no fatal errors encountered
+      2  = Process mode - one or more fatal errors encountered
+      3  = Test mode - no errors encountered
+      4  = Test mode - no fatal errors encountered
+      5  = Test mode - one or more fatal errors encountered
+    254  = MakeNL aborted - I/O error
+    255  = MakeNL aborted - Control file error
 
-5. MakeNL Directories
----------------------
+## 5. MakeNL Directories
 
 MakeNL uses several disk directories in the performance of its tasks.
 Some are required -- others are needed only to make use of special
 features. In this text, MakeNL's directories will be referred to by the
 following names.
 
-5.1 Master Directory
---------------------
+### 5.1 Master Directory
 
 The master directory is where MakeNL stores all of its master files.
 Received files will migrate to this directory. MakeNL requires a master
 directory.
 
-5.2 Update Directory
---------------------
+### 5.2 Update Directory
 
 The update directory provides interim storage for received files. It is
 needed only if you process files received from others, and notify them
 on receipt or when errors occur. It prevents multiple notification.
 
-5.3 Mailfiles Directory
------------------------
+### 5.3 Mailfiles Directory
 
 The mailfiles directory is the directory in which your mail server
 receives files. It is required if you receive nodelist segments from
 others via the network.
 
-5.4 Upload Directory
---------------------
+### 5.4 Upload Directory
 
 The upload directory is the directory in which your BBS stores uploaded
 files. It is required if others upload nodelist segments to your BBS.
 
-5.5 Other Directories
----------------------
+### 5.5 Other Directories
 
 Depending on the options selected in the control file, MakeNL may need
 access to other directories.
@@ -938,8 +910,7 @@ such files there.
 The "current directory" when MakeNL is invoked is the default directory
 for MakeNL's control file.
 
-6. MakeNL Control File
-----------------------
+## 6. MakeNL Control File
 
 MakeNL requires a control file to define its operating parameters. By
 default, this file is named MAKENL.CTL, but you may specify another
@@ -958,23 +929,21 @@ The definitions of the control file verbs are grouped by type for
 clarity. Except for DATA and FILES, they may appear in your control
 file in any order.
 
-6.1 Control statements
-----------------------
+### 6.1 Control statements
 
 The following statements control the overall operation of MakeNL.
 
-6.1.1 MAKe <segment_type> [<number> [<source_file>]]
-----------------------------------------------------
+#### 6.1.1 MAKe &lt;segment_type> [&lt;number> [&lt;source_file>]]
 
 A MAKe statement is required in every control file.  It tells MakeNL
 what type of nodelist segment it is to produce and what kind of input to
 expect.
 
-<segment_type> is one of HUB, NETwork, REGion, ZONe or COMposite.
+&lt;segment_type> is one of HUB, NETwork, REGion, ZONe or COMposite.
 
-<number> is shown above as "optional." This isn't strictly correct.  For
+&lt;number> is shown above as "optional." This isn't strictly correct.  For
 all segment types except COMposite, it is required. It must NOT be
-used for COMposite. <number> is the network address number associated
+used for COMposite. &lt;number> is the network address number associated
 with the segment being made.
 
 Even if you are a Zone Coordinator, there is a part of the nodelist
@@ -986,41 +955,39 @@ to input your sub-segment into MakeNL. One is through the use of the
 DATa statement (see section (?) on page (?). The other is by specifying
 a source file in the MAKe statement.
 
-<source_file> must be an explicit file name without a path qualifier.
+&lt;source_file> must be an explicit file name without a path qualifier.
 The named file must exist in the directory named as your master
 directory.  The first non-comment statement in the file must match the
-MAKe statement in <segment_type> and <number>.
+MAKe statement in &lt;segment_type> and &lt;number>.
 
 Examples:
 
-  MAKE COMPOSITE      ; make a complete nodelist
+    MAKE COMPOSITE      ; make a complete nodelist
 
-  MAKE NET 100 MASTER.DAT ; input data from "master"
+    MAKE NET 100 MASTER.DAT ; input data from "master"
 
-  MAKE REGION 10      ; use DATA statement
+    MAKE REGION 10      ; use DATA statement
 
-6.1.2 NAMe <network_name>
--------------------------
+#### 6.1.2 NAMe &lt;network_name>
 
 When you MAKe a composite list (see section 6.1.1), the generated list
 begins, by default, with the line " Nodelist for. . ."
 
-With the NAMe verb, you can define a <network_name> that will be
-inserted in front of the first word of that line. <network_name> is the
+With the NAMe verb, you can define a &lt;network_name> that will be
+inserted in front of the first word of that line. &lt;network_name> is the
 only parameter in your control file that is case-sensitive. It will
 appear in the list exactly the way it appears in your control file. This
 verb is almost identical to the /NAME switch (see section 4.5 on page
 18).
 
 There are two restrictions imposed by the NAMe verb that do not apply to
-the /NAME switch. <network_name> can be no more than 15 characters long,
+the /NAME switch. &lt;network_name> can be no more than 15 characters long,
 and can not contain any spaces or tabs.
 
 If you use both the NAMe verb in the control file and the /NAME switch
 on the command line, the command line switch will override.
 
-6.1.3 PUBlish <day_of_week>
----------------------------
+#### 6.1.3 PUBlish &lt;day_of_week>
 
 Most FidoNet compatible networks publish their nodelists each Friday.
 For that reason, MakeNL assumes a Friday publication day.
@@ -1033,13 +1000,13 @@ if you publish on Friday.
 
 The PUBlish statement let's you inform MakeNL that you publish your
 list on some day other than Friday, and he will adjust his generic file
-name extensions accordingly. The <day_of_week> may be a full day name,
+name extensions accordingly. The &lt;day_of_week> may be a full day name,
 or may be abbreviated to as few as three characters.
 
 Example:
 
-  PUBLISH SUNDAY      ; sets file extensions according to
-		      ; Sunday's date
+    PUBLISH SUNDAY      ; sets file extensions according to
+                        ; Sunday's date
 
 CAUTION: Some nodelist processors may fail to operate correctly with
 file name extensions keyed to a day of week other than Friday. For
@@ -1048,8 +1015,7 @@ files. On the other hand, XLATLIST handles all such extensions, but
 has a problem with the first list of a new year if you don't delete the
 list(s) from the previous year first.
 
-6.1.4 PROcess <day_of_week>
----------------------------
+#### 6.1.4 PROcess &lt;day_of_week>
 
 MakeNL has two fundamental modes of operation, "test" and "process."
 
@@ -1076,16 +1042,15 @@ back notification on a daily basis as files are received, but only on
 the appropriate day does it create a submittal file and forward it up
 the ladder.
 
-The <day_of_week> may be a full day name, or may be abbreviated to as
+The &lt;day_of_week> may be a full day name, or may be abbreviated to as
 few as three characters. It should be chosen so that you may meet the
 submittal deadline set by the next higher coordinator.
 
 Example:
 
-   PROCESS THURSDAY
+    PROCESS THURSDAY
 
-6.1.5 MERge [<nodelist_name>]
------------------------------
+#### 6.1.5 MERge [&lt;nodelist_name>]
 
 When you add new nodes (or nets, as the case may be) to your list, you
 might like to notify them immediately that their applications have been
@@ -1120,7 +1085,7 @@ is used to place your segment in the correct zone. If no zone number is
 given, MakeNL assumes that your segment goes in the first zone it
 encounters in the distribution list.
 
-If present, <nodelist_name> must be a generic file name, but may be
+If present, &lt;nodelist_name> must be a generic file name, but may be
 qualified by a path name. It overrides the name and location of the
 distribution list, but the rest of the actions are the same. The
 temporary list is placed in the same directory as the distribution list
@@ -1133,10 +1098,9 @@ section 4.4 on page 18.)
 
 Example:
 
-  MERGE \BBS\NODELIST
+    MERGE \BBS\NODELIST
 
-6.1.6 PRIvate <disposition>
----------------------------
+#### 6.1.6 PRIvate &lt;disposition>
 
 Private nodes (identified by the PVT keyword in the nodelist) are not
 universally permitted by all networks. In a commercial network, for
@@ -1145,7 +1109,7 @@ useful. By default, MakeNL will accept these node entries contrary to a
 network coordinator's intentions.
 
 The PRIvate statement permits you to define other dispositions for
-such entries. <disposition> must be one of OK, NONE, ZONE, REGION, HOST
+such entries. &lt;disposition> must be one of OK, NONE, ZONE, REGION, HOST
 or HUB.
 
 "PRIvate OK" is equivalent to the default action -- private nodes are
@@ -1155,7 +1119,7 @@ NONE says they are not permitted. The PVT keyword will be treated as an
 error, with a note that "Private nodes are not permitted in this
 network."
 
-If <disposition> is any of the hierarchical keywords, a private node
+If &lt;disposition> is any of the hierarchical keywords, a private node
 will be transformed into an "open" node by removing the PVT keyword
 and substituting a known phone number in the phone number field. The
 number used is that of the nearest node at least as high in the
@@ -1169,15 +1133,14 @@ For fairly obvious reasons, if you are MAKing a NETwork and enter the
 statement "PRIvate ZONE," MakeNL will abort with a control file error.
 It must be able to find at least one phone number to make the
 substitution, and your file can't have any zones or regions in it! The
-hierarchical level of <disposition> must be equal to or lower than the
+hierarchical level of &lt;disposition> must be equal to or lower than the
 level you are MAKing. In the case you MAKe COMPosite, MakeNL will take
 your word for anything your PRIvate statement tells it, but if no
 matching phone number has been found before it encounters a private
 node, the private node will be treated as though the statement were
 "PRIvate NONE," and will generate an error.
 
-6.1.7 MINphone <minimum_parts>
-------------------------------
+#### 6.1.7 MINphone &lt;minimum_parts>
 
 The sixth field of a nodelist entry is the phone number field. MakeNL
 insures that it meets certain minimum standards. It must begin and end
@@ -1196,7 +1159,7 @@ insure that every phone number has a certain minimum number of parts.
 
 Example:
 
-  MINPHONE 4
+    MINPHONE 4
 
 This statement in a control file instructs MakeNL to reject any entry
 with a phone number that does not have at least four parts. The number
@@ -1216,8 +1179,7 @@ received by RCs and ZCs have already been processed at least once by
 MakeNL at a lower level where format can be enforced. There should be no
 need to do it again.
 
-6.1.8 BAUdrate <valid_baud_rates>
----------------------------------
+#### 6.1.8 BAUdrate &lt;valid_baud_rates>
 
 The seventh field of a nodelist entry is the baud rate field. MakeNL
 checks the value in this field against a table of valid baud rates.
@@ -1228,19 +1190,19 @@ default, the valid rates are 300, 1200, 2400, 4800, and 9600.
 
 To accommodate future growth, the "valid baud rate" table is
 configurable through the use of the BAUdrate verb. The
-<valid_baud_rates> parameter is a list of up to twelve (12) valid baud
+&lt;valid_baud_rates> parameter is a list of up to twelve (12) valid baud
 rates (numeric strings) separated by commas. It may contain no spaces of
 tabs. It must be the complete list, and will replace MakeNL's internal
 table.
 
 For example:
 
-  BAUDRATE 1200,2400,4800,9600
+    BAUDRATE 1200,2400,4800,9600
 
 This statement would effectively eliminate 300 baud nodes from your
 list, while:
 
-  BAUDRATE 300,1200,2400,4800,9600,14400
+    BAUDRATE 300,1200,2400,4800,9600,14400
 
 would permit nodes to use 14400 baud in their entries. A caveat in this
 case. Any new values must be authorized from the top down. If you used
@@ -1251,24 +1213,22 @@ those nodes as having invalid baud rates.
 In general, you can be more restrictive than the coordinator(s) above
 you, but you cannot be more liberal!
 
-6.2 Defining nodelist segment directories
------------------------------------------
+### 6.2 Defining nodelist segment directories
 
 MakeNL uses several directories for various purposes for storage of
 nodelist segment data. The following statements are used to define to
 MakeNL where these directories are located. They all have the same
 format:
 
-  <verb> <directory_path_name>
+    <verb> <directory_path_name>
 
-<verb> is one of MASter, UPDate, MAIlfiles, UPLoads or BADfiles as
+&lt;verb> is one of MASter, UPDate, MAIlfiles, UPLoads or BADfiles as
 defined below.
 
-<directory_path_name> is a relative or absolute directory path name,
+&lt;directory_path_name> is a relative or absolute directory path name,
 with or without a disk specifier.
 
-6.2.1 MASter <directory_path_name>
-----------------------------------
+#### 6.2.1 MASter &lt;directory_path_name>
 
 This is the directory in which MakeNL keeps all its "master" files. This
 includes the master copy of your submittal file, master copies of
@@ -1280,8 +1240,7 @@ create and/or apply difference files.
 MakeNL always uses a master directory. If this statement is absent, the
 current directory is used as the master directory.
 
-6.2.2 UPLoads <directory_path_name>
------------------------------------
+#### 6.2.2 UPLoads &lt;directory_path_name>
 
 If others upload update files to your BBS, this statement tells MakeNL
 where to look for them. Only one upload directory may be named. If
@@ -1291,8 +1250,7 @@ to upload their updates so that they wind up in the right directory.
 If you don't receive update files via upload, omit this statement and
 MakeNL will ignore it.
 
-6.2.3 MAIlfiles <directory_path_name>
--------------------------------------
+#### 6.2.3 MAIlfiles &lt;directory_path_name>
 
 If you receive update files from others via network mail, this statement
 tells MakeNL where your file server will put the files.
@@ -1300,8 +1258,7 @@ tells MakeNL where your file server will put the files.
 If you don't receive update files via network mail, omit this statement
 and MakeNL will ignore it.
 
-6.2.4 UPDate <directory_path_name>
-----------------------------------
+#### 6.2.4 UPDate &lt;directory_path_name>
 
 If you receive update files from others by any means, this statement
 defines a temporary holding directory for them. When MakeNL is operated
@@ -1323,8 +1280,7 @@ these directories to the master directory as part of its update process.
 If you don't receive update files from others, omit this statement and
 MakeNL will ignore it.
 
-6.2.5 BADfiles <directory_path_name>
-------------------------------------
+#### 6.2.5 BADfiles &lt;directory_path_name>
 
 When a received file generates a fatal error, MakeNL refuses to process
 it further. By default, it simply deletes the offending file, but if
@@ -1336,21 +1292,19 @@ and process it again.
 If you don't receive update files from others or don't want to correct
 their errors for them, omit this statement and MakeNL will ignore it.
 
-6.3 Defining output
--------------------
+### 6.3 Defining output
 
 The following statements tell MakeNL what output to generate and how to
 generate it. They only have effect when MakeNL operates in process mode.
 
-6.3.1 OUTFile <filename>
-------------------------
+#### 6.3.1 OUTFile &lt;filename>
 
 This statement is required in your control file. It defines the name of
 your master and submittal files. These are the same file unless MakeNL
 creates an archive or a difference file. These files are placed in your
 OUTFile directory, or if it is not defined, your MASter directory.
 
-<filename> may be either explicit or generic, but the choice carries
+&lt;filename> may be either explicit or generic, but the choice carries
 some implications with it. Using an explicit output file name inhibits
 some of MakeNL's features, but if your output file is small they may not
 be of interest to you. Specifically, MakeNL will create neither an
@@ -1359,16 +1313,14 @@ reason is that to do so, MakeNL must have the freedom to manipulate file
 extensions, but it cannot do that if you give it an explicit file
 extension.
 
-6.3.2 OUTPath <directory_path_name>
------------------------------------
+#### 6.3.2 OUTPath &lt;directory_path_name>
 
 By default, MakeNL keeps all of its output (except a merge file) in the
 MASter directory. This includes the output master file, the submittal
 file (if different), and distribution files. The OUTPath statement, if
 present, tells MakeNL to keep its output in a different directory.
 
-6.3.3 THReshold <arc_size> [<diff_size>]
-----------------------------------------
+#### 6.3.3 THReshold &lt;arc_size> [&lt;diff_size>]
 
 When you use a generic output file name, MakeNL will do its best to
 insure that your submittal file is small enough to send to your
@@ -1392,30 +1344,29 @@ archived and transmitted in a minute. These are the two default
 thresholds MakeNL uses to determine what to do with your submittal file.
 The THReshold statement can override these defaults.
 
-If your submittal file is larger than <arc_size> (in bytes), MakeNL will
+If your submittal file is larger than &lt;arc_size> (in bytes), MakeNL will
 use ARC to create an archive of it, and submit the archive file.
 
-If your submittal file is greater than <diff_size>, MakeNL will create a
+If your submittal file is greater than &lt;diff_size>, MakeNL will create a
 difference file and submit it. If a difference file is still larger
-than <arc_size>, MakeNL will create an archive of the difference file
+than &lt;arc_size>, MakeNL will create an archive of the difference file
 and submit that, but that is the best it can do.
 
-If <diff_size> is given, it must be greater than or equal to <arc_size>.
-If <diff_size> is not given it is calculated by MakeNL as 5/3 *
-<arc_size>.
+If &lt;diff_size> is given, it must be greater than or equal to &lt;arc_size>.
+If &lt;diff_size> is not given it is calculated by MakeNL as 5/3 *
+&lt;arc_size>.
 
 Examples:
 
-  THRESHOLD 5000 ; recommended value for 1200 baud
+    THRESHOLD 5000 ; recommended value for 1200 baud
 
-  THR 0          ; always create an archived diff file
+    THR 0          ; always create an archived diff file
 
-  THR 0 -1       ; always archive -- no diff
+    THR 0 -1       ; always archive -- no diff
 
-  THR -1 -1      ; turn compression off
+    THR -1 -1      ; turn compression off
 
-6.3.4 ARC <n>
--------------
+#### 6.3.4 ARC &lt;n>
 
 MakeNL creates compressed archive files by executing the program ARC by
 System Enhancement Associates.
@@ -1425,16 +1376,15 @@ capable. This may not always be desirable. If you have version 6 or 7 of
 ARC, and the recipient of your archived file does not, he will be unable
 to unpack your archives.
 
-The ARC <n> verb will force these versions to create level-5 or level-6
-compatible archives, thus insuring compatibility. The parameter <n> must
+The ARC &lt;n> verb will force these versions to create level-5 or level-6
+compatible archives, thus insuring compatibility. The parameter &lt;n> must
 be either "5" or "6."
 
-Do not use ARC <n> if you have ARC version 5 or earlier. It will cause
+Do not use ARC &lt;n> if you have ARC version 5 or earlier. It will cause
 errors, as will the use of "ARC 6" with version 6! The compatibility
-level must always be LOWER that your version level. 
+level must always be LOWER that your version level.
 
-6.3.5 OUTDiff <generic_filename>
---------------------------------
+#### 6.3.5 OUTDiff &lt;generic_filename>
 
 MakeNL's primary mission is to gather segments of the nodelist and
 assemble larger segments for submittal to the next higher coordinator,
@@ -1458,18 +1408,18 @@ distribution files.
 Distribution files differ from submittal files in the naming conventions
 used to determine file extensions. For example, assume:
 
-  OUTFILE REGION10
-  OUTDIFF R10-DIFF
+    OUTFILE REGION10
+    OUTDIFF R10-DIFF
 
 Then the following table defines the file names of generated submittal
 and distribution files:
 
-  Compression         Submittal           Distribution
+    Compression         Submittal           Distribution
 
-  None                REGION10.htu        REGION10.htu
-  Archive             REGION10.Atu        REGION10.Atu
-  Difference          REGION10.Dtu        R10-DIFF.htu
-  Both                REGION10.ADu        R10-DIFF.Atu
+    None                REGION10.htu        REGION10.htu
+    Archive             REGION10.Atu        REGION10.Atu
+    Difference          REGION10.Dtu        R10-DIFF.htu
+    Both                REGION10.ADu        R10-DIFF.Atu
 
 Note that the full list and its archive bear the same name in both
 columns. Indeed, they are the same files. But submittal files use the
@@ -1487,19 +1437,18 @@ files for the Public FidoNet Network.
 
 Example:
 
-  MAKE COMPOSITE
-  THRESHOLD 0 -1 ; force archiving -- no submittal diff
-  OUTPATH  .        ; master list to current directory
-  OUTFILE  NODELIST ; create NODELIST.Atu
-  OUTDIFF  NODEDIFF ; create NODEDIFF.Atu
+    MAKE COMPOSITE
+    THRESHOLD 0 -1 ; force archiving -- no submittal diff
+    OUTPATH  .        ; master list to current directory
+    OUTFILE  NODELIST ; create NODELIST.Atu
+    OUTDIFF  NODEDIFF ; create NODEDIFF.Atu
 
 When MakeNL has finished, three files are left in the current
 directory; NODELIST.htu, NODELIST.Atu and NODEDIFF.Atu. Note that with
 "THRESHOLD 0 0," NODELIST.ADu would be created with contents identical
 to NODEDIFF.Atu.
 
-6.3.6 CLEanup
--------------
+#### 6.3.6 CLEanup
 
 If you use a generic OUTFILE name, and if you create difference and/or
 archive files, they tend to accumulate in your OUTPATH directory over
@@ -1515,8 +1464,7 @@ any it finds.
 CLEanup has no effect on current files or the handling of output master
 files. It has no effect whatever when MakeNL is operated in test mode.
 
-6.4 External message transmission
----------------------------------
+### 6.4 External message transmission
 
 MakeNL can generate two kinds of network messages, notification messages
 and submittal messages.
@@ -1535,8 +1483,7 @@ guarantee it.
 
 The following statements control the generation of these messages.
 
-6.4.1 NETaddress [<zone>:]<net>/<node>
---------------------------------------
+#### 6.4.1 NETaddress [&lt;zone>:]&lt;net>/&lt;node>
 
 This statement is used to tell MakeNL what your network address is.
 MakeNL must know your network address in order to generate the "From:"
@@ -1547,9 +1494,9 @@ needed to properly perform a MERge operation.
 
 If your control file does not contain a NETaddress statement, MakeNL
 will try to guess you network address from your MAKe statement. If you
-are MAKing a ZONE, your default network address is <nbr>:<nbr>/0. If you
+are MAKing a ZONE, your default network address is &lt;nbr>:&lt;nbr>/0. If you
 are MAKing a REGION or NETWORK, your default network address is
-0:<nbr>/0. If you are MAKing a HUB, MakeNL hasn't a clue!
+0:&lt;nbr>/0. If you are MAKing a HUB, MakeNL hasn't a clue!
 
 If the default network address MakeNL selects for you is satisfactory,
 you don't need a NETaddress statement, but it is recommended that you
@@ -1557,12 +1504,11 @@ include one to remove all doubt.
 
 Examples:
 
-  NETADDRESS  100/76
+    NETADDRESS  100/76
 
-  NETADDRESS  1:1/0
+    NETADDRESS  1:1/0
 
-6.4.2 MESsages <directory_path_name>
-------------------------------------
+#### 6.4.2 MESsages &lt;directory_path_name>
 
 This statement is required if MakeNL is to generate ANY outgoing
 messages. It tells MakeNL the name of the directory used by your mail
@@ -1570,24 +1516,23 @@ server for network mail messages.
 
 Example:
 
-  MESSAGES  D:\BBS\MAIL
+    MESSAGES  D:\BBS\MAIL
 
-6.4.3 SUBmit <address> [<flags>]
---------------------------------
+#### 6.4.3 SUBmit &lt;address> [&lt;flags>]
 
 The SUBmit statement tells MakeNL that in process mode it is to create a
 "file attach" message to send your submittal file to your coordinator.
-<address> is his network address.
+&lt;address> is his network address.
 
-Optional <flags> may be any or all of CRASH, HOLD or INTL. These should
+Optional &lt;flags> may be any or all of CRASH, HOLD or INTL. These should
 not be used unless your mail server supports them.
 
 Example:
 
-  SUBMIT  13/0  CRASH
+    SUBMIT  13/0  CRASH
 
 The INTL flag is a special case. It forces MakeNL to add the "^AINTL:
-<from> <to>" extended address line to all messages it creates, even if
+&lt;from> &lt;to>" extended address line to all messages it creates, even if
 they are not leaving your zone. Indiscriminate use of this flag is not
 recommended. You should use it only if your mail server needs all
 messages to contain the expanded address.
@@ -1598,23 +1543,22 @@ guidance. Most mail servers do not require this feature and many
 consider these messages malformed. Two which may need the INTL flag are
 D'Bridge and FrontDoor.
 
-6.4.4 NOTify <type> [<flags>]
------------------------------
+#### 6.4.4 NOTify &lt;type> [&lt;flags>]
 
 If the NOTify statement is used, when MakeNL finds a received update
 file in either the UPLoads or MAIlfiles directory, it will notify the
 submitter that the file was received and/or that the file contained
 errors.
 
-Optional <flags> may be any or all of CRASH, HOLD or INTL. These should
+Optional &lt;flags> may be any or all of CRASH, HOLD or INTL. These should
 not be used unless your mail server supports them. (INTL need only be
 specified once, and it applies to all messages.)
 
-<type> is one of RECeipt, ERRors or SELF.
+&lt;type> is one of RECeipt, ERRors or SELF.
 
 RECeipt and ERRors control notification of nodes submitting files to
 you. If only NOTIFY RECEIPT is used, all notification messages will
-have the same attributes, as defined by <flags>. If only NOTIFY ERRORS
+have the same attributes, as defined by &lt;flags>. If only NOTIFY ERRORS
 is used, the submitter is NOT notified unless his update file has
 errors. NOTIFY RECEIPT and NOTIFY ERRORS may both be used with different
 message attribute flags, if desired. In other words, normal receipt
@@ -1628,15 +1572,13 @@ input data. If you edit your master file without testing it and you goof
 executed by your external event, the error will cause a message to you
 to appear in you network mail area.
 
-6.5 Defining special files
---------------------------
+### 6.5 Defining special files
 
 MakeNL uses a number of special files in the performance of its duties.
 The statements in this section provide the means to define these files
 and/or alter defaults.
 
-6.5.1 Output comments files
----------------------------
+#### 6.5.1 Output comments files
 
 When MakeNL processes nodelist segment data, it ignores comments
 embedded in the data files. These comments are assumed to be your
@@ -1660,8 +1602,7 @@ flag," a semicolon (;) character. Any line beginning with a semicolon is
 copied as is to the output file. MakeNL inserts ";S " at the beginning
 of any line which does not begin with a semicolon.
 
-6.5.1.1 COPyright <explicit_filename>
--------------------------------------
+##### 6.5.1.1 COPyright &lt;explicit_filename>
 
 By default, MakeNL looks for a file named CPYRIGHT.TXT in the MASter
 directory. If it exists, it is assumed to be a copyright notice, and is
@@ -1684,12 +1625,11 @@ generating your submittal file, thus eliminating the notice.
 
 Examples:
 
-  COPYRIGHT  CPY-DIST.TXT
+    COPYRIGHT  CPY-DIST.TXT
 
-  COPYRIGHT  NONE  ; file "NONE" does not exist
+    COPYRIGHT  NONE  ; file "NONE" does not exist
 
-6.5.1.2 PROlog <explicit_filename>
-----------------------------------
+##### 6.5.1.2 PROlog &lt;explicit_filename>
 
 By default, MakeNL looks for a file named PROLOG.TXT in the MASter
 directory. If it exists, it is copied into the output file immediately
@@ -1700,8 +1640,7 @@ The PROlog statement allows you to override the default filename,
 exist in the MASter directory, the effect is to turn off prologue
 comments.
 
-6.5.1.3 EPIlog <explicit_filename>
-----------------------------------
+##### 6.5.1.3 EPIlog &lt;explicit_filename>
 
 By default, MakeNL looks for a file named EPILOG.TXT in the MASter
 directory. If it exists, it is copied into the output file following
@@ -1712,8 +1651,7 @@ The EPIlog statement allows you to override the default filename,
 exist in the MASter directory, the effect is to turn off epilogue
 comments.
 
-6.5.2 Comments from received files
-----------------------------------
+#### 6.5.2 Comments from received files
 
 As stated earlier, comments in nodelist segment data files are NOT
 copied into output files. But comments in your received files are
@@ -1721,8 +1659,7 @@ probably there to communicate information to YOU. Like the old dairy
 cream separator, MakeNL can separate comments from received files out
 into their own file.
 
-6.5.2.1 COMments <explicit_filename>
-------------------------------------
+##### 6.5.2.1 COMments &lt;explicit_filename>
 
 When the COMments statement appears in your control file, it tells
 MakeNL to write the name of each input file to the named comments file,
@@ -1734,8 +1671,7 @@ file will appear in the current directory if no path is given.
 If the COMments statement is omitted, comments in received files are
 ignored by MakeNL.
 
-6.6 DATa
---------
+### 6.6 DATa
 
 The DATa statement is used as an alternative method of entering your
 nodelist segment (see MAKe on page 21). If used, the DATa statement MUST
@@ -1748,10 +1684,9 @@ file. The format and rules for this data are the same as for any
 nodelist data.
 
 The first non-comment statement encountered must match the MAKe
-statement in <segment_type> and <number>, or a fatal error will occur.
+statement in &lt;segment_type> and &lt;number>, or a fatal error will occur.
 
-6.7 FILes
----------
+### 6.7 FILes
 
 If you receive segment updates from others, you must use the FILes
 statement to define the files you receive and process. If you furnish
@@ -1763,39 +1698,38 @@ following format:
 
      <segment_type> <number> <filename> [<notify>]
 
-<segment_type> is one of HUB, NETwork, REGion or ZONe, but it must be
-hierarchically lower than the MAKe <segment_type>. In other words, if
-MAKing a region segment, <segment_type> must be either NETwork or HUB --
+&lt;segment_type> is one of HUB, NETwork, REGion or ZONe, but it must be
+hierarchically lower than the MAKe &lt;segment_type>. In other words, if
+MAKing a region segment, &lt;segment_type> must be either NETwork or HUB --
 it may not be REGion or higher.
 
-<number> is, of course the network address number associated with the
+&lt;number> is, of course the network address number associated with the
 segment.
 
-<filename> is used by MakeNL to search through the various directories
+&lt;filename> is used by MakeNL to search through the various directories
 for the file defining this segment. You and your submitter must agree
 on this filename. His MakeNL must generate what your MakeNL will look
-for. <filename> may be either explicit or generic, but it must be
+for. &lt;filename> may be either explicit or generic, but it must be
 defined the same by both you and your submitter.
 
 The first non-comment statement in an input segment file must match
-<segment_type> and <number>, or a fatal error occurs.
+&lt;segment_type> and &lt;number>, or a fatal error occurs.
 
 When you use notification, MakeNL will calculate a network address for
 notification messages. If you are MAKing a network segment for, say net
 107, and receiving update segments from your Hubs, notification messages
-will be sent to 107/<number>. In all other cases, MakeNL sends
-notification messages to <number>/0 by default.
+will be sent to 107/&lt;number>. In all other cases, MakeNL sends
+notification messages to &lt;number>/0 by default.
 
-The optional argument <notify> is the network address MakeNL should use
+The optional argument &lt;notify> is the network address MakeNL should use
 for notification messages and will override the calculated address.
 
-     Examples:
+Examples:
 
-          REGION    14   REGION14       14/61
-          NETWORK  100   NETWORK.100
+    REGION    14   REGION14       14/61
+    NETWORK  100   NETWORK.100
 
-7. Disk and Memory Space Considerations
----------------------------------------
+## 7. Disk and Memory Space Considerations
 
 If you do not use archiving compression, MakeNL should execute
 satisfactorily in about 160 kilobytes. If you are using archiving, you
@@ -1849,26 +1783,24 @@ With experience, you'll get a better feel for how much space you need to
 operate MakeNL. Before cutting yourself too fine, remember that MakeNL
 needs some temporary working space while executing.
 
-8. Contents of MakeNL Distribution Package
-------------------------------------------
+## 8. Contents of MakeNL Distribution Package
 
 The MakeNL distribution package consists of the following files:
 
-   MAKENL.EXE   The MakeNL program
-   MAKENL.PRN   This documentation file
-   HUB.CTL      Sample control file for Hub Coordinators
-   NET-S.CTL    Sample control file for Network Coordinators
-   NET-L.CTL    Sample control file for Network Coordinators
-   REGION.CTL   Sample control file for Regional Coordinators
-   ZONE.CTL     Sample control file for Zone Coordinators
-   DISTRIB.CTL  Sample control file for Distribution Lists
-   CPYRIGHT.TXT Sample copyright notice
-   PROLOG.TXT   Sample prologue file
-   EPILOG.TXT   Sample epilogue file
-   FTS-0005.TXT Nodelist Format Specifications
+     MAKENL.EXE    The MakeNL program
+     MAKENL.PRN    This documentation file
+     HUB.CTL       Sample control file for Hub Coordinators
+     NET-S.CTL     Sample control file for Network Coordinators
+     NET-L.CTL     Sample control file for Network Coordinators
+     REGION.CTL    Sample control file for Regional Coordinators
+     ZONE.CTL      Sample control file for Zone Coordinators
+     DISTRIB.CTL   Sample control file for Distribution Lists
+     CPYRIGHT.TXT  Sample copyright notice
+     PROLOG.TXT    Sample prologue file
+     EPILOG.TXT    Sample epilogue file
+     FTS-0005.TXT  Nodelist Format Specifications
 
-9. MakeNL License Information
------------------------------
+## 9. MakeNL License Information
 
 MakeNL is distributed under the "shareware" concept. It may be freely
 copied and distributed provided all the files listed in section 8 are

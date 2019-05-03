@@ -1,8 +1,6 @@
 # MakeNL makefile for Orwell Dev-C++ 5.4
 # Tested with GNU Make 3.82.90 & GNU C 4.7.2
 #
-# $Id: makefile.devc,v 1.7 2013/09/21 16:38:49 ozzmosis Exp $
-#
 # Build with:
 #
 # mingw32-make -f makefile.devc          (release) or

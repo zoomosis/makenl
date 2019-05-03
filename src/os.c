@@ -1,5 +1,3 @@
-/* $Id: os.c,v 1.48 2013/09/29 15:53:50 ozzmosis Exp $ */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -54,7 +52,7 @@ char *os_file_getname(const char *path)
             break;
         }
     }
-    
+
     return (char *)p;
 #endif
 }
@@ -107,23 +105,23 @@ int os_chdrive(int newdrv)
     return (_getdrive() != reqdrv); /* Check to make sure disk change
                                        succeeded - return 0 for success
                                        or 1 for failure. */
-                                                                              
+
     #elif defined (__DJGPP__) || (defined (__TURBOC__) && !defined (__BORLANDC__))
-    setdisk(newdrv - 1); 
+    setdisk(newdrv - 1);
     return (getdisk() != (newdrv - 1)); /* Check to make sure disk change
                                            succeeded - return 0 for success
                                            or 1 for failure. */
-                                           
+
     #elif defined (__WATCOMC__)
     unsigned drive, total;
     _dos_setdrive(newdrv, &total);
     _dos_getdrive(&drive);
     return (drive != newdrv);
-       
+
     #else
     return _chdrive(newdrv);
     #endif
-}    
+}
 
 
 int os_chdir(char *path)
@@ -132,7 +130,7 @@ int os_chdir(char *path)
     int rc;
     int curdrv;
     int newdrv;
-    
+
     mklog(LOG_DEBUG, "os_chdir(): path='%s'", path);
 
     if (path == NULL || path[0] == '\0')
@@ -140,7 +138,7 @@ int os_chdir(char *path)
         /* null pointer or empty string; do nothing */
         return 0;
     }
-    
+
     if (path[0] == '\\' && path[1] == '\0')
     {
         /* lone '\' path is OK */
@@ -149,21 +147,21 @@ int os_chdir(char *path)
     /* Get the current drive */
     curdrv = os_getdrive();
     mklog(LOG_DEBUG, "os_chdir(): curdrv='%d' (%c:)", curdrv, driveletters[curdrv - 1]);
-    
+
     if (isvaliddriveletter(path[0]) && path[1] == ':' && path[2] == '\\' && path[3] == '\0')
     {
         /* "x:\" is OK too, but we need to check if we are changing drives. */
-        
+
         if (drvlet2num(path[0]) != curdrv)
         {
             /* Path specified is not on current drive. */
-            
+
             newdrv = drvlet2num(path[0]);
             mklog(LOG_DEBUG, "os_chdir(): newdrv='%d' (%c:)", newdrv, driveletters[curdrv - 1]);
             if (os_chdrive(newdrv))
             {
                 /* Failed to change drives! */
-                
+
                 mklog(LOG_DEBUG, "os_chdir(): os_chdrive('%d') failed!", newdrv);
                 return 1;
             }
@@ -187,28 +185,28 @@ int os_chdir(char *path)
     os_remove_slash(newpath);
 
     mklog(LOG_DEBUG, "os_chdir(): newpath='%s'", newpath);
-    
+
     /* Check if we are changing drives. */
-    
+
     if (isvaliddriveletter(newpath[0]) && newpath[1] == ':')
     {
         /* Drive letter at start of path. */
-        
+
         if (drvlet2num(newpath[0]) != curdrv)
         {
             /* We are changing drives. */
-            
+
             newdrv = drvlet2num(newpath[0]);
             mklog(LOG_DEBUG, "os_chdir(): newdrv='%d' (%c:)", newdrv, driveletters[newdrv - 1]);
             if (os_chdrive(newdrv))
             {
                 /* Failed to change drives! */
-            
+
                 mklog(LOG_DEBUG, "os_chdir(): os_chdrive('%d') failed!", newdrv);
                 return 1;
             }
         }
-    }    
+    }
 
     rc = chdir(newpath);
 
@@ -227,9 +225,9 @@ int os_chdir(char *path)
 int os_chdir(char *path)
 {
     int rc;
-    
+
     rc = chdir(path);
-    
+
     if (rc != 0)
     {
         mklog(LOG_ERROR, "$Can't chdir to '%s'", path);
@@ -308,7 +306,7 @@ char *os_remove_slash(char *path)
             *p = '\0';
         }
     }
-    
+
     return path;
 }
 
@@ -513,8 +511,8 @@ char *os_fgets(char *buffer, size_t len, FILE * f)
     {
         return NULL;
     }
-    
-    /* 
+
+    /*
      * This should not happen, EOF should always be at the beginning of a line.
      */
 
@@ -522,7 +520,7 @@ char *os_fgets(char *buffer, size_t len, FILE * f)
     {
         buffer[strlen(buffer) - 1] = 0;
     }
-    
+
     return result;
 }
 
@@ -600,7 +598,7 @@ void os_findclose(struct _filefind *pff)
     {
         closedir(pff->dirp);
     }
-    
+
     pff->dirp = NULL;
 }
 
@@ -647,7 +645,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsize)
         mklog(LOG_ERROR, "os_fullpath(): Directory name for '%s' too long!", src);
 
         rc = os_chdir(olddir);
-        
+
         if (rc != 0)
         {
             mklog(LOG_ERROR, "os_fullpath(): chdir() to '%s' failed!", olddir);
@@ -666,7 +664,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsize)
         mklog(LOG_ERROR, "os_fullpath(): chdir() to '%s' failed!", olddir);
         return -1;
     }
-    
+
     return 0;
 }
 
@@ -902,7 +900,7 @@ char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
     {
         return NULL;
     }
-    
+
     return pff->fileinfo.name;
 }
 
@@ -1054,7 +1052,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
         }
 
         chdir_rc = chdir(curdir);
-        
+
         if (chdir_rc != 0)
         {
             mklog(LOG_DEBUG, "os_fullpath(): chdir() to '%s' failed!", curdir);
@@ -1242,7 +1240,7 @@ int os_fullpath(char *dst, const char *src, size_t bufsiz)
         mklog(LOG_DEBUG, "os_fullpath(): _fullpath() failed.");
         return -1;
     }
-    
+
     os_dirsep(dst);
 
     return 0;

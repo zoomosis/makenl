@@ -1,5 +1,3 @@
-/* $Id: upcont.c,v 1.7 2013/09/26 19:53:47 ozzmosis Exp $ */
-
 #include <string.h>
 #include <stdio.h>
 
@@ -128,7 +126,7 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
 	    {
                 FTS5Flags = PVT + 1;
 	    }
-	    
+
             return 0;
         }
         /* FALLTHROUGH */
@@ -154,12 +152,12 @@ UpdateContext(int level, int num, int makenum, int *ctxnum, int *ctxlevel,
 	{
             strlcpy(PhoneNoHolder, FTS5Phone, sizeof PhoneNoHolder);
 	}
-	
+
         if (level <= PointLevel)
 	{
             strlcpy(PointPhoneNoHolder, FTS5Phone, sizeof PointPhoneNoHolder);
 	}
-	
+
         if (level < LEVEL_POINT) /* Points don't start a context... */
         {
             *ctxnum = num;

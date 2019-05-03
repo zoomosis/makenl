@@ -1,5 +1,3 @@
-/* $Id: makenl.h,v 1.9 2014/03/28 19:47:45 ajleary Exp $ */
-
 #ifndef __MAKENL_H__
 #define __MAKENL_H__
 

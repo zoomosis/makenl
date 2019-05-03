@@ -1,5 +1,3 @@
-/* $Id: stack.c,v 1.7 2013/09/25 19:29:56 ozzmosis Exp $ */
-
 #include <stdio.h>
 #include <stdlib.h>
 

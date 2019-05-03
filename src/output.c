@@ -1,5 +1,3 @@
-/* $Id: output.c,v 1.15 2016/12/02 22:20:06 ajleary Exp $ */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

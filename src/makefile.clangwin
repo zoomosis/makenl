@@ -1,9 +1,7 @@
 # MakeNL makefile for Clang for Windows.
 #
 # Tested with LLVM 3.4.
-# Requires MingW installed to c:\mingw\.
-#
-# $Id: makefile.clangwin,v 1.1 2014/03/09 15:41:57 ozzmosis Exp $
+# Requires MingW installed to c:\mingw directory.
 #
 # Build with:
 #

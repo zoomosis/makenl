@@ -1,5 +1,3 @@
-/* $Id: unused.h,v 1.3 2013/09/25 20:42:16 ozzmosis Exp $ */
-
 /*
  *  Suppress warning about unused parameter. Written by Paul Edwards and
  *  released to the public domain.  Modified by Andrew Clarke.

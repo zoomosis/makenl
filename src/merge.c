@@ -1,5 +1,3 @@
-/* $Id: merge.c,v 1.10 2013/09/26 19:52:03 ozzmosis Exp $ */
-
 #include <string.h>
 #include <stdio.h>
 #include <time.h>

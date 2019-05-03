@@ -1,5 +1,3 @@
-/* $Id: spawn.h,v 1.1.1.1 2009/01/08 20:07:47 mbroek Exp $ */
-
 /*
  *  SPAWN.H
  *

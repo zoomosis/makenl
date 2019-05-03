@@ -1,5 +1,3 @@
-/* $Id: config.c,v 1.28 2016/10/29 06:58:12 ajleary Exp $ */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -539,9 +537,9 @@ int parsecfgfile(FILE * CFG)
             mode = -1;
             continue;
         }
-        if (argcounter == arglimit[switchno].max && strtok(NULL, cfgspacechars)) /* Still 
-                                                                                    more 
-                                                                                    arguments... 
+        if (argcounter == arglimit[switchno].max && strtok(NULL, cfgspacechars)) /* Still
+                                                                                    more
+                                                                                    arguments...
                                                                                   */
         {
             mklog(LOG_ERROR, "Too many parameters for '%s' command", cfgline);
@@ -636,7 +634,7 @@ int parsecfgfile(FILE * CFG)
         case CFG_LOGLEVEL:
             if (args[0][0] >= '1' && args[0][0] <= '4' && args[0][1] == 0)
             {
-                
+
                 loglevel = args[0][0] - '0';
             }
             else

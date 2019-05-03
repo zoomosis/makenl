@@ -1,8 +1,6 @@
 # MakeNL makefile for Solaris
 # Tested with OpenSolaris 2009.06
 #
-# $Id: makefile.sun,v 1.1 2013/10/02 08:58:03 ozzmosis Exp $
-#
 # Build with:
 #
 # make -f makefile.sun          (release) or

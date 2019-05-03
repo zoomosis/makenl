@@ -1,7 +1,5 @@
 # MakeNL makefile for FreeBSD, NetBSD, OpenBSD, Apple Darwin & Minix.
 #
-# $Id: makefile.bsd,v 1.10 2013/09/21 15:40:07 ozzmosis Exp $
-#
 # Tested with:
 #
 # - BSD Make & GNU C 4.2.2 on FreeBSD 8.3.

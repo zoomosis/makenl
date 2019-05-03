@@ -1,7 +1,5 @@
 # MakeNL makefile for Borland C++ 3.1 for DOS
 #
-# $Id: makefile.bcd,v 1.6 2013/09/25 18:24:10 ozzmosis Exp $
-#
 # Build with:
 #
 # make -fmakefile.bcd        (release)
@@ -19,7 +17,7 @@ CFLAGS=$(CFLAGS) -DTESTING
 OBJS=testing.obj
 !endif
 
-OBJS=$(OBJS) config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj 
+OBJS=$(OBJS) config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
 OBJS=$(OBJS) merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
 OBJS=$(OBJS) procfile.obj stack.obj strtool.obj upcont.obj snprintf.obj
 

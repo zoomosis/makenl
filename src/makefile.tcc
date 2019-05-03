@@ -1,8 +1,6 @@
 # MakeNL makefile for TinyCC on Linux
 # Tested with GNU Make 3.81 & TinyCC 0.9.26
 #
-# $Id: makefile.tcc,v 1.2 2013/09/26 20:43:45 ozzmosis Exp $
-#
 # Build with:
 #
 # make -f makefile.tcc          (release) or

@@ -1,5 +1,3 @@
-/* $Id: makenl.c,v 1.26 2013/09/25 19:46:00 ozzmosis Exp $ */
-
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
@@ -75,7 +73,7 @@ static void check_fp(FILE *fp, char *fn, char *mode)
     {
         return;
     }
-    
+
     die(254, "$Unable to open '%s' for %s", fn, *mode == 'r' ? "input" : "output");
 }
 
@@ -100,7 +98,7 @@ static time_t searchdow(int weekday, int offset, struct tm **timebuf)
         weekday -= 7;           /* - go one week back */
     temp += 3600L * 24 * (offset + weekday); /* Jump to the required day */
     thetime = localtime(&temp);
-    temp += 3600 * (isdst - thetime->tm_isdst); /* Do daylight corrections 
+    temp += 3600 * (isdst - thetime->tm_isdst); /* Do daylight corrections
                                                  */
     if (timebuf)
         *timebuf = localtime(&temp);
@@ -137,7 +135,7 @@ static char *cmdline_to_str(char *argv[])
 {
     static char tmp[4096];
     char **p;
-    
+
     *tmp = '\0';
 
     if (argv[0] == NULL)
@@ -146,13 +144,13 @@ static char *cmdline_to_str(char *argv[])
         strlcat(tmp, "(null)", sizeof tmp);
         return tmp;
     }
-    
+
     /* argv[0] is a special case, no quotes around it */
-    
+
     strlcat(tmp, argv[0], sizeof tmp);
 
     /* now loop over each argument */
-    
+
     p = argv + 1;
 
     while (*p != NULL)
@@ -163,7 +161,7 @@ static char *cmdline_to_str(char *argv[])
             strlcat(tmp, " ...", sizeof tmp);
             return tmp;
         }
-        
+
         strlcat(tmp, " \"", sizeof tmp);
         strlcat(tmp, *p, sizeof tmp);
         strlcat(tmp, "\"", sizeof tmp);
@@ -284,7 +282,7 @@ int main(int argc, char *argv[])
             snprintf(cmdbuf, sizeof cmdbuf, "%s %s" DIRSEP "%s ",
                     CalledBatchFile, OutDir, OutFile);
             WorkMode = 0;       /* Why that?! see three lines above! */
-            if (OutExt[0] == 0) /* If output is generic, we could diff and 
+            if (OutExt[0] == 0) /* If output is generic, we could diff and
                                    ARC */
             {
                 cleanold(OutDir, OutFile, OldExtensions[7]);

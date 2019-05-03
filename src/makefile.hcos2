@@ -2,8 +2,6 @@
 # Tested with MetaWare High C R3.2
 # Requires GNU Make
 #
-# $Id: makefile.hcos2,v 1.8 2013/09/25 18:24:10 ozzmosis Exp $
-#
 # Build with:
 #
 # make -f makefile.hcos2         (release) or

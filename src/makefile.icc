@@ -1,8 +1,6 @@
 # MakeNL makefile for IBM VisualAge C/C++
 # Tested with VisualAge 3.6
 #
-# $Id: makefile.icc,v 1.5 2013/09/25 18:24:10 ozzmosis Exp $
-#
 # Build with:
 #
 # nmake -f makefile.icc          (release)

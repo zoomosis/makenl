@@ -1,5 +1,3 @@
-/* $Id: strtool.c,v 1.7 2013/09/25 19:39:07 ozzmosis Exp $ */
-
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -141,9 +139,9 @@ size_t strlcat(char *d, const char *s, size_t bufsize)
     len1 = strlen(d);
     len2 = strlen(s);
     ret = len1 + len2;
-    if (len1+len2 >= bufsize) 
+    if (len1+len2 >= bufsize)
         len2 = bufsize - (len1 + 1);
-    if (len2 > 0) 
+    if (len2 > 0)
     {
         memcpy(d+len1, s, len2);
         d[len1+len2] = 0;

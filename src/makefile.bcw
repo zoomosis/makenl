@@ -1,8 +1,6 @@
 # MakeNL makefile for Borland C++ Builder for Windows
 # Tested with bcc32 5.6 for Win32 (Borland C++ Builder 6)
 #
-# $Id: makefile.bcw,v 1.5 2013/09/23 09:18:59 ozzmosis Exp $
-#
 # Build with:
 #
 # make -f makefile.bcw          (release)

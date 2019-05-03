@@ -1,5 +1,3 @@
-/* $Id: mklog.c,v 1.24 2013/09/25 18:24:10 ozzmosis Exp $ */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -83,7 +81,7 @@ static void logwrite(int level, char *outstr)
         /* log filename was not set */
         return;
     }
-    
+
     /* write to logfile */
 
     log_fp = fopen(LogFile, "a");
@@ -125,7 +123,7 @@ void mklog(int level, const char *format, ...)
 {
     char outstr[4096];
     va_list va_ptr;
-    
+
     if (format == NULL)
     {
         fprintf(stderr, "NULL format string for va_start()\n");

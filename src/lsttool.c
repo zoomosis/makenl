@@ -1,5 +1,3 @@
-/* $Id: lsttool.c,v 1.26 2014/03/28 19:47:45 ajleary Exp $ */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -125,12 +123,12 @@ int installlist(char *filename, char *extbfr)
     if (oldFILE)
         fclose(oldFILE);
 
-    if (unchanged && (ShouldProcess & FORCED_PROCESSING) && ForceSubmit) 
+    if (unchanged && (ShouldProcess & FORCED_PROCESSING) && ForceSubmit)
     {
         mklog(LOG_INFO, "Unchanged output file will be forced submitted");
         unchanged = 0;
     }
-    
+
     if (unchanged)
     {
         unlink(tmpname);
@@ -327,7 +325,7 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
     if (path[0] == 0)
         return 0;
     while (!(ext[0] == 0 && unpackedonly))
-    {        
+    {
         mklog(LOG_DEBUG, "searchlistfile(): in top of while loop");
         myfnmerge(foundfile, NULL, NULL, name, ext[0] ? ext : "*");
         findresult = os_findfile(&f, path, foundfile);
@@ -400,8 +398,8 @@ static int searchlistfile(FILE ** file, const char *path, char *foundfile, char 
                 mklog(LOG_ERROR, "$Can't unlink '%s'", foundfile);
             }
         }
-        else if (ext[0] == 0 && toupper((unsigned char)extbuf[0]) == 'D') /* DIFFed 
-                                                                             file 
+        else if (ext[0] == 0 && toupper((unsigned char)extbuf[0]) == 'D') /* DIFFed
+                                                                             file
                                                                            */
         {
             mklog(LOG_INFO, "Attempting to apply difference file '%s'", foundfile);
