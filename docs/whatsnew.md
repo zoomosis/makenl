@@ -9,6 +9,7 @@
 ### May 04, 2019
 
 * Fix Slackware package build.
+* Clean up "this statement may fall through" warnings.
 
 -- Andrew Clarke
 
