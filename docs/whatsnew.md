@@ -1,10 +1,16 @@
 ## MakeNL Revision History
 
-### v3.5.0 --  May 03, 2019
+### v3.5.0 --  May 04, 2019
 
 * Release as version 3.5.0 for wide distribution.
 
 -- Robert James Clay
+
+### May 04, 2019
+
+* Fix Slackware package build.
+
+-- Andrew Clarke
 
 ### May 03, 2019
 
