@@ -506,6 +506,7 @@ int openlist(FILE ** listFILEptr, char *filename, char *foundfile, int where, in
             return SEARCH_MASTER;
         if (status != 0)
             return -1;
+        /* FALLTHROUGH */
     case SEARCH_MASTER:
         if (mustbenew)
             return 0;

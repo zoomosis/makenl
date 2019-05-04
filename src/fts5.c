@@ -241,8 +241,10 @@ static int getphone(char **instring, int *linelevel, int *linenum)
                     if (parts + 1 < Minphone)
                         goto FewParts;
                     parts = -1;
+                    /* FALLTHROUGH */
                 case ']':
                     brackets++;
+                    /* FALLTHROUGH */                    
                 case 0:
                 case '-':
                     digit_seen = 0;
