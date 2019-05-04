@@ -45,13 +45,12 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
 # Documentation
 cd ../docs
 mkdir -p $PKG/usr/doc/makenl-$VERSION
-cat whatsnew.txt > $PKG/usr/doc/makenl-$VERSION/README
-cat history.txt > $PKG/usr/doc/makenl-$VERSION/ChangeLog
-cat makenl.txt > $PKG/usr/doc/makenl-$VERSION/makenl.txt
-mkdir -p $PKG/usr/doc/makenl-$VERSION/history
-for f in felten.txt karcher.eng karcher.txt read.me makenl.prn fts-5000.txt ; do
-    cat $f > $PKG/usr/doc/makenl-$VERSION/history/$f
+for f in readme.md makenl.md whatsnew.md fts-5000.txt license.txt ; do
+    cat $f > $PKG/usr/doc/makenl-$VERSION/$f
 done
+
+# Examples
+cd ../examples
 mkdir -p $PKG/usr/doc/makenl-$VERSION/examples
 for f in cpyright.txt distrib.ctl epilog.txt hub.ctl net-l.ctl net-s.ctl node.ctl prolog.txt regional.ctl zone.ctl ; do
     cat $f > $PKG/usr/doc/makenl-$VERSION/examples/$f
@@ -61,4 +60,3 @@ done
 cd $PKG
 makepkg -l y -c n $TMP/makenl-$VERSION-$ARCH-$BUILD.tgz
 tail -n 11 $CWD/slack-desc > $TMP/makenl-$VERSION-$ARCH-$BUILD.txt
-
