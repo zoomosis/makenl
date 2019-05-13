@@ -63,6 +63,12 @@ CFLAGS+= -bt=linux -l=linux
 RM=rm -f
 !endif
 
+!ifeq OS LNX
+TARGET=makenl
+!else
+TARGET=makenl.exe
+!endif
+
 !ifdef DEBUG
 CFLAGS+= -d2 -hw
 !endif
@@ -85,9 +91,9 @@ OBJS+= procfile.obj stack.obj strtool.obj upcont.obj snprintf.obj
 .c.obj:
 	$(CC) $(CFLAGS) -fo=$@ -c $<
 
-makenl.exe: $(OBJS)
+$(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -fe=$@ $(OBJS)
 
 clean: .SYMBOLIC
 	$(RM) $(OBJS)
-	$(RM) makenl.exe
+	$(RM) $(TARGET)
