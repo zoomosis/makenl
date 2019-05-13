@@ -885,7 +885,7 @@ void os_findclose(struct _filefind *pff)
     unused(pff);
 }
 
-#elif defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__) || defined(__LCC__) || defined(__MINGW32__)
+#elif defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__) || defined(__LCC__) || defined(__POCC__) || defined(__MINGW32__)
 
 char *os_findfirst(struct _filefind *pff, const char *path, const char *mask)
 {

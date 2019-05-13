@@ -88,6 +88,8 @@
 #endif
 #elif defined(__LCC__)
 #define CC_NAME "LCC"
+#elif defined(__POCC__)
+#define CC_NAME "Pelles C"
 #elif defined(__DMC__)
 #define CC_NAME "DMC"
 #elif defined(__TINYC__)
@@ -300,7 +302,7 @@ struct _filefind
 #define NEED_SNPRINTF 1
 
 #elif defined(OS_WIN)
-#if defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__) || defined(__LCC__) || defined(__MINGW32__)
+#if defined(__BORLANDC__) || defined(_MSC_VER) || defined(__DMC__) || defined(__LCC__) || defined(__POCC__) || defined(__MINGW32__)
 
 #include <io.h>
 #include <direct.h>
