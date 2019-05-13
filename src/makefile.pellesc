@@ -1,4 +1,4 @@
-# MakeNL makefile for Pelles C for Windows
+# MakeNL makefile for Pelles C for Windows (64-bit)
 # Tested with Pelles C 9.0.
 #
 # Build with:
@@ -7,7 +7,7 @@
 # pomake -f makefile.pellesc clean         (remove temp files)
 
 CC=cc
-CFLAGS=-Go
+CFLAGS=-Go -D_WIN64=1
 LFLAGS=
 
 OBJS=config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj \
