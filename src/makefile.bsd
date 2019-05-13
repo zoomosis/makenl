@@ -13,7 +13,7 @@
 # make -f makefile.bsd clean    (remove temp files)
 # make -f makefile.bsd CC=clang (build with clang instead of gcc)
 
-CFLAGS+= -Wall -W
+CFLAGS+= -Wall -W -Wextra -Wshadow
 
 .ifdef DEBUG
 CFLAGS+= -g

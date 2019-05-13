@@ -12,7 +12,7 @@
 # make -f makefile.linux ASAN=1   (debug build with clang using AddressSanitizer)
 
 CC=gcc
-CFLAGS+= -Wall -W
+CFLAGS+= -Wall -W -Wextra -Wshadow
 
 ifdef ASAN
 CC=clang
