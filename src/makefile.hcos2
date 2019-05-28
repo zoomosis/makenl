@@ -1,30 +1,32 @@
-# MakeNL makefile for MetaWare High C for OS/2
+# MakeNL makefile for MetaWare High C for 32-bit OS/2
+#
 # Tested with MetaWare High C R3.2
-# Requires GNU Make
+#
+# Requires Microsoft NMAKE for OS/2 (tested with NMAKE 1.11)
 #
 # Build with:
 #
-# make -f makefile.hcos2         (release) or
-# make -f makefile.hcos2 DEBUG=1 (debug) or
-# make -f makefile.hcos2 clean   (remove temp files)
+# nmake -f makefile.hcos2         (release) or
+# nmake -f makefile.hcos2 DEBUG=1 (debug) or
+# nmake -f makefile.hcos2 clean   (remove temp files)
 
 CC=hc
 RM=del
 
-ifdef DEBUG
-CFLAGS+=-g
-else
-LDFLAGS+=-s
-endif
+!ifdef DEBUG
+CFLAGS=$(CFLAGS) -g
+!else
+LDFLAGS=$(LFLAGS) -s
+!endif
 
-ifdef TESTING
-CFLAGS+= -DTESTING
-OBJS+= testing.obj
-endif
+!ifdef TESTING
+CFLAGS=$(CFLAGS) -DTESTING
+OBJS=$(OBJS) testing.obj
+!endif
 
-OBJS+= config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
-OBJS+= merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
-OBJS+= procfile.obj stack.obj strtool.obj upcont.obj snprintf.obj
+OBJS=$(OBJS) config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
+OBJS=$(OBJS) merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
+OBJS=$(OBJS) procfile.obj stack.obj strtool.obj upcont.obj snprintf.obj
 
 .c.obj:
 	$(CC) $(CFLAGS) -c $<
