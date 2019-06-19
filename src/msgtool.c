@@ -44,7 +44,7 @@ static unsigned char msgbuf[0xbe];
 static unsigned long NewMSGID(void)
 {
     unsigned long seq;
-    char filename[MYMAXDIR];
+    char filename[MYMAXPATH];
     FILE *fp;
     int rc;
 

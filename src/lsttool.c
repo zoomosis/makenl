@@ -38,7 +38,7 @@ int makearc(char *filename, int move)
     char ext[MYMAXEXT];
     char name[MYMAXFILE];
     char fullpath[MYMAXPATH];
-    char cmdlinebuf[MYMAXPATH];
+    char cmdlinebuf[MYMAXPATH + MYMAXPATH];
     char *arccommand;
 
     if (os_filesize(filename) <= ARCThreshold || ARCThreshold == -1)
