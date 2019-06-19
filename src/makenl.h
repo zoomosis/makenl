@@ -45,10 +45,6 @@ void testing(void);
 #define min(a,b)  (((a) < (b)) ? (a) : (b))
 #endif
 
-#ifdef MALLOC_DEBUG
-#include "rmalloc.h"
-#endif
-
 #ifdef DMALLOC
 #include "dmalloc.h"
 #endif

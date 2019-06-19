@@ -36,17 +36,9 @@ CFLAGS+= -DDMALLOC -I/usr/local/include
 LDFLAGS+= -ldmalloc -L/usr/local/lib
 .endif
 
-.ifdef RMALLOC
-CFLAGS+= -DMALLOC_DEBUG
-.endif
-
 OBJS+=config.o crc16.o fileutil.o fts5.o lsttool.o makenl.o merge.o
 OBJS+=mkdiff.o mklog.o msgtool.o output.o procfile.o stack.o strtool.o
 OBJS+=upcont.o os.o
-
-.ifdef RMALLOC
-OBJS+=rmalloc.o
-.endif
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<

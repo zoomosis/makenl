@@ -45,11 +45,6 @@ ifdef EFENCE
 LDFLAGS+= -lefence
 endif
 
-ifdef RMALLOC
-CFLAGS+= -DMALLOC_DEBUG
-OBJS+=rmalloc.o
-endif
-
 OBJS+=config.o crc16.o fileutil.o fts5.o lsttool.o makenl.o merge.o
 OBJS+=mkdiff.o mklog.o msgtool.o os.o output.o procfile.o stack.o
 OBJS+=strtool.o upcont.o
