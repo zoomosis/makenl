@@ -1,5 +1,5 @@
 # MakeNL makefile for OS X (Darwin)
-# Tested with GNU Make 3.81 & GNU C 4.2.1
+# Tested with GNU Make 3.81 & clang-1000.11.45.5 on OS X 10.14.5
 #
 # Build with:
 #
@@ -9,7 +9,7 @@
 # make -f makefile.osx CC=clang (build with clang)
 # make -f makefile.osx ASAN=1   (debug build with clang using AddressSanitizer)
 
-CC=gcc
+CC=cc
 CFLAGS+= -Wall -W
 
 ifdef ASAN
@@ -19,17 +19,11 @@ endif
 
 ifdef DEBUG
 CFLAGS+= -g
-else
-LDFLAGS+= -s
 endif
 
 ifdef TESTING
 CFLAGS+= -DTESTING
 OBJS+=testing.o
-endif
-
-ifdef EFENCE
-LDFLAGS+= -lefence
 endif
 
 ifdef RMALLOC
