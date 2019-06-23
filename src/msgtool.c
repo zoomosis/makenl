@@ -31,20 +31,82 @@ static FILE *MailFILE;
 static int MSGFlags;
 static unsigned char msgbuf[0xbe];
 
-/* Get unique sequence number for MSGID */
+static unsigned long hextoul(const char *str)
+{
+    unsigned long ul = 0;
 
-/*
- *  TODO: Write sequence.dat as a text file instead of binary,
- *  to avoid data width and endianness problems.
- *
- *  TODO: Also stop using time() as it's not necessarily 32-bit.
- *  - ozzmosis 2018-11-25
- */
+    if (sscanf(str, "%08lx", &ul) != 1)
+    {
+        return 0;
+    }
+
+    return ul;
+}
+
+static int isleap(int year)
+{
+    return year % 400 == 0 || (year % 4 == 0 && year % 100 != 0);
+}
+
+#define UNIX_EPOCH 1970
+
+static unsigned long unixtime(const struct tm *tm)
+{
+    int year, i;
+    unsigned long result;
+
+    result = 0UL;
+    year = tm->tm_year + 1900;
+
+    /* Traverse through each year */
+    for (i = UNIX_EPOCH; i < year; i++)
+    {
+        result += 31536000UL;  /* 60s * 60m * 24h * 365d = 31536000s */
+        if (isleap(i))
+        {
+            /* It was a leap year; add a day's worth of seconds */
+            result += 86400UL;  /* 60s * 60m * 24h = 86400s */
+        }
+    }
+
+    /* Traverse through each day of the year, adding a day's worth
+     * of seconds each time. */
+    for (i = 0; i < tm->tm_yday; i++)
+    {
+        result += 86400UL;  /* 60s * 60m * 24h = 86400s */
+    }
+
+    /* Now add the number of seconds remaining */
+    result += 3600UL * tm->tm_hour;
+    result += 60UL * tm->tm_min;
+    result += (unsigned long) tm->tm_sec;
+
+    return result;
+}
+
+/* Generate unique sequence number for MSGID */
+
+static unsigned long genseq(void)
+{
+    struct tm *tm;
+    time_t now;
+
+    now = time(NULL);
+
+    if (now == (time_t) -1)
+    {
+        return 0;
+    }
+
+    tm = localtime(&now);
+    return unixtime(tm);
+}
 
 static unsigned long NewMSGID(void)
 {
-    unsigned long seq;
+    unsigned long seq = 0;
     char filename[MYMAXPATH];
+    char tmp[20], *p;
     FILE *fp;
     int rc;
 
@@ -56,11 +118,17 @@ static unsigned long NewMSGID(void)
 
     if (fp == NULL)
     {
-        seq = (unsigned long) time(NULL);
+        /* sequence file does not exist (probably) */
+
+        /* create a new sequence */
+
+        seq = genseq();
 
         mklog(LOG_DEBUG, "Newly-created MSGID sequence is %08lx", seq);
 
-        fp = fopen(filename, "w+");
+        /* create new file */
+
+        fp = fopen(filename, "w");
 
         if (fp == NULL)
         {
@@ -68,9 +136,21 @@ static unsigned long NewMSGID(void)
             return seq;
         }
 
+#if USE_BINARY_SEQUENCE_DAT
+        /* write new sequence as binary */
+
         rc = fwrite(&seq, 1, sizeof seq, fp);
 
-        mklog(LOG_DEBUG, "fwrite(&seq, 1, sizeof seq, fp) returned %d", rc);
+        mklog(LOG_DEBUG, "fwrite(&seq, 1, sizeof seq, fp) returned %d (8 expected)", rc);
+#else
+        /* write new sequence as text & carriage return */
+
+        rc = fprintf(fp, "%08lx\n", seq);
+
+        mklog(LOG_DEBUG, "fprintf(fp, \"%%08lx\", seq) returned %d (9 expected)", rc);
+#endif
+
+        /* close the file */
 
         rc = fclose(fp);
 
@@ -79,14 +159,70 @@ static unsigned long NewMSGID(void)
             mklog(LOG_DEBUG, "$fclose() failed for '%s'", filename);
         }
 
+        /* return the sequence */
+
         return seq;
     }
 
-    rc = fread(&seq, 1, sizeof seq, fp);
+    /* read it as text */
+
+    if (fgets(tmp, sizeof tmp, fp) != NULL)
+    {
+        /* strip trailing CR/LF */
+
+        p = strchr(tmp, '\r');
+
+        if (p)
+        {
+            *p = '\0';
+        }
+
+        p = strchr(tmp, '\n');
+
+        if (p)
+        {
+            *p = '\0';
+        }
+
+        seq = hextoul(tmp);
+
+        /* rewind to start */
+
+        rc = fseek(fp, 0L, SEEK_SET);
+
+        if (rc != 0)
+        {
+            mklog(LOG_DEBUG, "$fseek failed for '%s'", filename);
+        }
+    }
+
+    if (seq == 0)
+    {
+        /* attempt to read sequence as text failed */
+
+        /* so try to read it as old binary format instead */
+
+        rc = fread(&seq, 1, sizeof seq, fp);
+
+        if (rc != sizeof seq)
+        {
+            /* fread failed, return a new sequence */
+
+            mklog(LOG_DEBUG, "fread() failed reading '%s', rc=%d", filename, rc);
+            fclose(fp);
+            return genseq();
+        }
+
+        mklog(LOG_DEBUG, "Retrieved MSGID sequence was %08lx", seq);
+    }
+
+    /* increment it */
 
     seq++;
 
     mklog(LOG_DEBUG, "Incremented MSGID sequence is %08lx", seq);
+
+    /* rewind to start */
 
     rc = fseek(fp, 0L, SEEK_SET);
 
@@ -95,8 +231,21 @@ static unsigned long NewMSGID(void)
         mklog(LOG_DEBUG, "$fseek failed for '%s'", filename);
     }
 
+#if USE_BINARY_SEQUENCE_DAT
+    /* write new sequence as binary */
+
     rc = fwrite(&seq, 1, sizeof seq, fp);
-    mklog(LOG_DEBUG, "fwrite(&seq, 1, sizeof seq, fp) returned %d", rc);
+
+    mklog(LOG_DEBUG, "fwrite(&seq, 1, sizeof seq, fp) returned %d (8 expected)", rc);
+#else
+    /* write new sequence as text & carriage return */
+
+    rc = fprintf(fp, "%08lx\n", seq);
+
+    mklog(LOG_DEBUG, "fprintf(fp, \"%%08lx\", seq) returned %d (9 expected)", rc);
+#endif
+
+    /* close the file */
 
     rc = fclose(fp);
 
@@ -104,6 +253,8 @@ static unsigned long NewMSGID(void)
     {
         mklog(LOG_DEBUG, "$fclose() failed for '%s'", filename);
     }
+
+    /* return new sequence */
 
     return seq;
 }
@@ -135,7 +286,6 @@ static int SearchMaxMSG(const char *path)
 
     return maxnum;
 }
-
 
 int ParseAddress(const char *string, int out[3])
 {
