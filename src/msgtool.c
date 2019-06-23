@@ -86,6 +86,27 @@ static unsigned long unixtime(const struct tm *tm)
 
 /* Generate unique sequence number for MSGID */
 
+/*
+ *  On 2106-02-07, genseq() will wrap around if unsigned longs are 32-bit,
+ *  or tick over from 0xFFFFFFFF to 0x100000000 if using unsigned long are
+ *  64-bit.
+ *
+ *  The general convention for generating FidoNet MSGIDs is to use a 32-bit
+ *  hex sequence ("serial") number, so in NewMSGID() when the sequence
+ *  reaches 0xFFFFFFFF it forces a wrap around to zero. This only for
+ *  compatibility with other Fido software.
+ *
+ *  I'll concede this is probably academic as I don't anticipate Fido
+ *  software to be still in use by the year 2106, nor will I be alive to
+ *  find out!
+ *
+ *  Of course, the wraparound can be induced prematurely if the user
+ *  decides for whatever reason to edit sequence.dat manually and give it
+ *  a high enough value.
+ *
+ *  ozzmosis 2019-06-24
+ */
+
 static unsigned long genseq(void)
 {
     struct tm *tm;
