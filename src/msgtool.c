@@ -124,6 +124,13 @@ static unsigned long NewMSGID(void)
 
         seq = genseq();
 
+        /* force 32-bit overflow, expected on 2106-02-07 */
+
+        if (seq >= 0xffffffff)
+        {
+            seq = 0;
+        }
+
         mklog(LOG_DEBUG, "Newly-created MSGID sequence is %08lx", seq);
 
         /* create new file */
@@ -216,7 +223,7 @@ static unsigned long NewMSGID(void)
         mklog(LOG_DEBUG, "Retrieved MSGID sequence was %08lx", seq);
     }
 
-    /* adjust for possible overflow, expected on 2106-02-07 */
+    /* force 32-bit overflow, expected on 2106-02-07 */
 
     if (seq >= 0xffffffff)
     {
