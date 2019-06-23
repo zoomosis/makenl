@@ -216,6 +216,13 @@ static unsigned long NewMSGID(void)
         mklog(LOG_DEBUG, "Retrieved MSGID sequence was %08lx", seq);
     }
 
+    /* adjust for possible overflow, expected on 2106-02-07 */
+
+    if (seq >= 0xffffffff)
+    {
+        seq = 0;
+    }
+
     /* increment it */
 
     seq++;
