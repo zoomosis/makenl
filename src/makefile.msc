@@ -1,0 +1,35 @@
+# MakeNL makefile for Microsoft C 6.0 for DOS
+#
+# Build with:
+#
+# nmake -f makefile.mvc           (release version)
+# nmake -f makefile.mvc DEBUG=1   (debug version)
+# nmake -f makefile.mvc clean     (remove temp files)
+
+CC=cl
+CFLAGS= -nologo -Lr -W2 -F 4000
+
+!ifdef DEBUG
+CFLAGS= $(CFLAGS) -Zd
+!endif
+
+!ifdef TESTING
+CFLAGS= $(CFLAGS) -DTESTING
+OBJS=$(OBJS) testing.obj
+!endif
+
+OBJS=$(OBJS) config.obj crc16.obj fileutil.obj fts5.obj lsttool.obj makenl.obj
+OBJS=$(OBJS) merge.obj mkdiff.obj mklog.obj msgtool.obj os.obj output.obj
+OBJS=$(OBJS) procfile.obj stack.obj strtool.obj upcont.obj snprintf.obj
+
+.c.obj:
+	$(CC) $(CFLAGS) -c $<
+
+# Using $(OBJS) results in "arg list too long" error, so use *.obj instead:
+
+makenl.exe: $(OBJS)
+	$(CC) $(CFLAGS) -Fe$@ *.obj
+
+clean:
+	del *.obj
+	del makenl.exe
