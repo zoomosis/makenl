@@ -169,13 +169,13 @@ static unsigned long NewMSGID(void)
 
         rc = fwrite(&seq, 1, sizeof seq, fp);
 
-        mklog(LOG_DEBUG, "fwrite(&seq, 1, sizeof seq, fp) returned %d (8 expected)", rc);
+        mklog(LOG_DEBUG, "fwrite(&seq, 1, sizeof seq, fp) returned %d", rc);
 #else
         /* write new sequence as text & carriage return */
 
         rc = fprintf(fp, "%08lx\n", seq);
 
-        mklog(LOG_DEBUG, "fprintf(fp, \"%%08lx\", seq) returned %d (9 expected)", rc);
+        mklog(LOG_DEBUG, "fprintf(fp, \"%%08lx\", seq) returned %d", rc);
 #endif
 
         /* close the file */
@@ -271,13 +271,13 @@ static unsigned long NewMSGID(void)
 
     rc = fwrite(&seq, 1, sizeof seq, fp);
 
-    mklog(LOG_DEBUG, "fwrite(&seq, 1, sizeof seq, fp) returned %d (8 expected)", rc);
+    mklog(LOG_DEBUG, "fwrite(&seq, 1, sizeof seq, fp) returned %d", rc);
 #else
     /* write new sequence as text & carriage return */
 
     rc = fprintf(fp, "%08lx\n", seq);
 
-    mklog(LOG_DEBUG, "fprintf(fp, \"%%08lx\", seq) returned %d (9 expected)", rc);
+    mklog(LOG_DEBUG, "fprintf(fp, \"%%08lx\", seq) returned %d", rc);
 #endif
 
     /* close the file */
