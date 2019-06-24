@@ -214,6 +214,8 @@ static unsigned long NewMSGID(void)
 
         seq = hextoul(tmp);
 
+        mklog(LOG_DEBUG, "Retrieved MSGID sequence was %08lx", seq);
+
         /* rewind to start */
 
         rc = fseek(fp, 0L, SEEK_SET);
