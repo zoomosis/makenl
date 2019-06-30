@@ -485,6 +485,11 @@ FILE *OpenMSGFile(int address[3], char *filename)
         mklog(LOG_DEBUG, "OpenMSGFile: return with open MailFILE");
         return MailFILE;
     }
+
+    /* FTS-1 requires stored messages to be null-terminated */
+
+    fputc('\0', MailFILE);
+
     fclose(MailFILE);
     mklog(LOG_DEBUG, "OpenMSGFile: closed, seems Ok");
 
