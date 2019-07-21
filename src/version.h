@@ -1,6 +1,6 @@
 #include "os.h"
 
-#define MAKENL_VERSION      "3.5.0"
+#define MAKENL_VERSION      "3.5.1"
 
 #define MAKENL_LONG_VERSION "MakeNL " MAKENL_VERSION " (" OS_NAME ") compiled with " CC_NAME " on " __DATE__ " " __TIME__
 
