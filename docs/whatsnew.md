@@ -1,6 +1,19 @@
 ## MakeNL Revision History
 
-### v3.5.0 --  May 04, 2019
+### v3.5.1 --
+
+### June 30, 2019
+
+* Fixed a bug where *.MSG files failed to be null-terminated.
+
+### June 24, 2019
+
+* The MSGID sequence file sequence.dat is now stored as text for maximum
+  portability between 16/32/64-bit systems and big/little endian CPUs.
+  An existing sequence.dat in binary format will be converted to text
+  automatically.
+
+### v3.5.0 -- May 04, 2019
 
 * Release as version 3.5.0 for wide distribution.
 
