@@ -50,7 +50,7 @@ char *WorkFile = NULL;
 
 static FILE *CFG_file;
 static FILE *MakeSourceFILE;
-static char YearBuf[6];
+static char YearBuf[20];
 static char NewFile[MYMAXPATH];
 static char OutExt[MYMAXEXT];
 static char CfgFilenameBuf[MYMAXPATH];
