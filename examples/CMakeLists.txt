@@ -1,3 +1,4 @@
+PROJECT(makenl-examples)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 SET(makenl_EXAMPLES
