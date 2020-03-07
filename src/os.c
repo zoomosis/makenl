@@ -99,9 +99,8 @@ int os_chdrive(int newdrv)
     /* EMX _chdrive() needs drive letter instead of number */
     #if defined (__EMX__)
     char reqdrv;
-    int rc;
     reqdrv = driveletters[newdrv - 1];
-    rc = _chdrive(reqdrv);
+    _chdrive(reqdrv);
     return (_getdrive() != reqdrv); /* Check to make sure disk change
                                        succeeded - return 0 for success
                                        or 1 for failure. */
