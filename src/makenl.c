@@ -277,7 +277,7 @@ int main(int argc, char *argv[])
         WorkMode = 0;
         if (installlist(NewFile, OutExt) == 0) /* List changed */
         {
-            char cmdbuf[MYMAXPATH + MYMAXPATH];  /* space for CalledBatchfile */
+            char cmdbuf[2048];  /* space for CalledBatchfile */
 
             snprintf(cmdbuf, sizeof cmdbuf, "%s %s" DIRSEP "%s ",
                     CalledBatchFile, OutDir, OutFile);

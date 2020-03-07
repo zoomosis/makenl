@@ -126,7 +126,7 @@ static unsigned long genseq(void)
 static unsigned long NewMSGID(void)
 {
     unsigned long seq = 0;
-    char filename[MYMAXPATH];
+    char filename[MYMAXPATH * 2];
     char tmp[20], *p;
     FILE *fp;
     int rc;
