@@ -2,9 +2,9 @@
 #
 # Build with:
 #
-# nmake -f makefile.mvc           (release version)
-# nmake -f makefile.mvc DEBUG=1   (debug version)
-# nmake -f makefile.mvc clean     (remove temp files)
+# nmake -f makefile.msc           (release version)
+# nmake -f makefile.msc DEBUG=1   (debug version)
+# nmake -f makefile.msc clean     (remove temp files)
 
 CC=cl
 CFLAGS= -nologo -Lr -W2 -F 4000
