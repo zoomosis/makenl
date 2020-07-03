@@ -1,13 +1,13 @@
-# MakeNL makefile for OS X (Darwin)
-# Tested with GNU Make 3.81 & clang-1000.11.45.5 on OS X 10.14.5
+# MakeNL makefile for macOS 10 & later
+# Tested with GNU Make 3.81 & clang-1000.11.45.5 on macOS 10.14.5
 #
 # Build with:
 #
-# make -f makefile.osx          (release) or
-# make -f makefile.osx DEBUG=1  (debug)
-# make -f makefile.osx clean    (remove temp files)
-# make -f makefile.osx CC=clang (build with clang)
-# make -f makefile.osx ASAN=1   (debug build with clang using AddressSanitizer)
+# make -f makefile.macos          (release) or
+# make -f makefile.macos DEBUG=1  (debug)
+# make -f makefile.macos clean    (remove temp files)
+# make -f makefile.macos CC=clang (build with clang)
+# make -f makefile.macos ASAN=1   (debug build with clang using AddressSanitizer)
 
 CC=cc
 CFLAGS+= -Wall -W

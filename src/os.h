@@ -10,7 +10,7 @@
  *  OS_DOS   MS-DOS target
  *  OS_OS2   OS/2 target
  *  OS_WIN   Windows target
- *  OS_UNIX  UNIX target; includes FreeBSD, Linux, Apple OS X (Darwin), etc.
+ *  OS_UNIX  UNIX target; includes FreeBSD, Linux, Apple macOS, etc.
  *
  *
  *  Memory model defines
@@ -122,7 +122,7 @@
 #elif defined(__FreeBSD__)
 #define OS_NAME "FreeBSD"
 #elif defined(__APPLE__)
-#define OS_NAME "OS X"
+#define OS_NAME "macOS"
 #elif defined(__NetBSD__)
 #define OS_NAME "NetBSD"
 #elif defined(__OpenBSD__)
