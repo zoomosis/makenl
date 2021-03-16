@@ -1,6 +1,9 @@
 # MakeNL makefile for Linux
-# Tested with GNU Make 3.81 & GNU C 4.4.3
+#
+# Tested with GNU Make 4.3 & GNU C 10.2.0
+# Tested with GNU Make 4.2.1 & GNU C 9.3.0
 # Tested with GNU Make 4.1 & GNU C 7.4.0
+# Tested with GNU Make 3.81 & GNU C 4.4.3
 #
 # Build with:
 #
