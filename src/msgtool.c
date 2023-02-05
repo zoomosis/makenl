@@ -395,8 +395,8 @@ FILE *OpenMSGFile(int address[3], char *filename)
     MSGnum = SearchMaxMSG(MessageDir);
     mklog(LOG_DEBUG, "OpenMSGFile: MSGnum is set to %d", MSGnum);
 
-    memset(&filenamebuf, 0, sizeof(filenamebuf));
-    memset(&msgbuf, 0, sizeof(msgbuf));
+    memset(filenamebuf, 0, sizeof(filenamebuf));
+    memset(msgbuf, 0, sizeof(msgbuf));
 
     memcpy(&msgbuf[0x00], (char *)"MakeNL ", 7);
     memcpy(&msgbuf[0x07], MAKENL_VERSION, sizeof(MAKENL_VERSION));
@@ -476,7 +476,7 @@ FILE *OpenMSGFile(int address[3], char *filename)
     MSGnum++;
     mklog(LOG_DEBUG, "OpenMSGFile: opened '%s', MSGnum %d", filenamebuf, MSGnum);
 
-    fwrite(&msgbuf, sizeof(msgbuf), 1, MailFILE);
+    fwrite(msgbuf, sizeof(msgbuf), 1, MailFILE);
     fputs(intlline, MailFILE);
     fprintf(MailFILE, "\x01MSGID: %d:%d/%d %08lx\r\n", MyAddress[A_ZONE],
             MyAddress[A_NET], MyAddress[A_NODE], NewMSGID());
@@ -557,7 +557,7 @@ FILE *CloseMSGFile(int status)
                                                                 if needed */
                 msgbuf[0xba] = (unsigned char)(temp & 0x00ff);     /* Attribute */
                 msgbuf[0xbb] = (unsigned char)((temp & 0xff00) >> 8);
-                fwrite(&msgbuf, sizeof(msgbuf), 1, MailFILE);
+                fwrite(msgbuf, sizeof(msgbuf), 1, MailFILE);
             }
             else
                 status = -1;
