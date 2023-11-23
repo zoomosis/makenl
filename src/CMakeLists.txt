@@ -1,5 +1,5 @@
-PROJECT(makenl-src C)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8...3.19)
+PROJECT(makenl-src C)
 
 ADD_EXECUTABLE (makenl
     config.c
