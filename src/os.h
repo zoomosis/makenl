@@ -162,7 +162,7 @@
 
 #define HAVE_GETPID 1
 
-#if defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__APPLE__)
+#if defined(__FreeBSD__) || defined(__APPLE__)
 #define HAVE_STRLCPY 1
 #define HAVE_STRLCAT 1
 #endif
