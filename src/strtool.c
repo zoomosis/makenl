@@ -1,5 +1,10 @@
 #include <stdlib.h>
+
+/* Unset __USE_MISC as a workaround to avoid namespace clash with system's strlcpy() on Ubuntu ~24.04 */
+
+#undef __USE_MISC
 #include <string.h>
+
 #include <ctype.h>
 #include "strtool.h"
 
